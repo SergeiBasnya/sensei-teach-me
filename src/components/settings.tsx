@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Pressable, ScrollView, Switch, TextInput, View } from "react-native";
-import { z } from "zod";
+import { healthSchema } from "../../shared/contracts";
 import type { Progress } from "../lib/progress";
 import {
   apiRequest,
@@ -45,14 +45,20 @@ export function Settings({
         throw new Error(
           "Le code personnel doit contenir au moins 16 caractères et correspondre à celui du serveur.",
         );
-      const response = z
-        .object({ ready: z.boolean() })
-        .parse(await apiRequest(next, "/api/health"));
+      const response = healthSchema.parse(
+        await apiRequest(next, "/api/health"),
+      );
       if (!response.ready)
         throw new Error(
-          "Le serveur répond, mais sa clé OpenAI n’est pas configurée.",
+          response.warming
+            ? "Les moteurs locaux démarrent. Réessaie dans quelques secondes."
+            : "Le serveur répond, mais le moteur local doit être installé et lancé.",
         );
-      setConnection(next);
+      setConnection({
+        ...next,
+        mode: response.mode === "openai" ? "openai" : "local",
+        oral: response.oral,
+      });
     } catch (cause) {
       setError(
         cause instanceof Error
@@ -162,11 +168,13 @@ export function Settings({
         <View style={{ gap: 12 }}>
           <SectionTitle
             title="Conversation avec l’IA"
-            detail="Un serveur personnel pour protéger ta clé OpenAI."
+            detail="Dialogue, transcription et voix gratuits sur ton serveur personnel."
           />
           {connection && (
             <Badge color={colors.green} background="#EDF4EF" icon="check">
-              Serveur connecté
+              {connection.mode === "local"
+                ? "Moteurs locaux connectés"
+                : "Serveur OpenAI connecté"}
             </Badge>
           )}
           <Txt style={{ color: colors.muted, fontSize: 12 }}>
@@ -194,10 +202,9 @@ export function Settings({
             placeholder="Ton code SENSEI_ACCESS_TOKEN"
           />
           <Txt style={{ color: colors.muted, fontSize: 11, lineHeight: 18 }}>
-            Ce code reste en mémoire jusqu’à la fermeture. Ta clé OpenAI reste
-            sur le serveur. Les enregistrements et messages envoyés à l’IA sont
-            traités par OpenAI ; le carnet et la progression restent sur cet
-            appareil.
+            {connection?.mode === "openai"
+              ? "Ce serveur utilise OpenAI : audio et messages lui sont transmis. Le code reste en mémoire jusqu’à la fermeture."
+              : "Mochi utilise Whisper, Qwen et VOICEVOX sur ton serveur personnel. Aucun compte ni appel IA payant. Le code reste en mémoire jusqu’à la fermeture."}
           </Txt>
           {error && (
             <Txt

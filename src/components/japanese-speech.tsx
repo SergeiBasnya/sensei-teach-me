@@ -17,7 +17,8 @@ import { recordedSpeech } from "../data/recorded-speech";
 import { selectJapaneseVoice } from "../lib/voice-selection";
 
 type SpeechService = {
-  speakJapanese: (text: string) => Promise<void>;
+  speakJapanese: (text: string) => Promise<boolean>;
+  playJapaneseAudio: (audio: string) => Promise<boolean>;
   stopJapanese: () => Promise<void>;
   isSpeaking: boolean;
   error: string;
@@ -41,6 +42,7 @@ export function JapaneseSpeechProvider({
   const request = useRef<AbortController | null>(null);
   const file = useRef<File | null>(null);
   const alive = useRef(true);
+  const completion = useRef<((played: boolean) => void) | null>(null);
   const playbackTimer = useRef<ReturnType<typeof setTimeout> | undefined>(
     undefined,
   );
@@ -53,6 +55,8 @@ export function JapaneseSpeechProvider({
     request.current?.abort();
     request.current = null;
     clearTimeout(playbackTimer.current);
+    completion.current?.(false);
+    completion.current = null;
     if (alive.current) player.pause();
     cleanupFile();
     // Le lecteur de fichiers fonctionne même si la synthèse système est absente.
@@ -73,6 +77,8 @@ export function JapaneseSpeechProvider({
           clearTimeout(playbackTimer.current);
           setSpeaking(false);
           cleanupFile();
+          completion.current?.(!status.error);
+          completion.current = null;
           if (status.error)
             setError(
               "La lecture audio a échoué. Touche à nouveau Écouter pour réessayer.",
@@ -91,44 +97,57 @@ export function JapaneseSpeechProvider({
       clearTimeout(playbackTimer.current);
       void Speech.stop().catch(() => undefined);
       cleanupFile();
+      completion.current?.(false);
+      completion.current = null;
     };
   }, [cleanupFile]);
   const speakJapanese = useCallback(
-    async (text: string) => {
+    async (text: string, suppliedAudio?: string): Promise<boolean> => {
       // stopJapanese incrémente la séquence avant son premier await.
       const current = sequence.current + 1;
       await stopJapanese();
       const isCurrent = () => alive.current && current === sequence.current;
-      if (!text.trim() || !isCurrent()) return;
+      if ((!text.trim() && !suppliedAudio) || !isCurrent()) return false;
       setError("");
       setSpeaking(true);
+      const ended = new Promise<boolean>((resolve) => {
+        completion.current = resolve;
+      });
+      const finish = (played: boolean) => {
+        if (!isCurrent()) return;
+        setSpeaking(false);
+        completion.current?.(played);
+        completion.current = null;
+      };
       try {
-        const bundled = recordedSpeech[text];
+        const bundled = suppliedAudio ? undefined : recordedSpeech[text];
         if (bundled !== undefined) {
           await setAudioModeAsync({
             allowsRecording: false,
             playsInSilentMode: true,
           });
-          if (!isCurrent()) return;
+          if (!isCurrent()) return false;
           player.replace(bundled);
           player.play();
-        } else if (connection) {
+        } else if (connection || suppliedAudio) {
           const controller = new AbortController();
           request.current = controller;
-          const result = audioResponse.parse(
-            await apiRequest(
-              connection,
-              "/api/speech",
-              { text },
-              controller.signal,
-            ),
-          );
-          if (!isCurrent()) return;
+          const result = suppliedAudio
+            ? audioResponse.parse({ audio: suppliedAudio, format: "wav" })
+            : audioResponse.parse(
+                await apiRequest(
+                  connection!,
+                  "/api/speech",
+                  { text },
+                  controller.signal,
+                ),
+              );
+          if (!isCurrent()) return false;
           await setAudioModeAsync({
             allowsRecording: false,
             playsInSilentMode: true,
           });
-          if (!isCurrent()) return;
+          if (!isCurrent()) return false;
           let uri: string;
           if (Platform.OS === "web")
             uri = `data:audio/wav;base64,${result.audio}`;
@@ -147,7 +166,7 @@ export function JapaneseSpeechProvider({
           const voice = selectJapaneseVoice(
             await Speech.getAvailableVoicesAsync(),
           );
-          if (!isCurrent()) return;
+          if (!isCurrent()) return false;
           if (!voice)
             throw new Error(
               "Cette phrase n’a pas encore d’enregistrement et aucune voix japonaise n’est installée. Connecte le serveur vocal local pour la lire.",
@@ -158,24 +177,24 @@ export function JapaneseSpeechProvider({
             rate: 1,
             pitch: 1,
             onDone: () => {
-              if (isCurrent()) setSpeaking(false);
+              finish(true);
             },
             onStopped: () => {
-              if (isCurrent()) setSpeaking(false);
+              finish(false);
             },
             onError: () => {
               if (isCurrent()) {
-                setSpeaking(false);
+                finish(false);
                 setError("La voix japonaise de cet appareil est indisponible.");
               }
             },
           });
-          return;
+          return ended;
         }
         playbackTimer.current = setTimeout(() => {
           if (isCurrent()) {
             player.pause();
-            setSpeaking(false);
+            finish(false);
             setError(
               "La lecture a été interrompue. Touche Écouter pour réessayer.",
             );
@@ -184,7 +203,7 @@ export function JapaneseSpeechProvider({
         }, 90_000);
       } catch (cause) {
         if (isCurrent()) {
-          setSpeaking(false);
+          finish(false);
           setError(
             cause instanceof Error
               ? cause.message
@@ -192,12 +211,23 @@ export function JapaneseSpeechProvider({
           );
         }
       }
+      return ended;
     },
     [connection, player, stopJapanese, cleanupFile],
   );
+  const playJapaneseAudio = useCallback(
+    (audio: string) => speakJapanese("", audio),
+    [speakJapanese],
+  );
   return (
     <JapaneseSpeech.Provider
-      value={{ speakJapanese, stopJapanese, isSpeaking, error }}
+      value={{
+        speakJapanese,
+        playJapaneseAudio,
+        stopJapanese,
+        isSpeaking,
+        error,
+      }}
     >
       {children}
     </JapaneseSpeech.Provider>

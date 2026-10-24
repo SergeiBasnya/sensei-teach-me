@@ -9,6 +9,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "server": "node --env-file-if-exists=.env --import tsx server/index.ts",
+    "local": "node --import tsx scripts/start-local.ts",
+    "oral:check": "node --import tsx scripts/check-local-conversation.ts",
     "design:check": "python3 .studio/design_guard.py --root .",
     "typecheck": "tsc --noEmit",
     "test": "node --import tsx --test tests/*.test.ts",

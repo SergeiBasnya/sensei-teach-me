@@ -33,7 +33,12 @@ test("le serveur protège les appels, refuse les origines tierces et ne prétend
   await withServer(undefined, async (base) => {
     assert.equal((await fetch(`${base}/api/health`)).status, 401);
     const health = await fetch(`${base}/api/health`, { headers: auth });
-    assert.deepEqual(await health.json(), { ready: false });
+    assert.deepEqual(await health.json(), {
+      ready: false,
+      mode: "unavailable",
+      oral: false,
+      warming: false,
+    });
     assert.equal(health.headers.get("cache-control"), "no-store");
     assert.equal(
       (
@@ -58,6 +63,113 @@ test("le serveur protège les appels, refuse les origines tierces et ne prétend
       503,
     );
   });
+});
+test("un tour oral transcrit, répond et synthétise sans validation de texte ; le silence ne déclenche aucune réponse", async () => {
+  const operations: string[] = [];
+  let heard = true;
+  const provider: TutorProvider = {
+    async transcribe() {
+      operations.push("transcribe");
+      return heard ? "ポールです" : "";
+    },
+    async turn(input) {
+      operations.push("turn");
+      assert.equal(input.text, "ポールです");
+      return {
+        reply: freeScene.turns[0]!.tutor,
+        correction: null,
+        vocabulary: [],
+      };
+    },
+  };
+  const speech: SpeechProvider = {
+    async speak() {
+      operations.push("speech");
+      return Buffer.from("RIFF0000WAVEfixture00000000000000000000000000000000");
+    },
+    close() {},
+  };
+  await withServer(
+    provider,
+    async (base) => {
+      const post = (body: unknown, headers = auth) =>
+        fetch(`${base}/api/oral-turn`, {
+          method: "POST",
+          headers,
+          body: JSON.stringify(body),
+        });
+      const body = {
+        scenario: "meet",
+        history: [],
+        audio: Buffer.alloc(150).toString("base64"),
+        format: "wav",
+      };
+      assert.equal(
+        (await post(body, { ...auth, Authorization: "Bearer wrong" })).status,
+        401,
+      );
+      assert.equal((await post({ ...body, scenario: "invalid" })).status, 400);
+      assert.deepEqual(operations, []);
+      const result = await post(body);
+      assert.equal(result.status, 200);
+      const output = await result.json();
+      assert.equal(output.heard, true);
+      assert.equal(output.transcript, "ポールです");
+      assert.equal(output.format, "wav");
+      assert.deepEqual(operations, ["transcribe", "turn", "speech"]);
+      heard = false;
+      operations.length = 0;
+      assert.deepEqual(await (await post(body)).json(), { heard: false });
+      assert.deepEqual(operations, ["transcribe"]);
+    },
+    speech,
+  );
+});
+test("la connexion locale automatique est désactivée par défaut et refuse les origines tierces", async () => {
+  await withServer(undefined, async (base) => {
+    assert.equal(
+      (
+        await fetch(`${base}/api/local-session`, {
+          method: "POST",
+          headers: auth,
+        })
+      ).status,
+      404,
+    );
+  });
+  const server = createApp({
+    token,
+    localPreview: true,
+    mode: "local",
+    origins: ["http://localhost:8082"],
+  }).listen(0, "127.0.0.1");
+  await new Promise<void>((resolve) => server.once("listening", resolve));
+  const address = server.address();
+  assert.ok(address && typeof address !== "string");
+  const base = `http://127.0.0.1:${address.port}`;
+  try {
+    assert.equal(
+      (await fetch(`${base}/api/local-session`, { method: "POST" })).status,
+      403,
+    );
+    assert.equal(
+      (
+        await fetch(`${base}/api/local-session`, {
+          method: "POST",
+          headers: { Origin: "https://evil.example" },
+        })
+      ).status,
+      403,
+    );
+    const response = await fetch(`${base}/api/local-session`, {
+      method: "POST",
+      headers: { Origin: "http://localhost:8082" },
+    });
+    assert.equal(response.status, 200);
+    assert.equal((await response.json()).token, token);
+  } finally {
+    await new Promise<void>((resolve) => server.close(() => resolve()));
+  }
 });
 test("la voix locale est protégée et fonctionne sans fournisseur OpenAI", async () => {
   let calls = 0;

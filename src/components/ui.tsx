@@ -104,19 +104,22 @@ export function IconButton({
   label,
   onPress,
   active,
+  disabled = false,
   size = 42,
 }: {
   name: IconName;
   label: string;
   onPress: () => void;
   active?: boolean;
+  disabled?: boolean;
   size?: number;
 }) {
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityLabel={label}
-      accessibilityState={{ selected: !!active }}
+      accessibilityState={{ selected: !!active, disabled }}
+      disabled={disabled}
       onPress={onPress}
       style={({ pressed }) => ({
         width: size,
@@ -124,6 +127,7 @@ export function IconButton({
         borderRadius: size / 2,
         alignItems: "center",
         justifyContent: "center",
+        opacity: disabled ? 0.4 : 1,
         backgroundColor: active
           ? colors.light
           : pressed

@@ -43,3 +43,23 @@ export const audioRequestSchema = z.object({
 export const speechRequestSchema = z.object({
   text: z.string().trim().min(1).max(500),
 });
+export const oralRequestSchema = audioRequestSchema.extend({
+  scenario: scenarioIdSchema,
+  history: turnRequestSchema.shape.history,
+});
+export const healthSchema = z.object({
+  ready: z.boolean(),
+  mode: z.enum(["local", "openai", "unavailable"]),
+  oral: z.boolean(),
+  warming: z.boolean(),
+});
+export const oralResponseSchema = z.discriminatedUnion("heard", [
+  z.object({ heard: z.literal(false) }),
+  z.object({
+    heard: z.literal(true),
+    transcript: z.string().min(1).max(1500),
+    tutor: tutorReplySchema,
+    audio: z.string().min(60).max(4_000_000),
+    format: z.literal("wav"),
+  }),
+]);

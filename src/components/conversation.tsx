@@ -11,19 +11,12 @@ import {
   TextInput,
   View,
 } from "react-native";
-import {
-  AudioModule,
-  RecordingPresets,
-  setAudioModeAsync,
-  useAudioRecorder,
-  useAudioRecorderState,
-} from "expo-audio";
 import { useJapaneseSpeech } from "./japanese-speech";
-import { File } from "expo-file-system";
+import { useOralSession } from "../lib/use-oral-session";
 import type { Phrase, TutorReply } from "../../shared/contracts";
 import type { Scene } from "../data/lessons";
 import type { Progress } from "../lib/progress";
-import { apiRequest, requestTurn, type Connection } from "../lib/api";
+import { requestTurn, type Connection } from "../lib/api";
 import { Icon, Mochi } from "./art";
 import { Badge, Button, colors, IconButton, Txt } from "./ui";
 
@@ -73,11 +66,30 @@ export function Conversation({
   const abort = useRef(new AbortController());
   const locked = useRef(false);
   const mounted = useRef(true);
-  const recorder = useAudioRecorder(RecordingPresets.HIGH_QUALITY);
-  const recording = useAudioRecorderState(recorder, 200);
-  const recordingActive = useRef(false);
+  const oral = useOralSession({
+    connection,
+    scenario: scene.id,
+    history: messages.map((message) => ({
+      role: message.role,
+      content: message.phrase.japanese,
+    })),
+    onReply(result) {
+      setMessages((previous) => [
+        ...previous,
+        {
+          id: Date.now(),
+          role: "user",
+          phrase: { japanese: result.transcript, romaji: "", french: "" },
+        },
+        { id: Date.now() + 1, role: "assistant", phrase: result.tutor.reply },
+      ]);
+      words.current.push(...result.tutor.vocabulary);
+      setTurn((previous) => previous + 1);
+    },
+  });
   const finish = () => {
-    if (busy || recordingActive.current) return;
+    if (busy) return;
+    void oral.stop();
     void stopJapanese();
     onFinish({
       seconds: Math.max(1, activeSeconds.current),
@@ -86,15 +98,10 @@ export function Conversation({
     });
   };
   useEffect(() => {
+    mounted.current = true;
+    abort.current = new AbortController();
     const appState = AppState.addEventListener("change", (state) => {
       foreground.current = state === "active";
-      if (state !== "active" && recordingActive.current) {
-        recordingActive.current = false;
-        void recorder.stop();
-        setError(
-          "Enregistrement interrompu. Appuie sur le micro pour recommencer.",
-        );
-      }
     });
     const timer = setInterval(() => {
       if (foreground.current) {
@@ -108,11 +115,10 @@ export function Conversation({
       clearInterval(timer);
       appState.remove();
       void stopJapanese();
-      if (recordingActive.current) void recorder.stop();
     };
-  }, [recorder, stopJapanese]);
+  }, [stopJapanese]);
   const send = async (text: string, guided?: Phrase) => {
-    if (locked.current || !text.trim() || complete) return;
+    if (locked.current || oral.active || !text.trim() || complete) return;
     if (!connection && !guided) {
       setError(
         "Pour répondre librement ou utiliser le micro, connecte le serveur IA dans les réglages. Les exemples guidés restent disponibles.",
@@ -166,104 +172,11 @@ export function Conversation({
       if (mounted.current) setBusy(false);
     }
   };
-  const transcribe = async () => {
-    if (!connection || locked.current) return;
-    locked.current = true;
-    setBusy(true);
-    setError("");
-    try {
-      await recorder.stop();
-      recordingActive.current = false;
-      await setAudioModeAsync({
-        allowsRecording: false,
-        playsInSilentMode: true,
-      });
-      const uri = recorder.uri;
-      if (!uri) throw new Error("Aucun enregistrement trouvé. Réessaie.");
-      let audio: string;
-      if (Platform.OS === "web") {
-        const blob = await (await fetch(uri)).blob();
-        audio = await new Promise<string>((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () =>
-            resolve(String(reader.result).split(",")[1] || "");
-          reader.onerror = reject;
-          reader.readAsDataURL(blob);
-        });
-      } else {
-        const file = new File(uri);
-        audio = await file.base64();
-        file.delete();
-      }
-      const result = await apiRequest(
-        connection,
-        "/api/transcribe",
-        { audio, format: Platform.OS === "web" ? "webm" : "m4a" },
-        abort.current.signal,
-      );
-      if (!mounted.current) return;
-      if (
-        typeof result !== "object" ||
-        result === null ||
-        !("text" in result) ||
-        typeof result.text !== "string" ||
-        !result.text.trim()
-      )
-        throw new Error("Je n’ai pas entendu de phrase. Tu peux recommencer.");
-      setInput(result.text);
-      setShowKeyboard(true);
-    } catch (cause) {
-      recordingActive.current = false;
-      if (mounted.current)
-        setError(
-          cause instanceof Error ? cause.message : "Le micro est indisponible.",
-        );
-    } finally {
-      locked.current = false;
-      if (mounted.current) setBusy(false);
-    }
-  };
-  const toggleRecording = async () => {
-    if (!connection) {
-      setError(
-        "Connecte ton serveur IA dans les réglages pour transcrire ta voix.",
-      );
-      return;
-    }
-    if (locked.current) return;
-    if (recordingActive.current) {
-      await transcribe();
-      return;
-    }
-    locked.current = true;
-    setError("");
-    try {
-      await stopJapanese();
-      const permission = await AudioModule.requestRecordingPermissionsAsync();
-      if (!permission.granted)
-        throw new Error(
-          "L’accès au micro est refusé. Autorise-le dans les réglages de ton appareil ou réponds au clavier.",
-        );
-      await setAudioModeAsync({
-        allowsRecording: true,
-        playsInSilentMode: true,
-      });
-      await recorder.prepareToRecordAsync();
-      recorder.record();
-      recordingActive.current = true;
-    } catch (cause) {
-      setError(
-        cause instanceof Error ? cause.message : "Le micro est indisponible.",
-      );
-    } finally {
-      locked.current = false;
-    }
-  };
-  useEffect(() => {
-    if (recording.isRecording && recording.durationMillis >= 59_000)
-      void transcribe();
-  });
-  const suggestion = scene.turns[connection ? 0 : turn]?.suggestion;
+  const suggestion = connection
+    ? messages.length === 1
+      ? first.suggestion
+      : undefined
+    : scene.turns[turn]?.suggestion;
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -296,7 +209,11 @@ export function Conversation({
           </View>
         </View>
         <Badge icon={connection ? "spark" : "book"}>
-          {connection ? "IA connectée" : "Exercice guidé"}
+          {connection
+            ? connection.mode === "local"
+              ? "IA locale · gratuite"
+              : "IA connectée"
+            : "Exercice guidé"}
         </Badge>
       </View>
       <ScrollView
@@ -311,7 +228,7 @@ export function Conversation({
           <Mochi size={100} />
           <Txt style={{ fontSize: 12, color: colors.muted }}>
             {connection
-              ? "Mochi s’adapte à tes réponses."
+              ? "Démarre le micro : Mochi t’écoute et te répond."
               : "Écoute Mochi, puis essaie les réponses proposées."}
           </Txt>
         </View>
@@ -356,8 +273,11 @@ export function Conversation({
                 </Txt>
                 <IconButton
                   name="volume"
+                  disabled={oral.active}
                   label={`Écouter : ${message.phrase.japanese}`}
-                  onPress={() => speak(message.phrase.japanese)}
+                  onPress={() => {
+                    if (!oral.active) void speak(message.phrase.japanese);
+                  }}
                   size={32}
                 />
               </View>
@@ -405,10 +325,10 @@ export function Conversation({
             </Txt>
           </View>
         )}
-        {error || speechError ? (
+        {error || oral.error || speechError ? (
           <View accessibilityRole="alert" style={s.error}>
             <Txt style={{ fontSize: 13, color: "#8B443D" }}>
-              {error || speechError}
+              {error || oral.error || speechError}
             </Txt>
             {!connection && (
               <Button secondary onPress={onConfigure}>
@@ -434,9 +354,9 @@ export function Conversation({
       </ScrollView>
       {!complete && (
         <View style={s.composer}>
-          {showHelp && suggestion && (
+          {showHelp && suggestion && !oral.active && (
             <Pressable
-              disabled={busy || recording.isRecording}
+              disabled={busy || oral.active}
               accessibilityRole="button"
               accessibilityLabel={`Utiliser la réponse : ${suggestion.japanese}`}
               onPress={() => void send(suggestion.japanese, suggestion)}
@@ -469,7 +389,18 @@ export function Conversation({
               )}
             </Pressable>
           )}
-          {showKeyboard && (
+          {oral.phase === "listening" && (
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => void oral.sendNow()}
+              style={{ alignSelf: "center", padding: 6 }}
+            >
+              <Txt style={{ fontSize: 12, color: colors.purple }}>
+                J’ai fini de parler
+              </Txt>
+            </Pressable>
+          )}
+          {showKeyboard && !oral.active && (
             <View style={s.inputRow}>
               <TextInput
                 accessibilityLabel="Ta réponse en japonais"
@@ -477,7 +408,7 @@ export function Conversation({
                 value={input}
                 maxLength={1500}
                 onChangeText={setInput}
-                editable={!busy && !recording.isRecording}
+                editable={!busy && !oral.active}
                 onSubmitEditing={() => void send(input)}
                 style={s.input}
               />
@@ -502,36 +433,45 @@ export function Conversation({
               label={
                 showKeyboard ? "Masquer le clavier" : "Répondre au clavier"
               }
-              onPress={() => setShowKeyboard((value) => !value)}
+              onPress={() => {
+                void oral.stop();
+                setShowKeyboard((value) => !value);
+              }}
               active={showKeyboard}
             />
             <Pressable
               accessibilityRole="button"
               accessibilityLabel={
-                recording.isRecording
-                  ? "Arrêter et transcrire mon enregistrement"
-                  : "Enregistrer ma réponse"
+                oral.active
+                  ? "Mettre la conversation en pause"
+                  : "Démarrer la conversation orale"
               }
               disabled={busy}
-              onPress={() => void toggleRecording()}
+              onPress={() => {
+                if (!connection) {
+                  onConfigure();
+                  return;
+                }
+                setError("");
+                void (oral.active ? oral.stop() : oral.start());
+              }}
               style={({ pressed }) => [
                 s.mic,
                 {
-                  backgroundColor: recording.isRecording
-                    ? "#B44853"
-                    : colors.purple,
+                  backgroundColor: oral.active ? "#B44853" : colors.purple,
                   opacity: pressed || busy ? 0.7 : 1,
                 },
               ]}
             >
               <Icon
-                name={recording.isRecording ? "check" : "mic"}
+                name={oral.active ? "pause" : "mic"}
                 size={28}
                 color="#FFF"
               />
             </Pressable>
             <IconButton
               name="book"
+              disabled={oral.active}
               label={showHelp ? "Masquer l’aide" : "Afficher l’aide"}
               onPress={() => setShowHelp((value) => !value)}
               active={showHelp}
@@ -541,13 +481,19 @@ export function Conversation({
             accessibilityLiveRegion="polite"
             style={{ textAlign: "center", fontSize: 11, color: colors.muted }}
           >
-            {recording.isRecording
-              ? `Enregistrement · ${Math.floor(recording.durationMillis / 1000)} s · touche pour terminer`
-              : speaking
-                ? "Mochi parle…"
-                : connection
-                  ? "Touche le micro pour parler · 60 s maximum"
-                  : "Explore les réponses guidées ou connecte l’IA"}
+            {oral.phase === "listening"
+              ? "Je t’écoute… Fais une pause pour envoyer ta phrase."
+              : oral.phase === "thinking"
+                ? "Mochi réfléchit…"
+                : oral.phase === "speaking"
+                  ? "Mochi parle… Le micro reprendra ensuite."
+                  : oral.phase === "starting"
+                    ? "Préparation du micro…"
+                    : speaking
+                      ? "Mochi parle…"
+                      : connection
+                        ? "Touche le micro pour démarrer la conversation."
+                        : "Connecte le serveur local pour parler à Mochi."}
           </Txt>
           {connection && (
             <Txt
@@ -558,8 +504,9 @@ export function Conversation({
                 lineHeight: 15,
               }}
             >
-              L’audio est envoyé à OpenAI pour transcription. Vérifie le texte
-              avant de l’envoyer.
+              {connection.mode === "local"
+                ? "Voix et messages traités sur ton serveur personnel. Envoi automatique après ta phrase."
+                : "Audio et messages traités par OpenAI. Envoi automatique après ta phrase."}
             </Txt>
           )}
           <Txt

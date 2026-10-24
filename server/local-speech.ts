@@ -6,12 +6,14 @@ import { z } from "zod";
 
 export type SpeechProvider = {
   speak: (text: string) => Promise<Buffer>;
+  reading?: (text: string) => string | undefined;
   close: () => void;
 };
 const resultSchema = z.object({
   id: z.number().int(),
   audio: z.string().max(4_000_000).optional(),
   error: z.string().optional(),
+  romaji: z.string().max(2000).optional(),
 });
 export function createLocalSpeech(): SpeechProvider | undefined {
   const python =
@@ -25,12 +27,14 @@ export function createLocalSpeech(): SpeechProvider | undefined {
     return undefined;
   let worker: ChildProcessWithoutNullStreams | undefined;
   let serial = 0;
+  const readings = new Map<string, string>();
   const pending = new Map<
     number,
     {
       resolve: (audio: Buffer) => void;
       reject: (error: Error) => void;
       timer: ReturnType<typeof setTimeout>;
+      text: string;
     }
   >();
   const failAll = () => {
@@ -65,6 +69,10 @@ export function createLocalSpeech(): SpeechProvider | undefined {
       pending.delete(result.data.id);
       clearTimeout(request.timer);
       if (result.data.audio) {
+        if (result.data.romaji) {
+          if (readings.size >= 64) readings.clear();
+          readings.set(request.text, result.data.romaji);
+        }
         const audio = Buffer.from(result.data.audio, "base64");
         if (
           audio.subarray(0, 4).toString() === "RIFF" &&
@@ -88,6 +96,7 @@ export function createLocalSpeech(): SpeechProvider | undefined {
     return child;
   };
   return {
+    reading: (text) => readings.get(text),
     speak(text) {
       if (pending.size >= 4)
         return Promise.reject(
@@ -100,7 +109,7 @@ export function createLocalSpeech(): SpeechProvider | undefined {
           failAll();
           child.kill();
         }, 40_000);
-        pending.set(id, { resolve: resolveAudio, reject, timer });
+        pending.set(id, { resolve: resolveAudio, reject, timer, text });
         child.stdin.write(
           JSON.stringify({
             id,
@@ -115,6 +124,7 @@ export function createLocalSpeech(): SpeechProvider | undefined {
     },
     close() {
       failAll();
+      readings.clear();
       worker?.kill();
       worker = undefined;
     },

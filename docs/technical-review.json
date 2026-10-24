@@ -2,64 +2,64 @@
   "doctrineDigest": "sha256:65db957816539bb0d595d05cacda9f1e3dfa1a44ec900e5409986e9bd137f7b1",
   "review": {
     "schemaVersion": "prisma-technical-review.v1",
-    "id": "sensei-local-japanese-voice-review",
+    "id": "sensei-free-handsfree-conversation",
     "missionId": "sensei-japanese-oral-mvp",
     "decisionId": "sensei-mochi-beginner",
     "artifact": {
       "root": "../build/web",
-      "digest": "sha256:2a781da7093ff5ecb98e4c637711c0e35a469fed03b6174e47098332ed17c7ea"
+      "digest": "sha256:5d487a883924a87b72582acea4c1eb825f840f93a69a0c1ae4eb07aac6089b29"
     },
-    "observedAt": "2026-10-24T13:05:47.197197+00:00",
+    "observedAt": "2026-10-24T19:53:02.532570+00:00",
     "gates": [
       {
         "id": "doctrine:no-colored-side-stripes",
         "passed": true,
-        "evidence": "Export final, accueil 1440×1000, 390×844 et 320×568, scènes défilées, réglages et conversation : contours neutres complets, fonds pleins, aucun liseré coloré latéral ou supérieur décoratif observé. Le survol emploie un contour complet. Captures evidence/voice-desktop.png, evidence/voice-scenes.png, evidence/voice-settings.png et evidence/voice-conversation.png. Contrôle statique vert ; aucune allowance ajoutée."
+        "evidence": "Export final : accueil 1440×1000, réglages 390×844, conversation en écoute et en pause à 390×844 puis 320×568. Contours neutres complets, fonds pleins ; aucun liseré coloré latéral ou supérieur décoratif observé. L’alerte de refus micro utilise un fond plein. Captures evidence/oral-home-desktop.png, oral-listening.png, oral-permission-denied.png et oral-conversation-small.png. Contrôle statique vert, aucune allowance ajoutée."
       },
       {
         "id": "doctrine:no-card-title-hover-underlines",
         "passed": true,
-        "evidence": "Accueil 1440×1000 : survol de Un café à Tokyo, titre sans soulignement et contour complet coloré. Navigation au clavier : contour de focus violet visible autour de Mon espace. Captures evidence/voice-hover.png et evidence/voice-focus.png."
+        "evidence": "Accueil 1440×1000 : survol de Un café à Tokyo avec contour complet, titre sans soulignement. Tabulation : contour violet de focus visible autour de Mon espace. Captures evidence/oral-hover.png et evidence/oral-focus.png."
       },
       {
         "id": "doctrine:no-bricolage-grotesque",
         "passed": true,
-        "evidence": "Rendu final, y compris réglages : styles calculés des éléments portant des nœuds de texte en system-ui, -apple-system, Segoe UI, sans-serif ; document.fonts.size = 0. Aucun chargement de police externe. Famille interdite absente des textes observés. Captures evidence/voice-desktop.png et evidence/voice-settings.png. Le rendu natif reste non observé."
+        "evidence": "Sur l’export final, styles calculés des nœuds de texte en system-ui, -apple-system, Segoe UI, sans-serif ; document.fonts.size = 0. Aucune famille externe chargée ni famille interdite observée. Captures evidence/oral-home-desktop.png, oral-settings.png et oral-conversation-mobile.png. Rendu natif non observé."
       },
       {
         "id": "doctrine:no-peripheral-filler-copy",
         "passed": true,
-        "evidence": "Accueil et réglages : textes secondaires liés aux exercices, aux durées, au niveau et à l’apprentissage. Le seul texte ajouté identifie la voix synthétique et précise sa lecture hors connexion ; ce crédit fonctionnel est placé dans les réglages d’apprentissage, sans slogan périphérique. Captures evidence/voice-desktop.png et evidence/voice-settings.png."
+        "evidence": "Textes secondaires de la conversation liés à l’état du micro, à la reprise après parole, au traitement sur le serveur personnel et à la durée de séance. Réglages : crédit vocal, mode de traitement et code personnel. Aucun slogan périphérique ajouté. Captures evidence/oral-listening.png, oral-conversation-mobile.png et oral-settings.png."
       },
       {
         "id": "doctrine:section-composition-and-rhythm",
         "passed": true,
-        "evidence": "Accueil : bloc principal texte/personnage, catalogue de situations, ligne libre et outils quotidiens ; colonne utilitaire sur ordinateur, empilement et scènes en lignes sur mobile. Réglages : préférences, crédit vocal puis connexion au serveur. Composition et espacements différencient ces zones au-delà des fonds. Captures evidence/voice-desktop.png, evidence/voice-mobile.png, evidence/voice-scenes.png et evidence/voice-settings.png."
+        "evidence": "Accueil : bloc texte/personnage, catalogue de scènes, accès libre et colonne quotidienne. Conversation : en-tête, fil de bulles défilant, commandes fixes avec état du micro. Réglages : préférences puis connexion et explication du traitement local. Les zones se distinguent par composition, espacements et fonction. Captures evidence/oral-home-desktop.png, oral-listening.png et oral-settings.png."
       },
       {
         "id": "doctrine:responsive-text-clearance",
         "passed": true,
-        "evidence": "Accueil observé à 1440×1000, 390×844 et 320×568 ; titres et textes conservent leurs marges, sans collision avec le personnage réduit sur petit écran. Réglages à 390×844 : crédit vocal lisible sur deux lignes, avec défilement pour le reste du formulaire. Conversation à 390×844 : japonais, romaji et traduction visibles dans la bulle, sans collision. Captures evidence/voice-small.png, evidence/voice-settings.png, evidence/voice-conversation.png et evidence/voice-scenes.png. Le défilement vertical normal n’est pas traité comme une troncature."
+        "evidence": "Rendu final 1440×1000, 390×844 et 320×568. Titres d’en-tête reviennent à la ligne ; à 320 px le badge passe sur une ligne séparée. Dernière réponse et traduction lisibles après stabilisation du défilement, marges latérales conservées. Le fil défile normalement derrière les commandes fixes ; les captures prises pendant l’animation ont été remplacées par les états stabilisés. Captures evidence/oral-conversation-mobile.png, oral-conversation-small.png et oral-settings.png."
       },
       {
         "id": "doctrine:one-clear-cta-per-section",
         "passed": true,
-        "evidence": "Application de pratique, sans sollicitation promotionnelle ajoutée. Le bloc principal porte seulement C’est parti ; chaque scène est une surface d’accès à un exercice ; la ligne libre porte une flèche. Les boutons audio, favori, microphone, navigation, choix de réponse et réglages sont des contrôles nécessaires à l’utilisation. Le crédit vocal ne contient aucune action. Captures evidence/voice-desktop.png, evidence/voice-focus.png et evidence/voice-conversation.png."
+        "evidence": "Accueil : C’est parti dans le bloc principal ; chaque scène et la conversation libre ont leur accès. Conversation : le microphone démarre ou met en pause ; clavier, aide et envoi de fin de phrase sont des contrôles fonctionnels. Les relectures et l’aide sont désactivées pendant l’échange. Aucune sollicitation promotionnelle supplémentaire. Captures evidence/oral-home-desktop.png, oral-focus.png et oral-listening.png."
       },
       {
-        "id": "technical:voice-assets",
+        "id": "technical:oral-loop",
         "passed": true,
-        "evidence": "25 WAV générés réellement avec VOICEVOX:雨晴はう, validés mono PCM 16 bits / 24 kHz et non silencieux. Phrase de présentation incluse identique octet pour octet à l’extrait A choisi par le propriétaire. Lecture réelle du fichier de la phrase du jour à vitesse 1×, événement ended et durée 2.058667 s observés dans le navigateur ; aucune simulation de la lecture. Voir VOICE.md et assets/speech/manifest.json."
+        "evidence": "Avec le modèle final Qwen3 14B et le vrai Whisper/VOICEVOX : deux tours du navigateur HTTP 200 en 5451 et 3320 ms ; phrases audio synthétiques injectées dans un vrai flux Web Audio, enregistrement MediaRecorder et détection de silence réels. Reprise du micro après la première lecture ; pause volontaire ramène le bouton au démarrage. Aucun champ de confirmation présent. Deux tours HTTP supplémentaires passent avec npm run oral:check. Voir ORAL.md et evidence/oral-two-turns.png."
       },
       {
-        "id": "technical:local-voice-api",
+        "id": "technical:error-states",
         "passed": true,
-        "evidence": "npm run voice:check : synthèse japonaise réelle et transport HTTP local, WAV 169516 octets reçu sans clé OpenAI. 9 tests passent, incluant authentification, bornes de texte, absence de fournisseur et sélection exclusive de voix japonaises ; typecheck et formatage passent. Exports web/iOS/Android réussis avec 25 enregistrements."
+        "evidence": "Refus de permission injecté : alerte française visible et retour au démarrage, sans appel de dialogue. Silence de micro virtuel : mise en pause après 15 secondes observée pendant la recette. Tests de pause sonore courte, silence, absence de parole transcrite, authentification et origine refusée passent. Capture evidence/oral-permission-denied.png."
       },
       {
-        "id": "technical:guard-connection",
+        "id": "technical:builds",
         "passed": true,
-        "evidence": "OFA doctor ready ; contrôle source vert ; raccords de build, hooks et CI spécialisée conservés. Aucun ajout de baseline ni exclusion des sources applicatives. Modèles téléchargés et venv de développement dans les dossiers de dépendances locaux, ignorés par Git. Aucun remote, push ou protection distante revendiqué."
+        "evidence": "Treize tests, typecheck et formatage passent. Export web final et bundles iOS/Android générés ; contrôle OFA doctor ready et guard vert. Les bibliothèques principales et modèles locaux sont épinglés ; aucune nouvelle CI générale. Aucun remote Git, aucune protection distante revendiquée."
       }
     ],
     "findings": [
@@ -76,6 +76,6 @@
         "recommendation": "Accorder les unités au singulier dans un prochain correctif éditorial."
       }
     ],
-    "summary": "Correction de la voix ; aperçu visuel observé sur l’export web final exact. Revue effectuée dans cette conversation, sans validation indépendante inventée. Le propriétaire a choisi la voix A après écoute, sans approuver artistiquement les écrans. Rendu natif, écoute sur iPhone/Android physiques, permissions micro et conversations OpenAI non validés. Les deux détails mineurs historiques restent documentés. Les dialogues sont inchangés."
+    "summary": "Conversation orale locale gratuite et automatique ; revue du rendu web sur l’artefact exact. Recette réalisée dans cette conversation, sans revue indépendante ni approbation artistique inventée. Les audios de test sont synthétiques : micro humain, bruit, accent, appareils iOS/Android physiques et accès distant restent non vérifiés. Aucun diagnostic de prononciation. Le modèle peut encore produire une formulation ou traduction maladroite. Voir ORAL.md."
   }
 }

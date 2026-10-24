@@ -1,4 +1,5 @@
 import { timingSafeEqual } from "node:crypto";
+import { resolve } from "node:path";
 import express, { type ErrorRequestHandler } from "express";
 import { rateLimit } from "express-rate-limit";
 import OpenAI, { toFile } from "openai";
@@ -8,6 +9,7 @@ import {
   turnRequestSchema,
   tutorReplySchema,
   speechRequestSchema,
+  oralRequestSchema,
   type TutorReply,
 } from "../shared/contracts";
 import type { SpeechProvider } from "./local-speech";
@@ -52,11 +54,17 @@ export function createApp({
   token,
   provider,
   speech,
+  mode = "unavailable",
+  isReady = () => !!provider,
+  localPreview = false,
   origins = ["http://localhost:8081", "http://127.0.0.1:8081"],
 }: {
   token?: string;
   provider?: TutorProvider;
   speech?: SpeechProvider;
+  mode?: "local" | "openai" | "unavailable";
+  isReady?: () => boolean;
+  localPreview?: boolean;
   origins?: string[];
 }) {
   const app = express();
@@ -101,6 +109,38 @@ export function createApp({
       },
     }),
   );
+  // Connexion automatique réservée à l’aperçu de développement sur boucle locale.
+  // Aucune clé dans le bundle, aucun accès anonyme sur un serveur exposé au réseau.
+  if (localPreview)
+    app.post("/api/local-session", (req, res) => {
+      const peer = req.socket.remoteAddress;
+      const origin = req.headers.origin;
+      const localOrigin =
+        origin &&
+        /^http:\/\/(localhost|127\.0\.0\.1):(8081|8082|8787)$/.test(origin);
+      const sameOrigin =
+        !origin &&
+        req.headers["sec-fetch-site"] === "same-origin" &&
+        /^(localhost|127\.0\.0\.1):8787$/.test(req.headers.host || "");
+      if (
+        !["127.0.0.1", "::1", "::ffff:127.0.0.1"].includes(peer || "") ||
+        (!localOrigin && !sameOrigin) ||
+        mode !== "local" ||
+        !token ||
+        token.length < 16
+      ) {
+        res
+          .status(403)
+          .json({ error: "Connexion automatique réservée à l’aperçu local." });
+        return;
+      }
+      res.json({
+        token,
+        ready: isReady(),
+        mode: "local",
+        oral: isReady() && !!speech,
+      });
+    });
   app.use("/api", (req, res, next) => {
     if (
       !token ||
@@ -129,7 +169,13 @@ export function createApp({
     next();
   });
   app.get("/api/health", (_req, res) => {
-    res.json({ ready: !!provider });
+    const ready = !!provider && isReady();
+    res.json({
+      ready,
+      mode,
+      oral: ready && !!speech,
+      warming: !!provider && !ready,
+    });
   });
   app.use("/api", express.json({ limit: "13mb" }));
   app.post("/api/speech", async (req, res) => {
@@ -162,7 +208,7 @@ export function createApp({
     if (!provider) {
       res.status(503).json({
         error:
-          "Ajoute la clé OPENAI_API_KEY sur le serveur pour activer la conversation.",
+          "Installe le moteur de conversation local puis relance le serveur.",
       });
       return;
     }
@@ -181,12 +227,54 @@ export function createApp({
     if (!provider) {
       res.status(503).json({
         error:
-          "Ajoute la clé OPENAI_API_KEY sur le serveur pour activer le micro.",
+          "Installe le moteur de transcription local puis relance le serveur.",
       });
       return;
     }
     res.json({ text: await provider.transcribe(parsed.data) });
   });
+  app.post("/api/oral-turn", async (req, res) => {
+    const parsed = oralRequestSchema.safeParse(req.body);
+    if (!parsed.success) {
+      res.status(400).json({
+        error: "L’enregistrement ou le contexte de conversation est invalide.",
+      });
+      return;
+    }
+    if (!provider || !speech || !isReady()) {
+      res.status(503).json({
+        error:
+          "Le dialogue, la transcription et la voix locale doivent être prêts pour parler avec Mochi.",
+      });
+      return;
+    }
+    const transcript = (await provider.transcribe(parsed.data)).trim();
+    if (res.destroyed) return;
+    if (!transcript) {
+      res.json({ heard: false });
+      return;
+    }
+    const tutor = tutorReplySchema.parse(
+      await provider.turn({
+        scenario: parsed.data.scenario,
+        history: parsed.data.history,
+        text: transcript,
+      }),
+    );
+    if (res.destroyed) return;
+    const text = speechRequestSchema.parse({ text: tutor.reply.japanese });
+    const audio = await speech.speak(text.text);
+    tutor.reply.romaji = speech.reading?.(text.text) || tutor.reply.romaji;
+    if (!res.destroyed)
+      res.json({
+        heard: true,
+        transcript,
+        tutor,
+        audio: audio.toString("base64"),
+        format: "wav",
+      });
+  });
+  if (localPreview) app.use(express.static(resolve("build/web")));
   app.use((_req, res) => {
     res.status(404).json({ error: "Route inconnue." });
   });
@@ -219,7 +307,7 @@ export function createApp({
     }
     res.status(502).json({
       error:
-        "Le service IA n’a pas pu répondre. Vérifie la clé, le modèle et la connexion du serveur, puis réessaie.",
+        "Mochi n’a pas pu répondre. Vérifie que les moteurs du serveur sont prêts, puis réessaie.",
     });
   };
   app.use(errorHandler);

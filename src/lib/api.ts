@@ -1,8 +1,47 @@
 import { tutorReplySchema, type ScenarioId } from "../../shared/contracts";
 
-export type Connection = { url: string; token: string };
+export type Connection = {
+  url: string;
+  token: string;
+  mode?: "local" | "openai";
+  oral?: boolean;
+};
 export const defaultApiUrl =
   process.env.EXPO_PUBLIC_API_URL || "http://localhost:8787";
+export async function connectLocalPreview(
+  signal: AbortSignal,
+): Promise<Connection | null> {
+  // Le navigateur mobile distant utilise le formulaire habituel, jamais un jeton embarqué.
+  if (
+    typeof window === "undefined" ||
+    !["localhost", "127.0.0.1"].includes(window.location.hostname)
+  )
+    return null;
+  const base = "http://127.0.0.1:8787";
+  const response = await fetch(`${base}/api/local-session`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    signal,
+  });
+  if (!response.ok) return null;
+  const result: unknown = await response.json();
+  if (
+    typeof result !== "object" ||
+    !result ||
+    !("ready" in result) ||
+    result.ready !== true ||
+    !("token" in result) ||
+    typeof result.token !== "string" ||
+    result.token.length < 16
+  )
+    return null;
+  return {
+    url: base,
+    token: result.token,
+    mode: "local",
+    oral: "oral" in result && result.oral === true,
+  };
+}
 export function validServerUrl(raw: string): string {
   const url = new URL(raw.trim());
   if (
@@ -27,7 +66,10 @@ export async function apiRequest(
   const cancel = () => controller.abort();
   if (signal?.aborted) cancel();
   signal?.addEventListener("abort", cancel, { once: true });
-  const timer = setTimeout(cancel, 45_000);
+  const timer = setTimeout(
+    cancel,
+    path === "/api/oral-turn" ? 100_000 : 85_000,
+  );
   try {
     const response = await fetch(`${validServerUrl(connection.url)}${path}`, {
       method: body ? "POST" : "GET",

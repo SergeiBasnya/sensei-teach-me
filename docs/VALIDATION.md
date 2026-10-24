@@ -22,3 +22,7 @@ Le contrôle de dépendances conserve une alerte d’outillage Expo liée à `no
 ## Correction de la voix
 
 La version vocale est documentée dans `VOICE.md`. Le propriétaire a choisi la voix A après écoute. Les 25 enregistrements sont inclus dans les exports ; la phrase de présentation embarquée est identique octet pour octet à l’extrait approuvé. Neuf tests passent et le moteur local a répondu réellement via HTTP, sans OpenAI. La lecture web à vitesse normale et sa fin ont été observées. Les sources de dialogues sont inchangées. La recette sur appareils natifs et les conversations OpenAI restent à réaliser.
+
+## Conversation orale automatique gratuite
+
+Voir `ORAL.md` pour le protocole et ses limites, `editorial-before-after-oral.md` pour les textes avant/après. Treize tests, types, formatage et exports web/iOS/Android passent. La chaîne Whisper → Qwen3 14B → VOICEVOX a été exécutée pour deux tours réels sur des audios synthétiques. La recette navigateur vérifie l’envoi après silence, la lecture et la reprise du micro sans validation de texte. L’essai humain et les appareils mobiles physiques ne sont pas certifiés par ces contrôles.

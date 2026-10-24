@@ -12,6 +12,7 @@ const iconPaths = {
   back: "M19 12H5 M11 6l-6 6 6 6",
   chevron: "m9 5 7 7-7 7",
   close: "m6 6 12 12 M6 18 18 6",
+  pause: "M8 5v14 M16 5v14",
   mic: "M9 5a3 3 0 0 1 6 0v7a3 3 0 0 1-6 0Z M5 10v2a7 7 0 0 0 14 0v-2 M12 19v3 M8 22h8",
   volume: "m11 4-6 5H2v6h3l6 5Z M15 8a6 6 0 0 1 0 8 M18 5a10 10 0 0 1 0 14",
   star: "m12 2 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1Z",
