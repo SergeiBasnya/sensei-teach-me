@@ -9,6 +9,7 @@ import {
   type Connection,
 } from "../lib/api";
 import { appStyles as s } from "../styles";
+import { voiceCredit } from "../data/recorded-speech";
 import {
   Badge,
   Button,
@@ -154,6 +155,10 @@ export function Settings({
           ))}
         </View>
         <View style={{ height: 1, backgroundColor: colors.line }} />
+        <Txt style={{ color: colors.muted, fontSize: 11, lineHeight: 18 }}>
+          Voix de synthèse : {voiceCredit}. Les exercices sont lus à vitesse
+          normale, sans connexion.
+        </Txt>
         <View style={{ gap: 12 }}>
           <SectionTitle
             title="Conversation avec l’IA"

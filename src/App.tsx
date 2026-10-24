@@ -24,6 +24,7 @@ import { Practice } from "./screens/practice";
 import { Notebook } from "./screens/notebook";
 import { ProgressScreen } from "./screens/progress";
 import { appStyles as s } from "./styles";
+import { JapaneseSpeechProvider } from "./components/japanese-speech";
 type Tab = "home" | "practice" | "words" | "progress";
 const tabs: { id: Tab; label: string; icon: IconName }[] = [
   { id: "home", label: "Mon espace", icon: "home" },
@@ -102,311 +103,327 @@ function Sensei() {
       </SafeAreaView>
     );
   return (
-    <SafeAreaView style={s.root} edges={["top", "bottom"]}>
-      {desktop && (
-        <View style={s.sidebar}>
-          <Brand />
-          <View style={{ gap: 8, marginTop: 48 }}>
-            {tabs.map((item) => (
-              <Pressable
-                key={item.id}
-                accessibilityRole="button"
-                disabled={!!session}
-                accessibilityState={{
-                  selected: tab === item.id && !session,
-                  disabled: !!session,
-                }}
-                onPress={() => {
-                  if (!session) setTab(item.id);
-                }}
-                style={({ pressed }) => [
-                  s.navItem,
-                  tab === item.id &&
-                    !session && { backgroundColor: colors.light },
-                  { opacity: pressed ? 0.7 : 1 },
-                ]}
-              >
-                <Icon
-                  name={item.icon}
-                  size={21}
-                  color={
-                    tab === item.id && !session ? colors.purple : colors.muted
-                  }
-                />
-                <Txt
-                  style={{
-                    fontWeight: tab === item.id ? "600" : "500",
-                    color:
-                      tab === item.id && !session
-                        ? colors.purple
-                        : colors.muted,
-                    fontSize: 14,
+    <JapaneseSpeechProvider connection={connection}>
+      <SafeAreaView style={s.root} edges={["top", "bottom"]}>
+        {desktop && (
+          <View style={s.sidebar}>
+            <Brand />
+            <View style={{ gap: 8, marginTop: 48 }}>
+              {tabs.map((item) => (
+                <Pressable
+                  key={item.id}
+                  accessibilityRole="button"
+                  disabled={!!session}
+                  accessibilityState={{
+                    selected: tab === item.id && !session,
+                    disabled: !!session,
                   }}
+                  onPress={() => {
+                    if (!session) setTab(item.id);
+                  }}
+                  style={({ pressed }) => [
+                    s.navItem,
+                    tab === item.id &&
+                      !session && { backgroundColor: colors.light },
+                    { opacity: pressed ? 0.7 : 1 },
+                  ]}
                 >
-                  {item.label}
-                </Txt>
-              </Pressable>
-            ))}
-          </View>
-          <View style={{ flex: 1 }} />
-          <View style={s.sidebarTutor}>
-            <Mochi size={95} />
-            <Txt
-              style={{ fontWeight: "700", textAlign: "center", fontSize: 14 }}
-            >
-              Ton compagnon Mochi
-            </Txt>
-            <Txt
-              style={{
-                textAlign: "center",
-                fontSize: 12,
-                color: colors.muted,
-                lineHeight: 19,
-              }}
-            >
-              Des conversations adaptées à tes premiers pas.
-            </Txt>
-          </View>
-          <Pressable
-            accessibilityRole="button"
-            onPress={() => setSettings(true)}
-            style={s.navItem}
-          >
-            <Icon name="settings" size={21} />
-            <Txt style={{ color: colors.muted, fontSize: 14 }}>Réglages</Txt>
-          </Pressable>
-          <View style={s.profile}>
-            <View style={s.avatar}>
-              <Txt style={{ fontWeight: "700", color: colors.purple }}>A</Txt>
-            </View>
-            <View>
-              <Txt style={{ fontSize: 13, fontWeight: "600" }}>
-                Mon apprentissage
-              </Txt>
-              <Txt style={{ fontSize: 11, color: colors.muted }}>
-                Japonais · Débutant
-              </Txt>
-            </View>
-          </View>
-        </View>
-      )}
-      <View style={{ flex: 1, minWidth: 0 }}>
-        {session ? (
-          <Conversation
-            key={session.id}
-            scene={session}
-            progress={progress}
-            connection={connection}
-            onFinish={finish}
-            onConfigure={() => setSettings(true)}
-          />
-        ) : (
-          <>
-            <View style={[s.topbar, !desktop && { paddingHorizontal: 22 }]}>
-              {desktop ? (
-                <View
-                  style={{ flexDirection: "row", gap: 9, alignItems: "center" }}
-                >
-                  <View style={s.japan}>
-                    <View style={s.japanSun} />
-                  </View>
+                  <Icon
+                    name={item.icon}
+                    size={21}
+                    color={
+                      tab === item.id && !session ? colors.purple : colors.muted
+                    }
+                  />
                   <Txt
                     style={{
-                      fontSize: 12,
-                      fontWeight: "600",
-                      color: colors.muted,
+                      fontWeight: tab === item.id ? "600" : "500",
+                      color:
+                        tab === item.id && !session
+                          ? colors.purple
+                          : colors.muted,
+                      fontSize: 14,
                     }}
                   >
-                    Japonais
+                    {item.label}
                   </Txt>
-                  <View
-                    style={{
-                      width: 3,
-                      height: 3,
-                      backgroundColor: "#C4BECE",
-                      borderRadius: 2,
-                    }}
-                  />
-                  <Txt style={{ fontSize: 12, color: colors.muted }}>
-                    Débutant
-                  </Txt>
-                </View>
-              ) : (
-                <Brand small />
-              )}
-              <View
-                style={{ flexDirection: "row", alignItems: "center", gap: 15 }}
+                </Pressable>
+              ))}
+            </View>
+            <View style={{ flex: 1 }} />
+            <View style={s.sidebarTutor}>
+              <Mochi size={95} />
+              <Txt
+                style={{ fontWeight: "700", textAlign: "center", fontSize: 14 }}
               >
-                <View
-                  accessibilityLabel={`${stats.streak} jours de pratique consécutifs`}
-                  style={{ flexDirection: "row", gap: 6, alignItems: "center" }}
-                >
-                  <Icon name="fire" size={21} color="#C78B52" />
-                  <Txt style={{ fontSize: 13, fontWeight: "600" }}>
-                    {stats.streak}
-                    <Txt style={{ fontSize: 12, color: colors.muted }}>
-                      {" "}
-                      {desktop ? "jour" + (stats.streak > 1 ? "s" : "") : ""}
-                    </Txt>
-                  </Txt>
-                </View>
-                <IconButton
-                  name="settings"
-                  label="Ouvrir les réglages"
-                  onPress={() => setSettings(true)}
-                />
+                Ton compagnon Mochi
+              </Txt>
+              <Txt
+                style={{
+                  textAlign: "center",
+                  fontSize: 12,
+                  color: colors.muted,
+                  lineHeight: 19,
+                }}
+              >
+                Des conversations adaptées à tes premiers pas.
+              </Txt>
+            </View>
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => setSettings(true)}
+              style={s.navItem}
+            >
+              <Icon name="settings" size={21} />
+              <Txt style={{ color: colors.muted, fontSize: 14 }}>Réglages</Txt>
+            </Pressable>
+            <View style={s.profile}>
+              <View style={s.avatar}>
+                <Txt style={{ fontWeight: "700", color: colors.purple }}>A</Txt>
+              </View>
+              <View>
+                <Txt style={{ fontSize: 13, fontWeight: "600" }}>
+                  Mon apprentissage
+                </Txt>
+                <Txt style={{ fontSize: 11, color: colors.muted }}>
+                  Japonais · Débutant
+                </Txt>
               </View>
             </View>
-            <ScrollView
-              key={tab}
-              contentContainerStyle={[
-                s.page,
-                {
-                  paddingHorizontal: desktop ? 38 : 22,
-                  paddingTop: desktop ? 32 : 24,
-                },
-              ]}
-            >
-              {storageError ? (
-                <Panel style={{ backgroundColor: "#FCEDEA", marginBottom: 20 }}>
-                  <Txt
-                    accessibilityRole="alert"
-                    style={{ color: "#8B443D", fontSize: 13 }}
-                  >
-                    {storageError}
-                  </Txt>
-                </Panel>
-              ) : null}
-              {summary && (
-                <Panel
-                  style={{
-                    backgroundColor: "#EDF4EF",
-                    marginBottom: 24,
-                    gap: 7,
-                  }}
-                >
+          </View>
+        )}
+        <View style={{ flex: 1, minWidth: 0 }}>
+          {session ? (
+            <Conversation
+              key={session.id}
+              scene={session}
+              progress={progress}
+              connection={connection}
+              onFinish={finish}
+              onConfigure={() => setSettings(true)}
+            />
+          ) : (
+            <>
+              <View style={[s.topbar, !desktop && { paddingHorizontal: 22 }]}>
+                {desktop ? (
                   <View
                     style={{
                       flexDirection: "row",
-                      gap: 10,
+                      gap: 9,
                       alignItems: "center",
                     }}
                   >
-                    <Icon name="check" color={colors.green} />
-                    <Txt style={{ flex: 1, fontWeight: "700" }}>
-                      Séance enregistrée : {summary.scene.title}
-                    </Txt>
-                    <IconButton
-                      name="close"
-                      label="Fermer le bilan"
-                      onPress={() => setSummary(null)}
-                    />
-                  </View>
-                  <Txt style={{ color: colors.green, fontSize: 13 }}>
-                    {summary.result.turns} réponses ·{" "}
-                    {formatDuration(summary.result.seconds)} de pratique ·{" "}
-                    {summary.result.words.length} expressions rencontrées
-                  </Txt>
-                </Panel>
-              )}
-              {tab === "home" && (
-                <Home
-                  progress={progress}
-                  desktop={desktop}
-                  start={start}
-                  setProgress={setProgress}
-                />
-              )}
-              {tab === "practice" && (
-                <Practice
-                  start={start}
-                  connected={!!connection}
-                  onConfigure={() => setSettings(true)}
-                />
-              )}
-              {tab === "words" && (
-                <Notebook
-                  progress={progress}
-                  setProgress={setProgress}
-                  onStart={() => start(scenes[0]!)}
-                />
-              )}
-              {tab === "progress" && (
-                <ProgressScreen
-                  progress={progress}
-                  start={() => start(scenes[0]!)}
-                />
-              )}
-            </ScrollView>
-            {!desktop && (
-              <View style={s.bottomNav}>
-                {tabs.map((item) => (
-                  <Pressable
-                    key={item.id}
-                    accessibilityRole="button"
-                    accessibilityState={{ selected: tab === item.id }}
-                    onPress={() => setTab(item.id)}
-                    style={s.bottomNavItem}
-                  >
-                    <View
-                      style={{
-                        width: 47,
-                        height: 30,
-                        borderRadius: 12,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor:
-                          tab === item.id ? colors.light : "transparent",
-                      }}
-                    >
-                      <Icon
-                        name={item.icon}
-                        color={tab === item.id ? colors.purple : colors.muted}
-                        size={21}
-                      />
+                    <View style={s.japan}>
+                      <View style={s.japanSun} />
                     </View>
                     <Txt
                       style={{
-                        fontSize: 10,
-                        lineHeight: 16,
-                        color: tab === item.id ? colors.purple : colors.muted,
-                        fontWeight: tab === item.id ? "700" : "500",
+                        fontSize: 12,
+                        fontWeight: "600",
+                        color: colors.muted,
                       }}
                     >
-                      {item.id === "home"
-                        ? "Accueil"
-                        : item.id === "progress"
-                          ? "Progrès"
-                          : item.label}
+                      Japonais
                     </Txt>
-                  </Pressable>
-                ))}
+                    <View
+                      style={{
+                        width: 3,
+                        height: 3,
+                        backgroundColor: "#C4BECE",
+                        borderRadius: 2,
+                      }}
+                    />
+                    <Txt style={{ fontSize: 12, color: colors.muted }}>
+                      Débutant
+                    </Txt>
+                  </View>
+                ) : (
+                  <Brand small />
+                )}
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 15,
+                  }}
+                >
+                  <View
+                    accessibilityLabel={`${stats.streak} jours de pratique consécutifs`}
+                    style={{
+                      flexDirection: "row",
+                      gap: 6,
+                      alignItems: "center",
+                    }}
+                  >
+                    <Icon name="fire" size={21} color="#C78B52" />
+                    <Txt style={{ fontSize: 13, fontWeight: "600" }}>
+                      {stats.streak}
+                      <Txt style={{ fontSize: 12, color: colors.muted }}>
+                        {" "}
+                        {desktop ? "jour" + (stats.streak > 1 ? "s" : "") : ""}
+                      </Txt>
+                    </Txt>
+                  </View>
+                  <IconButton
+                    name="settings"
+                    label="Ouvrir les réglages"
+                    onPress={() => setSettings(true)}
+                  />
+                </View>
               </View>
-            )}
-          </>
-        )}
-      </View>
-      <Modal
-        visible={settings}
-        animationType="fade"
-        transparent
-        onRequestClose={() => setSettings(false)}
-      >
-        <View style={s.modalBackdrop}>
-          <SafeAreaView
-            style={{ width: "100%", maxWidth: 540, maxHeight: "94%" }}
-          >
-            <Settings
-              progress={progress}
-              setProgress={setProgress}
-              connection={connection}
-              setConnection={setConnection}
-              onClose={() => setSettings(false)}
-            />
-          </SafeAreaView>
+              <ScrollView
+                key={tab}
+                contentContainerStyle={[
+                  s.page,
+                  {
+                    paddingHorizontal: desktop ? 38 : 22,
+                    paddingTop: desktop ? 32 : 24,
+                  },
+                ]}
+              >
+                {storageError ? (
+                  <Panel
+                    style={{ backgroundColor: "#FCEDEA", marginBottom: 20 }}
+                  >
+                    <Txt
+                      accessibilityRole="alert"
+                      style={{ color: "#8B443D", fontSize: 13 }}
+                    >
+                      {storageError}
+                    </Txt>
+                  </Panel>
+                ) : null}
+                {summary && (
+                  <Panel
+                    style={{
+                      backgroundColor: "#EDF4EF",
+                      marginBottom: 24,
+                      gap: 7,
+                    }}
+                  >
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        gap: 10,
+                        alignItems: "center",
+                      }}
+                    >
+                      <Icon name="check" color={colors.green} />
+                      <Txt style={{ flex: 1, fontWeight: "700" }}>
+                        Séance enregistrée : {summary.scene.title}
+                      </Txt>
+                      <IconButton
+                        name="close"
+                        label="Fermer le bilan"
+                        onPress={() => setSummary(null)}
+                      />
+                    </View>
+                    <Txt style={{ color: colors.green, fontSize: 13 }}>
+                      {summary.result.turns} réponses ·{" "}
+                      {formatDuration(summary.result.seconds)} de pratique ·{" "}
+                      {summary.result.words.length} expressions rencontrées
+                    </Txt>
+                  </Panel>
+                )}
+                {tab === "home" && (
+                  <Home
+                    progress={progress}
+                    desktop={desktop}
+                    start={start}
+                    setProgress={setProgress}
+                  />
+                )}
+                {tab === "practice" && (
+                  <Practice
+                    start={start}
+                    connected={!!connection}
+                    onConfigure={() => setSettings(true)}
+                  />
+                )}
+                {tab === "words" && (
+                  <Notebook
+                    progress={progress}
+                    setProgress={setProgress}
+                    onStart={() => start(scenes[0]!)}
+                  />
+                )}
+                {tab === "progress" && (
+                  <ProgressScreen
+                    progress={progress}
+                    start={() => start(scenes[0]!)}
+                  />
+                )}
+              </ScrollView>
+              {!desktop && (
+                <View style={s.bottomNav}>
+                  {tabs.map((item) => (
+                    <Pressable
+                      key={item.id}
+                      accessibilityRole="button"
+                      accessibilityState={{ selected: tab === item.id }}
+                      onPress={() => setTab(item.id)}
+                      style={s.bottomNavItem}
+                    >
+                      <View
+                        style={{
+                          width: 47,
+                          height: 30,
+                          borderRadius: 12,
+                          alignItems: "center",
+                          justifyContent: "center",
+                          backgroundColor:
+                            tab === item.id ? colors.light : "transparent",
+                        }}
+                      >
+                        <Icon
+                          name={item.icon}
+                          color={tab === item.id ? colors.purple : colors.muted}
+                          size={21}
+                        />
+                      </View>
+                      <Txt
+                        style={{
+                          fontSize: 10,
+                          lineHeight: 16,
+                          color: tab === item.id ? colors.purple : colors.muted,
+                          fontWeight: tab === item.id ? "700" : "500",
+                        }}
+                      >
+                        {item.id === "home"
+                          ? "Accueil"
+                          : item.id === "progress"
+                            ? "Progrès"
+                            : item.label}
+                      </Txt>
+                    </Pressable>
+                  ))}
+                </View>
+              )}
+            </>
+          )}
         </View>
-      </Modal>
-    </SafeAreaView>
+        <Modal
+          visible={settings}
+          animationType="fade"
+          transparent
+          onRequestClose={() => setSettings(false)}
+        >
+          <View style={s.modalBackdrop}>
+            <SafeAreaView
+              style={{ width: "100%", maxWidth: 540, maxHeight: "94%" }}
+            >
+              <Settings
+                progress={progress}
+                setProgress={setProgress}
+                connection={connection}
+                setConnection={setConnection}
+                onClose={() => setSettings(false)}
+              />
+            </SafeAreaView>
+          </View>
+        </Modal>
+      </SafeAreaView>
+    </JapaneseSpeechProvider>
   );
 }
 function Brand({ small = false }: { small?: boolean }) {

@@ -17,3 +17,8 @@ Les captures sont conservées dans `evidence/`. Deux détails mineurs restent da
 La capture micro réelle, la qualité d’une voix japonaise, les réponses OpenAI en conditions réelles, les permissions et le rendu sur appareils natifs ne sont pas validés. Aucune clé personnelle n’était fournie. Les tests ne consomment pas de quota API. Aucun déploiement, signature, distribution ou publication de store effectué. Le dépôt local est initialisé sur `main` ; aucun dépôt distant n’est configuré, donc ni push, ni CI distante, ni protection de branche active ne sont revendiqués.
 
 Le contrôle de dépendances conserve une alerte d’outillage Expo liée à `node-forge`, détaillée dans le README. La version corrigée de Zod est installée et imposée aux dépendances transitives.
+
+
+## Correction de la voix
+
+La version vocale est documentée dans `VOICE.md`. Le propriétaire a choisi la voix A après écoute. Les 25 enregistrements sont inclus dans les exports ; la phrase de présentation embarquée est identique octet pour octet à l’extrait approuvé. Neuf tests passent et le moteur local a répondu réellement via HTTP, sans OpenAI. La lecture web à vitesse normale et sa fin ont été observées. Les sources de dialogues sont inchangées. La recette sur appareils natifs et les conversations OpenAI restent à réaliser.

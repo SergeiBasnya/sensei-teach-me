@@ -9,7 +9,7 @@ npm ci
 npm run web
 ```
 
-Ouvrir `http://localhost:8081`. Trois exercices guidés fonctionnent sans compte ni clé : présentation, café et gare. Les réponses proposées font avancer un dialogue préparé. La lecture utilise la voix japonaise disponible sur l’appareil ; elle peut nécessiter l’installation d’une voix dans ses réglages. Ces exercices n’évaluent pas la prononciation.
+Ouvrir `http://localhost:8081`. Trois exercices guidés fonctionnent sans compte ni clé : présentation, café et gare. Les réponses proposées font avancer un dialogue préparé. Les 25 phrases distinctes sont enregistrées avec la voix A choisie par le propriétaire, **VOICEVOX:雨晴はう**, à vitesse et intonation normales. Elles sont incluses dans l’application : aucun service ni accès Internet n’est requis pour leur synthèse pendant l’utilisation. Ces exercices n’évaluent pas la prononciation.
 
 Le carnet, les expressions acquises, les objectifs, les séances et les séries de jours sont sauvegardés sur cet appareil. Le temps mesuré correspond à la séance au premier plan, pas à une mesure du temps de parole. Les réglages permettent de masquer romaji et traduction.
 
@@ -29,6 +29,30 @@ Le micro enregistre une réponse de 60 secondes maximum. Un second appui arrête
 La clé API reste exclusivement sur le serveur. Le code personnel reste en mémoire dans l’application jusqu’à sa fermeture. Le serveur ne conserve pas les messages ni les fichiers audio et demande `store: false` pour les réponses. OpenAI traite les données envoyées selon ses propres [règles de conservation](https://developers.openai.com/api/docs/guides/your-data). Aucun audio n’est envoyé en mode guidé. Le contexte des 16 derniers messages de la séance est transmis, sans mémoire distante entre séances.
 
 Modèles configurables : `gpt-4.1-mini` pour les réponses structurées et `gpt-transcribe` pour la transcription. Références : [transcription](https://developers.openai.com/api/docs/guides/speech-to-text), [sorties structurées](https://developers.openai.com/api/docs/guides/structured-outputs), [audio Expo](https://docs.expo.dev/versions/latest/sdk/audio/).
+
+## Voix japonaise locale, gratuite
+
+Les exercices, la phrase du jour et les expressions correspondantes du carnet utilisent les fichiers de `assets/speech/`. Les textes japonais, le romaji et les traductions n’ont pas été modifiés. Le lecteur est partagé entre les écrans : une nouvelle lecture remplace la précédente, et l’ouverture du micro arrête la voix.
+
+Pour générer les nouvelles phrases des conversations sur le serveur personnel :
+
+```sh
+python3 scripts/setup-local-voice.py --accept-voicevox-terms
+npm run voice:check
+npm run server
+```
+
+Lire préalablement les [conditions des modèles](https://github.com/VOICEVOX/voicevox_vvm) et de [la voix choisie](https://amehau.com/rules/amehare-hau-rule). Le script crée uniquement `.venv/` et `.local/voicevox/` dans ce projet, télécharge les binaires officiels et vérifie l’empreinte du téléchargeur. Il n’installe aucun service ni paquet système. Le moteur tourne sur le serveur, pas dans le téléphone.
+
+`POST /api/speech`, protégé par le même code personnel que les autres routes, génère un WAV avec VOICEVOX. Il fonctionne sans clé OpenAI. La connexion de conversation dans l’application exige toujours le fournisseur de dialogue ; les frais éventuels d’OpenAI concernent les conversations et leur transcription, pas cette voix locale. Aucun modèle vocal ni texte n’est envoyé à un fournisseur pour la synthèse.
+
+Pour régénérer les enregistrements après changement des phrases :
+
+```sh
+npm run voice:assets
+```
+
+Les paramètres par défaut sont vitesse 1.0, hauteur 0.0 et intonation 1.0. Les fichiers, le manifeste et le crédit sont versionnés. Pour une expression absente des enregistrements, le lecteur utilise le moteur local lorsque le serveur est connecté. Hors connexion, une voix du système peut servir de repli uniquement si elle est explicitement identifiée comme japonaise ; aucune voix française ou anglaise n’est substituée. L’absence de voix affiche une erreur.
 
 ## iOS et Android
 
@@ -71,4 +95,4 @@ Une alerte npm reste sur `node-forge@1.4.0`, dépendance transitive de l’outil
 
 ## Périmètre de cette première version
 
-Pas encore de conversation audio en duplex, de diagnostic phonétique, de synchronisation entre appareils, de notifications ou de publication sur les stores. L’intégration réelle OpenAI, la capture micro et la synthèse vocale native nécessitent une recette sur les appareils ciblés avec la clé du propriétaire. La revue navigateur est une preuve du rendu web responsive ; elle ne certifie pas le rendu natif.
+Pas encore de conversation audio en duplex, de diagnostic phonétique, de synchronisation entre appareils, de notifications ou de publication sur les stores. La voix locale et son API ont été testées réellement sans OpenAI ; le choix de la voix A a été confirmé par le propriétaire après écoute. La capture micro et les conversations OpenAI nécessitent encore une recette avec sa clé. Les exports mobiles incluent les enregistrements ; l’écoute sur iPhone et Android réels reste à vérifier. La revue navigateur ne certifie pas le rendu natif.

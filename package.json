@@ -17,7 +17,9 @@
     "build": "python3 .studio/design_guard.py --root . || exit $?; expo export --platform web --output-dir build/web",
     "build:mobile": "python3 .studio/design_guard.py --root . || exit $?; npm run design:check && expo export --platform ios --platform android --output-dir build/mobile",
     "studio:check": "python3 .studio/design_guard.py --root .",
-    "format:check": "prettier --check src server shared tests index.ts app.json eas.json tsconfig.json"
+    "format:check": "prettier --check src server shared tests index.ts app.json eas.json tsconfig.json",
+    "voice:assets": "node --import tsx scripts/build-voice-assets.ts",
+    "voice:check": "node --import tsx scripts/check-local-voice.ts"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",

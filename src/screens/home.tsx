@@ -1,5 +1,5 @@
 import { Pressable, View, useWindowDimensions } from "react-native";
-import * as Speech from "expo-speech";
+import { useJapaneseSpeech } from "../components/japanese-speech";
 import { dailyPhrase, freeScene, scenes, type Scene } from "../data/lessons";
 import { addWords, getStats, type Progress } from "../lib/progress";
 import { Icon, Mochi } from "../components/art";
@@ -26,6 +26,7 @@ export function Home({
   start: (scene: Scene) => void;
   setProgress: React.Dispatch<React.SetStateAction<Progress>>;
 }) {
+  const { speakJapanese, error: speechError } = useJapaneseSpeech();
   const { width } = useWindowDimensions();
   const wide = width >= 1260;
   const stats = getStats(progress);
@@ -34,6 +35,11 @@ export function Home({
   );
   return (
     <View style={{ gap: 28 }}>
+      {speechError && (
+        <Txt accessibilityRole="alert" style={{ color: "#8B443D" }}>
+          {speechError}
+        </Txt>
+      )}
       <View>
         <Txt
           accessibilityRole="header"
@@ -236,12 +242,7 @@ export function Home({
             >
               <Pressable
                 accessibilityRole="button"
-                onPress={() =>
-                  Speech.speak(dailyPhrase.japanese, {
-                    language: "ja-JP",
-                    rate: 0.75,
-                  })
-                }
+                onPress={() => void speakJapanese(dailyPhrase.japanese)}
                 style={{
                   flexDirection: "row",
                   alignItems: "center",

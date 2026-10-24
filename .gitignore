@@ -8,3 +8,7 @@ output/
 .DS_Store
 
 .playwright-cli/
+
+.local/
+.venv/
+__pycache__/

@@ -40,3 +40,6 @@ export const audioRequestSchema = z.object({
     .regex(/^[A-Za-z0-9+/]+={0,2}$/),
   format: z.enum(["webm", "m4a", "wav", "mp4"]),
 });
+export const speechRequestSchema = z.object({
+  text: z.string().trim().min(1).max(500),
+});

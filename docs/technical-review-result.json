@@ -2,11 +2,11 @@
   "doctrineDigest": "sha256:65db957816539bb0d595d05cacda9f1e3dfa1a44ec900e5409986e9bd137f7b1",
   "artifact": {
     "root": "/Users/augustdouglas/Documents/projects/apps/sensei-teach-me/build/web",
-    "digest": "sha256:e066cc42d87f205e64510444aa70eeb61aebc0a7d37d964009614929a6aa7d13",
-    "fileCount": 3
+    "digest": "sha256:2a781da7093ff5ecb98e4c637711c0e35a469fed03b6174e47098332ed17c7ea",
+    "fileCount": 28
   },
   "schemaVersion": "prisma-technical-evaluation.v1",
-  "reviewId": "sensei-initial-web-review",
+  "reviewId": "sensei-local-japanese-voice-review",
   "technicalStatus": "pass",
   "artisticStatus": "not-evaluated",
   "failures": [],
@@ -18,8 +18,8 @@
     "doctrine:section-composition-and-rhythm",
     "doctrine:responsive-text-clearance",
     "doctrine:one-clear-cta-per-section",
-    "technical:guided-session",
-    "technical:checks",
+    "technical:voice-assets",
+    "technical:local-voice-api",
     "technical:guard-connection"
   ]
 }

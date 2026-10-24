@@ -7,8 +7,10 @@ import {
   audioRequestSchema,
   turnRequestSchema,
   tutorReplySchema,
+  speechRequestSchema,
   type TutorReply,
 } from "../shared/contracts";
+import type { SpeechProvider } from "./local-speech";
 
 export interface TutorProvider {
   turn: (input: typeof turnRequestSchema._output) => Promise<TutorReply>;
@@ -49,10 +51,12 @@ export function createProvider(apiKey: string): TutorProvider {
 export function createApp({
   token,
   provider,
+  speech,
   origins = ["http://localhost:8081", "http://127.0.0.1:8081"],
 }: {
   token?: string;
   provider?: TutorProvider;
+  speech?: SpeechProvider;
   origins?: string[];
 }) {
   const app = express();
@@ -128,6 +132,24 @@ export function createApp({
     res.json({ ready: !!provider });
   });
   app.use("/api", express.json({ limit: "13mb" }));
+  app.post("/api/speech", async (req, res) => {
+    const parsed = speechRequestSchema.safeParse(req.body);
+    if (!parsed.success) {
+      res.status(400).json({
+        error: "La lecture accepte une phrase de 1 à 500 caractères.",
+      });
+      return;
+    }
+    if (!speech) {
+      res.status(503).json({
+        error:
+          "Le moteur vocal local n’est pas installé sur le serveur. Les enregistrements des exercices restent disponibles.",
+      });
+      return;
+    }
+    const audio = await speech.speak(parsed.data.text);
+    res.json({ audio: audio.toString("base64"), format: "wav" });
+  });
   app.post("/api/turn", async (req, res) => {
     const parsed = turnRequestSchema.safeParse(req.body);
     if (!parsed.success) {

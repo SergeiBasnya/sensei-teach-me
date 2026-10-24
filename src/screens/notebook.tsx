@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Pressable, Switch, TextInput, View } from "react-native";
-import * as Speech from "expo-speech";
+import { useJapaneseSpeech } from "../components/japanese-speech";
 import type { Progress } from "../lib/progress";
 import { Icon, Mochi } from "../components/art";
 import { appStyles as s } from "../styles";
@@ -22,6 +22,7 @@ export function Notebook({
   setProgress: React.Dispatch<React.SetStateAction<Progress>>;
   onStart: () => void;
 }) {
+  const { speakJapanese, error: speechError } = useJapaneseSpeech();
   const [search, setSearch] = useState("");
   const [onlyNew, setOnlyNew] = useState(false);
   const words = useMemo(
@@ -37,6 +38,11 @@ export function Notebook({
   );
   return (
     <View style={{ gap: 22 }}>
+      {speechError && (
+        <Txt accessibilityRole="alert" style={{ color: "#8B443D" }}>
+          {speechError}
+        </Txt>
+      )}
       <SectionTitle
         title="Ton petit carnet japonais"
         detail={`${progress.words.length} expressions rencontrées · ${progress.words.filter((w) => w.learned).length} marquées comme acquises`}
@@ -91,12 +97,7 @@ export function Notebook({
                 <IconButton
                   name="volume"
                   label={`Écouter ${word.japanese}`}
-                  onPress={() =>
-                    Speech.speak(word.japanese, {
-                      language: "ja-JP",
-                      rate: 0.75,
-                    })
-                  }
+                  onPress={() => void speakJapanese(word.japanese)}
                 />
               </View>
               {progress.romaji && (

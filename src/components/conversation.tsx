@@ -18,7 +18,7 @@ import {
   useAudioRecorder,
   useAudioRecorderState,
 } from "expo-audio";
-import * as Speech from "expo-speech";
+import { useJapaneseSpeech } from "./japanese-speech";
 import { File } from "expo-file-system";
 import type { Phrase, TutorReply } from "../../shared/contracts";
 import type { Scene } from "../data/lessons";
@@ -59,7 +59,12 @@ export function Conversation({
   const [complete, setComplete] = useState(false);
   const [showHelp, setShowHelp] = useState(true);
   const [showKeyboard, setShowKeyboard] = useState(false);
-  const [speaking, setSpeaking] = useState(false);
+  const {
+    speakJapanese: speak,
+    stopJapanese,
+    isSpeaking: speaking,
+    error: speechError,
+  } = useJapaneseSpeech();
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const words = useRef<Phrase[]>([]);
   const activeSeconds = useRef(0);
@@ -73,7 +78,7 @@ export function Conversation({
   const recordingActive = useRef(false);
   const finish = () => {
     if (busy || recordingActive.current) return;
-    void Speech.stop();
+    void stopJapanese();
     onFinish({
       seconds: Math.max(1, activeSeconds.current),
       turns: messages.filter((m) => m.role === "user").length,
@@ -102,26 +107,10 @@ export function Conversation({
       abort.current.abort();
       clearInterval(timer);
       appState.remove();
-      void Speech.stop();
+      void stopJapanese();
       if (recordingActive.current) void recorder.stop();
     };
-  }, [recorder]);
-  const speak = (text: string) => {
-    void Speech.stop();
-    setSpeaking(true);
-    Speech.speak(text, {
-      language: "ja-JP",
-      rate: 0.78,
-      onDone: () => setSpeaking(false),
-      onStopped: () => setSpeaking(false),
-      onError: () => {
-        setSpeaking(false);
-        setError(
-          "La voix japonaise n’est pas disponible sur cet appareil. Tu peux continuer avec le texte.",
-        );
-      },
-    });
-  };
+  }, [recorder, stopJapanese]);
   const send = async (text: string, guided?: Phrase) => {
     if (locked.current || !text.trim() || complete) return;
     if (!connection && !guided) {
@@ -249,7 +238,7 @@ export function Conversation({
     locked.current = true;
     setError("");
     try {
-      await Speech.stop();
+      await stopJapanese();
       const permission = await AudioModule.requestRecordingPermissionsAsync();
       if (!permission.granted)
         throw new Error(
@@ -416,9 +405,11 @@ export function Conversation({
             </Txt>
           </View>
         )}
-        {error ? (
+        {error || speechError ? (
           <View accessibilityRole="alert" style={s.error}>
-            <Txt style={{ fontSize: 13, color: "#8B443D" }}>{error}</Txt>
+            <Txt style={{ fontSize: 13, color: "#8B443D" }}>
+              {error || speechError}
+            </Txt>
             {!connection && (
               <Button secondary onPress={onConfigure}>
                 Ouvrir les réglages
