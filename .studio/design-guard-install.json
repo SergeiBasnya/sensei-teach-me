@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "studio-design-guard-install.v1",
+  "installerVersion": "1.0.0",
+  "installationScope": "local-full",
+  "configSha256": "77813a0695736f7126c0d8a19e8a56721e954709564eb9b440fa2284c321dc02",
+  "managedFiles": {
+    ".studio/design_guard.py": "fd9946767f2a5788219be82837270a9fe1a51f0e9b7eab21adc45e169effe4f0",
+    ".studio/studio_git_guard.py": "79875db7733c2cac00f07423c36580ac73dccbd5005f132c7b28ebfc068305c3",
+    ".studio/check.sh": "6947b8ba37e88ad356855aa9674573c802a3554d204f5911ca2101068b5171ae",
+    ".studio/.gitignore": "f36ddccd5398c42f4d0a9b507c1a9524b390770a490493b0dbe0799e33464c34",
+    ".studio/design-guard.json": "77813a0695736f7126c0d8a19e8a56721e954709564eb9b440fa2284c321dc02",
+    ".studio/design_guard_ci.py": "e23143edf722b53e02904e9c1f5094e0efd915baa315ce5bc4fc0447619c813d",
+    ".github/workflows/studio-design-guard.yml": "b06cf710a2c6f4e79bc9b385eb36a0a06c6181494cb27e96f9fc164e5fb7acc3"
+  },
+  "packages": [
+    {
+      "path": "package.json",
+      "status": "integrated",
+      "command": "python3 .studio/design_guard.py --root .",
+      "guardedScripts": [
+        "check",
+        "build",
+        "build:mobile"
+      ]
+    }
+  ],
+  "ci": true
+}

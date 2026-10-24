@@ -1,0 +1,81 @@
+{
+  "doctrineDigest": "sha256:65db957816539bb0d595d05cacda9f1e3dfa1a44ec900e5409986e9bd137f7b1",
+  "review": {
+    "schemaVersion": "prisma-technical-review.v1",
+    "id": "sensei-initial-web-review",
+    "missionId": "sensei-japanese-oral-mvp",
+    "decisionId": "sensei-mochi-beginner",
+    "artifact": {
+      "root": "../build/web",
+      "digest": "sha256:e066cc42d87f205e64510444aa70eeb61aebc0a7d37d964009614929a6aa7d13"
+    },
+    "observedAt": "2026-10-24T12:47:19.351768+00:00",
+    "gates": [
+      {
+        "id": "doctrine:no-colored-side-stripes",
+        "passed": true,
+        "evidence": "Accueil ordinateur 1440×1000 et mobile 390×844 / 320×568, conversation, carnet, pratique, progrès et réglages : cartes à fonds pleins avec contours complets neutres ; aucun liseré coloré latéral ou décoratif supérieur observé. Le survol souligne le contour complet, sans bande. Le cercle violet est un indicateur de progression. Captures evidence/desktop-final.png, evidence/mobile-scenes-final.png, evidence/card-hover-final.png, evidence/conversation-final.png, evidence/settings-final.png. Contrôle source vert et réintroduction border-left colorée rejetée dans une copie temporaire."
+      },
+      {
+        "id": "doctrine:no-card-title-hover-underlines",
+        "passed": true,
+        "evidence": "Accueil 1440×1000, survol de la carte Un café à Tokyo : le contour complet devient violet pâle et son titre reste sans soulignement. Focus clavier sur Mon espace : contour violet complet visible. Captures evidence/card-hover-final.png et evidence/focus-final.png."
+      },
+      {
+        "id": "doctrine:no-bricolage-grotesque",
+        "passed": true,
+        "evidence": "Rendu web final, styles calculés observés dans le navigateur : textes Sensei en system-ui, -apple-system, Segoe UI, sans-serif ; contrôles système Arial et conteneurs sans texte direct Times. document.fonts ne contient aucune famille chargée. Aucun import de police externe dans les sources. Familles réellement appliquées observées sur le web uniquement ; rendu natif non observé. Captures evidence/desktop-final.png et evidence/settings-final.png."
+      },
+      {
+        "id": "doctrine:no-peripheral-filler-copy",
+        "passed": true,
+        "evidence": "Accueil 1440×1000 et mobile défilé : les textes secondaires décrivent la séance guidée, les situations, la durée, le niveau, le compagnon et les outils du jour. La phrase japonaise est une expression à écouter/enregistrer, avec romaji et traduction, intégrée au carnet pédagogique. Aucun slogan périphérique ajouté dans les zones inspectées. Captures evidence/desktop-final.png et evidence/mobile-tools-final.png."
+      },
+      {
+        "id": "doctrine:section-composition-and-rhythm",
+        "passed": true,
+        "evidence": "Accueil : bloc de conversation principal avec texte et personnage ; catalogue de trois situations ; ligne de conversation libre ; objectif circulaire et phrase du jour. Sur ordinateur, contenu principal et colonne utilitaire ; sur mobile, scènes horizontales et empilement vertical. Les espacements, proportions et structures organisent ces zones au-delà de leurs couleurs. Captures evidence/desktop-final.png, evidence/mobile-final.png et evidence/mobile-scenes-final.png."
+      },
+      {
+        "id": "doctrine:responsive-text-clearance",
+        "passed": true,
+        "evidence": "Observations 1440×1000, 390×844 et 320×568 : titres et paragraphes gardent leurs marges ; sur 320 px, titre du bloc principal en deux lignes et personnage réduit, sans collision avec le texte. Les scènes et outils restent accessibles par défilement vertical. Conversation, carnet, pratique et réglages observés à 390×844, avec défilement prévu dans les contenus longs ; aucun débordement horizontal constaté sur accueil. Captures evidence/small-final.png, evidence/mobile-scenes-final.png, evidence/mobile-tools-final.png, evidence/conversation-final.png, evidence/notebook-final.png et evidence/settings-final.png."
+      },
+      {
+        "id": "doctrine:one-clear-cta-per-section",
+        "passed": true,
+        "evidence": "Application personnelle, sans section promotionnelle : le bloc principal porte seulement C’est parti (scénario meet) ; la ligne libre porte une seule flèche (réglages IA si nécessaire) ; chaque scène du catalogue possède une seule surface d’accès à son exercice. Audio et favori dans la phrase du jour, navigation, réponses guidées, micro et réglages sont des contrôles fonctionnels nécessaires. Le catalogue est une sélection de tâches applicatives. Focus du contrôle observé, captures evidence/desktop-final.png, evidence/focus-final.png et evidence/conversation-final.png."
+      },
+      {
+        "id": "technical:guided-session",
+        "passed": true,
+        "evidence": "Export final localhost:8082, 390×844 : trois réponses guidées envoyées, fin de dialogue, bilan de 3 réponses et 3 expressions ; retour au carnet, puis rechargement : séance et progression conservées. Captures evidence/summary-final.png, evidence/notebook-final.png et evidence/progress-final.png."
+      },
+      {
+        "id": "technical:checks",
+        "passed": true,
+        "evidence": "TypeScript strict, cinq tests de progression/API réussis ; formatage validé ; exports JavaScript web, iOS et Android réussis. Le fournisseur IA est simulé dans les tests. Ni microphone physique ni réponse OpenAI réelle ni binaire signé vérifiés."
+      },
+      {
+        "id": "technical:guard-connection",
+        "passed": true,
+        "evidence": "Installateur OFA install --ci puis doctor : ready. Build/check/mobile raccordés ; hooks Git locaux installés ; copie temporaire saine acceptée (exit 0), liseré coloré réintroduit rejeté (exit 1). CI portable préparée, aucun remote Git et aucune protection distante vérifiée ou revendiquée."
+      }
+    ],
+    "findings": [
+      {
+        "id": "favicon-missing",
+        "severity": "minor",
+        "observation": "La prévisualisation statique demande favicon.ico, absent (404). Aucun asset fonctionnel de l’interface ne manque : illustrations et icônes sont des SVG inclus.",
+        "recommendation": "Ajouter une icône de navigateur avant une publication web."
+      },
+      {
+        "id": "singular-label",
+        "severity": "minor",
+        "observation": "Après une première séance, le libellé accessible de série emploie 1 jours ; quelques unités de la page Progrès gardent aussi le pluriel à 1.",
+        "recommendation": "Accorder les unités au singulier dans un prochain correctif éditorial."
+      }
+    ],
+    "summary": "Revue réalisée par la même conversation, sur l’export web responsive exact identifié, sans revue indépendante ni validation humaine inventée. Les sept portes de doctrine sont observées dans leur périmètre web. Rendu et permissions natifs, capture/lecture audio réelles, conversation OpenAI, déploiement et distribution non validés. Aucun score artistique ; décision artistique pending-human. Deux détails mineurs documentés."
+  }
+}

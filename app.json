@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "Sensei — Japonais avec Mochi",
+    "slug": "sensei-teach-me",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "scheme": "sensei",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.amtechno.sensei"
+    },
+    "android": {
+      "package": "com.amtechno.sensei",
+      "permissions": ["RECORD_AUDIO"]
+    },
+    "web": {
+      "bundler": "metro",
+      "name": "Sensei — Pratique orale du japonais"
+    },
+    "plugins": [
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "Sensei utilise le micro pendant ton enregistrement pour transcrire ta réponse en japonais."
+        }
+      ]
+    ]
+  }
+}

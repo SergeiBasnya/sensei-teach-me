@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "studio-design-guard.v1",
+  "includes": [
+    "."
+  ],
+  "excludes": [
+    "**/node_modules/**",
+    "**/.git/**",
+    "**/.studio/**",
+    "**/.next/**",
+    "**/.astro/**",
+    "**/.venv/**",
+    "**/__pycache__/**",
+    "**/build/**",
+    "**/coverage/**",
+    "**/output/**",
+    "**/.local/**",
+    "**/vendor/**",
+    "**/tests/**",
+    "**/__tests__/**",
+    "**/*.test.*",
+    "**/*.spec.*"
+  ],
+  "functionalAllowances": []
+}

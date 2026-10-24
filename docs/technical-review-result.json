@@ -1,0 +1,25 @@
+{
+  "doctrineDigest": "sha256:65db957816539bb0d595d05cacda9f1e3dfa1a44ec900e5409986e9bd137f7b1",
+  "artifact": {
+    "root": "/Users/augustdouglas/Documents/projects/apps/sensei-teach-me/build/web",
+    "digest": "sha256:e066cc42d87f205e64510444aa70eeb61aebc0a7d37d964009614929a6aa7d13",
+    "fileCount": 3
+  },
+  "schemaVersion": "prisma-technical-evaluation.v1",
+  "reviewId": "sensei-initial-web-review",
+  "technicalStatus": "pass",
+  "artisticStatus": "not-evaluated",
+  "failures": [],
+  "checkedGateIds": [
+    "doctrine:no-colored-side-stripes",
+    "doctrine:no-card-title-hover-underlines",
+    "doctrine:no-bricolage-grotesque",
+    "doctrine:no-peripheral-filler-copy",
+    "doctrine:section-composition-and-rhythm",
+    "doctrine:responsive-text-clearance",
+    "doctrine:one-clear-cta-per-section",
+    "technical:guided-session",
+    "technical:checks",
+    "technical:guard-connection"
+  ]
+}

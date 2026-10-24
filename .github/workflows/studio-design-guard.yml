@@ -1,0 +1,106 @@
+# Managed by OFA studio design guard CI v1
+name: Studio design guard
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize, ready_for_review, edited]
+  push:
+  merge_group:
+    types: [checks_requested]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: studio-design-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  analyze-studio-design:
+    name: Analyze studio design sources
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      statuses: write
+    steps:
+      - name: Resolve immutable trusted revision
+        id: trusted
+        env:
+          GH_TOKEN: ${{ github.token }}
+          STUDIO_BOOTSTRAP: ${{ vars.STUDIO_DESIGN_GUARD_BOOTSTRAP }}
+        run: |
+          python3 -I - <<'PY'
+          import json, os, re, stat, subprocess
+          from pathlib import Path
+          from urllib.parse import quote
+          # This bootstrap runs on Ubuntu before any repository is checked out.
+          # Root-owned system installations only, never PATH or candidate code.
+          def trusted_gh_executable():
+              for candidate in (Path('/usr/bin/gh'), Path('/bin/gh'), Path('/usr/local/bin/gh')):
+                  try:
+                      executable = candidate.resolve(strict=True)
+                      metadata = executable.stat()
+                      if (not stat.S_ISREG(metadata.st_mode) or metadata.st_uid != 0
+                          or metadata.st_mode & 0o022 or not os.access(executable, os.X_OK)):
+                          continue
+                      for directory in set(candidate.parents) | set(executable.parents):
+                          metadata = directory.stat()
+                          if (not stat.S_ISDIR(metadata.st_mode) or metadata.st_uid != 0
+                              or metadata.st_mode & 0o022):
+                              break
+                      else:
+                          return str(executable)
+                  except (OSError, RuntimeError):
+                      continue
+              raise SystemExit('No trusted gh executable; bootstrap blocked')
+          gh_executable = trusted_gh_executable()
+          with open(os.environ['GITHUB_EVENT_PATH']) as event_file:
+              e = json.load(event_file)
+          event = os.environ['GITHUB_EVENT_NAME']
+          repo = os.environ['GITHUB_REPOSITORY']
+          if e['repository']['full_name'] != repo:
+              raise SystemExit('Repository mismatch')
+          if event == 'pull_request_target':
+              sha = e['pull_request']['base']['sha']
+          elif event == 'merge_group':
+              sha = e['merge_group']['base_sha']
+          else:
+              branch = quote(e['repository']['default_branch'], safe='')
+              data = subprocess.check_output([gh_executable, 'api', '--hostname', 'github.com', 'repos/' + repo + '/git/ref/heads/' + branch])
+              sha = json.loads(data)['object']['sha']
+          if not re.fullmatch('[0-9a-f]{40}', sha):
+              raise SystemExit('Invalid trusted revision')
+          if event == 'push':
+              prefix = 'repos/' + repo
+              def read_api(path):
+                  return json.loads(subprocess.check_output([gh_executable, 'api', '--hostname', 'github.com', prefix + path]))
+              tree = read_api('/git/trees/' + sha + '?recursive=1')
+              if tree.get('truncated') or not isinstance(tree.get('tree'), list):
+                  raise SystemExit('Complete trusted tree required')
+              if not any(x.get('path') == '.studio/design_guard_ci.py' and x.get('type') == 'blob' for x in tree['tree']):
+                  bootstrap = json.loads(os.environ.get('STUDIO_BOOTSTRAP') or '{}')
+                  seed = bootstrap.get('sha', '')
+                  if (bootstrap.get('repository') != repo or bootstrap.get('baseSha') != sha
+                      or e.get('ref') != 'refs/heads/' + bootstrap.get('branch', '')
+                      or not re.fullmatch('[0-9a-f]{40}', seed)):
+                      raise SystemExit('Administrator-approved bootstrap required before initial publication')
+                  pinned = read_api('/git/commits/' + seed)
+                  if pinned.get('sha') != seed or [p['sha'] for p in pinned.get('parents', [])] != [sha]:
+                      raise SystemExit('Bootstrap must be a reviewed direct child of the unchanged default branch')
+                  sha = seed
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              output.write('sha=' + sha + '\n')
+          PY
+      - name: Checkout trusted base only
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ steps.trusted.outputs.sha }}
+          path: studio-trusted
+          persist-credentials: false
+          fetch-depth: 1
+          submodules: false
+          lfs: false
+      - name: Analyze candidate data and report exact commit
+        working-directory: ${{ runner.temp }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          STUDIO_TRUSTED_SHA: ${{ steps.trusted.outputs.sha }}
+        run: python3 -I -B "$GITHUB_WORKSPACE/studio-trusted/.studio/design_guard_ci.py" ci-check --trusted-root "$GITHUB_WORKSPACE/studio-trusted" --event "$GITHUB_EVENT_PATH"
