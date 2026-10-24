@@ -21,7 +21,10 @@ const app = createApp({
   mode: local ? "local" : paid && provider ? "openai" : "unavailable",
   isReady: () => (local ? local.ready() : !!provider),
   localPreview:
-    process.env.SENSEI_LOCAL_PREVIEW === "1" && host === "127.0.0.1",
+    // En LAN aussi, /api/local-session vérifie le pair en boucle locale.
+    // Le téléphone doit toujours fournir le code personnel.
+    process.env.SENSEI_LOCAL_PREVIEW === "1" &&
+    ["127.0.0.1", "0.0.0.0"].includes(host),
   origins: process.env.ALLOWED_ORIGINS?.split(",")
     .map((value: string) => value.trim())
     .filter(Boolean),

@@ -9,7 +9,7 @@ if (!existsSync(path))
   writeFileSync(path, randomBytes(32).toString("hex"), { mode: 0o600 });
 process.env.SENSEI_ACCESS_TOKEN = readFileSync(path, "utf8").trim();
 process.env.SENSEI_PROVIDER = "local";
-process.env.HOST = "127.0.0.1";
+process.env.HOST = process.argv.includes("--lan") ? "0.0.0.0" : "127.0.0.1";
 process.env.PORT = "8787";
 process.env.SENSEI_LOCAL_PREVIEW = "1";
 process.env.ALLOWED_ORIGINS =

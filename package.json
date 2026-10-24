@@ -10,6 +10,7 @@
     "ios": "expo start --ios",
     "server": "node --env-file-if-exists=.env --import tsx server/index.ts",
     "local": "node --import tsx scripts/start-local.ts",
+    "local:lan": "node --import tsx scripts/start-local.ts --lan",
     "oral:check": "node --import tsx scripts/check-local-conversation.ts",
     "design:check": "python3 .studio/design_guard.py --root .",
     "typecheck": "tsc --noEmit",
