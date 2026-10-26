@@ -55,9 +55,6 @@ export function Home({
         >
           こんにちは !
         </Txt>
-        <Txt style={{ color: colors.muted, fontSize: 14, marginTop: 5 }}>
-          On fait un petit pas ensemble aujourd’hui ?
-        </Txt>
       </View>
       <View
         style={{
@@ -103,17 +100,7 @@ export function Home({
                   color: "#3C2A60",
                 }}
               >
-                Fais connaissance{desktop ? "\n" : " "}avec Mochi.
-              </Txt>
-              <Txt
-                style={{
-                  color: "#6D5C88",
-                  fontSize: 13,
-                  lineHeight: 21,
-                  maxWidth: desktop ? 255 : width < 370 ? 135 : 180,
-                }}
-              >
-                Quelques mots suffisent pour commencer à parler japonais.
+                Parle avec Mochi.
               </Txt>
               <Button
                 onPress={() => start(scenes[0]!)}
@@ -124,15 +111,12 @@ export function Home({
                   paddingHorizontal: desktop ? 20 : 15,
                 }}
               >
-                C’est parti
+                Parler
               </Button>
             </View>
           </View>
           <View>
-            <SectionTitle
-              title="Le Japon, en conversation"
-              detail="Des petites scènes pour les vraies situations."
-            />
+            <SectionTitle title="Situations" />
             <View
               style={{
                 flexDirection: width >= 700 ? "row" : "column",

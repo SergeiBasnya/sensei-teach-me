@@ -2,7 +2,7 @@
 
 Version initiale du 24 octobre 2026, pour une personne francophone débutant le japonais. Demande : application personnelle iOS/Android inspirée de Pingo. Réponse utilisateur : débutant, avec phrases simples, traduction et romaji.
 
-Le parcours principal mène de l’accueil à une courte situation, puis au carnet et à la progression. Les exemples préparés sont identifiés comme guidés ; les réponses libres et le micro nécessitent une connexion explicite au serveur personnel. Un enregistrement est transcrit avant validation de l’utilisateur.
+Le parcours principal mène de l’accueil à une situation orale, puis au carnet et à la progression. Le bouton Parler et les situations ouvrent directement la conversation : Mochi parle, puis écoute automatiquement après permission du micro. L’écran est centré sur le compagnon et la question courante ; l’historique, la relecture et le clavier sont accessibles à la demande et mettent l’écoute en pause. Les exemples guidés restent proposés dans Aide lorsque le vocal est déconnecté. Aucune validation de transcription n’est demandée. Les objectifs quotidiens et les séries de jours sont conservés.
 
 L’identité Sensei et le compagnon Mochi sont originaux, dessinés en SVG. Fond clair, violet pour les actions et l’aide, couleurs douces pour les trois situations. Typographie système ; aucune police externe n’est téléchargée. Sur ordinateur : navigation latérale, contenu principal et outils quotidiens. Sur téléphone : navigation basse, scènes en lignes, contenu vertical défilant.
 

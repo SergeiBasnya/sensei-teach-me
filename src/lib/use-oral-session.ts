@@ -11,9 +11,37 @@ import { oralResponseSchema, type ScenarioId } from "../../shared/contracts";
 import { apiRequest, type Connection } from "./api";
 import { beginVoiceActivity, observeVoice } from "./voice-activity";
 import { useJapaneseSpeech } from "../components/japanese-speech";
+import { OralRun } from "./oral-run";
 
 type OralReply = Extract<typeof oralResponseSchema._output, { heard: true }>;
 type History = { role: "user" | "assistant"; content: string }[];
+async function waitForForeground(signal: AbortSignal): Promise<void> {
+  if (AppState.currentState === "active") return;
+  await new Promise<void>((resolve, reject) => {
+    const cleanup = () => {
+      subscription.remove();
+      clearTimeout(timer);
+      signal.removeEventListener("abort", cancel);
+    };
+    const cancel = () => {
+      cleanup();
+      reject(new Error("La conversation est en pause."));
+    };
+    const subscription = AppState.addEventListener("change", (state) => {
+      if (state === "active") {
+        cleanup();
+        resolve();
+      }
+    });
+    const timer = setTimeout(cancel, 15_000);
+    signal.addEventListener("abort", cancel, { once: true });
+    if (signal.aborted) cancel();
+    else if (AppState.currentState === "active") {
+      cleanup();
+      resolve();
+    }
+  });
+}
 export function useOralSession({
   connection,
   scenario,
@@ -34,14 +62,14 @@ export function useOralSession({
     "idle" | "starting" | "listening" | "thinking" | "speaking"
   >("idle");
   const [error, setError] = useState("");
-  const active = useRef(false);
-  const run = useRef(0);
+  const run = useRef(new OralRun()).current;
   const capturing = useRef(false);
+  const stopping = useRef<Promise<void>>(Promise.resolve());
   const mounted = useRef(true);
   const ticker = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
   const abort = useRef<AbortController | null>(null);
-  const latest = useRef({ connection, scenario, history, onReply });
-  latest.current = { connection, scenario, history, onReply };
+  const latest = useRef({ connection, scenario, history, onReply, speech });
+  latest.current = { connection, scenario, history, onReply, speech };
   const discard = useCallback(() => {
     const uri = recorder.uri;
     if (!uri) return;
@@ -51,19 +79,25 @@ export function useOralSession({
       if (file.exists) file.delete();
     }
   }, [recorder]);
-  const stop = useCallback(async () => {
-    active.current = false;
-    run.current++;
+  const stop = useCallback(() => {
+    const id = run.stop();
     clearInterval(ticker.current);
     abort.current?.abort();
-    if (capturing.current) {
-      capturing.current = false;
-      await recorder.stop().catch(() => undefined);
-      discard();
-    }
-    await speech.stopJapanese();
-    if (mounted.current) setPhase("idle");
-  }, [recorder, discard, speech.stopJapanese]);
+    const wasCapturing = capturing.current;
+    capturing.current = false;
+    const previous = stopping.current;
+    const work = (async () => {
+      await previous.catch(() => undefined);
+      if (wasCapturing) {
+        await recorder.stop().catch(() => undefined);
+        discard();
+      }
+      await speech.stopJapanese();
+      if (mounted.current && run.stopped(id)) setPhase("idle");
+    })();
+    stopping.current = work;
+    return work;
+  }, [run, recorder, discard, speech.stopJapanese]);
   const fail = useCallback(
     async (message: string) => {
       await stop();
@@ -72,8 +106,7 @@ export function useOralSession({
     [stop],
   );
   const listen = async (id: number): Promise<void> => {
-    const current = () =>
-      mounted.current && active.current && id === run.current;
+    const current = () => mounted.current && run.current(id);
     if (!current()) return;
     await setAudioModeAsync({ allowsRecording: true, playsInSilentMode: true });
     if (!current()) return;
@@ -104,8 +137,7 @@ export function useOralSession({
     }, 100);
   };
   const submit = async (id: number) => {
-    const current = () =>
-      mounted.current && active.current && id === run.current;
+    const current = () => mounted.current && run.current(id);
     if (!current() || !capturing.current) return;
     capturing.current = false;
     clearInterval(ticker.current);
@@ -171,7 +203,9 @@ export function useOralSession({
       // Le texte est une trace consultable ; son envoi ne demande aucune validation.
       config.onReply(result);
       setPhase("speaking");
-      const played = await speech.playJapaneseAudio(result.audio);
+      const played = await latest.current.speech.playJapaneseAudio(
+        result.audio,
+      );
       if (!current()) return;
       if (!played) {
         await fail(
@@ -179,6 +213,7 @@ export function useOralSession({
         );
         return;
       }
+      run.didRead(id, result.tutor.reply.japanese);
       await listen(id);
     } catch (cause) {
       if (current())
@@ -189,37 +224,50 @@ export function useOralSession({
         );
     }
   };
-  const start = async () => {
-    if (active.current) return;
-    if (!connection?.oral) {
+  const start = useCallback(async () => {
+    if (!latest.current.connection?.oral) {
       setError(
         "Connecte le serveur local avec ses trois moteurs pour parler à Mochi.",
       );
       return;
     }
-    const id = ++run.current;
-    active.current = true;
+    const id = run.begin();
+    if (id === null) return;
     setError("");
     setPhase("starting");
-    const current = () =>
-      mounted.current && active.current && id === run.current;
+    const current = () => mounted.current && run.current(id);
     try {
-      const permission = await AudioModule.requestRecordingPermissionsAsync();
+      await stopping.current;
+      if (!current()) return;
+      run.requestingPermission(id, true);
+      let permission: Awaited<
+        ReturnType<typeof AudioModule.requestRecordingPermissionsAsync>
+      >;
+      try {
+        permission = await AudioModule.requestRecordingPermissionsAsync();
+      } finally {
+        run.requestingPermission(id, false);
+      }
       if (!current()) return;
       if (!permission.granted)
         throw new Error(
           "Autorise l’accès au micro dans ton navigateur ou sur ton téléphone pour parler à Mochi.",
         );
+      const controller = new AbortController();
+      abort.current = controller;
+      await waitForForeground(controller.signal);
+      if (!current()) return;
       const last = [...latest.current.history]
         .reverse()
         .find((message) => message.role === "assistant");
-      if (last) {
+      if (last && run.needsReading(last.content)) {
         setPhase("speaking");
-        const played = await speech.speakJapanese(last.content);
+        const played = await latest.current.speech.speakJapanese(last.content);
         if (!current()) return;
         if (!played)
           throw new Error("La voix de Mochi n’a pas pu démarrer. Réessaie.");
-      }
+        run.didRead(id, last.content);
+      } else await latest.current.speech.stopJapanese();
       await listen(id);
     } catch (cause) {
       if (current())
@@ -227,24 +275,23 @@ export function useOralSession({
           cause instanceof Error ? cause.message : "Le micro est indisponible.",
         );
     }
-  };
+  }, [run, fail, recorder]);
   useEffect(() => {
     mounted.current = true;
     const subscription = AppState.addEventListener("change", (state) => {
-      if (state !== "active") void stop();
+      if (run.shouldPause(state)) void stop();
     });
     return () => {
       mounted.current = false;
       subscription.remove();
       void stop();
     };
-  }, [stop]);
+  }, [run, stop]);
   return {
     phase,
     error,
     active: phase !== "idle",
     start,
     stop,
-    sendNow: () => submit(run.current),
   };
 }

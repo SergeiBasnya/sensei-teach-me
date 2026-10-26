@@ -1,0 +1,75 @@
+{
+  "doctrineDigest": "sha256:65db957816539bb0d595d05cacda9f1e3dfa1a44ec900e5409986e9bd137f7b1",
+  "review": {
+    "schemaVersion": "prisma-technical-review.v1",
+    "id": "mochi-simple-automatic-conversation",
+    "missionId": "sensei-japanese-oral-mvp",
+    "decisionId": "mochi-speaking-first",
+    "artifact": {
+      "root": "../build/web",
+      "digest": "sha256:bf0d15d8ff59249c78f19893d0f5ae81a25f1afbdebd89c123e79d5561072512"
+    },
+    "observedAt": "2026-10-26T08:53:39.262236+00:00",
+    "gates": [
+      {
+        "id": "doctrine:no-colored-side-stripes",
+        "passed": true,
+        "evidence": "Rendu final observé : accueil 390×844 et 320×568 ; conversation et panneaux à 390×844 et 320×568 ; ordinateur 1440×1000. Fond blanc de conversation, contours complets des cartes de situations, fond plein des erreurs et aides. Aucun liseré coloré décoratif latéral ou supérieur observé. Cercle quotidien fonctionnel conservé. Captures evidence/simple-listening-390.png, simple-help-390.png, simple-permission-denied.png, simple-home-hover.png. Garde statique clair sans nouvelle allowance."
+      },
+      {
+        "id": "doctrine:no-card-title-hover-underlines",
+        "passed": true,
+        "evidence": "Survol réel de Un café à Tokyo à 1440×1000 : contour complet violet, titre sans soulignement. Les nouvelles commandes de conversation reçoivent le contour de focus global de 3 px ; le bouton central a été ciblé après tabulation et son outline calculé est rgb(115, 80, 198) solid 3px. Captures evidence/simple-home-hover.png et simple-call-control-focus.png."
+      },
+      {
+        "id": "doctrine:no-bricolage-grotesque",
+        "passed": true,
+        "evidence": "Familles calculées des textes visibles de la conversation finale : system-ui, -apple-system, system-ui, Segoe UI, sans-serif. Aucune famille externe introduite ni famille interdite appliquée dans le rendu web observé. Captures evidence/simple-listening-390.png, simple-call-desktop.png et simple-help-320.png. Familles natives physiques non observées ; aucun import de police ajouté."
+      },
+      {
+        "id": "doctrine:no-peripheral-filler-copy",
+        "passed": true,
+        "evidence": "La conversation garde uniquement la question japonaise, le romaji et le français utiles au débutant, une durée et un statut court. Les répétitions de consignes, badges techniques et informations de traitement ont été retirées de cet écran ; traitement et crédit vocal restent dans les réglages. Les aides, l’historique et les corrections ont leur panneau fonctionnel. Sur l’accueil, l’invitation et la promesse redondantes sont retirées. Captures evidence/simple-home-390.png, simple-listening-390.png et simple-help-390.png."
+      },
+      {
+        "id": "doctrine:section-composition-and-rhythm",
+        "passed": true,
+        "evidence": "L’accueil conserve introduction avec compagnon, choix de situations, accès libre et progression quotidienne. La conversation adopte une composition centrale avec compagnon et question, en-tête réduit et commandes en bas. Les panneaux d’aide et d’historique utilisent une surface défilante depuis le bas ; les préférences de traduction sont conservées. Captures evidence/simple-home-hover.png, simple-call-desktop.png, simple-help-390.png et simple-history-390.png. Composition des objectifs et séries conservée."
+      },
+      {
+        "id": "doctrine:responsive-text-clearance",
+        "passed": true,
+        "evidence": "Rendus stabilisés observés à 320×568, 390×844, 844×390 et 1440×1000. En portrait, la question, le romaji, le français et les trois contrôles gardent leurs marges ; les titres des panneaux reviennent à la ligne et leurs contenus défilent. Le refus micro à 390×844 garde le bouton central visible (76×76, x157/y713). La fenêtre courte permet de faire défiler la zone centrale sans déplacer les commandes ; le défilement choisi montre le texte principal. Captures evidence/simple-call-320.png, simple-help-320.png, simple-call-short.png et simple-permission-denied.png. Les captures prises pendant un redimensionnement ont été remplacées par des états stabilisés. Aucun débordement horizontal constaté."
+      },
+      {
+        "id": "doctrine:one-clear-cta-per-section",
+        "passed": true,
+        "evidence": "Accueil : Parler démarre la présentation ; les situations donnent accès à leur propre conversation. Conversation : commande centrale de pause/reprise, Historique et Aide comme contrôles fonctionnels. Aide : Reprendre est le bouton principal ; relecture et clavier sont secondaires et fonctionnels. En absence de vocal, Connecter le vocal ouvre les réglages et un exemple guidé reste accessible. Captures evidence/simple-home-390.png, simple-listening-390.png, simple-help-390.png et simple-call-control-focus.png. Aucune nouvelle sollicitation promotionnelle."
+      },
+      {
+        "id": "technical:automatic-oral-flow",
+        "passed": true,
+        "evidence": "Sur cet artefact exact, un seul appui sur Parler ouvre la conversation ; aucun appui sur une icône son ou micro. La première lecture finit avant le premier MediaRecorder.start : événements à 3727,4 ms puis 3729,3 ms après ouverture. Deux phrases synthétiques sont enregistrées et envoyées automatiquement aux vrais Whisper/Qwen/VOICEVOX ; HTTP 200 en 3153 et 3182 ms, avec transcription et WAV. Le micro reprend après chaque lecture. Pause/reprise et retour depuis Aide n’ajoutent pas de relecture de la question. Captures evidence/simple-listening-390.png, simple-help-390.png et simple-history-390.png."
+      },
+      {
+        "id": "technical:permission-and-background",
+        "passed": true,
+        "evidence": "Dans le navigateur isolé, getUserMedia est remplacé par un refus explicite : message français, bouton de reprise et zéro appel oral. Visibilité hidden puis retour visible simulés : l’écoute passe en pause et n’est pas relancée au retour. Les tests purs couvrent la boîte de permission, les identifiants de démarrage périmés et la lecture déjà terminée. L’attente du premier plan et la sérialisation des arrêts sont implémentées ; leur comportement sur Android physique reste à vérifier. Captures evidence/simple-permission-denied.png et simple-background-paused.png."
+      },
+      {
+        "id": "technical:progress-and-builds",
+        "passed": true,
+        "evidence": "Vingt tests, types et formatage passent ; exports web et bundles iOS/Android réussis. Après deux tours, Terminer enregistre la séance, ses réponses, sa durée au premier plan et la série de jours ; le cercle quotidien et la semaine restent présents (evidence/simple-progress-desktop.png). Aucun faux score de prononciation. Serveur LAN vérifié ready/oral true en mode local ; bundle Expo Android contenant le nouveau panneau et le gestionnaire de permission, sans le code personnel. Doctor OFA ready, aucun remote et aucune nouvelle CI générale."
+      }
+    ],
+    "findings": [
+      {
+        "id": "generated-french",
+        "severity": "minor",
+        "observation": "Une traduction générée dans l’historique comporte une tournure française maladroite. La fidélité pédagogique du modèle n’est pas une mesure apportée par ces tests de parcours.",
+        "recommendation": "Améliorer la vérification des traductions dans un travail dédié au modèle de conversation."
+      }
+    ],
+    "summary": "Démarrage automatique et interface orale simplifiée vérifiés sur l’export web exact dans cette conversation, sans revue indépendante ni approbation artistique inventée. Référence fonctionnelle Pingo consultée, avec identité et assets originaux. Progression existante conservée. Flux audio synthétique et états de permission/visibilité contrôlés ; aucun micro humain ni appareil Android/iOS physique utilisé. Exports mobiles et bundle Expo Go servis, sans APK signé. Mac toujours nécessaire pour les moteurs gratuits. Les marges natives système utilisent les insets, sans observation physique. Comparatif intégral des textes dans CONVERSATION-TEXTES-AVANT-APRES.md. OFA révision 10 et doctrine canonique appliqués dans leur périmètre."
+  }
+}

@@ -4,11 +4,11 @@ Demande humaine : parler à Mochi et entendre sa réponse sans valider une trans
 
 ## Parcours livré
 
-Un appui sur le micro autorise le démarrage de la séance. Mochi lit sa dernière question, puis le micro écoute. Une pause de 1,8 seconde après au moins 300 ms de signal vocal déclenche un tour automatiquement. Le serveur transcrit, génère une réponse japonaise et sa traduction française, puis synthétise la réponse. Le micro reprend seulement après la fin réelle de la lecture. Aucun champ de validation ne s’ouvre dans cette boucle.
+L’ouverture d’une situation connectée démarre la séance et demande la permission du micro si nécessaire. Mochi lit sa première question, puis le micro écoute après la fin réelle de la lecture. Une pause de 1,8 seconde après au moins 300 ms de signal vocal déclenche un tour automatiquement. Le serveur transcrit, génère une réponse japonaise et sa traduction française, puis synthétise la réponse. Le micro reprend après cette lecture. Aucun appui sur une icône son ni validation de texte n’est nécessaire.
 
-Pause, sortie de séance, passage en arrière-plan et ouverture volontaire du clavier interrompent la boucle. Un silence initial de 15 secondes la met en pause ; 30 secondes bornent un tour. Le bouton facultatif « J’ai fini de parler » permet d’envoyer en environnement bruyant. Les boutons de relecture sont désactivés pendant l’échange pour éviter deux lectures concurrentes.
+Pause, sortie de séance, passage en arrière-plan et ouverture d’Aide ou d’Historique interrompent la boucle. Le démarrage attend le retour au premier plan après une boîte de permission. Les arrêts sont sérialisés avant une reprise pour éviter qu’un ancien arrêt coupe le nouveau micro. Une reprise ne relit pas une question déjà entièrement entendue ; une lecture interrompue peut être reprise depuis son début. Un silence initial de 15 secondes met en pause ; 30 secondes bornent un tour. L’envoi repose sur la détection de fin de phrase.
 
-Le texte sert de trace de conversation. L’exemple de présentation est retiré après le premier tour connecté, pour ne pas proposer une ancienne réponse face à une nouvelle question.
+L’écran principal montre Mochi, la question courante, le romaji et la traduction selon les préférences, puis une commande pause/reprise et un état court. L’historique complet et les corrections sont dans Historique. Aide contient la relecture, le clavier et, avant la première réponse, un exemple à prononcer. Cet exemple est retiré après le premier tour connecté. Les objectifs, les séances, les séries et le carnet conservent leur fonctionnement.
 
 ## Moteurs et ressources
 
@@ -32,7 +32,7 @@ Les moteurs sont persistants, avec délai maximal et file bornée. Le worker de 
 
 ## Vérification et limites
 
-Treize tests automatisés couvrent les tours oraux, l’absence de validation, le silence, les pauses de niveau sonore, les entrées invalides et les contrôles d’accès. `npm run oral:check` exécute réellement deux tours HTTP avec les trois moteurs : deux phrases synthétiques sont reconnues et deux réponses WAV sont produites avec le contexte conservé.
+Vingt tests automatisés couvrent les tours oraux, l’absence de validation, le silence, les pauses de niveau sonore, les entrées invalides, les contrôles d’accès, la restauration de connexion, l’invalidation des anciens démarrages et la reprise sans relecture. `npm run oral:check` permet de vérifier deux tours HTTP avec les trois moteurs. Le contrôle navigateur du 26 octobre vérifie directement l’ouverture automatique, deux tours audio, la reprise et les panneaux sur l’export final ; il utilise un flux synthétique et les vrais moteurs.
 
 La recette navigateur utilise des phrases enregistrées injectées dans un flux Web Audio de test, avec le vrai enregistreur MediaRecorder, le vrai niveau sonore, les appels HTTP et la lecture effective. Aucune réponse IA n’est simulée. Ce test n’emploie pas le micro réel du Mac et ne certifie pas la reconnaissance d’une voix humaine, son accent ou le bruit ambiant. Le périphérique virtuel basé sur un fichier de Chrome est resté silencieux dans cet environnement ; le flux Web Audio contrôlé constitue donc la preuve du parcours automatisé.
 
