@@ -13,7 +13,7 @@ import { StatusBar } from "expo-status-bar";
 import { scenes, type Scene } from "./data/lessons";
 import { addWords, dayKey, getStats } from "./lib/progress";
 import { useProgress } from "./lib/use-progress";
-import { connectLocalPreview, type Connection } from "./lib/api";
+import { useConnection } from "./lib/use-connection";
 import { formatDuration } from "./lib/format";
 import { Conversation, type SessionResult } from "./components/conversation";
 import { Icon, Mochi, type IconName } from "./components/art";
@@ -48,32 +48,15 @@ function Sensei() {
   const [tab, setTab] = useState<Tab>("home");
   const [session, setSession] = useState<Scene | null>(null);
   const [settings, setSettings] = useState(false);
-  const [connection, setConnection] = useState<Connection | null>(null);
-  useEffect(() => {
-    if (Platform.OS !== "web") return;
-    const controller = new AbortController();
-    let timer: ReturnType<typeof setTimeout>;
-    let attempts = 0;
-    const connect = async () => {
-      try {
-        const local = await connectLocalPreview(controller.signal);
-        if (controller.signal.aborted) return;
-        if (local) {
-          setConnection((previous) => previous || local);
-          return;
-        }
-      } catch {
-        /* Le mode guidé reste disponible sans serveur. */
-      }
-      if (!controller.signal.aborted && ++attempts < 20)
-        timer = setTimeout(() => void connect(), 2000);
-    };
-    void connect();
-    return () => {
-      controller.abort();
-      clearTimeout(timer);
-    };
-  }, []);
+  const {
+    connection,
+    saved,
+    status: connectionStatus,
+    error: connectionError,
+    suggestedUrl,
+    setConnection,
+    reconnect,
+  } = useConnection();
   const [summary, setSummary] = useState<{
     scene: Scene;
     result: SessionResult;
@@ -356,6 +339,7 @@ function Sensei() {
                     desktop={desktop}
                     start={start}
                     setProgress={setProgress}
+                    connectionStatus={connectionStatus}
                   />
                 )}
                 {tab === "practice" && (
@@ -441,6 +425,11 @@ function Sensei() {
                 progress={progress}
                 setProgress={setProgress}
                 connection={connection}
+                savedConnection={saved}
+                connectionStatus={connectionStatus}
+                connectionError={connectionError}
+                suggestedUrl={suggestedUrl}
+                reconnect={reconnect}
                 setConnection={setConnection}
                 onClose={() => setSettings(false)}
               />

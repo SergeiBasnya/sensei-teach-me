@@ -68,7 +68,11 @@ export async function apiRequest(
   signal?.addEventListener("abort", cancel, { once: true });
   const timer = setTimeout(
     cancel,
-    path === "/api/oral-turn" ? 100_000 : 85_000,
+    path === "/api/health"
+      ? 6000
+      : path === "/api/oral-turn"
+        ? 100_000
+        : 85_000,
   );
   try {
     const response = await fetch(`${validServerUrl(connection.url)}${path}`, {

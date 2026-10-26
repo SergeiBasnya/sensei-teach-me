@@ -1,13 +1,17 @@
-import { useState } from "react";
-import { Pressable, ScrollView, Switch, TextInput, View } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import {
+  Platform,
+  Pressable,
+  ScrollView,
+  Switch,
+  TextInput,
+  View,
+} from "react-native";
 import { healthSchema } from "../../shared/contracts";
 import type { Progress } from "../lib/progress";
-import {
-  apiRequest,
-  defaultApiUrl,
-  validServerUrl,
-  type Connection,
-} from "../lib/api";
+import { apiRequest, validServerUrl, type Connection } from "../lib/api";
+import { isLoopbackUrl, type ConnectionConfig } from "../lib/connection-config";
+import type { ConnectionStatus } from "../lib/use-connection";
 import { appStyles as s } from "../styles";
 import { voiceCredit } from "../data/recorded-speech";
 import {
@@ -23,24 +27,48 @@ export function Settings({
   progress,
   setProgress,
   connection,
+  savedConnection,
+  connectionStatus,
+  connectionError,
+  suggestedUrl,
+  reconnect,
   setConnection,
   onClose,
 }: {
   progress: Progress;
   setProgress: React.Dispatch<React.SetStateAction<Progress>>;
   connection: Connection | null;
+  savedConnection: ConnectionConfig | null;
+  connectionStatus: ConnectionStatus;
+  connectionError: string;
+  suggestedUrl: string;
+  reconnect: () => Promise<boolean>;
   setConnection: (value: Connection | null) => void;
   onClose: () => void;
 }) {
-  const [url, setUrl] = useState(connection?.url || defaultApiUrl);
-  const [token, setToken] = useState(connection?.token || "");
+  const [url, setUrl] = useState(
+    connection?.url || savedConnection?.url || suggestedUrl,
+  );
+  const [token, setToken] = useState(
+    connection?.token || savedConnection?.token || "",
+  );
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const edited = useRef(false);
+  useEffect(() => {
+    if (edited.current) return;
+    setUrl(connection?.url || savedConnection?.url || suggestedUrl);
+    setToken(connection?.token || savedConnection?.token || "");
+  }, [connection, savedConnection, suggestedUrl]);
   const connect = async () => {
     setBusy(true);
     setError("");
     try {
       const next = { url: validServerUrl(url), token: token.trim() };
+      if (Platform.OS !== "web" && isLoopbackUrl(next.url))
+        throw new Error(
+          "Sur ton téléphone, utilise l’adresse Wi-Fi de ton Mac. localhost désigne le téléphone lui-même.",
+        );
       if (next.token.length < 16)
         throw new Error(
           "Le code personnel doit contenir au moins 16 caractères et correspondre à celui du serveur.",
@@ -167,16 +195,47 @@ export function Settings({
         </Txt>
         <View style={{ gap: 12 }}>
           <SectionTitle
-            title="Conversation avec l’IA"
-            detail="Dialogue, transcription et voix gratuits sur ton serveur personnel."
+            title="Conversation orale"
+            detail="Associe ton téléphone à Mochi une fois, puis retrouve ta connexion à chaque ouverture."
           />
-          {connection && (
+          {connectionStatus === "ready" && connection && (
             <Badge color={colors.green} background="#EDF4EF" icon="check">
               {connection.mode === "local"
-                ? "Moteurs locaux connectés"
+                ? "Vocal gratuit prêt"
                 : "Serveur OpenAI connecté"}
             </Badge>
           )}
+          {connectionStatus === "checking" && (
+            <Txt
+              accessibilityLiveRegion="polite"
+              style={{ color: colors.muted, fontSize: 13 }}
+            >
+              Vérification du vocal…
+            </Txt>
+          )}
+          {connectionStatus === "partial" && (
+            <Txt style={{ color: colors.muted, fontSize: 13 }}>
+              Le dialogue est connecté, mais la voix est indisponible.
+            </Txt>
+          )}
+          {connectionStatus === "offline" && (
+            <Txt style={{ color: colors.muted, fontSize: 13 }}>
+              Mochi n’est pas joignable. Vérifie que ton Mac est allumé et
+              accessible depuis ton téléphone.
+            </Txt>
+          )}
+          {(connectionStatus === "offline" || connectionStatus === "empty") &&
+            (savedConnection || Platform.OS === "web") && (
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => void reconnect()}
+                style={{ paddingVertical: 8 }}
+              >
+                <Txt style={{ color: colors.purple, fontSize: 13 }}>
+                  Réessayer la connexion au vocal
+                </Txt>
+              </Pressable>
+            )}
           <Txt style={{ color: colors.muted, fontSize: 12 }}>
             Adresse du serveur
           </Txt>
@@ -184,9 +243,14 @@ export function Settings({
             accessibilityLabel="Adresse du serveur IA"
             style={s.field}
             autoCapitalize="none"
+            autoCorrect={false}
             keyboardType="url"
             value={url}
-            onChangeText={setUrl}
+            maxLength={500}
+            onChangeText={(value) => {
+              edited.current = true;
+              setUrl(value);
+            }}
             placeholder="https://mon-serveur.exemple.fr"
           />
           <Txt style={{ color: colors.muted, fontSize: 12 }}>
@@ -196,15 +260,23 @@ export function Settings({
             accessibilityLabel="Code d’accès personnel"
             secureTextEntry
             autoCapitalize="none"
+            autoCorrect={false}
             style={s.field}
             value={token}
-            onChangeText={setToken}
-            placeholder="Ton code SENSEI_ACCESS_TOKEN"
+            maxLength={512}
+            onChangeText={(value) => {
+              edited.current = true;
+              setToken(value);
+            }}
+            placeholder="Le code fourni pour ton téléphone"
           />
           <Txt style={{ color: colors.muted, fontSize: 11, lineHeight: 18 }}>
             {connection?.mode === "openai"
-              ? "Ce serveur utilise OpenAI : audio et messages lui sont transmis. Le code reste en mémoire jusqu’à la fermeture."
-              : "Mochi utilise Whisper, Qwen et VOICEVOX sur ton serveur personnel. Aucun compte ni appel IA payant. Le code reste en mémoire jusqu’à la fermeture."}
+              ? "Ce serveur utilise OpenAI : audio et messages lui sont transmis."
+              : "La conversation utilise des moteurs gratuits sur ton Mac, qui doit rester allumé. Aucun compte ni clé OpenAI nécessaire."}
+            {Platform.OS !== "web"
+              ? " La connexion est conservée dans le stockage sécurisé de ton téléphone."
+              : " L’aperçu sur ce Mac se reconnecte automatiquement au serveur local."}
           </Txt>
           {error && (
             <Txt
@@ -214,6 +286,14 @@ export function Settings({
               {error}
             </Txt>
           )}
+          {connectionError && (
+            <Txt
+              accessibilityRole="alert"
+              style={{ color: "#A34845", fontSize: 13 }}
+            >
+              {connectionError}
+            </Txt>
+          )}
           <Button loading={busy} onPress={() => void connect()} icon="spark">
             {connection ? "Vérifier la connexion" : "Connecter mon serveur"}
           </Button>
@@ -221,6 +301,7 @@ export function Settings({
             <Pressable
               accessibilityRole="button"
               onPress={() => {
+                edited.current = false;
                 setConnection(null);
                 setToken("");
               }}

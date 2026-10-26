@@ -1,0 +1,75 @@
+{
+  "doctrineDigest": "sha256:65db957816539bb0d595d05cacda9f1e3dfa1a44ec900e5409986e9bd137f7b1",
+  "review": {
+    "schemaVersion": "prisma-technical-review.v1",
+    "id": "sensei-mobile-vocal-connection",
+    "missionId": "sensei-japanese-oral-mvp",
+    "decisionId": "sensei-mochi-mobile-first",
+    "artifact": {
+      "root": "../build/web",
+      "digest": "sha256:c12ddb1f4503559bd22c947ba9d360813a6c5ce9cf6ab67ea324219168ab2e0d"
+    },
+    "observedAt": "2026-10-26T07:58:42.363854+00:00",
+    "gates": [
+      {
+        "id": "doctrine:no-colored-side-stripes",
+        "passed": true,
+        "evidence": "Accueil, réglages connectés et indisponibles observés à 390×844 et 320×568 ; accueil et réglages à 1440×1000. Fonds pleins et contours complets neutres ; aucun liseré coloré décoratif latéral ou supérieur dans ces zones. Séparateur de préférences neutre. Captures evidence/mobile-home-390.png, mobile-settings-390.png, mobile-offline-390.png, mobile-settings-desktop.png. Contrôle statique clair, sans allowance ou baseline ajoutée."
+      },
+      {
+        "id": "doctrine:no-card-title-hover-underlines",
+        "passed": true,
+        "evidence": "À 1440×1000, survol de Un café à Tokyo : contour complet violet, titre sans soulignement. Tabulation suivante : focus violet complet de 3 px autour de C’est parti, distinct de son fond plein. Captures evidence/mobile-desktop-hover.png et mobile-desktop-focus.png. Décoration calculée du titre : none."
+      },
+      {
+        "id": "doctrine:no-bricolage-grotesque",
+        "passed": true,
+        "evidence": "Sur l’export final, les textes observés dans l’accueil et les réglages utilisent system-ui, -apple-system, system-ui, Segoe UI, sans-serif. document.fonts.size = 0 ; aucune famille externe ni famille interdite chargée. Captures evidence/mobile-home-390.png, mobile-settings-390.png et mobile-desktop-hover.png. Familles natives sur appareil physique non observées."
+      },
+      {
+        "id": "doctrine:no-peripheral-filler-copy",
+        "passed": true,
+        "evidence": "Le nouveau badge de l’accueil décrit la vérification du vocal. Les textes des réglages expliquent l’association, la disponibilité du serveur, le Mac nécessaire et le traitement local. Le crédit vocal reste lié à la lecture. Dans la conversation, les petites lignes décrivent l’écoute, l’envoi automatique et la durée. Aucun slogan périphérique ajouté. Captures evidence/mobile-settings-390.png, mobile-offline-390.png et mobile-oral-listening.png."
+      },
+      {
+        "id": "doctrine:section-composition-and-rhythm",
+        "passed": true,
+        "evidence": "Accueil 1440×1000 : présentation avec personnage, catalogue de situations et accès libre, objectifs dans une colonne. À 390×844 : présentation puis situations et navigation basse. Réglages : préférences, séparateur neutre, crédit vocal puis formulaire de connexion ; l’en-tête reste fixe pendant le défilement. Conversation : fil de bulles et commandes fixes. Captures evidence/mobile-desktop-hover.png, mobile-home-390.png, mobile-settings-desktop.png et mobile-oral-listening.png."
+      },
+      {
+        "id": "doctrine:responsive-text-clearance",
+        "passed": true,
+        "evidence": "Formats observés : 320×568, 390×844 et 1440×1000. Le titre Conversation orale, le statut, les champs et les explications reviennent à la ligne avec des marges latérales. À 320×568, le formulaire défile sous son en-tête fixe ; ses textes et son bouton restent lisibles en position haute et basse. L’accueil défile normalement derrière la navigation basse. Le titre de conversation et le badge occupent des colonnes séparées ; les bulles restent lisibles. Aucun débordement horizontal détecté ni collision de texte observée. Captures evidence/mobile-settings-320.png, mobile-settings-top-320.png, mobile-home-320.png et mobile-oral-paused.png."
+      },
+      {
+        "id": "doctrine:one-clear-cta-per-section",
+        "passed": true,
+        "evidence": "Accueil : C’est parti ouvre la situation de présentation ; chaque situation est un accès au dialogue correspondant, l’accès libre a son bouton propre. Réglages : Vérifier la connexion ou Connecter mon serveur soumet le formulaire ; nouvelle tentative et déconnexion sont des contrôles fonctionnels. Conversation : micro pour démarrer ou mettre en pause, avec clavier et aide fonctionnels. Focus du CTA principal visible sur ordinateur. Captures evidence/mobile-desktop-focus.png, mobile-settings-390.png et mobile-oral-listening.png."
+      },
+      {
+        "id": "technical:connection",
+        "passed": true,
+        "evidence": "Le navigateur isolé recharge l’export final sur localhost:8082 et affiche Vocal prêt après les vrais appels de connexion et santé. Une réponse de santé 503 simulée uniquement dans ce profil affiche Vocal à connecter et le message d’indisponibilité ; retrait de la simulation puis nouvelle tentative retrouve le vrai serveur et synchronise le code dans le champ masqué, sans l’imprimer. Nouveau rechargement : Vocal prêt. Le LAN authentifié répond ready/oral true en mode local ; le bundle Android servi par Expo Go contient SecureStore et le nouveau statut, sans le code personnel."
+      },
+      {
+        "id": "technical:oral-loop",
+        "passed": true,
+        "evidence": "Sur cet export : phrase synthétique japonaise injectée dans un flux Web Audio de test, vrai MediaRecorder, détection de silence et vrais moteurs Whisper/Qwen/VOICEVOX. Réponse HTTP 200 en 5311 ms avec transcription correcte et audio ; la lecture finit et le micro reprend. Pause volontaire vérifiée, aucun champ texte de confirmation présent. Captures evidence/mobile-oral-listening.png et mobile-oral-paused.png. Deux tours du contrôle oral HTTP passent aussi durant cette intervention. Aucun micro humain utilisé."
+      },
+      {
+        "id": "technical:builds-and-storage",
+        "passed": true,
+        "evidence": "17 tests, types et formatage passent ; exports web et bundles iOS/Android produits. Quatre tests couvrent adresse Expo native, rejet de boucle locale, restauration corrompue et absence de disponibilité mémorisée. La persistance native utilise Expo SecureStore avec écriture/suppression en file, la disponibilité est revérifiée à l’ouverture et au retour au premier plan. Ce stockage et le micro sur Android/iOS physiques restent non observés. Doctor OFA ready et garde actif. Aucun remote Git ; aucune CI générale ajoutée."
+      }
+    ],
+    "findings": [
+      {
+        "id": "favicon-missing",
+        "severity": "minor",
+        "observation": "L’aperçu statique demande favicon.ico, absent (404). Les assets fonctionnels observés chargent.",
+        "recommendation": "Ajouter une icône avant publication web."
+      }
+    ],
+    "summary": "Vérification du rendu web exact et de la connexion vocale dans cette conversation, sans revue indépendante ni approbation artistique supposée. Moteurs gratuits sur le Mac personnel ; aucune autonomie de calcul sur téléphone. Le paquet Android servi contient les corrections, mais aucun APK signé, installation physique, micro humain ou stockage natif physique vérifié. La sélection Voix A reste acquise ; cette version attend un retour humain. Directives OFA révision 10 appliquées aux nouveaux textes et contrôles dans leur périmètre ; comparatif éditorial complet dans MOBILE-TEXTES-AVANT-APRES.md."
+  }
+}

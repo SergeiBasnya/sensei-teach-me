@@ -24,6 +24,12 @@
         {
           "microphonePermission": "Sensei utilise le micro pendant ton enregistrement pour transcrire ta réponse en japonais."
         }
+      ],
+      [
+        "expo-secure-store",
+        {
+          "faceIDPermission": false
+        }
       ]
     ]
   }

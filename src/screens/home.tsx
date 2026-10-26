@@ -1,5 +1,6 @@
 import { Pressable, View, useWindowDimensions } from "react-native";
 import { useJapaneseSpeech } from "../components/japanese-speech";
+import type { ConnectionStatus } from "../lib/use-connection";
 import { dailyPhrase, freeScene, scenes, type Scene } from "../data/lessons";
 import { addWords, getStats, type Progress } from "../lib/progress";
 import { Icon, Mochi } from "../components/art";
@@ -20,11 +21,13 @@ export function Home({
   desktop,
   start,
   setProgress,
+  connectionStatus,
 }: {
   progress: Progress;
   desktop: boolean;
   start: (scene: Scene) => void;
   setProgress: React.Dispatch<React.SetStateAction<Progress>>;
+  connectionStatus: ConnectionStatus;
 }) {
   const { speakJapanese, error: speechError } = useJapaneseSpeech();
   const { width } = useWindowDimensions();
@@ -84,7 +87,11 @@ export function Home({
               }}
             >
               <Badge background="#FFFFFFB8" icon="spark">
-                Ta première conversation
+                {connectionStatus === "ready"
+                  ? "Vocal prêt"
+                  : connectionStatus === "checking"
+                    ? "Connexion…"
+                    : "Vocal à connecter"}
               </Badge>
               <Txt
                 accessibilityRole="header"
