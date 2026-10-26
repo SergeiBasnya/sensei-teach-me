@@ -1,7 +1,8 @@
-import type { Phrase, ScenarioId } from "../../shared/contracts";
+import type { LessonId, Phrase, ScenarioId } from "../../shared/contracts";
 
 export type Scene = {
   id: ScenarioId;
+  lessonId?: LessonId;
   title: string;
   subtitle: string;
   place: string;

@@ -15,6 +15,7 @@ import {
   type TutorReply,
 } from "../shared/contracts";
 import type { SpeechProvider } from "./local-speech";
+import { getLesson } from "../shared/learning-plan";
 
 export interface TutorProvider {
   turn: (input: typeof turnRequestSchema._output) => Promise<TutorReply>;
@@ -33,6 +34,14 @@ export function createProvider(apiKey: string): TutorProvider {
         max_output_tokens: 1000,
         instructions: `Tu es Mochi, un tuteur de japonais pour un adulte francophone tout débutant (avant JLPT N5). Scénario : ${input.scenario}. Reste dans cette situation, réponds naturellement en japonais poli très simple en une ou deux phrases courtes, puis pose une seule petite question. Fournis la lecture romaji exacte et une traduction française naturelle dans reply. Accepte le français et le romaji pour aider à démarrer. N'invente pas d'erreur : correction est null si la phrase est acceptable ; sinon recopie la phrase originale complète, propose une correction et une courte explication française bienveillante. Ne juge jamais la prononciation à partir du texte ou d'une transcription. Donne au maximum deux expressions courtes utiles dans vocabulary avec romaji et français. Ne prétends pas enregistrer de données ni connaître des séances précédentes.`,
         input: [
+          ...(input.lessonId
+            ? [
+                {
+                  role: "developer" as const,
+                  content: `Current practice objective: ${getLesson(input.lessonId)!.focus} Keep the exchange focused on this beginner objective.`,
+                },
+              ]
+            : []),
           ...input.history,
           { role: "user" as const, content: input.text },
         ],
@@ -295,6 +304,7 @@ export function createApp({
     const tutor = tutorReplySchema.parse(
       await provider.turn({
         scenario: parsed.data.scenario,
+        ...(parsed.data.lessonId ? { lessonId: parsed.data.lessonId } : {}),
         history: parsed.data.history,
         text: transcript,
       }),

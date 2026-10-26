@@ -5,6 +5,7 @@ import { createInterface } from "node:readline";
 import { z } from "zod";
 import { tutorReplySchema, helpResponseSchema } from "../shared/contracts";
 import type { TutorProvider } from "./app";
+import { getLesson } from "../shared/learning-plan";
 
 export type LocalTutor = TutorProvider & {
   ready: () => boolean;
@@ -137,7 +138,13 @@ export function createLocalTutor(): LocalTutor | undefined {
   return {
     ready: () => ready,
     async turn(input) {
-      return tutorReplySchema.parse(await call({ kind: "turn", ...input }));
+      return tutorReplySchema.parse(
+        await call({
+          kind: "turn",
+          ...input,
+          objective: getLesson(input.lessonId)?.focus,
+        }),
+      );
     },
     async transcribe(input) {
       return z

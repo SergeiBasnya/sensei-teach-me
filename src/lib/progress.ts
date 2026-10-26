@@ -1,11 +1,16 @@
 import { z } from "zod";
-import { phraseSchema, type Phrase } from "../../shared/contracts";
+import {
+  lessonIdSchema,
+  phraseSchema,
+  type Phrase,
+} from "../../shared/contracts";
 
 export const progressSchema = z.object({
   sessions: z.array(
     z.object({
       id: z.string(),
       scenario: z.string(),
+      lessonId: lessonIdSchema.optional(),
       date: z.string(),
       seconds: z.number().nonnegative(),
       turns: z.number().int().nonnegative(),

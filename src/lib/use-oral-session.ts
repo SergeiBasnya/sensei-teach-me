@@ -45,11 +45,13 @@ async function waitForForeground(signal: AbortSignal): Promise<void> {
 export function useOralSession({
   connection,
   scenario,
+  lessonId,
   history,
   onReply,
 }: {
   connection: Connection | null;
   scenario: ScenarioId;
+  lessonId?: import("../../shared/contracts").LessonId;
   history: History;
   onReply: (reply: OralReply) => void;
 }) {
@@ -69,8 +71,15 @@ export function useOralSession({
   const mounted = useRef(true);
   const ticker = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
   const abort = useRef<AbortController | null>(null);
-  const latest = useRef({ connection, scenario, history, onReply, speech });
-  latest.current = { connection, scenario, history, onReply, speech };
+  const latest = useRef({
+    connection,
+    scenario,
+    lessonId,
+    history,
+    onReply,
+    speech,
+  });
+  latest.current = { connection, scenario, lessonId, history, onReply, speech };
   const discard = useCallback(() => {
     const uri = recorder.uri;
     if (!uri) return;
@@ -190,6 +199,7 @@ export function useOralSession({
             audio,
             format,
             scenario: config.scenario,
+            lessonId: config.lessonId,
             history: config.history.slice(-16),
           },
           controller.signal,

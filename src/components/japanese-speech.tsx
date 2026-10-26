@@ -14,6 +14,12 @@ import * as Speech from "expo-speech";
 import { z } from "zod";
 import { apiRequest, type Connection } from "../lib/api";
 import { recordedSpeech } from "../data/recorded-speech";
+import { recordedEnergy } from "../data/recorded-energy";
+import {
+  mouthLevelAt,
+  speechEnergyFromWav,
+  type SpeechEnergy,
+} from "../lib/speech-energy";
 import { selectJapaneseVoice } from "../lib/voice-selection";
 
 type SpeechService = {
@@ -21,6 +27,8 @@ type SpeechService = {
   playJapaneseAudio: (audio: string) => Promise<boolean>;
   stopJapanese: () => Promise<void>;
   isSpeaking: boolean;
+  isAudioPlaying: boolean;
+  mouthLevel: number;
   error: string;
 };
 const JapaneseSpeech = createContext<SpeechService | null>(null);
@@ -35,8 +43,12 @@ export function JapaneseSpeechProvider({
   connection: Connection | null;
   children: ReactNode;
 }) {
-  const player = useAudioPlayer(null);
+  const player = useAudioPlayer(null, { updateInterval: 80 });
   const [isSpeaking, setSpeaking] = useState(false);
+  const [isAudioPlaying, setAudioPlaying] = useState(false);
+  const [mouthLevel, setMouthLevel] = useState(0);
+  const energy = useRef<SpeechEnergy | null>(null);
+  const fallbackStart = useRef(0);
   const [error, setError] = useState("");
   const sequence = useRef(0);
   const request = useRef<AbortController | null>(null);
@@ -57,6 +69,11 @@ export function JapaneseSpeechProvider({
     clearTimeout(playbackTimer.current);
     completion.current?.(false);
     completion.current = null;
+    energy.current = null;
+    if (alive.current) {
+      setAudioPlaying(false);
+      setMouthLevel(0);
+    }
     if (alive.current) player.pause();
     cleanupFile();
     // Le lecteur de fichiers fonctionne même si la synthèse système est absente.
@@ -73,9 +90,17 @@ export function JapaneseSpeechProvider({
       "playbackStatusUpdate",
       (status) => {
         if (!alive.current) return;
+        setAudioPlaying(
+          !!status.playing &&
+            !status.isBuffering &&
+            !status.didJustFinish &&
+            !status.error,
+        );
         if (status.didJustFinish || status.error) {
           clearTimeout(playbackTimer.current);
           setSpeaking(false);
+          setMouthLevel(0);
+          energy.current = null;
           cleanupFile();
           completion.current?.(!status.error);
           completion.current = null;
@@ -88,6 +113,25 @@ export function JapaneseSpeechProvider({
     );
     return () => subscription.remove();
   }, [player, cleanupFile]);
+  useEffect(() => {
+    if (!isAudioPlaying) {
+      setMouthLevel(0);
+      return;
+    }
+    const sample = () => {
+      if (!alive.current) return;
+      setMouthLevel(
+        energy.current
+          ? mouthLevelAt(energy.current, player.currentTime)
+          : [1, 2, 1, 0, 3, 1, 0][
+              Math.floor((Date.now() - fallbackStart.current) / 140) % 7
+            ]!,
+      );
+    };
+    sample();
+    const timer = setInterval(sample, 80);
+    return () => clearInterval(timer);
+  }, [isAudioPlaying, player]);
   useEffect(() => {
     alive.current = true;
     return () => {
@@ -116,12 +160,17 @@ export function JapaneseSpeechProvider({
       const finish = (played: boolean) => {
         if (!isCurrent()) return;
         setSpeaking(false);
+        setAudioPlaying(false);
+        setMouthLevel(0);
+        energy.current = null;
         completion.current?.(played);
         completion.current = null;
       };
       try {
         const bundled = suppliedAudio ? undefined : recordedSpeech[text];
         if (bundled !== undefined) {
+          energy.current = recordedEnergy[text] || null;
+          fallbackStart.current = Date.now();
           await setAudioModeAsync({
             allowsRecording: false,
             playsInSilentMode: true,
@@ -143,6 +192,8 @@ export function JapaneseSpeechProvider({
                 ),
               );
           if (!isCurrent()) return false;
+          energy.current = speechEnergyFromWav(result.audio);
+          fallbackStart.current = Date.now();
           await setAudioModeAsync({
             allowsRecording: false,
             playsInSilentMode: true,
@@ -176,6 +227,12 @@ export function JapaneseSpeechProvider({
             voice: voice.identifier,
             rate: 1,
             pitch: 1,
+            onStart: () => {
+              if (isCurrent()) {
+                fallbackStart.current = Date.now();
+                setAudioPlaying(true);
+              }
+            },
             onDone: () => {
               finish(true);
             },
@@ -226,6 +283,8 @@ export function JapaneseSpeechProvider({
         playJapaneseAudio,
         stopJapanese,
         isSpeaking,
+        isAudioPlaying,
+        mouthLevel,
         error,
       }}
     >
@@ -243,4 +302,12 @@ export function useJapaneseSpeech(): SpeechService {
     [service.stopJapanese],
   );
   return service;
+}
+// Lecture seule : démonter un avatar ne doit jamais interrompre le lecteur.
+export function useSpeechPlayback() {
+  const service = useContext(JapaneseSpeech);
+  return {
+    playing: service?.isAudioPlaying || false,
+    mouthLevel: service?.mouthLevel || 0,
+  };
 }

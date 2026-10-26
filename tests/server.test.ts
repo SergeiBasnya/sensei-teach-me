@@ -405,3 +405,92 @@ test("une aide absente ou invalide n’est pas présentée comme une phrase util
     },
   );
 });
+
+test("l’objectif de leçon est validé avant calcul", async () => {
+  let calls = 0;
+  const provider: TutorProvider = {
+    async turn(input) {
+      calls++;
+      assert.equal(input.lessonId, "meet-origin");
+      return {
+        reply: freeScene.turns[0]!.tutor,
+        correction: null,
+        vocabulary: [],
+      };
+    },
+    async transcribe() {
+      return "ベルギーから来ました。";
+    },
+  };
+  await withServer(provider, async (base) => {
+    const body = {
+      scenario: "meet",
+      lessonId: "unknown",
+      history: [],
+      text: "はい",
+    };
+    assert.equal(
+      (
+        await fetch(`${base}/api/turn`, {
+          method: "POST",
+          headers: auth,
+          body: JSON.stringify(body),
+        })
+      ).status,
+      400,
+    );
+    assert.equal(calls, 0);
+    assert.equal(
+      (
+        await fetch(`${base}/api/turn`, {
+          method: "POST",
+          headers: auth,
+          body: JSON.stringify({ ...body, lessonId: "meet-origin" }),
+        })
+      ).status,
+      200,
+    );
+    assert.equal(calls, 1);
+  });
+});
+
+test("le tour audio transmet l’objectif au dialogue après transcription", async () => {
+  const provider: TutorProvider = {
+    async transcribe() {
+      return "ベルギーから来ました。";
+    },
+    async turn(input) {
+      assert.equal(input.lessonId, "meet-origin");
+      assert.equal(input.text, "ベルギーから来ました。");
+      return {
+        reply: freeScene.turns[0]!.tutor,
+        correction: null,
+        vocabulary: [],
+      };
+    },
+  };
+  await withServer(
+    provider,
+    async (base) => {
+      const response = await fetch(`${base}/api/oral-turn`, {
+        method: "POST",
+        headers: auth,
+        body: JSON.stringify({
+          scenario: "meet",
+          lessonId: "meet-origin",
+          history: [],
+          format: "wav",
+          audio: Buffer.alloc(200, 1).toString("base64"),
+        }),
+      });
+      assert.equal(response.status, 200);
+      assert.equal((await response.json()).heard, true);
+    },
+    {
+      async speak() {
+        return Buffer.alloc(100, 1);
+      },
+      close() {},
+    },
+  );
+});

@@ -21,6 +21,7 @@ import type {
   TutorReply,
 } from "../../shared/contracts";
 import { CoachHelp } from "./coach-help";
+import { conversationMood } from "../lib/avatar-state";
 import type { Scene } from "../data/lessons";
 import type { Progress } from "../lib/progress";
 import { requestTurn, type Connection } from "../lib/api";
@@ -77,6 +78,7 @@ export function Conversation({
   const oral = useOralSession({
     connection,
     scenario: scene.id,
+    lessonId: scene.lessonId,
     history: messages.map((message) => ({
       role: message.role,
       content: message.phrase.japanese,
@@ -154,6 +156,7 @@ export function Conversation({
           messages.map((m) => ({ role: m.role, content: m.phrase.japanese })),
           text,
           abort.current.signal,
+          scene.lessonId,
         );
         reply = result.reply;
         correction = result.correction;
@@ -239,7 +242,10 @@ export function Conversation({
         contentContainerStyle={s.stage}
         keyboardShouldPersistTaps="handled"
       >
-        <Mochi size={compact ? 115 : 175} />
+        <Mochi
+          size={compact ? 115 : 175}
+          mood={conversationMood(oral.phase, speaking)}
+        />
         <View style={s.question}>
           <Txt
             style={[

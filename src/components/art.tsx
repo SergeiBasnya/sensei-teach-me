@@ -1,5 +1,8 @@
 import Svg, { Circle, Ellipse, G, Path, Rect } from "react-native-svg";
-import { Image, View } from "react-native";
+import { View } from "react-native";
+import { AnimatedAvatar } from "./animated-avatar";
+import { useSpeechPlayback } from "./japanese-speech";
+import type { AvatarMood } from "../lib/avatar-state";
 
 const iconPaths = {
   home: "M3 10 12 3l9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z",
@@ -63,25 +66,23 @@ export function Icon({
 export function Mochi({
   size = 180,
   happy = false,
+  mood,
+  active = true,
 }: {
   size?: number;
   happy?: boolean;
+  mood?: AvatarMood;
+  active?: boolean;
 }) {
+  const playback = useSpeechPlayback();
   return (
-    <View
-      accessibilityLabel={
-        happy ? "Mochi te félicite" : "Mochi, ton compagnon de japonais"
-      }
-      accessibilityRole="image"
-      style={{ width: size, height: size }}
-    >
-      <Image
-        source={require("../../assets/mascot/mochi-v2.png")}
-        style={{ width: size, height: size }}
-        resizeMode="contain"
-        accessible={false}
-      />
-    </View>
+    <AnimatedAvatar
+      size={size}
+      mood={playback.playing ? "speaking" : mood || (happy ? "happy" : "idle")}
+      mouthLevel={playback.mouthLevel}
+      active={active}
+      happy={happy}
+    />
   );
 }
 

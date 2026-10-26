@@ -1,0 +1,75 @@
+{
+  "doctrineDigest": "sha256:65db957816539bb0d595d05cacda9f1e3dfa1a44ec900e5409986e9bd137f7b1",
+  "review": {
+    "schemaVersion": "prisma-technical-review.v1",
+    "id": "sensei-learning-hub-expressive-manga",
+    "missionId": "sensei-japanese-oral-mvp",
+    "decisionId": "swipe-hub-and-manga-b",
+    "artifact": {
+      "root": "../build/web",
+      "digest": "sha256:1f790f0646a5918124107a2ac9c7adb5b459f5bf8d94256c14c28bbfa45f134a"
+    },
+    "observedAt": "2026-10-26T13:02:15.163480+00:00",
+    "gates": [
+      {
+        "id": "doctrine:no-colored-side-stripes",
+        "passed": true,
+        "evidence": "Accueil 390×844, 320×568, 844×390 et 1440×1000 ; progression 390×844 et 320×568 ; plan 320×568, 844×390 et 1440×1000 au survol ; conversation et aide 390×844. Fonds pleins, contours complets neutres : aucun liseré coloré décoratif observé sur les côtés ou en haut des cartes. Le trait SVG du plan relie les centres des nœuds dans une gouttière de 36 px séparée des boutons d’objectif ; il représente l’ordre des étapes et ne borde aucune carte. Captures evidence/hub-final-home-390.png, hub-final-progress-320.png, hub-final-plan-320.png, hub-plan-hover-1440.png et avatar-help-390.png. Garde statique clear, doctor ready, aucune allowance ni baseline ajoutée."
+      },
+      {
+        "id": "doctrine:no-card-title-hover-underlines",
+        "passed": true,
+        "evidence": "Plan 1440×1000 : survol de Dire d’où tu viens, titre sans soulignement (textDecorationLine none), état courant sur fond lavande. Focus clavier du CTA Commencer ma leçon observé à 390×844 et 1440×1000 : outline violet continu de 3 px, libellé lisible. Captures evidence/hub-plan-hover-1440.png, hub-cta-focus-390.png et hub-cta-focus-1440.png ; relevés evidence/hub-checks.json."
+      },
+      {
+        "id": "doctrine:no-bricolage-grotesque",
+        "passed": true,
+        "evidence": "Familles calculées de tous les nœuds de texte visibles de l’accueil à 390×844 et 1440×1000 : system-ui, -apple-system, system-ui, Segoe UI, sans-serif. Aucune famille externe ou Bricolage Grotesque observée. Les titres, boutons et légendes rendus gardent la typographie système. Evidence/hub-checks.json focusAndFonts et captures hub-cta-focus-390.png, hub-cta-focus-1440.png. Les familles sur appareil Android/iOS physique ne sont pas observées."
+      },
+      {
+        "id": "doctrine:no-peripheral-filler-copy",
+        "passed": true,
+        "evidence": "Accueil : seulement chapitre, objectif, action principale et accès aux panneaux ; aucun slogan, timer ou badge vocal ajouté. Dans Ma progression, les légendes expliquent les valeurs de séance, le niveau débutant fixe, le carnet et la série. Dans Mon plan, Pratiqué et Prochaine étape décrivent l’état réel ; la note finale précise la règle de comptage. Dans l’aide, romaji, traduction et exemple servent directement à répondre. Aucun texte décoratif ajouté avec l’animation. Captures evidence/hub-final-home-390.png, hub-final-progress-390.png, hub-final-plan-end-320.png et avatar-help-390.png."
+      },
+      {
+        "id": "doctrine:section-composition-and-rhythm",
+        "passed": true,
+        "evidence": "Accueil : tête et objectif au centre, commandes en haut et bas, seconde page de discussion libre. Progression : historique large, deux tuiles de données, pratique et série ; plan : chapitres successifs reliés par des nœuds, titres hiérarchisés et cartes d’objectifs. Carnet : recherche puis expressions. Conversation : visage et question au centre, commandes en bas. Ces structures restent distinctes par disposition et espacements, sans alternance de fonds comme seul principe. Captures evidence/hub-final-home-1440.png, hub-final-home-390.png, hub-final-progress-390.png, hub-plan-hover-1440.png, hub-notebook-saved-390.png et avatar-speaking-390.png."
+      },
+      {
+        "id": "doctrine:responsive-text-clearance",
+        "passed": true,
+        "evidence": "Rendu réellement observé à 320×568, 390×844, 844×390 et 1440×1000. Les titres d’objectifs reviennent à la ligne et gardent leurs marges ; le panneau reste centré, limites internes contrôlées en plus du document. Aucun débordement horizontal mesuré dans les quatre formats. Les contenus longs du plan et de la progression défilent normalement. À 844×390, l’accueil a été défilé vers son CTA et la conversation vers sa traduction : le visage peut être au-dessus de la zone visible, accessible par défilement. Aucun titre final avec ellipse. Captures evidence/hub-final-home-320.png, hub-final-home-844.png, hub-final-plan-320.png, hub-final-plan-end-320.png, avatar-call-320.png et avatar-call-844.png. Clavier et marges système du téléphone physique non observés."
+      },
+      {
+        "id": "doctrine:one-clear-cta-per-section",
+        "passed": true,
+        "evidence": "Accueil : Commencer ma leçon ouvre l’objectif recommandé ; la page libre a son unique action Parler librement. Les accès progression, plan, pages et réglages sont des commandes fonctionnelles. Progression : Pratique libre ouvre la page libre ; Vocabulaire ouvre le carnet. Chaque objectif est son propre bouton. Conversation : pause/reprise centrale, historique et Je bloque servent à l’échange. Les focus du CTA sont lisibles à 390×844 et 1440×1000, contours violets sur blanc. Captures evidence/hub-final-home-390.png, hub-final-free-390.png, hub-final-progress-390.png, hub-cta-focus-390.png et hub-cta-focus-1440.png."
+      },
+      {
+        "id": "technical:touch-navigation-and-progress",
+        "passed": true,
+        "evidence": "Événements tactiles CDP réels dans le navigateur isolé : ouvrir progression par glissement vers le bas et plan vers le haut, les refermer par le geste inverse, accéder à la seconde page horizontalement. Les boutons restent disponibles. Un tour audio réel synthétique transmet meet-name au serveur, enregistre une réponse, puis restaure meet-origin après rechargement. Un abandon vide ne fait pas avancer le plan, les répétitions ne doublent pas le décompte et les anciennes séances restent conservées dans les tests. Le carnet reçoit une phrase sans la déclarer acquise ; retrait/réajout vérifiés. Evidence/hub-checks.json."
+      },
+      {
+        "id": "technical:expressive-avatar-and-playback",
+        "passed": true,
+        "evidence": "Atlas transparent B chargé (1774×887), expressions observées dans le rendu : bouche ouverte, écoute, réflexion, pause. La MutationObserver voit les cellules 0,1,2,7 et le clignement 3 pendant une lecture réelle ; le premier mouvement de parole suit play et une fermeture de bouche apparaît pendant un silence interne. Deux WAV atteignent ended et l’écoute reprend automatiquement. Une pause pendant la lecture arrête le son et ferme la bouche. Mode réduire les mouvements : matrice identité stable et pose de parole unique. Changement de visibilité simulé : pause, aucune reprise automatique du micro au retour. Captures evidence/avatar-speaking-390.png, avatar-listening-390.png, avatar-thinking-390.png et avatar-paused-390.png ; résultats horodatés dans evidence/hub-checks.json. Suivi d’intensité, sans prétention de correspondance phonème par phonème."
+      },
+      {
+        "id": "technical:exports-and-local-service",
+        "passed": true,
+        "evidence": "Trente et un tests passent avec accès au port local requis par les tests HTTP ; types, formatage, compilation Python et exports web/iOS/Android passent. Le bundle Android servi par Expo contient B, son atlas et le suivi sonore, sans le code personnel, le lapin ou le portrait non choisi. Serveur LAN prêt en mode local et oral : Whisper, Qwen et VOICEVOX existants, aucune nouvelle dépendance ou prestation payante. Doctor ready et garde clear. Aucun micro humain, appareil physique, APK signé ou déploiement validé ; aucun remote Git configuré. Evidence/hub-checks.json."
+      }
+    ],
+    "findings": [
+      {
+        "id": "generated-language-quality",
+        "severity": "minor",
+        "observation": "Le modèle de dialogue suppose encore parfois le pays après le prénom et peut produire un romaji ou une traduction française maladroits. Les essais sonores vérifient le fonctionnement, pas la qualité linguistique générale.",
+        "recommendation": "Conserver les aides préparées et améliorer la fidélité linguistique dans une évolution dédiée."
+      }
+    ],
+    "summary": "Accueil à gestes, neuf objectifs issus des trois dialogues existants et avatar manga B animé. Revue du rendu sur cet export exact, réalisée dans cette conversation sans revue indépendante ni approbation artistique inventée. B a été choisi par le propriétaire sur la planche ; l’interface finale et ses animations restent pending-human dans un fichier distinct. Données et voix des tests synthétiques. Téléphone physique et vrai micro non utilisés. OFA révision 10 ; pas de push faute de remote. Textes complets avant/après dans HUB-TEXTES-AVANT-APRES.md."
+  }
+}

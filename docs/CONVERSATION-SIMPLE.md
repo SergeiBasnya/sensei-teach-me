@@ -2,7 +2,7 @@
 
 Demande du 26 octobre 2026 : démarrage vocal dès l’entrée, interface mobile plus simple inspirée de Pingo, progression quotidienne conservée.
 
-Le bouton Commencer ma leçon ou une situation ouvre l’échange. Une permission de micro peut être demandée par le téléphone. Mochi lit sa première question, l’écoute commence après sa fin, puis le silence après la réponse déclenche l’envoi. Le micro reprend après chaque lecture. La commande centrale met en pause ou reprend ; une question entièrement entendue n’est pas relue lors de la reprise.
+Le bouton Commencer ma leçon ou un objectif de Mon plan ouvre l’échange. La navigation d’accueil et les neuf objectifs sont décrits dans [HUB.md](HUB.md). Une permission de micro peut être demandée par le téléphone. Mochi lit sa première question, l’écoute commence après sa fin, puis le silence après la réponse déclenche l’envoi. Le micro reprend après chaque lecture. La commande centrale met en pause ou reprend ; une question entièrement entendue n’est pas relue lors de la reprise.
 
 L’écran garde le compagnon, la question courante, le romaji et le français selon les préférences et trois contrôles : historique, pause/reprise et aide. Le fil complet, les corrections et la relecture restent disponibles dans les panneaux. Leur ouverture met la conversation en pause. Le clavier est dans Aide. Les contenus japonais préparés et la voix A sont conservés.
 

@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
 import { Pressable, Switch, TextInput, View } from "react-native";
 import { useJapaneseSpeech } from "../components/japanese-speech";
-import type { Progress } from "../lib/progress";
+import { addWords, type Progress } from "../lib/progress";
+import { dailyPhrase } from "../data/lessons";
 import { Icon, Mochi } from "../components/art";
 import { appStyles as s } from "../styles";
 import {
@@ -25,6 +26,9 @@ export function Notebook({
   const { speakJapanese, error: speechError } = useJapaneseSpeech();
   const [search, setSearch] = useState("");
   const [onlyNew, setOnlyNew] = useState(false);
+  const hasPracticePhrase = progress.words.some(
+    (word) => word.japanese === dailyPhrase.japanese,
+  );
   const words = useMemo(
     () =>
       progress.words.filter(
@@ -56,10 +60,10 @@ export function Notebook({
           <Txt
             style={{ textAlign: "center", color: colors.muted, maxWidth: 330 }}
           >
-            Tes conversations enrichissent ce carnet. Tu peux aussi enregistrer
-            la phrase du jour.
+            Ajoute une première phrase pour la retrouver ici et la revoir quand
+            tu veux.
           </Txt>
-          <Button onPress={onStart}>Faire ma première conversation</Button>
+          <Button onPress={onStart}>Commencer ma leçon</Button>
         </Panel>
       ) : (
         <>
@@ -106,39 +110,93 @@ export function Notebook({
               <Txt style={{ color: colors.muted, fontSize: 14 }}>
                 {word.french}
               </Txt>
-              <Pressable
-                accessibilityRole="checkbox"
-                accessibilityState={{ checked: word.learned }}
-                onPress={() =>
-                  setProgress((previous) => ({
-                    ...previous,
-                    words: previous.words.map((w) =>
-                      w.id === word.id ? { ...w, learned: !w.learned } : w,
-                    ),
-                  }))
-                }
+              <View
                 style={{
                   flexDirection: "row",
-                  gap: 8,
                   alignItems: "center",
-                  alignSelf: "flex-start",
-                  paddingVertical: 10,
+                  justifyContent: "space-between",
+                  gap: 8,
                 }}
               >
-                <Icon
-                  name={word.learned ? "check" : "book"}
-                  size={16}
-                  color={colors.green}
-                />
-                <Txt style={{ fontSize: 12, color: colors.green }}>
-                  {word.learned
-                    ? "Expression acquise"
-                    : "Marquer comme acquise"}
-                </Txt>
-              </Pressable>
+                <Pressable
+                  accessibilityRole="checkbox"
+                  accessibilityState={{ checked: word.learned }}
+                  aria-checked={word.learned}
+                  onPress={() =>
+                    setProgress((previous) => ({
+                      ...previous,
+                      words: previous.words.map((w) =>
+                        w.id === word.id ? { ...w, learned: !w.learned } : w,
+                      ),
+                    }))
+                  }
+                  style={{
+                    flexDirection: "row",
+                    gap: 8,
+                    alignItems: "center",
+                    alignSelf: "flex-start",
+                    paddingVertical: 10,
+                  }}
+                >
+                  <Icon
+                    name={word.learned ? "check" : "book"}
+                    size={16}
+                    color={colors.green}
+                  />
+                  <Txt style={{ fontSize: 12, color: colors.green }}>
+                    {word.learned
+                      ? "Expression acquise"
+                      : "Marquer comme acquise"}
+                  </Txt>
+                </Pressable>
+                {word.japanese === dailyPhrase.japanese && (
+                  <IconButton
+                    name="star"
+                    label="Retirer la phrase du carnet"
+                    active
+                    onPress={() =>
+                      setProgress((previous) => ({
+                        ...previous,
+                        words: previous.words.filter(
+                          (item) => item.id !== word.id,
+                        ),
+                      }))
+                    }
+                  />
+                )}
+              </View>
             </Panel>
           ))}
         </>
+      )}
+      {!hasPracticePhrase && (
+        <Panel style={{ gap: 12 }}>
+          <Txt style={{ fontWeight: "600" }}>Une phrase à pratiquer</Txt>
+          <Txt style={{ fontSize: 23, lineHeight: 34 }}>
+            {dailyPhrase.japanese}
+          </Txt>
+          {progress.romaji && (
+            <Txt style={{ color: colors.purple, fontSize: 13 }}>
+              {dailyPhrase.romaji}
+            </Txt>
+          )}
+          <Txt style={{ color: colors.muted }}>{dailyPhrase.french}</Txt>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
+            <Button
+              secondary
+              onPress={() =>
+                setProgress((previous) => addWords(previous, [dailyPhrase]))
+              }
+            >
+              Ajouter au carnet
+            </Button>
+            <IconButton
+              name="volume"
+              label="Écouter la phrase à pratiquer"
+              onPress={() => void speakJapanese(dailyPhrase.japanese)}
+            />
+          </View>
+        </Panel>
       )}
     </View>
   );

@@ -1,257 +1,490 @@
-import { Pressable, View, useWindowDimensions } from "react-native";
-import { useJapaneseSpeech } from "../components/japanese-speech";
-import { dailyPhrase, freeScene, scenes, type Scene } from "../data/lessons";
-import { addWords, getStats, type Progress } from "../lib/progress";
-import { Icon, Mochi } from "../components/art";
-import { SceneCard } from "../components/scene-card";
-import { GoalRing, WeekStrip } from "../components/progress-widgets";
-import { appStyles as s } from "../styles";
+import { useEffect, useMemo, useRef, useState, type ComponentRef } from "react";
 import {
-  Button,
-  colors,
-  IconButton,
-  Panel,
-  SectionTitle,
-  Txt,
-} from "../components/ui";
+  AccessibilityInfo,
+  Animated,
+  Modal,
+  PanResponder,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  useWindowDimensions,
+  View,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { freeScene, type Scene } from "../data/lessons";
+import { getLearningStats, lessonScene } from "../lib/learning-plan";
+import { getStats, type Progress } from "../lib/progress";
+import { formatDuration } from "../lib/format";
+import type { SessionResult } from "../components/conversation";
+import { Mochi, Icon } from "../components/art";
+import { LearningDashboard, LearningPlan } from "../components/learning-panels";
+import { Notebook } from "./notebook";
+import { Button, colors, IconButton, Txt } from "../components/ui";
+
+type PanelName = "home" | "progress" | "plan" | "words";
 export function Home({
   progress,
-  desktop,
-  start,
   setProgress,
+  start,
+  onConfigure,
+  storageError,
+  summary,
+  dismissSummary,
 }: {
   progress: Progress;
-  desktop: boolean;
-  start: (scene: Scene) => void;
   setProgress: React.Dispatch<React.SetStateAction<Progress>>;
+  start: (scene: Scene) => void;
+  onConfigure: () => void;
+  storageError: string;
+  summary: { scene: Scene; result: SessionResult } | null;
+  dismissSummary: () => void;
 }) {
-  const { speakJapanese, error: speechError } = useJapaneseSpeech();
-  const { width } = useWindowDimensions();
-  const wide = width >= 1260;
+  const { width, height } = useWindowDimensions();
+  const compact = height < 680;
+  const [frameWidth, setFrameWidth] = useState(Math.min(width, 920));
+  const [panel, setPanel] = useState<PanelName>("home");
+  const [page, setPage] = useState(0);
+  const [reduced, setReduced] = useState(true);
+  const pager = useRef<ComponentRef<typeof ScrollView>>(null);
+  const travel = useRef(new Animated.Value(0)).current;
+  const closing = useRef(false);
+  const current = useRef({ panel, height });
+  current.current = { panel, height };
   const stats = getStats(progress);
-  const favorite = progress.words.some(
-    (w) => w.japanese === dailyPhrase.japanese,
+  const learning = getLearningStats(progress);
+  const lesson = lessonScene(learning.next);
+  useEffect(() => {
+    let live = true;
+    void AccessibilityInfo.isReduceMotionEnabled().then((value) => {
+      if (live) setReduced(value);
+    });
+    const subscription = AccessibilityInfo.addEventListener(
+      "reduceMotionChanged",
+      setReduced,
+    );
+    return () => {
+      live = false;
+      subscription.remove();
+    };
+  }, []);
+  useEffect(() => {
+    pager.current?.scrollTo({ x: page * frameWidth, animated: false });
+  }, [frameWidth]);
+  const open = (next: PanelName) => {
+    if (closing.current) return;
+    travel.setValue(next === "progress" ? -height : height);
+    setPanel(next);
+    Animated.timing(travel, {
+      toValue: 0,
+      duration: reduced ? 0 : 240,
+      useNativeDriver: Platform.OS !== "web",
+    }).start();
+  };
+  const close = () => {
+    if (closing.current) return;
+    closing.current = true;
+    Animated.timing(travel, {
+      toValue: panel === "progress" ? -height : height,
+      duration: reduced ? 0 : 210,
+      useNativeDriver: Platform.OS !== "web",
+    }).start(() => {
+      setPanel("home");
+      closing.current = false;
+    });
+  };
+  const actions = useRef({ open, close });
+  actions.current = { open, close };
+  const swipe = useMemo(
+    () =>
+      PanResponder.create({
+        onMoveShouldSetPanResponder: (_event, g) =>
+          current.current.panel === "home" &&
+          Math.abs(g.dy) > 24 &&
+          Math.abs(g.dy) > Math.abs(g.dx) * 1.4 &&
+          (current.current.height >= 650 ||
+            g.y0 < 105 ||
+            g.y0 > current.current.height - 100),
+        onPanResponderRelease: (_event, g) => {
+          if (g.dy > 65) actions.current.open("progress");
+          else if (g.dy < -65) actions.current.open("plan");
+        },
+      }),
+    [],
   );
+  const dismissSwipe = useMemo(
+    () =>
+      PanResponder.create({
+        onMoveShouldSetPanResponder: (_event, g) =>
+          Math.abs(g.dy) > 20 && Math.abs(g.dy) > Math.abs(g.dx) * 1.4,
+        onPanResponderRelease: (_event, g) => {
+          if (
+            (current.current.panel === "progress" && g.dy < -30) ||
+            (current.current.panel !== "progress" && g.dy > 30)
+          )
+            actions.current.close();
+        },
+      }),
+    [],
+  );
+  const selectPage = (next: number) => {
+    setPage(next);
+    pager.current?.scrollTo({ x: next * frameWidth, animated: !reduced });
+  };
+  const startScene = (scene: Scene) => {
+    setPanel("home");
+    start(scene);
+  };
   return (
-    <View style={{ gap: 28 }}>
-      {speechError && (
-        <Txt accessibilityRole="alert" style={{ color: "#8B443D" }}>
-          {speechError}
+    <View
+      style={h.root}
+      onLayout={(event) => setFrameWidth(event.nativeEvent.layout.width)}
+      {...swipe.panHandlers}
+    >
+      <View style={[h.top, { paddingVertical: compact ? 12 : 20 }]}>
+        <View accessibilityLabel="Japonais, niveau 1, débutant" style={h.level}>
+          <View style={h.flag} />
+          <Txt style={{ fontSize: 14, fontWeight: "600" }}>L1</Txt>
+        </View>
+        <Pressable
+          accessibilityRole="button"
+          onPress={() => open("progress")}
+          style={h.edgeButton}
+        >
+          <Txt style={h.edgeText}>Ma progression</Txt>
+          <View style={h.grip} />
+        </Pressable>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 3 }}>
+          <View
+            accessibilityLabel={`${stats.streak} jours de série`}
+            style={h.streak}
+          >
+            <Txt style={{ fontWeight: "600" }}>{stats.streak}</Txt>
+            <Icon name="fire" size={19} color="#B58120" />
+          </View>
+          <IconButton
+            name="settings"
+            label="Ouvrir les réglages"
+            onPress={onConfigure}
+            size={34}
+          />
+        </View>
+      </View>
+      {!!storageError && (
+        <Txt
+          accessibilityRole="alert"
+          style={{ padding: 18, color: "#8B443D", fontSize: 13 }}
+        >
+          {storageError}
         </Txt>
       )}
-      <View>
-        <Txt
-          accessibilityRole="header"
-          style={{
-            fontSize: desktop ? 33 : 28,
-            fontWeight: "700",
-            lineHeight: desktop ? 43 : 38,
-            letterSpacing: -1,
-          }}
-        >
-          こんにちは !
-        </Txt>
-      </View>
-      <View
-        style={{
-          flexDirection: wide ? "row" : "column",
-          gap: 26,
-          alignItems: "stretch",
-        }}
-      >
-        <View style={{ flex: 1, minWidth: 0, gap: 29 }}>
-          <View style={[s.hero, !desktop && { padding: 24, minHeight: 285 }]}>
-            <View
-              style={{
-                position: "absolute",
-                right: desktop ? 4 : 0,
-                bottom: desktop ? 16 : 13,
-                opacity: 1,
-              }}
-            >
-              <Mochi size={desktop ? 222 : width < 370 ? 112 : 158} />
-            </View>
-            <View
-              style={{
-                alignSelf: "flex-start",
-                maxWidth: desktop ? "66%" : width < 370 ? "100%" : "72%",
-                gap: 15,
-                zIndex: 1,
-              }}
-            >
-              <Button
-                onPress={() => start(scenes[0]!)}
-                style={{
-                  alignSelf: "flex-start",
-                  marginTop: 6,
-                  paddingHorizontal: desktop ? 20 : 15,
-                }}
-              >
-                Commencer ma leçon
-              </Button>
-            </View>
+      {summary && (
+        <View style={h.summary}>
+          <View style={{ flex: 1, gap: 3 }}>
+            <Txt style={{ fontWeight: "600", fontSize: 14 }}>
+              Séance enregistrée
+            </Txt>
+            <Txt style={{ fontSize: 12, color: colors.muted }}>
+              {summary.result.turns} réponse
+              {summary.result.turns > 1 ? "s" : ""} ·{" "}
+              {formatDuration(summary.result.seconds)} de pratique
+            </Txt>
           </View>
-          <View>
-            <SectionTitle title="Situations" />
-            <View
-              style={{
-                flexDirection: width >= 700 ? "row" : "column",
-                gap: 15,
-              }}
-            >
-              {scenes.map((scene) => (
-                <SceneCard
-                  key={scene.id}
-                  scene={scene}
-                  onPress={() => start(scene)}
-                  completed={stats.completed.has(scene.id)}
-                  horizontal={width < 700}
-                />
-              ))}
-            </View>
-          </View>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="Démarrer une conversation libre"
-            onPress={() => start(freeScene)}
-            style={({ pressed }) => [s.freeRow, { opacity: pressed ? 0.8 : 1 }]}
-          >
-            <View
-              style={{
-                width: 46,
-                height: 46,
-                borderRadius: 15,
-                backgroundColor: "#EFE9FA",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Icon name="chat" color={colors.purple} />
-            </View>
-            <View style={{ flex: 1, gap: 3 }}>
-              <Txt style={{ fontWeight: "700", fontSize: 15 }}>
-                Envie de parler d’autre chose ?
-              </Txt>
-              <Txt style={{ color: colors.muted, fontSize: 12 }}>
-                Ton quotidien, tes passions, ton prochain voyage.
-              </Txt>
-            </View>
-          </Pressable>
+          <IconButton
+            name="close"
+            label="Fermer le bilan"
+            onPress={dismissSummary}
+            size={34}
+          />
         </View>
-        <View
-          style={{
-            width: wide ? 270 : "100%",
-            gap: 22,
-            flexDirection: !wide && desktop ? "row" : "column",
-          }}
-        >
-          <Panel
-            style={{
-              alignItems: "center",
-              flex: !wide && desktop ? 1 : undefined,
-            }}
+      )}
+      <ScrollView
+        ref={pager}
+        horizontal
+        pagingEnabled
+        showsHorizontalScrollIndicator={false}
+        onMomentumScrollEnd={(event) =>
+          setPage(Math.round(event.nativeEvent.contentOffset.x / frameWidth))
+        }
+        onScroll={(event) => {
+          const next = Math.round(
+            event.nativeEvent.contentOffset.x / frameWidth,
+          );
+          if (next !== page) setPage(next);
+        }}
+        scrollEventThrottle={100}
+        style={{ flex: 1 }}
+        contentContainerStyle={{ alignItems: "stretch" }}
+      >
+        {[0, 1].map((index) => (
+          <ScrollView
+            key={index}
+            accessibilityElementsHidden={page !== index}
+            importantForAccessibility={
+              page !== index ? "no-hide-descendants" : "auto"
+            }
+            aria-hidden={page !== index}
+            style={{ width: frameWidth }}
+            contentContainerStyle={[
+              h.stage,
+              { paddingVertical: compact ? 18 : 34 },
+            ]}
+            showsVerticalScrollIndicator={false}
+          >
+            <Mochi
+              size={compact ? 112 : 174}
+              active={page === index}
+              happy={!!summary && index === 0}
+            />
+            <View
+              style={{
+                gap: 12,
+                maxWidth: 540,
+                alignItems: "center",
+                paddingHorizontal: 12,
+              }}
+            >
+              <Txt
+                style={{
+                  fontSize: 14,
+                  lineHeight: 22,
+                  color: colors.muted,
+                  textAlign: "center",
+                }}
+              >
+                {index === 0 ? lesson.subtitle : "Avec Mochi"}
+              </Txt>
+              <Txt
+                accessibilityRole="header"
+                style={{
+                  fontSize: compact ? 28 : 36,
+                  lineHeight: compact ? 37 : 47,
+                  fontWeight: "600",
+                  letterSpacing: -0.6,
+                  textAlign: "center",
+                }}
+              >
+                {index === 0 ? lesson.title : "Conversation libre"}
+              </Txt>
+            </View>
+            <Button
+              disabled={page !== index}
+              onPress={() => start(index === 0 ? lesson : freeScene)}
+              style={{
+                borderRadius: 32,
+                minHeight: 58,
+                paddingHorizontal: 30,
+                marginTop: 8,
+              }}
+            >
+              {index === 0 ? "Commencer ma leçon" : "Parler librement"}
+            </Button>
+          </ScrollView>
+        ))}
+      </ScrollView>
+      <View style={h.pages}>
+        {[0, 1].map((index) => (
+          <Pressable
+            key={index}
+            accessibilityRole="button"
+            accessibilityLabel={
+              index === 0 ? "Voir ma leçon" : "Voir la conversation libre"
+            }
+            accessibilityState={{ selected: page === index }}
+            onPress={() => selectPage(index)}
+            style={{ padding: 12 }}
           >
             <View
               style={{
-                flexDirection: "row",
-                alignItems: "center",
-                alignSelf: "stretch",
-                justifyContent: "space-between",
+                height: 7,
+                width: page === index ? 22 : 7,
+                borderRadius: 5,
+                backgroundColor: page === index ? colors.purple : "#DED9E5",
               }}
-            >
-              <Txt style={{ fontWeight: "700", fontSize: 15 }}>
-                Ton objectif du jour
-              </Txt>
-              <Icon name="target" size={18} />
-            </View>
-            <GoalRing seconds={stats.secondsToday} goal={progress.goal} />
-            <Txt
-              style={{ fontSize: 13, color: colors.muted, textAlign: "center" }}
-            >
-              {stats.secondsToday >= progress.goal * 60
-                ? "Objectif atteint. Bien joué !"
-                : `Encore ${Math.max(1, Math.ceil(progress.goal - stats.secondsToday / 60))} min pour ton objectif.`}
-            </Txt>
-            <WeekStrip progress={progress} />
-          </Panel>
-          <Panel style={{ gap: 13, flex: !wide && desktop ? 1 : undefined }}>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Txt style={{ fontSize: 15, fontWeight: "700" }}>
-                La phrase du jour
-              </Txt>
-              <Icon name="leaf" size={18} color="#5A8266" />
-            </View>
-            <Txt style={{ fontSize: 25, lineHeight: 38, marginTop: 5 }}>
-              {dailyPhrase.japanese}
-            </Txt>
-            {progress.romaji && (
-              <Txt style={{ color: colors.purple, fontSize: 13 }}>
-                {dailyPhrase.romaji}
-              </Txt>
-            )}
-            <Txt style={{ fontSize: 13, color: colors.muted }}>
-              {dailyPhrase.french}
-            </Txt>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginTop: 7,
-              }}
-            >
-              <Pressable
-                accessibilityRole="button"
-                onPress={() => void speakJapanese(dailyPhrase.japanese)}
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  gap: 7,
-                  paddingVertical: 10,
-                }}
+            />
+          </Pressable>
+        ))}
+      </View>
+      <Pressable
+        accessibilityRole="button"
+        onPress={() => open("plan")}
+        style={[h.bottom, { paddingVertical: compact ? 14 : 23 }]}
+      >
+        <View style={h.grip} />
+        <Txt style={h.edgeText}>Mon plan</Txt>
+      </Pressable>
+      <Modal
+        visible={panel !== "home"}
+        transparent
+        animationType="none"
+        onRequestClose={close}
+      >
+        <Animated.View
+          style={{
+            flex: 1,
+            backgroundColor: "#F8F7FA",
+            transform: [{ translateY: travel }],
+          }}
+        >
+          <SafeAreaView style={{ flex: 1 }}>
+            <View style={h.panelHeader} {...dismissSwipe.panHandlers}>
+              <View
+                style={[
+                  h.grip,
+                  {
+                    position: "absolute",
+                    top: 8,
+                    left: "50%",
+                    marginLeft: -14,
+                  },
+                ]}
+              />
+              <Txt
+                accessibilityRole="header"
+                style={{ fontSize: 21, fontWeight: "600", flex: 1 }}
               >
-                <Icon name="volume" size={17} color={colors.purple} />
-                <Txt
-                  style={{
-                    fontSize: 12,
-                    color: colors.purple,
-                    fontWeight: "600",
-                  }}
-                >
-                  Écouter
-                </Txt>
-              </Pressable>
+                {panel === "progress"
+                  ? "Ma progression"
+                  : panel === "plan"
+                    ? "Mon plan"
+                    : "Mon carnet"}
+              </Txt>
               <IconButton
-                name="star"
-                label={
-                  favorite
-                    ? "Retirer la phrase du carnet"
-                    : "Ajouter la phrase au carnet"
-                }
-                active={favorite}
-                onPress={() =>
-                  setProgress((previous) =>
-                    favorite
-                      ? {
-                          ...previous,
-                          words: previous.words.filter(
-                            (w) => w.japanese !== dailyPhrase.japanese,
-                          ),
-                        }
-                      : addWords(previous, [dailyPhrase]),
-                  )
-                }
+                name="close"
+                label="Retour à ma leçon"
+                onPress={close}
               />
             </View>
-          </Panel>
-        </View>
-      </View>
+            <ScrollView
+              contentContainerStyle={{
+                padding: Math.min(26, frameWidth / 14),
+                paddingBottom: 50,
+                maxWidth: 760,
+                width: "100%",
+                alignSelf: "center",
+              }}
+              keyboardShouldPersistTaps="handled"
+            >
+              {panel === "progress" && (
+                <LearningDashboard
+                  progress={progress}
+                  practice={() => {
+                    setPanel("home");
+                    selectPage(1);
+                  }}
+                  notebook={() => open("words")}
+                />
+              )}
+              {panel === "plan" && (
+                <LearningPlan
+                  progress={progress}
+                  start={(goal) => startScene(lessonScene(goal))}
+                />
+              )}
+              {panel === "words" && (
+                <Notebook
+                  progress={progress}
+                  setProgress={setProgress}
+                  onStart={() => startScene(lesson)}
+                />
+              )}
+            </ScrollView>
+          </SafeAreaView>
+        </Animated.View>
+      </Modal>
     </View>
   );
 }
+const h = StyleSheet.create({
+  root: {
+    flex: 1,
+    minHeight: 0,
+    width: "100%",
+    maxWidth: 920,
+    alignSelf: "center",
+    backgroundColor: "#FFF",
+  },
+  top: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 18,
+    backgroundColor: "#FAF9F7",
+    borderBottomLeftRadius: 32,
+    borderBottomRightRadius: 32,
+    gap: 5,
+  },
+  level: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 9,
+    paddingVertical: 13,
+    paddingHorizontal: 13,
+    borderRadius: 24,
+    backgroundColor: "#F0EDE8",
+  },
+  flag: { width: 14, height: 14, borderRadius: 7, backgroundColor: "#D52F50" },
+  edgeButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10,
+    minHeight: 52,
+    flexShrink: 1,
+    paddingHorizontal: 4,
+  },
+  edgeText: {
+    fontSize: 15,
+    lineHeight: 23,
+    fontWeight: "600",
+    color: colors.purple,
+    textAlign: "center",
+  },
+  grip: { width: 28, height: 4, borderRadius: 3, backgroundColor: "#CFC8DB" },
+  streak: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    padding: 10,
+    borderRadius: 22,
+    backgroundColor: "#F5F0E6",
+  },
+  stage: {
+    flexGrow: 1,
+    minHeight: 330,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 23,
+    paddingHorizontal: 22,
+  },
+  pages: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingBottom: 12,
+  },
+  bottom: {
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 12,
+    backgroundColor: "#FAF9F7",
+    borderTopLeftRadius: 32,
+    borderTopRightRadius: 32,
+  },
+  panelHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 16,
+    paddingTop: 21,
+    paddingBottom: 10,
+    paddingHorizontal: 20,
+    minHeight: 82,
+  },
+  summary: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    backgroundColor: "#F0F6F1",
+  },
+});

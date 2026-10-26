@@ -1,0 +1,186 @@
+{
+  "hub-flow-check": {
+    "touchSwipeDown": true,
+    "touchSwipeUp": true,
+    "touchCloseBoth": true,
+    "horizontalSwipe": true,
+    "turn": {
+      "lessonId": "meet-name",
+      "heard": true,
+      "transcript": "私はオーギュストです。",
+      "reply": "オーギュストさん、こんにちは！フランスからですか？"
+    },
+    "saved": {
+      "lessonId": "meet-name",
+      "turns": 1,
+      "seconds": 16
+    },
+    "restoredNextLesson": true,
+    "helperAudioEnded": true,
+    "practicedCount": 1
+  },
+  "hub-responsive-check": {
+    "sizes": {
+      "390x844": {
+        "horizontalOverflow": false,
+        "objectives": 9
+      },
+      "320x568": {
+        "horizontalOverflow": false,
+        "objectives": 9
+      },
+      "844x390": {
+        "horizontalOverflow": false,
+        "objectives": 9
+      },
+      "1440x1000": {
+        "horizontalOverflow": false,
+        "objectives": 9
+      }
+    },
+    "focus": "rgb(115, 80, 198) solid 3px",
+    "modalFocus": "Mon carnet, 0 mots enregistrés",
+    "noAutomaticAcquisition": true,
+    "freePracticeReachable": true,
+    "fonts": "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+    "savedWords": 1,
+    "savedSessions": 1,
+    "cancelledDidNotAdvance": true
+  },
+  "hub-final-controls": {
+    "manualAcquisition": "false",
+    "removeAndReadd": true,
+    "hover": "none",
+    "asset": [
+      {
+        "loaded": true,
+        "w": 1774,
+        "h": 887
+      },
+      {
+        "loaded": true,
+        "w": 1774,
+        "h": 887
+      }
+    ]
+  },
+  "avatar-motion-check": {
+    "blinkObserved": true,
+    "frames": [
+      "mochi-avatar-speaking-0",
+      "mochi-avatar-speaking-2",
+      "mochi-avatar-speaking-1",
+      "mochi-avatar-speaking-7",
+      "mochi-avatar-speaking-3"
+    ],
+    "speaksAfterPlayback": true,
+    "closedDuringAudio": true,
+    "listening": true,
+    "thinking": true,
+    "media": [
+      {
+        "event": "play",
+        "at": 4200.399999976158
+      },
+      {
+        "event": "ended",
+        "at": 7756.799999952316
+      },
+      {
+        "event": "play",
+        "at": 15089.399999976158
+      },
+      {
+        "event": "ended",
+        "at": 19130.799999952316
+      }
+    ],
+    "turns": [
+      {
+        "heard": true,
+        "reply": "オーギュストさん、はじめまして！フランスからですか？"
+      }
+    ],
+    "recordings": 2,
+    "pausedFrame": "mochi-avatar-idle-0",
+    "failedAtlas": false
+  },
+  "avatar-accessibility-check": {
+    "before": {
+      "id": "mochi-avatar-happy-4",
+      "transform": "matrix(1, 0, 0, 1, 0, 0)"
+    },
+    "after": {
+      "id": "mochi-avatar-happy-4",
+      "transform": "matrix(1, 0, 0, 1, 0, 0)"
+    },
+    "reducedIdle": true,
+    "reducedSpeech": "mochi-avatar-speaking-1",
+    "pausedAudioStopped": true,
+    "backgroundEventSimulated": true,
+    "pausedInBackground": 3,
+    "recordingsAfterReturn": 3,
+    "foregroundNeedsResume": true
+  },
+  "focusAndFonts": {
+    "390": {
+      "focus": "rgb(115, 80, 198) solid 3px",
+      "fonts": [
+        "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif"
+      ]
+    },
+    "1440": {
+      "focus": "rgb(115, 80, 198) solid 3px",
+      "fonts": [
+        "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif"
+      ]
+    }
+  },
+  "nativeBundle": {
+    "androidManifest": true,
+    "avatarB": true,
+    "expressionAtlas": true,
+    "audioEnergy": true,
+    "oldRabbitAbsent": true,
+    "unapprovedPortraitAbsent": true,
+    "plan": true,
+    "personalCodeAbsent": true,
+    "server": {
+      "ready": true,
+      "mode": "local",
+      "oral": true,
+      "warming": false
+    }
+  },
+  "artifact": {
+    "root": "/Users/augustdouglas/Documents/projects/apps/sensei-teach-me/build/web",
+    "digest": "sha256:1f790f0646a5918124107a2ac9c7adb5b459f5bf8d94256c14c28bbfa45f134a",
+    "fileCount": 30
+  },
+  "verification": {
+    "unitAndHTTPTests": {
+      "passed": 31,
+      "failed": 0,
+      "localPortNeededOutsideSandbox": true
+    },
+    "types": true,
+    "format": true,
+    "pythonCompile": true,
+    "webExport": true,
+    "iosExport": true,
+    "androidExport": true,
+    "physicalDevice": false,
+    "humanMicrophone": false,
+    "backgroundVisibilityEvent": "simulated in isolated browser",
+    "independentReviewer": false
+  },
+  "sources": {
+    "server/app.ts": "d26b673276870d4545e985ac1ff39b2a7163646047e4911733c18591ba5da843",
+    "server/local-tutor.ts": "e92498e21a34dc08ace85458718460bb59dfb6f973eddd6e2f141713f3ac56f3",
+    "server/conversation_worker.py": "9876d23efa5c2af99da002168c3ada603cd3968eb1ea0e64420076b0f4b3efcd",
+    "src/components/animated-avatar.tsx": "cf2c2a1d9b4afd98855a62e1987ca613c2b00fade0d8f96d439ce8e3c10ec974",
+    "src/components/japanese-speech.tsx": "ebbb30786f4efe4173ba34e5d6c0dc3bdefbd464d86f61c88624b14a7bc204ed",
+    "src/lib/speech-energy.ts": "0ae20b12069a717b49a21b645e679e4941b090f912299df5ac5846bdfca8d6fe",
+    "assets/avatar/manga-b-expressions-v2.png": "704f74cccefc78b67d8a0f2f8c32249e2a6525b82d116b64866fdb481a60cc26"
+  }
+}

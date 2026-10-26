@@ -1,0 +1,13 @@
+{
+  "date": "2026-10-26",
+  "userChoice": "B — dessin léger",
+  "referenceBoard": "evidence/avatar-manga-options.png",
+  "referenceBoardSha256": "3abb85cf2a23091eedcc9e1d3abe52c3d1776c0dfd327331ac74a8a374b4d730",
+  "scope": "Choix de la piste manga B avant intégration. Expressions demandées ensuite ; aucune approbation artistique de l’export complet déduite.",
+  "integratedAssets": [
+    "../assets/avatar/manga-b.png",
+    "../assets/avatar/manga-b-expressions-v2.png"
+  ],
+  "generationMode": "built-in image_gen",
+  "prompts": "../assets/avatar/README.md"
+}

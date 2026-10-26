@@ -9,7 +9,7 @@ npm ci
 npm run web
 ```
 
-Ouvrir `http://localhost:8081`. Trois exercices guidés fonctionnent sans compte ni clé : présentation, café et gare. Les réponses proposées font avancer un dialogue préparé. Les 25 phrases distinctes sont enregistrées avec la voix A choisie par le propriétaire, **VOICEVOX:雨晴はう**, à vitesse et intonation normales. Elles sont incluses dans l’application : aucun service ni accès Internet n’est requis pour leur synthèse pendant l’utilisation. Ces exercices n’évaluent pas la prononciation.
+Ouvrir `http://localhost:8081`. L’accueil propose le prochain objectif avec Commencer ma leçon. Ma progression s’ouvre depuis le haut et Mon plan depuis le bas, par glissement ou appui. Le parcours débutant organise les trois situations — présentation, café et gare — en neuf objectifs guidés, accessibles sans compte ni clé. Les réponses proposées font avancer un dialogue préparé. Les 25 phrases distinctes sont enregistrées avec la voix A choisie par le propriétaire, **VOICEVOX:雨晴はう**, à vitesse et intonation normales. Elles sont incluses dans l’application : aucun service ni accès Internet n’est requis pour leur synthèse pendant l’utilisation. Ces exercices n’évaluent pas la prononciation.
 
 Le carnet, les expressions acquises, les objectifs, les séances et les séries de jours sont sauvegardés sur cet appareil. Le temps mesuré correspond à la séance au premier plan, pas à une mesure du temps de parole. Les réglages permettent de masquer romaji et traduction.
 
@@ -26,7 +26,7 @@ npm run build
 npm run local
 ```
 
-Lire les conditions VOICEVOX référencées ci-dessous avant de passer son option d’acceptation. Ouvrir ensuite `http://localhost:8787`, puis choisir une situation ou une conversation libre. Lorsque le vocal est connecté, la conversation démarre à l’ouverture ; autoriser le micro si le téléphone le demande. L’aperçu sur les ports 8081/8082 se connecte aussi automatiquement à ce serveur local lorsqu’il est prêt. Le code personnel est généré dans `.local/conversation/access-token`, jamais inclus dans le bundle ni dans Git.
+Lire les conditions VOICEVOX référencées ci-dessous avant de passer son option d’acceptation. Ouvrir ensuite `http://localhost:8787`, puis toucher Commencer ma leçon, choisir un objectif dans Mon plan ou passer à la page Conversation libre. Lorsque le vocal est connecté, la conversation démarre à l’ouverture ; autoriser le micro si le téléphone le demande. L’aperçu sur les ports 8081/8082 se connecte aussi automatiquement à ce serveur local lorsqu’il est prêt. Le code personnel est généré dans `.local/conversation/access-token`, jamais inclus dans le bundle ni dans Git.
 
 Mochi lit sa première question dès l’ouverture d’une situation connectée. Le micro écoute ensuite ; une pause d’environ 1,8 seconde après ta voix envoie ta phrase. Sa réponse est lue automatiquement et le micro reprend. Aucun texte à confirmer. Le bouton central met en pause ou reprend l’écoute sans relire une question déjà entendue. Je bloque et Historique mettent en pause et ouvrent leur panneau. Je bloque explique comment répondre à la question actuelle, propose un exemple à adapter et permet d’écouter sa réponse. Une intention écrite en français devient une phrase japonaise avec romaji et traduction ; À moi de parler reprend l’écoute pour que l’élève la prononce. Le clavier et la relecture restent accessibles dans ce panneau. Après 15 secondes sans voix, le micro se met en pause et propose un coup de pouce ; un tour est limité à 30 secondes.
 
@@ -95,7 +95,7 @@ Une alerte npm reste sur `node-forge@1.4.0`, dépendance transitive de l’outil
 ## Structure
 
 - `src/screens/` : accueil, pratique, carnet, progression.
-- `src/components/` : compagnon illustré, conversation, aide contextuelle, réglages et composants communs. Illustration et prompt : `assets/mascot/README.md`.
+- `src/components/` : compagnon illustré, conversation, aide contextuelle, réglages et composants communs. Avatar manga B choisi par le propriétaire : `assets/avatar/README.md`. Navigation et plan : `docs/HUB.md`.
 - `src/lib/` : sauvegarde validée, progression, client API.
 - `shared/contracts.ts` : contrats validés entre application et serveur.
 - `server/` : API personnelle protégée, limites de débit et intégration OpenAI.

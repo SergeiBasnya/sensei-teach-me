@@ -22,4 +22,13 @@ const result = spawnSync(python, ["scripts/render-voice-assets.py"], {
   env: process.env,
 });
 if (result.error) throw result.error;
-process.exitCode = result.status || 0;
+process.exitCode = result.status ?? 1;
+if (result.status === 0) {
+  const energy = spawnSync(
+    process.execPath,
+    ["--import", "tsx", "scripts/build-speech-energy.ts"],
+    { stdio: "inherit" },
+  );
+  if (energy.error) throw energy.error;
+  process.exitCode = energy.status ?? 1;
+}

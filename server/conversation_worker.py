@@ -75,6 +75,8 @@ def main():
                 elif request["kind"] == "turn":
                     scenario = SCENARIOS[request["scenario"]]
                     messages = [{"role": "system", "content": INSTRUCTIONS + "\nSituation : " + scenario}]
+                    if request.get("objective"):
+                        messages[0]["content"] += "\nCurrent beginner practice objective: " + request["objective"] + " Keep your follow-up questions focused on this objective."
                     messages += request["history"][-12:]
                     messages.append({"role": "user", "content": request["text"]})
                     prompt = tokenizer.apply_chat_template(messages, add_generation_prompt=True, tokenize=False, enable_thinking=False)

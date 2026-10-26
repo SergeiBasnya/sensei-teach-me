@@ -1,4 +1,8 @@
-import { tutorReplySchema, type ScenarioId } from "../../shared/contracts";
+import {
+  tutorReplySchema,
+  type LessonId,
+  type ScenarioId,
+} from "../../shared/contracts";
 
 export type Connection = {
   url: string;
@@ -115,12 +119,13 @@ export async function requestTurn(
   history: { role: "user" | "assistant"; content: string }[],
   text: string,
   signal?: AbortSignal,
+  lessonId?: LessonId,
 ) {
   return tutorReplySchema.parse(
     await apiRequest(
       connection,
       "/api/turn",
-      { scenario, history: history.slice(-16), text },
+      { scenario, lessonId, history: history.slice(-16), text },
       signal,
     ),
   );
