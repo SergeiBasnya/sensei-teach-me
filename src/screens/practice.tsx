@@ -50,7 +50,6 @@ export function Practice({
         </Txt>
         <Button
           onPress={connected ? () => start(freeScene) : onConfigure}
-          icon="arrow"
           style={{ alignSelf: "flex-start" }}
         >
           {connected ? "Parler avec Mochi" : "Configurer la conversation IA"}

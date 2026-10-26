@@ -80,8 +80,6 @@ export function SceneCard({
           >
             {completed ? "Déjà pratiqué" : `${scene.minutes} min · Débutant`}
           </Txt>
-          <View style={{ flex: 1 }} />
-          <Icon name="arrow" size={16} color={colors.purple} />
         </View>
       </View>
     </Pressable>

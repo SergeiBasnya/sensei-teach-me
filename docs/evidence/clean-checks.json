@@ -1,0 +1,26 @@
+{
+  "browser": {
+    "hover": "none",
+    "overflow": {
+      "390x844": false,
+      "320x568": false,
+      "844x390": false,
+      "1440x1000": false
+    },
+    "focus": "rgb(115, 80, 198) solid 3px",
+    "fonts": "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+    "summary": "1 réponses · 15 s de pratique · 0 expressions rencontrées",
+    "freeRowWorks": true,
+    "timerRemoved": true,
+    "oldHomeCopyRemoved": true,
+    "syntheticOralTurn": true,
+    "sendEnabled": true
+  },
+  "androidBundle": {
+    "newStart": true,
+    "oldTitleAbsent": true,
+    "timerLabelAbsent": true,
+    "arrowIconAbsent": true
+  },
+  "scope": "Flux synthétique isolé, aucune voix humaine, aucun appareil physique."
+}

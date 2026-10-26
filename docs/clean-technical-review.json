@@ -1,0 +1,58 @@
+{
+  "doctrineDigest": "sha256:65db957816539bb0d595d05cacda9f1e3dfa1a44ec900e5409986e9bd137f7b1",
+  "review": {
+    "schemaVersion": "prisma-technical-review.v1",
+    "id": "mochi-clean-controls",
+    "missionId": "sensei-japanese-oral-mvp",
+    "decisionId": "remove-timer-status-and-arrows",
+    "artifact": {
+      "root": "../build/web",
+      "digest": "sha256:e513b7c849cb2a5acc1134e3e4efdf42fc8820960b7cb162dfdaae5a797781a9"
+    },
+    "observedAt": "2026-10-26T11:21:23.560942+00:00",
+    "gates": [
+      {
+        "id": "doctrine:no-colored-side-stripes",
+        "passed": true,
+        "evidence": "Accueil 320×568, 390×844 et 1440×1000, conversation aux mêmes formats et 844×390, carnet et progression 390×844 observés. Fonds pleins et contours complets, aucun liseré décoratif latéral ou supérieur dans les zones inspectées. Cercle quotidien fonctionnel. Garde statique clair et doctor ready sans allowance ajoutée. Captures evidence/clean-home-1440.png, clean-call-390.png, clean-notebook-390.png et clean-progress-390.png."
+      },
+      {
+        "id": "doctrine:no-card-title-hover-underlines",
+        "passed": true,
+        "evidence": "Carte Un café à Tokyo survolée à 1440×1000 : contour complet violet et titre sans soulignement, textDecorationLine none. La fermeture de conversation ciblée après tabulation conserve un focus violet de 3 px : evidence/clean-home-1440.png et clean-close-focus.png."
+      },
+      {
+        "id": "doctrine:no-bricolage-grotesque",
+        "passed": true,
+        "evidence": "Famille calculée du titre visible : system-ui, -apple-system, system-ui, Segoe UI, sans-serif. Aucune police ajoutée ou interdite dans les styles modifiés. Rendu observé dans evidence/clean-call-390.png et clean-home-1440.png ; résultat calculé dans clean-checks.json. Pas d’observation de police sur téléphone physique."
+      },
+      {
+        "id": "doctrine:no-peripheral-filler-copy",
+        "passed": true,
+        "evidence": "Badge de connexion et titre Parle avec Mochi retirés de l’accueil ; le bloc conserve la mascotte et le seul bouton Commencer ma leçon. Compteur et annonce accessible supprimés de l’en-tête oral. Aucun nouveau slogan ajouté. Envoyer nomme directement l’action au clavier. Captures evidence/clean-home-390.png, clean-call-390.png et clean-keyboard-320.png."
+      },
+      {
+        "id": "doctrine:section-composition-and-rhythm",
+        "passed": true,
+        "evidence": "Accueil : un bouton principal avec illustration, puis situations et outils quotidiens. Conversation : fermeture et titre dans l’en-tête, compagnon et question au centre, outils en bas. Les cartes de situations gardent image et libellés après retrait de leur flèche ; la ligne de discussion libre devient un contrôle entier. Carnet et progression conservent leur composition. Captures evidence/clean-home-1440.png, clean-practice-390.png, clean-practice-action-390.png, clean-notebook-390.png et clean-progress-390.png."
+      },
+      {
+        "id": "doctrine:responsive-text-clearance",
+        "passed": true,
+        "evidence": "Observations 320×568, 390×844, 844×390 et 1440×1000. Nouveau bouton lisible sur une ligne, sans collision avec la mascotte ; titres d’en-tête avec marge et aucun compteur. Saisie et bouton Envoyer restent visibles à 320×568. Les contenus longs défilent normalement : question et traduction complètes après défilement dans clean-call-320-scrolled.png et clean-call-844.png ; la mascotte peut alors sortir de la zone centrale. Aucun débordement horizontal constaté. Autres captures evidence/clean-home-320.png et clean-keyboard-320.png. Clavier système natif non observé."
+      },
+      {
+        "id": "doctrine:one-clear-cta-per-section",
+        "passed": true,
+        "evidence": "Accueil : Commencer ma leçon est l’unique action principale du bloc ; les situations et la ligne de conversation libre ouvrent leur propre échange sans flèche. Carnet vide : Faire ma première conversation reste un bouton unique. Conversation : pause/reprise centrale, fermeture et outils fonctionnels ; Envoyer commande la saisie au clavier. Survol et focus visibles inspectés. Captures evidence/clean-home-390.png, clean-home-1440.png, clean-notebook-390.png, clean-practice-action-390.png, clean-keyboard-320.png et clean-close-focus.png."
+      },
+      {
+        "id": "technical:controls-and-duration",
+        "passed": true,
+        "evidence": "Un appui sur Commencer ma leçon déclenche la conversation et un tour audio synthétique utilise les vrais moteurs. Aucun compteur visuel ou nom accessible de durée ; le bilan contient néanmoins 1 réponses · 15 s de pratique · 0 expressions rencontrées. Envoyer devient actif avec une saisie ; la ligne entière de conversation libre ouvre la bonne scène. Types, formatage et exports web/iOS/Android passent. Bundle Android servi vérifié avec le libellé Commencer ma leçon encodé en JavaScript, sans ancien titre, ancien compteur ni définition de flèche. Résultats evidence/clean-checks.json. Aucun test nouveau ajouté pour ces changements visuels réversibles."
+      }
+    ],
+    "findings": [],
+    "summary": "Retrait du compteur, du badge vocal, du titre d’accueil redondant et des flèches. Bouton Commencer ma leçon, fermeture par croix, envoi par texte et ligne libre cliquable observés sur cet export exact. Contrôle technique dans cette conversation, sans revue indépendante ni validation artistique déduite. Durée de progression conservée et vérifiée avec une réponse synthétique ; aucun micro humain ou appareil physique. Le catalogue reste à trois situations plus discussion libre. Comparatif complet dans COMMANDES-TEXTES-AVANT-APRES.md. Le remplacement de la mascotte et les autres changements annoncés ensuite par l’utilisateur feront l’objet d’une version suivante. Aucun remote, push, nouvelle CI ou déploiement."
+  }
+}

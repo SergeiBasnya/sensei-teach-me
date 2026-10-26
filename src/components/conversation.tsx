@@ -66,7 +66,6 @@ export function Conversation({
     isSpeaking: speaking,
     error: speechError,
   } = useJapaneseSpeech();
-  const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const words = useRef<Phrase[]>([]);
   const activeSeconds = useRef(0);
   const foreground = useRef(AppState.currentState === "active");
@@ -125,7 +124,6 @@ export function Conversation({
     const timer = setInterval(() => {
       if (foreground.current) {
         activeSeconds.current++;
-        setElapsedSeconds(activeSeconds.current);
       }
     }, 1000);
     return () => {
@@ -229,19 +227,12 @@ export function Conversation({
     >
       <View style={s.header}>
         <IconButton
-          name="back"
+          name="close"
           label="Terminer et revenir à l’accueil"
           onPress={finish}
         />
         <Txt accessibilityRole="header" style={s.title}>
           {scene.title}
-        </Txt>
-        <Txt
-          accessibilityLabel={`${elapsedSeconds} secondes de séance`}
-          style={s.timer}
-        >
-          {Math.floor(elapsedSeconds / 60)}:
-          {String(elapsedSeconds % 60).padStart(2, "0")}
         </Txt>
       </View>
       <ScrollView
@@ -294,13 +285,13 @@ export function Conversation({
                   onSubmitEditing={() => void send(input)}
                   style={s.input}
                 />
-                <IconButton
-                  name="send"
-                  label="Envoyer ma réponse"
+                <Button
                   disabled={busy || !input.trim()}
                   onPress={() => void send(input)}
-                  active={!!input.trim()}
-                />
+                  style={{ paddingHorizontal: 14 }}
+                >
+                  Envoyer
+                </Button>
               </View>
             )}
             <View style={s.controls}>
@@ -541,7 +532,6 @@ const s = StyleSheet.create({
     borderBottomColor: colors.line,
   },
   title: { flex: 1, fontSize: 17, fontWeight: "600", lineHeight: 25 },
-  timer: { fontSize: 12, color: colors.muted, fontVariant: ["tabular-nums"] },
   stage: {
     flexGrow: 1,
     justifyContent: "center",

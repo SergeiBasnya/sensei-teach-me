@@ -60,11 +60,7 @@ export function ProgressScreen({
             Ta première séance apparaîtra ici. Quelques phrases suffisent pour
             démarrer.
           </Txt>
-          <Button
-            onPress={start}
-            icon="arrow"
-            style={{ alignSelf: "flex-start" }}
-          >
+          <Button onPress={start} style={{ alignSelf: "flex-start" }}>
             Commencer à pratiquer
           </Button>
         </Panel>

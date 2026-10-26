@@ -2,9 +2,9 @@
 
 Demande du 26 octobre 2026 : démarrage vocal dès l’entrée, interface mobile plus simple inspirée de Pingo, progression quotidienne conservée.
 
-Le bouton Parler ou une situation ouvre l’échange. Une permission de micro peut être demandée par le téléphone. Mochi lit sa première question, l’écoute commence après sa fin, puis le silence après la réponse déclenche l’envoi. Le micro reprend après chaque lecture. La commande centrale met en pause ou reprend ; une question entièrement entendue n’est pas relue lors de la reprise.
+Le bouton Commencer ma leçon ou une situation ouvre l’échange. Une permission de micro peut être demandée par le téléphone. Mochi lit sa première question, l’écoute commence après sa fin, puis le silence après la réponse déclenche l’envoi. Le micro reprend après chaque lecture. La commande centrale met en pause ou reprend ; une question entièrement entendue n’est pas relue lors de la reprise.
 
-L’écran garde le compagnon, la question courante, le romaji et le français selon les préférences, une durée de séance et trois contrôles : historique, pause/reprise et aide. Le fil complet, les corrections et la relecture restent disponibles dans les panneaux. Leur ouverture met la conversation en pause. Le clavier est dans Aide. Les contenus japonais préparés et la voix A sont conservés.
+L’écran garde le compagnon, la question courante, le romaji et le français selon les préférences et trois contrôles : historique, pause/reprise et aide. Le fil complet, les corrections et la relecture restent disponibles dans les panneaux. Leur ouverture met la conversation en pause. Le clavier est dans Aide. Les contenus japonais préparés et la voix A sont conservés.
 
 La référence Pingo porte sur l’organisation autour de la conversation orale et l’accès aux aides : [fiche officielle](https://apps.apple.com/us/app/language-learning-pingo-ai/id6738882620), [illustrations du parcours sur le site Pingo](https://pingo.ai/blog/best-ai-language-learning-apps-for-chinese-learners-in-2025). L’identité, le personnage et les composants de Mochi restent propres au projet. Aucun actif de Pingo n’est intégré.
 

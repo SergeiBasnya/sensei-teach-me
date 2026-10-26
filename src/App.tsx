@@ -339,7 +339,6 @@ function Sensei() {
                     desktop={desktop}
                     start={start}
                     setProgress={setProgress}
-                    connectionStatus={connectionStatus}
                   />
                 )}
                 {tab === "practice" && (

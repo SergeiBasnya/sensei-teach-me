@@ -1,6 +1,5 @@
 import { Pressable, View, useWindowDimensions } from "react-native";
 import { useJapaneseSpeech } from "../components/japanese-speech";
-import type { ConnectionStatus } from "../lib/use-connection";
 import { dailyPhrase, freeScene, scenes, type Scene } from "../data/lessons";
 import { addWords, getStats, type Progress } from "../lib/progress";
 import { Icon, Mochi } from "../components/art";
@@ -8,7 +7,6 @@ import { SceneCard } from "../components/scene-card";
 import { GoalRing, WeekStrip } from "../components/progress-widgets";
 import { appStyles as s } from "../styles";
 import {
-  Badge,
   Button,
   colors,
   IconButton,
@@ -21,13 +19,11 @@ export function Home({
   desktop,
   start,
   setProgress,
-  connectionStatus,
 }: {
   progress: Progress;
   desktop: boolean;
   start: (scene: Scene) => void;
   setProgress: React.Dispatch<React.SetStateAction<Progress>>;
-  connectionStatus: ConnectionStatus;
 }) {
   const { speakJapanese, error: speechError } = useJapaneseSpeech();
   const { width } = useWindowDimensions();
@@ -83,35 +79,15 @@ export function Home({
                 zIndex: 1,
               }}
             >
-              <Badge background="#FFFFFFB8" icon="spark">
-                {connectionStatus === "ready"
-                  ? "Vocal prêt"
-                  : connectionStatus === "checking"
-                    ? "Connexion…"
-                    : "Vocal à connecter"}
-              </Badge>
-              <Txt
-                accessibilityRole="header"
-                style={{
-                  fontSize: desktop ? 30 : 25,
-                  lineHeight: desktop ? 39 : 34,
-                  letterSpacing: -0.8,
-                  fontWeight: "700",
-                  color: "#3C2A60",
-                }}
-              >
-                Parle avec Mochi.
-              </Txt>
               <Button
                 onPress={() => start(scenes[0]!)}
-                icon="arrow"
                 style={{
                   alignSelf: "flex-start",
                   marginTop: 6,
                   paddingHorizontal: desktop ? 20 : 15,
                 }}
               >
-                Parler
+                Commencer ma leçon
               </Button>
             </View>
           </View>
@@ -134,7 +110,12 @@ export function Home({
               ))}
             </View>
           </View>
-          <View style={s.freeRow}>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Démarrer une conversation libre"
+            onPress={() => start(freeScene)}
+            style={({ pressed }) => [s.freeRow, { opacity: pressed ? 0.8 : 1 }]}
+          >
             <View
               style={{
                 width: 46,
@@ -155,13 +136,7 @@ export function Home({
                 Ton quotidien, tes passions, ton prochain voyage.
               </Txt>
             </View>
-            <IconButton
-              name="arrow"
-              label="Démarrer une conversation libre"
-              onPress={() => start(freeScene)}
-              active
-            />
-          </View>
+          </Pressable>
         </View>
         <View
           style={{

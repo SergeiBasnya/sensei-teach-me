@@ -59,9 +59,7 @@ export function Notebook({
             Tes conversations enrichissent ce carnet. Tu peux aussi enregistrer
             la phrase du jour.
           </Txt>
-          <Button onPress={onStart} icon="arrow">
-            Faire ma première conversation
-          </Button>
+          <Button onPress={onStart}>Faire ma première conversation</Button>
         </Panel>
       ) : (
         <>
