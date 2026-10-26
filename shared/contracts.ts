@@ -32,6 +32,21 @@ export const turnRequestSchema = z.object({
     .max(16),
   text: z.string().trim().min(1).max(1500),
 });
+export const helpRequestSchema = z.object({
+  scenario: scenarioIdSchema,
+  history: turnRequestSchema.shape.history,
+  question: z.string().trim().min(1).max(500),
+  meaning: z.string().trim().max(500).default(""),
+});
+export const helpResponseSchema = z.object({
+  explanation: z.string().trim().min(1).max(500),
+  answer: z.object({
+    japanese: z.string().trim().min(1).max(300),
+    romaji: z.string().trim().min(1).max(600),
+    french: z.string().trim().min(1).max(500),
+  }),
+});
+export type ConversationHelp = z.infer<typeof helpResponseSchema>;
 export const audioRequestSchema = z.object({
   audio: z
     .string()

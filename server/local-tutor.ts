@@ -3,7 +3,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { createInterface } from "node:readline";
 import { z } from "zod";
-import { tutorReplySchema } from "../shared/contracts";
+import { tutorReplySchema, helpResponseSchema } from "../shared/contracts";
 import type { TutorProvider } from "./app";
 
 export type LocalTutor = TutorProvider & {
@@ -144,6 +144,9 @@ export function createLocalTutor(): LocalTutor | undefined {
         .string()
         .max(1500)
         .parse(await call({ kind: "transcribe", ...input }));
+    },
+    async help(input) {
+      return helpResponseSchema.parse(await call({ kind: "help", ...input }));
     },
     close() {
       closed = true;

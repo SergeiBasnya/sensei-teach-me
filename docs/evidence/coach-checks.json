@@ -1,0 +1,214 @@
+{
+  "browser": {
+    "turns": [
+      {
+        "status": 200,
+        "ms": 4098,
+        "heard": true,
+        "transcript": "私はオーギュストです。",
+        "reply": "オーギュストさん、こんにちは！フランスからですか？",
+        "audioBytes": 254696
+      }
+    ],
+    "helps": [
+      {
+        "payload": {
+          "question": "オーギュストさん、こんにちは！フランスからですか？",
+          "history": [
+            {
+              "role": "assistant",
+              "content": "こんにちは！私はもちです。お名前は？"
+            },
+            {
+              "role": "user",
+              "content": "私はオーギュストです。"
+            },
+            {
+              "role": "assistant",
+              "content": "オーギュストさん、こんにちは！フランスからですか？"
+            }
+          ],
+          "scenario": "meet",
+          "meaning": ""
+        },
+        "status": 200,
+        "data": {
+          "explanation": "Pour dire d’où tu viens, utilise « [pays ou ville] kara kimashita ».",
+          "answer": {
+            "japanese": "はい、フランスから来ました。",
+            "romaji": "hai, furansu kara kima shita.",
+            "french": "Oui, je viens de France."
+          }
+        }
+      },
+      {
+        "payload": {
+          "question": "オーギュストさん、こんにちは！フランスからですか？",
+          "history": [
+            {
+              "role": "assistant",
+              "content": "こんにちは！私はもちです。お名前は？"
+            },
+            {
+              "role": "user",
+              "content": "私はオーギュストです。"
+            },
+            {
+              "role": "assistant",
+              "content": "オーギュストさん、こんにちは！フランスからですか？"
+            }
+          ],
+          "scenario": "meet",
+          "meaning": "Je viens de Belgique"
+        },
+        "status": 200,
+        "data": {
+          "explanation": "Pour dire d’où tu viens, utilise « [pays ou ville] kara kimashita ».",
+          "answer": {
+            "japanese": "ベルギーから来ました。",
+            "romaji": "berugii kara kima shita.",
+            "french": "Je viens de Belgique."
+          }
+        }
+      }
+    ],
+    "greetingFinishedBeforeRecording": true,
+    "cacheWithoutExtraCall": true,
+    "helperAudioEnded": true,
+    "noLearnerTurnFromHelp": true,
+    "resumeWithoutReplay": true,
+    "quietInvitesHelp": true,
+    "events": [
+      {
+        "event": "play",
+        "at": 157.60000002384186
+      },
+      {
+        "event": "ended",
+        "at": 3711.800000011921
+      },
+      {
+        "event": "record",
+        "at": 3713
+      },
+      {
+        "event": "play",
+        "at": 12217.800000011921
+      },
+      {
+        "event": "ended",
+        "at": 16218.900000035763
+      },
+      {
+        "event": "record",
+        "at": 16219.5
+      },
+      {
+        "event": "record",
+        "at": 16605.80000001192
+      },
+      {
+        "event": "play",
+        "at": 20785.900000035763
+      },
+      {
+        "event": "ended",
+        "at": 22331.100000023842
+      },
+      {
+        "event": "record",
+        "at": 22823.200000047684
+      }
+    ]
+  },
+  "layout": {
+    "fonts": [
+      "Times",
+      "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif"
+    ],
+    "image": [
+      {
+        "loaded": true,
+        "width": 1210,
+        "height": 1300
+      }
+    ],
+    "helpFocus": {
+      "outline": "rgb(115, 80, 198) solid 3px"
+    },
+    "help320Overflow": false,
+    "shortOverflow": false,
+    "hover": {
+      "decoration": "none"
+    },
+    "home320Overflow": false
+  },
+  "finalStates": {
+    "homeFonts": [
+      "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif"
+    ],
+    "helpFonts": [
+      "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif"
+    ],
+    "simulatedHelp503Visible": true,
+    "retryRealProviderSucceeded": true
+  },
+  "directHelp": [
+    {
+      "question": "どこから来ましたか？",
+      "meaning": "",
+      "status": 200,
+      "ms": 1193,
+      "data": {
+        "explanation": "Pour dire d’où tu viens, utilise « [pays ou ville] kara kimashita ».",
+        "answer": {
+          "japanese": "アメリカから来ました。",
+          "romaji": "amerika kara kima shita.",
+          "french": "Je viens des États-Unis."
+        }
+      }
+    },
+    {
+      "question": "どこから来ましたか？",
+      "meaning": "Je viens de Belgique",
+      "status": 200,
+      "ms": 853,
+      "data": {
+        "explanation": "Pour dire d’où tu viens, utilise « [pays ou ville] kara kimashita ».",
+        "answer": {
+          "japanese": "ベルギーから来ました。",
+          "romaji": "berugii kara kima shita.",
+          "french": "Je viens de Belgique."
+        }
+      }
+    },
+    {
+      "question": "どんな映画が好きですか？",
+      "meaning": "",
+      "status": 200,
+      "ms": 1090,
+      "data": {
+        "explanation": "Pour parler de tes goûts, dis « [ce que tu aimes] ga suki desu ».",
+        "answer": {
+          "japanese": "ドラマ映画が好きです。",
+          "romaji": "dorama eiga ga suki desu.",
+          "french": "J’aime les films dramatiques."
+        }
+      }
+    }
+  ],
+  "nativeBundle": {
+    "androidManifest": true,
+    "helper": true,
+    "oralHelp": true,
+    "mascotAsset": true,
+    "personalCodeAbsent": true,
+    "bytes": 5553773
+  },
+  "backendHashes": {
+    "server/app.ts": "sha256:1c1c2bd6b16017eecd7f8003aec4097a039124cb3ebf91db2c54e38ba2748e7a",
+    "server/local-tutor.ts": "sha256:85ce6fb8a31dfe9eebfb0b7d0b45ed687105c4ebd7c7c8524ffa5b5d8e1829f7",
+    "server/conversation_worker.py": "sha256:a55c3f94ee5efaa1fa01afd8cd207f75e3b841e08b54fd375ed2055d0c8e09c4",
+    "shared/contracts.ts": "sha256:dc2d881fcc345ce88a007926417272b827d1060e44d1c67eaf5ea67d07d4f97e"
+  }
+}

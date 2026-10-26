@@ -62,6 +62,7 @@ export function useOralSession({
     "idle" | "starting" | "listening" | "thinking" | "speaking"
   >("idle");
   const [error, setError] = useState("");
+  const [quiet, setQuiet] = useState(false);
   const run = useRef(new OralRun()).current;
   const capturing = useRef(false);
   const stopping = useRef<Promise<void>>(Promise.resolve());
@@ -130,9 +131,10 @@ export function useOralSession({
         Date.now(),
       );
       if (decision === "quiet")
-        void fail(
-          "Je n’ai pas entendu de phrase. Rapproche-toi du micro, puis reprends la conversation.",
-        );
+        void (async () => {
+          await stop();
+          if (mounted.current) setQuiet(true);
+        })();
       if (decision === "send") void submit(id);
     }, 100);
   };
@@ -234,6 +236,7 @@ export function useOralSession({
     const id = run.begin();
     if (id === null) return;
     setError("");
+    setQuiet(false);
     setPhase("starting");
     const current = () => mounted.current && run.current(id);
     try {
@@ -290,6 +293,7 @@ export function useOralSession({
   return {
     phase,
     error,
+    quiet,
     active: phase !== "idle",
     start,
     stop,

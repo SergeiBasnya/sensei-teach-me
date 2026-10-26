@@ -286,3 +286,122 @@ test("validation avant appel fournisseur ; réponse structurée et audio transcr
     );
   });
 });
+
+test("l’aide est protégée et utilise la question actuelle sans envoyer de réponse à la conversation", async () => {
+  let helps = 0;
+  const answer = {
+    explanation: "Indique ton pays, puis ajoute kara kimashita.",
+    answer: {
+      japanese: "ベルギーから来ました。",
+      romaji: "Berugī kara kimashita.",
+      french: "Je viens de Belgique.",
+    },
+  };
+  const provider: TutorProvider = {
+    async turn() {
+      throw new Error("L’aide ne doit pas jouer le tour de l’élève.");
+    },
+    async transcribe() {
+      throw new Error("L’aide ne doit pas ouvrir le micro.");
+    },
+    async help(input) {
+      helps++;
+      assert.equal(input.question, "どこから来ましたか？");
+      assert.equal(input.meaning, "Je viens de Belgique");
+      assert.deepEqual(input.history, [
+        { role: "user", content: "ポールです。" },
+        { role: "assistant", content: "どこから来ましたか？" },
+      ]);
+      return answer;
+    },
+  };
+  await withServer(provider, async (base) => {
+    const body = {
+      scenario: "meet",
+      question: "どこから来ましたか？",
+      meaning: "Je viens de Belgique",
+      history: [
+        { role: "user", content: "ポールです。" },
+        { role: "assistant", content: "どこから来ましたか？" },
+      ],
+    };
+    const post = (data: unknown, headers = auth) =>
+      fetch(`${base}/api/help`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(data),
+      });
+    assert.equal(
+      (await post(body, { ...auth, Authorization: "Bearer wrong" })).status,
+      401,
+    );
+    assert.equal((await post({ ...body, question: "" })).status, 400);
+    assert.equal(
+      (await post({ ...body, meaning: "a".repeat(501) })).status,
+      400,
+    );
+    assert.equal(
+      (await post({ ...body, history: Array(17).fill(body.history[0]) }))
+        .status,
+      400,
+    );
+    assert.equal(helps, 0);
+    const response = await post(body);
+    assert.equal(response.status, 200);
+    assert.equal(response.headers.get("cache-control"), "no-store");
+    assert.deepEqual(await response.json(), answer);
+    assert.equal(helps, 1);
+  });
+});
+
+test("une aide absente ou invalide n’est pas présentée comme une phrase utilisable", async () => {
+  const body = {
+    scenario: "meet",
+    history: [],
+    question: "どこから来ましたか？",
+  };
+  await withServer(undefined, async (base) => {
+    assert.equal(
+      (
+        await fetch(`${base}/api/help`, {
+          method: "POST",
+          headers: auth,
+          body: JSON.stringify(body),
+        })
+      ).status,
+      503,
+    );
+  });
+  await withServer(
+    {
+      async turn() {
+        return {
+          reply: freeScene.turns[0]!.tutor,
+          correction: null,
+          vocabulary: [],
+        };
+      },
+      async transcribe() {
+        return "";
+      },
+      async help() {
+        return {
+          explanation: "Conseil",
+          answer: { japanese: "", romaji: "", french: "" },
+        };
+      },
+    },
+    async (base) => {
+      assert.equal(
+        (
+          await fetch(`${base}/api/help`, {
+            method: "POST",
+            headers: auth,
+            body: JSON.stringify(body),
+          })
+        ).status,
+        502,
+      );
+    },
+  );
+});

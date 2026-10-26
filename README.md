@@ -28,7 +28,7 @@ npm run local
 
 Lire les conditions VOICEVOX référencées ci-dessous avant de passer son option d’acceptation. Ouvrir ensuite `http://localhost:8787`, puis choisir une situation ou une conversation libre. Lorsque le vocal est connecté, la conversation démarre à l’ouverture ; autoriser le micro si le téléphone le demande. L’aperçu sur les ports 8081/8082 se connecte aussi automatiquement à ce serveur local lorsqu’il est prêt. Le code personnel est généré dans `.local/conversation/access-token`, jamais inclus dans le bundle ni dans Git.
 
-Mochi lit sa première question dès l’ouverture d’une situation connectée. Le micro écoute ensuite ; une pause d’environ 1,8 seconde après ta voix envoie ta phrase. Sa réponse est lue automatiquement et le micro reprend. Aucun texte à confirmer. Le bouton central met en pause ou reprend l’écoute sans relire une question déjà entendue. Aide et Historique mettent en pause et ouvrent leur panneau ; le clavier et la relecture sont accessibles dans Aide. Après 15 secondes sans voix, le micro se met en pause ; un tour est limité à 30 secondes.
+Mochi lit sa première question dès l’ouverture d’une situation connectée. Le micro écoute ensuite ; une pause d’environ 1,8 seconde après ta voix envoie ta phrase. Sa réponse est lue automatiquement et le micro reprend. Aucun texte à confirmer. Le bouton central met en pause ou reprend l’écoute sans relire une question déjà entendue. Je bloque et Historique mettent en pause et ouvrent leur panneau. Je bloque explique comment répondre à la question actuelle, propose un exemple à adapter et permet d’écouter sa réponse. Une intention écrite en français devient une phrase japonaise avec romaji et traduction ; À moi de parler reprend l’écoute pour que l’élève la prononce. Le clavier et la relecture restent accessibles dans ce panneau. Après 15 secondes sans voix, le micro se met en pause et propose un coup de pouce ; un tour est limité à 30 secondes.
 
 Le japonais, le romaji et la traduction restent consultables. La transcription vise le japonais ; la reconnaissance d’une demande orale en français n’est pas garantie. Le modèle local peut se tromper : aucune note de prononciation ni correction phonétique n’est calculée. Le temps de pratique mesure la séance au premier plan. Les expressions du carnet et la progression restent sur l’appareil ; la conversation courante reste en mémoire.
 
@@ -95,7 +95,7 @@ Une alerte npm reste sur `node-forge@1.4.0`, dépendance transitive de l’outil
 ## Structure
 
 - `src/screens/` : accueil, pratique, carnet, progression.
-- `src/components/` : compagnon SVG original, conversation, réglages et composants communs.
+- `src/components/` : compagnon illustré, conversation, aide contextuelle, réglages et composants communs. Illustration et prompt : `assets/mascot/README.md`.
 - `src/lib/` : sauvegarde validée, progression, client API.
 - `shared/contracts.ts` : contrats validés entre application et serveur.
 - `server/` : API personnelle protégée, limites de débit et intégration OpenAI.

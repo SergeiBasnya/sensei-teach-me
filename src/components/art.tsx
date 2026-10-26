@@ -1,5 +1,5 @@
 import Svg, { Circle, Ellipse, G, Path, Rect } from "react-native-svg";
-import { View } from "react-native";
+import { Image, View } from "react-native";
 
 const iconPaths = {
   home: "M3 10 12 3l9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z",
@@ -73,62 +73,18 @@ export function Mochi({
 }) {
   return (
     <View
-      accessibilityLabel="Mochi, ton compagnon de japonais"
+      accessibilityLabel={
+        happy ? "Mochi te félicite" : "Mochi, ton compagnon de japonais"
+      }
       accessibilityRole="image"
+      style={{ width: size, height: size }}
     >
-      <Svg width={size} height={size} viewBox="0 0 240 240">
-        <Ellipse
-          cx="123"
-          cy="215"
-          rx="70"
-          ry="10"
-          fill="#7961B9"
-          opacity="0.12"
-        />
-        <Path
-          d="M65 180c-19 17-36 7-32-8 2-9 13-18 26-20 M184 153c16-4 33 7 27 18-5 10-17 14-29 7"
-          fill="#B4A0E8"
-        />
-        <Path
-          d="M52 156c-1-62 22-113 68-113 45 0 73 49 72 113 0 36-28 56-70 56-43 0-69-21-70-56Z"
-          fill="#B9A5EC"
-        />
-        <Path
-          d="M75 65c-9-31 4-42 17-29l16 19 M146 52l15-24c9-12 24-6 16 30"
-          fill="#B9A5EC"
-        />
-        <Path
-          d="M69 148c0-43 17-72 52-72 32 0 54 29 54 72 0 29-20 48-53 48-32 0-53-19-53-48Z"
-          fill="#F7F3FF"
-        />
-        <Ellipse cx="90" cy="141" rx="10" ry="6" fill="#EFB9CD" />
-        <Ellipse cx="155" cy="141" rx="10" ry="6" fill="#EFB9CD" />
-        {happy ? (
-          <G stroke="#332947" strokeWidth="4" fill="none" strokeLinecap="round">
-            <Path d="m94 122 5-4 5 4 M139 122l5-4 5 4" />
-          </G>
-        ) : (
-          <G fill="#332947">
-            <Ellipse cx="99" cy="124" rx="4" ry="6" />
-            <Ellipse cx="144" cy="124" rx="4" ry="6" />
-          </G>
-        )}
-        <Path
-          d="M115 140q7 8 14 0"
-          fill="none"
-          stroke="#332947"
-          strokeWidth="3"
-          strokeLinecap="round"
-        />
-        <Path d="m108 175 15 8 15-8" fill="#8F73D5" />
-        <Path d="m107 174 16-7 16 7-16 9Z" fill="#A48ADE" />
-        <Ellipse cx="88" cy="205" rx="15" ry="7" fill="#A78FD9" />
-        <Ellipse cx="157" cy="205" rx="15" ry="7" fill="#A78FD9" />
-        <Path
-          d="m207 65 3 8 8 3-8 3-3 8-3-8-8-3 8-3Z M30 99l2 6 6 2-6 2-2 6-2-6-6-2 6-2Z"
-          fill="#9B80DB"
-        />
-      </Svg>
+      <Image
+        source={require("../../assets/mascot/mochi-v2.png")}
+        style={{ width: size, height: size }}
+        resizeMode="contain"
+        accessible={false}
+      />
     </View>
   );
 }
@@ -138,6 +94,19 @@ export function SceneArt({
 }: {
   kind: "smile" | "coffee" | "train" | "chat";
 }) {
+  if (kind === "smile" || kind === "chat")
+    return (
+      <View
+        style={{
+          height: 112,
+          width: "100%",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Mochi size={108} />
+      </View>
+    );
   return (
     <Svg width="100%" height="112" viewBox="0 0 240 112" aria-hidden={true}>
       {kind === "coffee" ? (
@@ -176,35 +145,7 @@ export function SceneArt({
           <Circle cx="144" cy="68" r="4" fill="#EACD88" />
           <Rect x="108" y="22" width="27" height="3" rx="1.5" fill="#8DAF9F" />
         </G>
-      ) : (
-        <G>
-          <Ellipse cx="123" cy="99" rx="51" ry="6" fill="#D2C4EF" />
-          <Path
-            d="M76 83c0-50 15-72 45-72 29 0 46 24 46 72 0 22-91 22-91 0Z"
-            fill="#B9A5EC"
-          />
-          <Path
-            d="M89 76c0-31 11-46 32-46 22 0 33 16 33 46s-65 28-65 0Z"
-            fill="#F8F5FF"
-          />
-          <Circle cx="107" cy="61" r="3" fill="#403452" />
-          <Circle cx="137" cy="61" r="3" fill="#403452" />
-          <Path
-            d="M117 73q5 6 10 0"
-            fill="none"
-            stroke="#403452"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-          <Path d="M163 18h36v23h-16l-8 8v-8h-12Z" fill="#FFF" />
-          <Path
-            d="M173 27h17 M173 33h12"
-            stroke="#B7A4DB"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-        </G>
-      )}
+      ) : null}
     </Svg>
   );
 }

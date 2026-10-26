@@ -15,7 +15,12 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useJapaneseSpeech } from "./japanese-speech";
 import { useOralSession } from "../lib/use-oral-session";
-import type { Phrase, TutorReply } from "../../shared/contracts";
+import type {
+  ConversationHelp,
+  Phrase,
+  TutorReply,
+} from "../../shared/contracts";
+import { CoachHelp } from "./coach-help";
 import type { Scene } from "../data/lessons";
 import type { Progress } from "../lib/progress";
 import { requestTurn, type Connection } from "../lib/api";
@@ -69,6 +74,7 @@ export function Conversation({
   const locked = useRef(false);
   const mounted = useRef(true);
   const autoStarted = useRef(false);
+  const helpCache = useRef(new Map<string, ConversationHelp>()).current;
   const oral = useOralSession({
     connection,
     scenario: scene.id,
@@ -202,10 +208,12 @@ export function Conversation({
           ? "Mochi parle…"
           : oral.phase === "starting"
             ? "Préparation du micro…"
-            : "En pause";
-  const openSheet = (next: "help" | "history") => {
-    void oral.stop();
-    setSheet(next);
+            : oral.quiet
+              ? "Besoin d’un coup de pouce ?"
+              : "En pause";
+  const openSheet = async (next: "help" | "history") => {
+    await oral.stop();
+    if (mounted.current) setSheet(next);
   };
   const resume = () => {
     setSheet(null);
@@ -344,7 +352,14 @@ export function Conversation({
                 style={s.tool}
               >
                 <Icon name="book" size={22} color={colors.muted} />
-                <Txt style={s.toolLabel}>Aide</Txt>
+                <Txt
+                  style={[
+                    s.toolLabel,
+                    oral.quiet && { color: colors.purple, fontWeight: "600" },
+                  ]}
+                >
+                  Je bloque
+                </Txt>
               </Pressable>
             </View>
             <Txt accessibilityLiveRegion="polite" style={s.status}>
@@ -367,7 +382,10 @@ export function Conversation({
           title={
             sheet === "history" ? "Notre conversation" : "Un coup de pouce"
           }
-          onClose={() => setSheet(null)}
+          onClose={() => {
+            setSheet(null);
+            void stopJapanese();
+          }}
         >
           {sheet === "history" ? (
             messages.map((message) => (
@@ -411,47 +429,35 @@ export function Conversation({
             ))
           ) : (
             <>
-              <Txt style={{ fontSize: 19, lineHeight: 30 }}>
-                {question.japanese}
-              </Txt>
-              {!!question.french && (
-                <Txt style={{ color: colors.muted }}>{question.french}</Txt>
-              )}
+              <CoachHelp
+                connection={connection}
+                question={question}
+                history={messages.map((message) => ({
+                  role: message.role,
+                  content: message.phrase.japanese,
+                }))}
+                scenario={scene.id}
+                fallback={suggestion}
+                romaji={progress.romaji}
+                cache={helpCache}
+              />
               <Button
                 secondary
                 icon="volume"
                 onPress={() => void speak(question.japanese)}
               >
-                Réécouter Mochi
+                Réécouter la question
               </Button>
-              {suggestion && (
-                <View style={s.correction}>
-                  <Txt style={s.speaker}>Tu peux dire</Txt>
-                  <Txt style={{ fontSize: 19, lineHeight: 30 }}>
-                    {suggestion.japanese}
-                  </Txt>
-                  {progress.romaji && (
-                    <Txt style={{ color: colors.purple, fontSize: 13 }}>
-                      {suggestion.romaji}
-                    </Txt>
-                  )}
-                  {progress.translation && (
-                    <Txt style={{ color: colors.muted, fontSize: 13 }}>
-                      {suggestion.french}
-                    </Txt>
-                  )}
-                  {!connection && (
-                    <Button
-                      secondary
-                      onPress={() => {
-                        setSheet(null);
-                        void send(suggestion.japanese, suggestion);
-                      }}
-                    >
-                      Essayer cette réponse
-                    </Button>
-                  )}
-                </View>
+              {!connection && suggestion && (
+                <Button
+                  secondary
+                  onPress={() => {
+                    setSheet(null);
+                    void send(suggestion.japanese, suggestion);
+                  }}
+                >
+                  Essayer cette réponse
+                </Button>
               )}
               {connection && (
                 <Button
@@ -468,7 +474,11 @@ export function Conversation({
             </>
           )}
           <Button icon={connection?.oral ? "mic" : "close"} onPress={resume}>
-            {connection?.oral ? "Reprendre" : "Fermer"}
+            {connection?.oral
+              ? sheet === "help"
+                ? "À moi de parler"
+                : "Reprendre"
+              : "Fermer"}
           </Button>
         </ConversationSheet>
       )}
@@ -487,7 +497,10 @@ function ConversationSheet({
   const insets = useSafeAreaInsets();
   return (
     <Modal transparent animationType="slide" onRequestClose={onClose}>
-      <View style={s.backdrop}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        style={s.backdrop}
+      >
         <View
           style={[s.sheet, { paddingBottom: Math.max(24, insets.bottom + 12) }]}
           accessibilityViewIsModal
@@ -512,7 +525,7 @@ function ConversationSheet({
             {children}
           </ScrollView>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </Modal>
   );
 }

@@ -1,0 +1,70 @@
+{
+  "doctrineDigest": "sha256:65db957816539bb0d595d05cacda9f1e3dfa1a44ec900e5409986e9bd137f7b1",
+  "review": {
+    "schemaVersion": "prisma-technical-review.v1",
+    "id": "mochi-illustration-contextual-coach",
+    "missionId": "sensei-japanese-oral-mvp",
+    "decisionId": "mochi-help-when-stuck",
+    "artifact": {
+      "root": "../build/web",
+      "digest": "sha256:ee80dfd0676bbb77fc53bed861ea42851618897bccc2e0a4d03ebd25ac1dc186"
+    },
+    "observedAt": "2026-10-26T09:50:50.710884+00:00",
+    "gates": [
+      {
+        "id": "doctrine:no-colored-side-stripes",
+        "passed": true,
+        "evidence": "Rendu observé sur l’export final : accueil 320×568 et 390×844, conversation et aide aux mêmes formats, ordinateur 1440×1000 et fenêtre 844×390. Panneau blanc, exemple sur fond lavande plein, champs gris et contours complets des cartes. Aucun liseré décoratif latéral ou supérieur observé dans ces zones. L’erreur d’aide est un texte sans liseré. Cercle d’objectif fonctionnel conservé. Captures evidence/coach-home-desktop-hover.png, coach-help-example-390.png, coach-help-error-320.png et coach-call-short.png ; garde statique clair, doctor ready et aucune nouvelle allowance."
+      },
+      {
+        "id": "doctrine:no-card-title-hover-underlines",
+        "passed": true,
+        "evidence": "Survol réel de Un café à Tokyo à 1440×1000 : contour complet violet, titre sans soulignement, textDecorationLine calculé none. Je bloque ciblé au clavier : outline rgb(115, 80, 198) solid 3px, visible dans evidence/coach-help-focus.png. Le bouton de fermeture garde aussi son focus visible dans les panneaux (evidence/coach-help-320-top.png)."
+      },
+      {
+        "id": "doctrine:no-bricolage-grotesque",
+        "passed": true,
+        "evidence": "Familles calculées des parents des nœuds de texte réellement visibles dans l’accueil et l’aide : system-ui, -apple-system, system-ui, Segoe UI, sans-serif. Le premier relevé incluait un conteneur sans texte propre héritant de Times ; le relevé des nœuds visibles l’écarte. Aucune police externe ajoutée ni famille interdite observée. Résultats evidence/coach-checks.json finalStates, captures coach-home-390.png et coach-help-example-390.png. Familles sur téléphone physique non observées."
+      },
+      {
+        "id": "doctrine:no-peripheral-filler-copy",
+        "passed": true,
+        "evidence": "Les nouveaux textes sont rattachés à l’aide demandée : sens de la question, conseil de construction, exemple explicitement à adapter, romaji, traduction, champ d’intention et états courts. Aucun slogan ou signature ajouté autour de la mascotte. L’écran oral garde la question, le compagnon et les commandes. Besoin d’un coup de pouce ? apparaît après le silence pour guider l’action. Captures evidence/coach-listening-390.png, coach-quiet-390.png, coach-help-personal-390.png et coach-help-error-320.png."
+      },
+      {
+        "id": "doctrine:section-composition-and-rhythm",
+        "passed": true,
+        "evidence": "Accueil : invitation avec illustration, situations en lignes sur mobile et en cartes sur ordinateur, puis outils quotidiens. Compagnon entier visible, décalage droit mobile ajusté. Conversation : illustration et question centrales, commandes en bas. Aide : titre, explication, exemple groupé puis intention française et reprise. Les contenus longs défilent dans le panneau tandis que l’en-tête et la fermeture restent visibles. Captures evidence/coach-home-320.png, coach-home-desktop-hover.png, coach-call-desktop.png, coach-help-desktop.png, coach-help-320-top.png et coach-help-320-bottom.png. Aucun verdict artistique automatique."
+      },
+      {
+        "id": "doctrine:responsive-text-clearance",
+        "passed": true,
+        "evidence": "Observations à 320×568, 390×844, 844×390 et 1440×1000. Les oreilles et pieds de la mascotte restent dans leur image. Le titre du panneau, les conseils, la réponse et les champs gardent des marges ; les réponses japonaises reviennent à la ligne. Le panneau long et la zone centrale se parcourent par défilement normal. À 320×568, la traduction peut se trouver sous la limite visible de la zone centrale : le défilement montre son intégralité (coach-call-320-scrolled.png). La fenêtre courte a été défilée pour montrer la question complète (coach-call-short.png). L’accueil 320 conserve Situations sous la zone initiale, accessible par défilement. Aucun débordement horizontal constaté. Captures evidence/coach-help-320-top.png, coach-help-320-bottom.png, coach-home-320.png et coach-call-short.png. Clavier système Android/iOS non observé."
+      },
+      {
+        "id": "doctrine:one-clear-cta-per-section",
+        "passed": true,
+        "evidence": "Accueil : Parler ouvre la conversation de présentation ; les scènes ouvrent leur propre situation. Conversation : commande centrale pause/reprise, Je bloque et Historique comme outils nécessaires. Aide : À moi de parler est le seul bouton principal plein ; lecture de l’exemple, transformation de l’intention, relecture et clavier sont des contrôles secondaires fonctionnels. Contrastes et focus observés sur ordinateur et mobile, captures evidence/coach-help-desktop.png, coach-help-320-bottom.png, coach-help-focus.png et coach-home-390.png. Aucune sollicitation promotionnelle ajoutée."
+      },
+      {
+        "id": "technical:contextual-help",
+        "passed": true,
+        "evidence": "Export final : un tour audio synthétique réel produit la nouvelle question. La requête d’aide reprend exactement cette question et les trois messages actualisés. L’exemple répond du point de vue de l’élève ; Je viens de Belgique devient uniquement ベルギーから来ました。 avec romaji et traduction fidèle. La lecture atteint son événement ended, sans requête oral-turn supplémentaire. Réouverture du même exemple servie depuis le cache ; À moi de parler reprend sans relire la question. Le silence prolongé met en pause et propose l’aide. Résultats publics dans evidence/coach-checks.json, captures coach-help-example-390.png, coach-help-personal-390.png et coach-quiet-390.png. Erreur 503 simulée pour le panneau puis vrai réessai réussi ; aucune réponse de dialogue n’est simulée."
+      },
+      {
+        "id": "technical:assets-and-exports",
+        "passed": true,
+        "evidence": "PNG RGBA 1210×1300 chargé dans le rendu, transparence observée sur blanc et lavande ; même illustration dans les scènes et la navigation. Source intégrée sans retouche, prompt exact dans assets/mascot/README.md. Vingt-deux tests, types, formatage et compilation Python passent ; exports web/iOS/Android réussis. Le bundle Expo Android servi contient l’asset, Je bloque et Ta phrase en japonais sans le code personnel. Evidence/coach-checks.json. Aucun micro humain ni appareil physique utilisé, aucun APK signé ; l’image reste fixe."
+      }
+    ],
+    "findings": [
+      {
+        "id": "dialogue-model-quality",
+        "severity": "minor",
+        "observation": "La réponse de dialogue utilisée pour le test suppose encore un pays après le prénom et sa traduction française est maladroite. Cette génération appartient au moteur de conversation existant ; le panneau d’aide n’affirme pas connaître le pays et distingue exemple et intention personnelle.",
+        "recommendation": "Améliorer la fidélité et l’adaptation du dialogue dans une évolution dédiée ; ne pas présenter ces essais comme une mesure de qualité linguistique générale."
+      }
+    ],
+    "summary": "Mascotte illustrée et aide à chaque question implémentées et observées dans cette conversation, sans revue indépendante ni approbation artistique inventée. Export web exact identifié avant observations ; empreintes backend conservées avec les résultats publics. Les trois moteurs gratuits locaux restent utilisés et la voix A est conservée. Contrats HTTP, parcours avec audio synthétique, panneaux, marges et focus vérifiés. Aucun micro humain ni téléphone physique utilisé. L’intention française ne devient pas un tour d’élève ; la durée de séance au premier plan inclut le temps d’aide. Code mobile commun et exports vérifiés, aucun APK signé. OFA rev10, garde ready, aucune CI générale ajoutée ; aucun remote configuré. La décision artistique est pending-human dans son fichier distinct. Comparatif intégral dans COACH-TEXTES-AVANT-APRES.md."
+  }
+}
