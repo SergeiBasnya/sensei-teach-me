@@ -1,6 +1,6 @@
 import Svg, { Circle, Ellipse, G, Path, Rect } from "react-native-svg";
 import { View } from "react-native";
-import { AnimatedAvatar } from "./animated-avatar";
+import { MeshAvatar } from "./mesh-avatar";
 import { useSpeechPlayback } from "./japanese-speech";
 import type { AvatarMood } from "../lib/avatar-state";
 
@@ -76,10 +76,11 @@ export function Mochi({
 }) {
   const playback = useSpeechPlayback();
   return (
-    <AnimatedAvatar
+    <MeshAvatar
       size={size}
       mood={playback.playing ? "speaking" : mood || (happy ? "happy" : "idle")}
       mouthLevel={playback.mouthLevel}
+      voiceLevel={playback.voiceLevel}
       active={active}
       happy={happy}
     />
@@ -131,16 +132,16 @@ export function SceneArt({
         <G>
           <Path
             d="m76 111 27-42 M168 111l-27-42 M86 94h72 M80 106h85"
-            stroke="#9EB5A6"
+            stroke="#B9B1C9"
             strokeWidth="3"
           />
-          <Rect x="81" y="11" width="81" height="81" rx="20" fill="#8DAF9F" />
+          <Rect x="81" y="11" width="81" height="81" rx="20" fill="#A593CB" />
           <Rect x="87" y="18" width="69" height="61" rx="15" fill="#F8FCF9" />
-          <Rect x="94" y="31" width="55" height="24" rx="7" fill="#CBDDD4" />
+          <Rect x="94" y="31" width="55" height="24" rx="7" fill="#DDD4ED" />
           <Path d="M121 31v24" stroke="#F8FCF9" strokeWidth="3" />
           <Circle cx="99" cy="68" r="4" fill="#EACD88" />
           <Circle cx="144" cy="68" r="4" fill="#EACD88" />
-          <Rect x="108" y="22" width="27" height="3" rx="1.5" fill="#8DAF9F" />
+          <Rect x="108" y="22" width="27" height="3" rx="1.5" fill="#A593CB" />
         </G>
       ) : null}
     </Svg>

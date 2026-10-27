@@ -17,6 +17,7 @@ import { recordedSpeech } from "../data/recorded-speech";
 import { recordedEnergy } from "../data/recorded-energy";
 import {
   mouthLevelAt,
+  voiceLevelAt,
   speechEnergyFromWav,
   type SpeechEnergy,
 } from "../lib/speech-energy";
@@ -29,6 +30,7 @@ type SpeechService = {
   isSpeaking: boolean;
   isAudioPlaying: boolean;
   mouthLevel: number;
+  voiceLevel: number;
   error: string;
 };
 const JapaneseSpeech = createContext<SpeechService | null>(null);
@@ -47,6 +49,7 @@ export function JapaneseSpeechProvider({
   const [isSpeaking, setSpeaking] = useState(false);
   const [isAudioPlaying, setAudioPlaying] = useState(false);
   const [mouthLevel, setMouthLevel] = useState(0);
+  const [voiceLevel, setVoiceLevel] = useState(0);
   const energy = useRef<SpeechEnergy | null>(null);
   const fallbackStart = useRef(0);
   const [error, setError] = useState("");
@@ -73,6 +76,7 @@ export function JapaneseSpeechProvider({
     if (alive.current) {
       setAudioPlaying(false);
       setMouthLevel(0);
+      setVoiceLevel(0);
     }
     if (alive.current) player.pause();
     cleanupFile();
@@ -100,6 +104,7 @@ export function JapaneseSpeechProvider({
           clearTimeout(playbackTimer.current);
           setSpeaking(false);
           setMouthLevel(0);
+          setVoiceLevel(0);
           energy.current = null;
           cleanupFile();
           completion.current?.(!status.error);
@@ -116,10 +121,18 @@ export function JapaneseSpeechProvider({
   useEffect(() => {
     if (!isAudioPlaying) {
       setMouthLevel(0);
+      setVoiceLevel(0);
       return;
     }
     const sample = () => {
       if (!alive.current) return;
+      setVoiceLevel(
+        energy.current
+          ? voiceLevelAt(energy.current, player.currentTime)
+          : [0.3, 0.7, 0.3, 0, 1, 0.3, 0][
+              Math.floor((Date.now() - fallbackStart.current) / 140) % 7
+            ]!,
+      );
       setMouthLevel(
         energy.current
           ? mouthLevelAt(energy.current, player.currentTime)
@@ -162,6 +175,7 @@ export function JapaneseSpeechProvider({
         setSpeaking(false);
         setAudioPlaying(false);
         setMouthLevel(0);
+        setVoiceLevel(0);
         energy.current = null;
         completion.current?.(played);
         completion.current = null;
@@ -285,6 +299,7 @@ export function JapaneseSpeechProvider({
         isSpeaking,
         isAudioPlaying,
         mouthLevel,
+        voiceLevel,
         error,
       }}
     >
@@ -309,5 +324,6 @@ export function useSpeechPlayback() {
   return {
     playing: service?.isAudioPlaying || false,
     mouthLevel: service?.mouthLevel || 0,
+    voiceLevel: service?.voiceLevel || 0,
   };
 }

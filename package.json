@@ -17,16 +17,18 @@
     "test": "node --import tsx --test tests/*.test.ts",
     "check": "python3 .studio/design_guard.py --root . || exit $?; npm run design:check && npm run typecheck && npm test",
     "prebuild": "npm run design:check",
-    "build": "python3 .studio/design_guard.py --root . || exit $?; expo export --platform web --output-dir build/web",
-    "build:mobile": "python3 .studio/design_guard.py --root . || exit $?; npm run design:check && expo export --platform ios --platform android --output-dir build/mobile",
+    "build": "python3 .studio/design_guard.py --root . || exit $?; npm run avatar:build && expo export --platform web --output-dir build/web",
+    "build:mobile": "python3 .studio/design_guard.py --root . || exit $?; npm run design:check && npm run avatar:build && expo export --platform ios --platform android --output-dir build/mobile",
     "studio:check": "python3 .studio/design_guard.py --root .",
     "format:check": "prettier --check src server shared tests index.ts app.json eas.json tsconfig.json",
     "voice:assets": "node --import tsx scripts/build-voice-assets.ts",
-    "voice:check": "node --import tsx scripts/check-local-voice.ts"
+    "voice:check": "node --import tsx scripts/check-local-voice.ts",
+    "avatar:build": "npm run design:check && node --import tsx scripts/build-mesh-avatar.ts"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",
     "expo": "~58.0.19",
+    "expo-asset": "~58.0.18",
     "expo-audio": "~58.0.10",
     "expo-constants": "~58.0.13",
     "expo-file-system": "~58.0.11",
@@ -35,6 +37,7 @@
     "expo-status-bar": "~58.0.4",
     "express": "^5.1.0",
     "express-rate-limit": "^8.2.0",
+    "mesh-avatar": "0.3.0",
     "openai": "^6.0.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
@@ -42,12 +45,14 @@
     "react-native-safe-area-context": "~5.10.1",
     "react-native-svg": "15.16.0",
     "react-native-web": "^0.21.4",
+    "react-native-webview": "14.0.1",
     "zod": "^4.6.7"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
     "@types/node": "^24.0.0",
     "@types/react": "~19.3.0",
+    "esbuild": "0.28.2",
     "prettier": "^3.9.10",
     "tsx": "^4.20.0",
     "typescript": "~6.0.3"

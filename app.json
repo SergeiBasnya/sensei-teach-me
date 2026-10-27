@@ -30,7 +30,8 @@
         {
           "faceIDPermission": false
         }
-      ]
+      ],
+      "expo-asset"
     ]
   }
 }

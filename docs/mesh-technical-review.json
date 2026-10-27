@@ -1,0 +1,80 @@
+{
+  "doctrineDigest": "sha256:6bce44c544352f9be96834eed71b8076c685b35085ef25317cba8ea847d1a1f5",
+  "review": {
+    "schemaVersion": "prisma-technical-review.v1",
+    "id": "mochi-mesh-avatar-expo",
+    "missionId": "sensei-japanese-oral-mvp",
+    "decisionId": "mesh-avatar-with-b-on-android",
+    "artifact": {
+      "root": "../build/web",
+      "digest": "sha256:d47d194c5e6310474dce120e025ff6d47bbf430b79ea41c6985206c6d117b480"
+    },
+    "observedAt": "2026-10-27T08:49:27.454310+00:00",
+    "gates": [
+      {
+        "id": "doctrine:no-colored-side-stripes",
+        "passed": true,
+        "evidence": "Accueil 390×844, 320×568, 844×390 et 1440×1000 ; conversation en parole, écoute, réflexion et pause à 390×844 ; progression et plan à 1440×1000. Aucun liseré décoratif coloré latéral ou supérieur observé. Les fonds des cartes et du bilan sont pleins, leurs contours neutres complets. Le chemin du plan reste dans sa gouttière de 36 px reliant les nœuds, séparée des boutons ; ce trait représente l’ordre des objectifs. Evidence/mesh-final-home-390.png, mesh-final-plan-hover-1440.png et mesh-final-progress-1440.png. Garde clear, doctor ready, aucune allowance ajoutée."
+      },
+      {
+        "id": "doctrine:no-card-title-hover-underlines",
+        "passed": true,
+        "evidence": "Plan 1440×1000 : survol de l’objectif recommandé, aucun soulignement (textDecorationLine none). Accueil : focus clavier de Commencer ma leçon visible, outline violet continu de 3 px à 390×844 et 1440×1000. Captures evidence/mesh-final-plan-hover-1440.png, mesh-final-focus-390.png et mesh-final-focus-1440.png ; relevés evidence/mesh-checks.json responsive."
+      },
+      {
+        "id": "doctrine:no-bricolage-grotesque",
+        "passed": true,
+        "evidence": "Famille calculée du titre rendu : system-ui, -apple-system, system-ui, Segoe UI, sans-serif. L’avatar ne contient aucun texte ni police ; la page locale contient seulement le canvas et le moteur. Typographie système observée sur l’accueil, la conversation et le plan, sans chargement de famille externe. Evidence/mesh-final-home-1440.png, mesh-final-thinking-390.png et mesh-checks.json. La typographie du téléphone physique n’est pas observée."
+      },
+      {
+        "id": "doctrine:no-peripheral-filler-copy",
+        "passed": true,
+        "evidence": "Aucun nouveau libellé visible n’a été ajouté pour l’intégration. Les textes de l’accueil indiquent chapitre, objectif et accès aux panneaux ; le bilan reprend une séance réelle du profil synthétique. Les états Mochi parle, À toi de parler et Mochi réfléchit restent rattachés à la commande orale. Aucun slogan, badge technique ou timer ajouté autour du visage. Evidence/mesh-final-home-320.png, mesh-final-speaking-390.png, mesh-final-listening-390.png et mesh-final-thinking-390.png."
+      },
+      {
+        "id": "doctrine:no-sage-or-olive",
+        "passed": true,
+        "evidence": "Règle ajoutée au registre pendant la mission, relue avant livraison. Le bilan passe de #F0F6F1 à la lavande #F7F5FB ; les anciennes teintes sauge du train deviennent #A593CB, #B9B1C9 et #DDD4ED. Accueil et avatar observés à 390×844, 320×568 et 1440×1000 : blanc, violet et neutres. Préférence système sombre activée : l’interface reste dans son thème clair imposé, fond blanc et bilan lavande. Les primitives SVG de l’illustration de train ont été extraites de SceneArt et rendues pour contrôler sa palette ; cet aperçu n’est pas une scène ajoutée à l’accueil. Aucun sauge ou olive observé dans ces rendus. Captures evidence/mesh-final-system-dark-390.png, mesh-final-home-320.png et mesh-train-palette.png. L’interdiction ne porte pas sur tous les verts fonctionnels."
+      },
+      {
+        "id": "doctrine:section-composition-and-rhythm",
+        "passed": true,
+        "evidence": "Organisation conservée : accueil centré autour du visage et de la leçon, accès en haut et bas ; progression avec historique et tuiles ; plan en chapitres et objectifs ; conversation avec visage et question centrale, commandes en bas. Le visage B garde sa place et ses dimensions existantes. Les mouvements expriment parole, écoute et réflexion sans nouvel encart. Captures evidence/mesh-final-home-1440.png, mesh-final-home-390.png, mesh-final-progress-1440.png et mesh-final-thinking-390.png. Aucune approbation artistique automatique."
+      },
+      {
+        "id": "doctrine:responsive-text-clearance",
+        "passed": true,
+        "evidence": "Rendu observé à 320×568, 390×844, 844×390 et 1440×1000, sans débordement horizontal mesuré. Visage et texte gardent leurs marges. Dans la fenêtre 844×390 avec le bilan ouvert, le défilement vers le CTA place le titre partiellement au-dessus du viewport central ; un vrai défilement inverse montre le titre complet entre y236 et y273 dans la zone y149–280. Il s’agit du défilement vertical normal ; le titre et le CTA sont accessibles. Captures evidence/mesh-final-home-844.png et mesh-final-short-title-844.png. Le plan et la progression restent défilants. Clavier et marges système Android non observés."
+      },
+      {
+        "id": "doctrine:one-clear-cta-per-section",
+        "passed": true,
+        "evidence": "Accueil : Commencer ma leçon reste l’unique action principale de la page de leçon ; progression, plan, réglages et pages sont des commandes fonctionnelles. Conversation : bouton central pause/reprise, Historique et Je bloque servent à l’échange. Le visage et sa WebView n’ajoutent aucun bouton ni navigation. Le canvas est absent de l’ordre de tabulation ; le focus visible reste sur le CTA. Captures evidence/mesh-final-focus-390.png, mesh-final-focus-1440.png et mesh-final-speaking-390.png."
+      },
+      {
+        "id": "technical:avatar-b-and-local-runtime",
+        "passed": true,
+        "evidence": "Mesh Avatar 0.3.0 intégré avec le source B original, SHA256 conservé dans la provenance et vérifié par comparaison binaire dans l’archive .mavatar. Aucun asset Miko. Rig préparé sur grilles et overlays, courbes des yeux, masque des mèches et calques observés, puis yeux fermés, bouche, écoute et réflexion dans le vrai moteur. Page de 2284956 octets embarquant les textures et le moteur, sans requête externe dans le test du pont natif. Archive validée, licences MIT conservées. Evidence/mesh-checks.json, assets/avatar/mesh-b/provenance.json, vidéo evidence/mochi-mesh-demo.webm et MESH-AVATAR.md."
+      },
+      {
+        "id": "technical:speech-and-lifecycle",
+        "passed": true,
+        "evidence": "Un échange avec flux audio synthétique utilise les vrais moteurs Whisper, Qwen et VOICEVOX. Deux lectures atteignent ended ; l’écoute reprend sans validation de texte. Les niveaux continus observés varient de 0 à 1 et la bouche de 0 à environ 0.89. Parole, écoute et réflexion sont vues ; la pause ferme la bouche à 0. Le mode réduire les mouvements arrête les frames, le retour au mode normal reprend. L’arrière-plan simulé arrête frames et écoute ; le retour attend une reprise manuelle. L’accueil caché par son panneau suspend aussi le rendu. Un défaut de notification de réduction de mouvement entre avatar et secours a été reproduit puis corrigé par un abonnement dédié. Résultats evidence/mesh-checks.json."
+      },
+      {
+        "id": "technical:android-expo-and-fallback",
+        "passed": true,
+        "evidence": "WebView 14.0.1 correspond au SDK Expo 58 installé. Bundle Expo Android servi : WebView native, pont MochiMesh, référence HTML et aucun code personnel. L’HTML exporté pour mobile correspond exactement au fichier source. Le pont WebView est exercé avec la même page dans un navigateur : prêt, bouche ouverte, arrêt et zéro requête externe. Sans WebGL2, l’atlas B prend le relais et une lecture suivie de l’écoute fonctionne. Trente-quatre tests, types, formatage, exports web/iOS/Android et npm audit à zéro vulnérabilité passent. Aucun appareil Android physique utilisé : ce contrôle prouve l’intégration et les contrats, pas les performances, le GPU, les permissions ou les marges système sur téléphone. Evidence/mesh-final-fallback-390.png et mesh-checks.json."
+      }
+    ],
+    "findings": [
+      {
+        "id": "physical-android-validation",
+        "severity": "minor",
+        "observation": "Le code cible Android Expo Go et ses exports passent, mais aucun téléphone physique ni GPU Android réel n’a été utilisé. Le test du pont natif a lieu dans un navigateur isolé.",
+        "recommendation": "Essayer la conversation sur le téléphone avec Expo Go pour observer le rendu, les performances et les permissions réelles."
+      }
+    ],
+    "summary": "Mesh Avatar intégré à la place du rendu principal de B, avec secours sur l’atlas existant. Même illustration, moteurs gratuits et progression conservés. Revue de l’export exact dans cette conversation, sans revue indépendante ni validation artistique déduite. Audio synthétique, pont natif exercé en navigateur et exports Android/iOS vérifiés ; aucun test sur matériel Android. Vidéo issue du canvas et de la voix A préparée, pas d’une capture de téléphone. OFA révision 10, garde active et aucune CI générale ajoutée. Textes complets avant/après dans MESH-TEXTES-AVANT-APRES.md. Dossier 0ld ajouté pendant la mission laissé hors du changement ; aucun remote Git configuré. Doctrine actualisée en cours de mission : no-sage-or-olive appliquée au bilan et au train, puis observations reprises sur le dernier export. Le même HTML d’avatar reste inchangé pour les tests du pont natif, de secours et la vidéo."
+  }
+}

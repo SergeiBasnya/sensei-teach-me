@@ -2,6 +2,8 @@
 
 Application personnelle de pratique du japonais pour débutant francophone. Code commun iOS, Android et web avec React Native, Expo et TypeScript. Inspirée du principe conversationnel de [Pingo](https://pingo.ai/), avec une identité et des illustrations originales.
 
+L’avatar manga B est animé avec Mesh Avatar : mouvements du visage et des cheveux, clignements et bouche reliée à la voix. Le rendu est inclus dans l’application, y compris Android avec Expo Go. [Fonctionnement, reconstruction et limites](docs/MESH-AVATAR.md).
+
 ## Essayer tout de suite
 
 ```sh

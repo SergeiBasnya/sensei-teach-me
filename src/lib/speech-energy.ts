@@ -76,9 +76,15 @@ export function speechEnergyFromWav(base64: string): SpeechEnergy | null {
     ),
   };
 }
-export function mouthLevelAt(energy: SpeechEnergy, seconds: number): number {
+export function voiceLevelAt(energy: SpeechEnergy, seconds: number): number {
   if (!Number.isFinite(seconds) || seconds < 0 || seconds >= energy.duration)
     return 0;
-  const value = energy.levels[Math.floor(seconds / energy.step)] || 0;
+  return Math.min(
+    1,
+    Math.max(0, energy.levels[Math.floor(seconds / energy.step)] || 0),
+  );
+}
+export function mouthLevelAt(energy: SpeechEnergy, seconds: number): number {
+  const value = voiceLevelAt(energy, seconds);
   return value < 0.08 ? 0 : value < 0.45 ? 1 : value < 0.8 ? 2 : 3;
 }

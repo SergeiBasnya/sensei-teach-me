@@ -233,7 +233,7 @@ export function Home({
           >
             <Mochi
               size={compact ? 112 : 174}
-              active={page === index}
+              active={panel === "home" && page === index}
               happy={!!summary && index === 0}
             />
             <View
@@ -485,6 +485,6 @@ const h = StyleSheet.create({
     gap: 10,
     paddingVertical: 12,
     paddingHorizontal: 20,
-    backgroundColor: "#F0F6F1",
+    backgroundColor: "#F7F5FB",
   },
 });

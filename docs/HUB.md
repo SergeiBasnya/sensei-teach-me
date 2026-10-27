@@ -34,6 +34,8 @@ Le propriétaire a demandé un visage féminin simple, puis un style manga, avec
 
 À sa demande suivante, huit expressions ont été créées à partir de B. La bouche suit l’intensité de la voix et la position réelle du lecteur, y compris les silences ; elle se ferme à la pause ou en fin de lecture. L’écoute et la réflexion ont leurs propres expressions. Respiration discrète et clignements s’arrêtent en arrière-plan et avec le réglage de réduction des mouvements. Ce mode conserve une pose de parole fixe. Ce suivi sonore ne reproduit pas chaque phonème. Les moteurs gratuits, les phrases et les fichiers audio existants restent identiques.
 
+Depuis le 27 octobre 2026, le moteur principal de cet avatar est Mesh Avatar avec le même visage B ; l’atlas devient le secours. Son intégration Expo Android et ses vérifications sont décrites dans [MESH-AVATAR.md](MESH-AVATAR.md). Les vérifications du hub ci-dessous datent de sa version du 26 octobre.
+
 ## Vérifications
 
 Trente et un tests couvrent notamment la compatibilité des anciennes sauvegardes, les séances vides, les répétitions, le choix de la question et le transport de l’identifiant dans le tour audio. Ils vérifient aussi les silences du WAV, la fermeture de bouche en fin de son, les états et les enveloppes des 25 enregistrements préparés. Types, formatage, compilation Python et exports web/iOS/Android vérifiés. Aucun package ni service payant ajouté, aucun nouveau workflow CI général.

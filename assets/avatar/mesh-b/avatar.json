@@ -1,0 +1,12 @@
+{
+  "format": "mesh-avatar",
+  "version": 1,
+  "name": "Mochi — visage B",
+  "author": "Avatar original du projet Sensei",
+  "source": "source.png",
+  "lipSync": {
+    "granularity": 0.55,
+    "openness": 0.45,
+    "closeSpeed": 0.75
+  }
+}

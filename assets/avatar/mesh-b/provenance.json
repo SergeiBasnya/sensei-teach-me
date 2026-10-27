@@ -1,0 +1,10 @@
+{
+  "studioRepository": "https://github.com/shinshin86/mesh-avatar-studio",
+  "studioCommit": "e203ac7107aade770fdcb95db5a5ce90980c0864",
+  "runtimeVersion": "0.3.0",
+  "source": "../manga-b.png",
+  "sourceSHA256": "97d12620f5bdee9b17115c1456260b660f8c28d5211f917ae46752a6ba9cb29c",
+  "preparation": "Outils officiels de grilles, overlays et construction de calques, Python 3.12",
+  "newImageGeneration": false,
+  "sampleMikoAssetsUsed": false
+}

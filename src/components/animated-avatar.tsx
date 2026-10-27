@@ -1,13 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  AccessibilityInfo,
-  Animated,
-  AppState,
-  Easing,
-  Image,
-  Platform,
-  View,
-} from "react-native";
+import { Animated, Easing, Image, Platform, View } from "react-native";
+import { useAvatarMotion } from "../lib/use-avatar-motion";
 import { avatarFrame, type AvatarMood } from "../lib/avatar-state";
 
 export function AnimatedAvatar({
@@ -23,34 +16,11 @@ export function AnimatedAvatar({
   active?: boolean;
   happy?: boolean;
 }) {
-  const [reduced, setReduced] = useState(true);
-  const [foreground, setForeground] = useState(
-    AppState.currentState === "active",
-  );
+  const { reduced, foreground } = useAvatarMotion();
   const [blink, setBlink] = useState(false);
   const [failed, setFailed] = useState(false);
   const breath = useRef(new Animated.Value(0)).current;
   const moving = active && foreground && !reduced;
-  useEffect(() => {
-    let live = true;
-    void AccessibilityInfo.isReduceMotionEnabled()
-      .then((value) => {
-        if (live) setReduced(value);
-      })
-      .catch(() => undefined);
-    const motion = AccessibilityInfo.addEventListener(
-      "reduceMotionChanged",
-      setReduced,
-    );
-    const app = AppState.addEventListener("change", (state) =>
-      setForeground(state === "active"),
-    );
-    return () => {
-      live = false;
-      motion.remove();
-      app.remove();
-    };
-  }, []);
   useEffect(() => {
     setBlink(false);
     if (!moving || failed) {

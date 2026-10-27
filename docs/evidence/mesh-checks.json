@@ -1,0 +1,197 @@
+{
+  "conversation": {
+    "idleMoves": true,
+    "blink": true,
+    "motion": {
+      "speakingSamples": 141,
+      "levels": [
+        0.55,
+        0.63,
+        0.62,
+        0.44,
+        0.16,
+        1,
+        0.67,
+        0.03,
+        0,
+        0.26,
+        0.29,
+        0.46,
+        0.22,
+        0.51,
+        0.83,
+        0.36,
+        0.65,
+        0.24,
+        0.17,
+        0.11,
+        0.18,
+        0.49,
+        0.97,
+        0.58,
+        0.92,
+        0.32,
+        0.19,
+        0.34,
+        0.6,
+        0.28,
+        0.05,
+        0.4,
+        0.14,
+        0.59,
+        0.42,
+        0.45,
+        0.08,
+        0.3,
+        0.53,
+        0.52,
+        0.56,
+        0.72,
+        0.31,
+        0.35,
+        0.06,
+        0.04,
+        0.23,
+        0.09
+      ],
+      "mouthRange": [
+        0,
+        0.8911197154249649
+      ],
+      "listening": true,
+      "thinking": true,
+      "firstSpeechAt": 1793090864455
+    },
+    "audio": {
+      "media": [
+        {
+          "event": "play",
+          "at": 1793090864177
+        },
+        {
+          "event": "ended",
+          "at": 1793090867742
+        },
+        {
+          "event": "play",
+          "at": 1793090874932
+        },
+        {
+          "event": "ended",
+          "at": 1793090878929
+        }
+      ],
+      "turns": [
+        {
+          "heard": true,
+          "transcript": "私はオーギュストです。",
+          "reply": "オーギュストさん、こんにちは！どこから来ましたか？"
+        }
+      ],
+      "recordings": 2
+    },
+    "pausedMouth": 0,
+    "reducedStopped": true,
+    "backgroundStopped": true,
+    "backgroundSimulated": true,
+    "manualResumeAfterReturn": true,
+    "ready": true
+  },
+  "responsive": {
+    "sizes": {
+      "390x844": {
+        "overflow": false,
+        "ready": 1
+      },
+      "320x568": {
+        "overflow": false,
+        "ready": 1
+      },
+      "844x390": {
+        "overflow": false,
+        "ready": 1
+      },
+      "1440x1000": {
+        "overflow": false,
+        "ready": 1
+      }
+    },
+    "hiddenHomeStops": true,
+    "hover": "none",
+    "focus": "rgb(115, 80, 198) solid 3px",
+    "fonts": "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif"
+  },
+  "fallback": {
+    "webglFailureFallback": true,
+    "conversationStillWorks": true,
+    "nativeBridgeReady": true,
+    "nativeBridgeMouth": 0.8555977908174324,
+    "stoppedMouth": 0,
+    "stoppedFrames": true,
+    "externalRequests": [],
+    "androidHardwareTested": false
+  },
+  "androidBundle": {
+    "meshBridge": true,
+    "nativeWebView": true,
+    "embeddedHTML": true,
+    "androidManifest": true,
+    "avatarB": true,
+    "expressionAtlas": true,
+    "audioEnergy": true,
+    "oldRabbitAbsent": true,
+    "unapprovedPortraitAbsent": true,
+    "plan": true,
+    "personalCodeAbsent": true,
+    "server": {
+      "ready": true,
+      "mode": "local",
+      "oral": true,
+      "warming": false
+    }
+  },
+  "androidAssets": {
+    "nativeHTMLMatchesSource": true,
+    "files": [
+      "assets/fe404218aa13ba6357b4c4f22be4f5c2"
+    ],
+    "htmlBytes": 2284956,
+    "htmlSHA256": "bbf8a6db2ed14d6c4b6637e3655e1a0cb94dee861eab213bb98a662463d1057b",
+    "webViewSDKVersion": "14.0.1"
+  },
+  "artifact": {
+    "root": "/Users/augustdouglas/Documents/projects/apps/sensei-teach-me/build/web",
+    "digest": "sha256:d47d194c5e6310474dce120e025ff6d47bbf430b79ea41c6985206c6d117b480",
+    "fileCount": 31
+  },
+  "verified": {
+    "tests": 34,
+    "failures": 0,
+    "types": true,
+    "format": true,
+    "webExport": true,
+    "androidExport": true,
+    "iosExport": true,
+    "npmAuditVulnerabilities": 0,
+    "guardDoctor": "ready",
+    "guard": "clear",
+    "newAllowances": false,
+    "physicalAndroidTest": false,
+    "humanMicrophone": false,
+    "independentReviewer": false,
+    "backgroundVisibility": "simulated in isolated browser",
+    "nativeBridge": "same embedded HTML, WebView-style bridge simulated in browser",
+    "video": "real canvas recording with prepared Voice A audio on white; not a phone recording"
+  },
+  "sourceHashes": {
+    "assets/avatar/manga-b.png": "97d12620f5bdee9b17115c1456260b660f8c28d5211f917ae46752a6ba9cb29c",
+    "assets/avatar/mochi-mesh.html": "bbf8a6db2ed14d6c4b6637e3655e1a0cb94dee861eab213bb98a662463d1057b",
+    "src/components/mesh-avatar.tsx": "85c4f10a721db8c471fa8fd505e2a3275cb305645e0ec569c3aa74d1f2b562bd",
+    "src/components/mesh-surface.tsx": "6f1a7a7b78bf1bf92451dee42d916c4bd9f717a547f57845cd85b9b2c3df15fa",
+    "src/lib/use-avatar-motion.ts": "295bd0ddf2a11165a37423828e0d59b122e5b2994771d03bd29438adc1ba6754",
+    "scripts/mesh-avatar-player.ts": "3a7020cee58cddae9079af416bd61333ec3be7e1d25dcca0c53d1df46b354fab",
+    "src/components/art.tsx": "a1c15801455ecfca8fbebaf3af49ea446175d046689dc0624cdd5c0b56e30b92",
+    "src/screens/home.tsx": "83ae531653cfc161adc960ba4969770b5a4b98e8d1f1c3a1e5e154042a3784eb"
+  },
+  "doctrineDigest": "sha256:6bce44c544352f9be96834eed71b8076c685b35085ef25317cba8ea847d1a1f5"
+}
