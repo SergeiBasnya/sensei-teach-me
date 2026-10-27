@@ -1,0 +1,185 @@
+{
+  "createdAt": "2026-10-27T13:00:19.658137+00:00",
+  "purpose": "Voice auditions requested by user; app voice and language have not been changed.",
+  "selected": null,
+  "texts": {
+    "kind": "new demo text and new English translation; no existing app text replaced",
+    "french": "Aujourd’hui, on va apprendre à dire d’où tu viens. Écoute mon exemple, puis essaie avec ton pays. Prends ton temps. Si tu bloques, je peux te donner un indice.",
+    "english": "Today, we’ll learn how to say where you’re from. Listen to my example, then try with your own country. Take your time. If you get stuck, I can give you a hint."
+  },
+  "voices": [
+    {
+      "id": "F1",
+      "file": "kokoro-siwis.wav",
+      "engine": "Kokoro v1.0 ONNX",
+      "voice": "ff_siwis",
+      "language": "fr-fr",
+      "execution": "local",
+      "parameters": {
+        "speed": 1.0,
+        "sentencePauseSeconds": 0.25
+      },
+      "sources": [
+        "https://huggingface.co/hexgrad/Kokoro-82M",
+        "https://github.com/thewh1teagle/kokoro-onnx"
+      ],
+      "modelLicense": "Apache-2.0; French voice attribution SIWIS as documented by model author"
+    },
+    {
+      "id": "F2",
+      "file": "vivienne.wav",
+      "engine": "Microsoft Edge online TTS via edge-tts",
+      "voice": "fr-FR-VivienneMultilingualNeural",
+      "language": "fr-FR",
+      "execution": "online",
+      "parameters": {
+        "rate": "+0%",
+        "pitch": "+0Hz"
+      },
+      "sources": [
+        "https://github.com/rany2/edge-tts",
+        "https://learn.microsoft.com/fr-fr/azure/ai-services/speech-service/language-support?tabs=tts"
+      ],
+      "availability": "Generated without account or paid key during this comparison; community client, future service availability not guaranteed."
+    },
+    {
+      "id": "F3",
+      "file": "denise.wav",
+      "engine": "Microsoft Edge online TTS via edge-tts",
+      "voice": "fr-FR-DeniseNeural",
+      "language": "fr-FR",
+      "execution": "online",
+      "parameters": {
+        "rate": "+0%",
+        "pitch": "+0Hz"
+      },
+      "sources": [
+        "https://github.com/rany2/edge-tts",
+        "https://learn.microsoft.com/fr-fr/azure/ai-services/speech-service/language-support?tabs=tts"
+      ],
+      "availability": "Generated without account or paid key during this comparison; community client, future service availability not guaranteed."
+    },
+    {
+      "id": "EN",
+      "file": "kokoro-heart-anglais.wav",
+      "engine": "Kokoro v1.0 ONNX",
+      "voice": "af_heart",
+      "language": "en-us",
+      "execution": "local",
+      "parameters": {
+        "speed": 1.0,
+        "sentencePauseSeconds": 0.25
+      },
+      "sources": [
+        "https://huggingface.co/hexgrad/Kokoro-82M",
+        "https://github.com/thewh1teagle/kokoro-onnx"
+      ],
+      "modelLicense": "Apache-2.0"
+    },
+    {
+      "id": "reference",
+      "file": "amelie-actuelle.wav",
+      "engine": "Current app server /api/speech with macOS say",
+      "voice": "Amélie",
+      "language": "fr",
+      "execution": "local",
+      "purpose": "Same newly written text, with current voice, for direct comparison."
+    }
+  ],
+  "audioProcessing": {
+    "format": "WAV mono PCM 16-bit 24 kHz",
+    "gain": "Constant gain per clip to RMS -22 dBFS, capped at peak 0.95; no time stretch or pitch change."
+  },
+  "verification": {
+    "checks": [
+      {
+        "file": "amelie-actuelle.wav",
+        "seconds": 8.98,
+        "sampleRate": 24000,
+        "originalRms": 0.17508190870285034,
+        "gainDb": -6.86,
+        "normalizedPeak": 0.34512680768966675,
+        "sha256": "01f55abd79ebfe703c6934c722384869f0561809bd685e1e1896dae7f9dcf9fd"
+      },
+      {
+        "file": "denise.wav",
+        "seconds": 11.904,
+        "sampleRate": 24000,
+        "originalRms": 0.08235146105289459,
+        "gainDb": -0.31,
+        "normalizedPeak": 0.5176612734794617,
+        "sha256": "34f189fe9cbc2c177569e37d5984c139f590e9be7ef4573e58e078f2c8f15f69"
+      },
+      {
+        "file": "kokoro-heart-anglais.wav",
+        "seconds": 9.371,
+        "sampleRate": 24000,
+        "originalRms": 0.06066984683275223,
+        "gainDb": 2.34,
+        "normalizedPeak": 0.5031601786613464,
+        "sha256": "4a29e8756d8e276f184db969197a7430c79983ea0bba99f3e13dbab71d80c5be"
+      },
+      {
+        "file": "kokoro-siwis.wav",
+        "seconds": 9.223,
+        "sampleRate": 24000,
+        "originalRms": 0.0783788338303566,
+        "gainDb": 0.12,
+        "normalizedPeak": 0.5966310501098633,
+        "sha256": "e3f7ef6945fabc5acca9def58382e29326cb4555587073b28e934c656a18f74a"
+      },
+      {
+        "file": "vivienne.wav",
+        "seconds": 8.952,
+        "sampleRate": 24000,
+        "originalRms": 0.08916275948286057,
+        "gainDb": -1.0,
+        "normalizedPeak": 0.5456495881080627,
+        "sha256": "d3540f13dba03e63789df6ccc3a51a2c002aa3d14afcb011449354ebe6f32009"
+      }
+    ],
+    "whisperTranscriptions": [
+      {
+        "file": "kokoro-siwis.wav",
+        "transcript": "Aujourd'hui, on va apprendre à dire d'où tu viens. Écoute mon exemple, puis essaie avec ton pays. Prends ton temps. Si tu bloques, je peux te donner un indice."
+      },
+      {
+        "file": "vivienne.wav",
+        "transcript": "Aujourd'hui, on va prendre à dire d'où tu viens. Écoute mon exemple. Puis essais avec ton pays. Prends ton temps. Si tu bloques, je peux donner un indice."
+      },
+      {
+        "file": "denise.wav",
+        "transcript": "Aujourd'hui, on va apprendre à dire d'où tu viens. Écoute mon exemple, puis essaie avec ton pays. Prends ton temps. Si tu bloques, je peux te donner un indice."
+      },
+      {
+        "file": "kokoro-heart-anglais.wav",
+        "transcript": "Today, we'll learn how to say where you're from. Listen to my example, then try with your own country. Take your time. If you get stuck, I can give you a hint."
+      }
+    ],
+    "limits": "Whisper is a content sanity check, not a perceptual assessment. Vivienne transcription differs slightly; generated source text is identical for all French voices. User listening decides preference."
+  },
+  "modelFiles": [
+    {
+      "name": "kokoro-v1.0.onnx",
+      "source": "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.1/kokoro-v1.0.onnx",
+      "bytes": 325505369,
+      "sha256": "sha256:beb0d1848dee9a49da392cc3df26958d46cfa35d321edf434f52949153f0df3a",
+      "upstreamDigestVerified": true
+    },
+    {
+      "name": "voices-v1.0.bin",
+      "source": "https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.1/voices-v1.0.bin",
+      "bytes": 28214398,
+      "sha256": "sha256:bca610b8308e8d99f32e6fe4197e7ec01679264efed0cac9140fe9c29f1fbf7d",
+      "upstreamDigestVerified": true
+    }
+  ],
+  "environment": {
+    "isolation": ".local/voice-preview/venv, no system installation",
+    "versions": {
+      "edge-tts": "7.3.1",
+      "kokoro-onnx": "0.6.1",
+      "onnxruntime": "1.31.1"
+    }
+  }
+}
