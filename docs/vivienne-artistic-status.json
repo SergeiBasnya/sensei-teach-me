@@ -1,0 +1,14 @@
+{
+  "artifactDigest": "sha256:f76c21e60f8bf53f9bc0053d86fd8db99b693571511921b08e3f79b94ab01bf6",
+  "status": "pending-human",
+  "reason": "Le choix de la voix F2 est explicite ; aucune approbation artistique de cet export visuel exact n’est déduite.",
+  "voiceSelection": {
+    "status": "approved-human",
+    "instruction": "la F2 est beaucoup mieux vas y mets Vivienne pour la voix française dans l’app",
+    "samplePath": "assets/voice-proposals/vivienne.wav",
+    "sampleSha256": "d3540f13dba03e63789df6ccc3a51a2c002aa3d14afcb011449354ebe6f32009",
+    "voice": "fr-FR-VivienneMultilingualNeural",
+    "rate": "+0%",
+    "pitch": "+0Hz"
+  }
+}

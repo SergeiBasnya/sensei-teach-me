@@ -9,10 +9,18 @@ export type SpeechProvider = {
   reading?: (text: string) => string | undefined;
   close: () => void;
 };
+export class FrenchSpeechUnavailable extends Error {
+  constructor() {
+    super(
+      "La voix française Vivienne est indisponible. Vérifie la connexion Internet du serveur, puis réessaie.",
+    );
+  }
+}
 const resultSchema = z.object({
   id: z.number().int(),
   audio: z.string().max(4_000_000).optional(),
-  error: z.string().optional(),
+  error: z.string().max(300).optional(),
+  code: z.literal("french_speech_unavailable").optional(),
   romaji: z.string().max(2000).optional(),
 });
 export function createLocalSpeech(): SpeechProvider | undefined {
@@ -83,7 +91,12 @@ export function createLocalSpeech(): SpeechProvider | undefined {
           request.reject(
             new Error("Le moteur a renvoyé un enregistrement invalide."),
           );
-      } else request.reject(new Error("La synthèse vocale locale a échoué."));
+      } else
+        request.reject(
+          result.data.code === "french_speech_unavailable"
+            ? new FrenchSpeechUnavailable()
+            : new Error("La synthèse vocale locale a échoué."),
+        );
     });
     child.once("error", failAll);
     child.once("close", () => {

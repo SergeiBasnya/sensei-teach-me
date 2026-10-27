@@ -48,7 +48,8 @@ def main():
     if not environment.exists():
         subprocess.run([sys.executable, "-m", "venv", str(environment)], check=True)
     python = environment / ("Scripts/python.exe" if system == "windows" else "bin/python")
-    subprocess.run([str(python), "-m", "pip", "install", "--disable-pip-version-check", wheel["browser_download_url"]], check=True)
+    subprocess.run([str(python), "-m", "pip", "install", "--disable-pip-version-check", wheel["browser_download_url"],
+                    "-r", str(ROOT / "server/speech-requirements.txt")], check=True)
     with (local / "setup.log").open("w") as log:
         subprocess.run([str(executable), "--only", "onnxruntime", "models", "dict", "--models-pattern", "[04].vvm", "--models-version", "0.17.0", "--onnxruntime-version", "1.17.3", "-o", str(local / "runtime")], input="y\n", text=True, stdout=log, stderr=subprocess.STDOUT, cwd=ROOT, check=True)
     (local / "setup-receipt.json").write_text(json.dumps({"coreVersion": VERSION, "downloader": name, "digest": digest, "models": "0.17.0", "termsAccepted": True}, indent=2) + "\n")

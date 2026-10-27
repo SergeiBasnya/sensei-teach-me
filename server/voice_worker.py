@@ -1,12 +1,10 @@
-"""VOICEVOX local, protocole JSONL sur stdin/stdout ; aucun service système."""
+"""Japonais VOICEVOX local et français Vivienne en ligne, protocole JSONL."""
 import base64
 import json
 import os
 from pathlib import Path
 import sys
 import re
-import subprocess
-import tempfile
 
 from voicevox_core.blocking import Onnxruntime, OpenJtalk, Synthesizer, VoiceModelFile
 
@@ -53,18 +51,8 @@ def main():
         try:
             request = json.loads(line)
             if request.get("language", "ja") == "fr":
-                text = request["text"]
-                if not isinstance(text, str) or not 1 <= len(text.strip()) <= 500:
-                    raise ValueError("invalid_french_speech")
-                import imageio_ffmpeg
-                with tempfile.TemporaryDirectory(prefix="mochi-fr-") as temporary:
-                    source, target = Path(temporary) / "voice.aiff", Path(temporary) / "voice.wav"
-                    subprocess.run(["/usr/bin/say", "-v", "Amélie", "-o", str(source)], input=text, text=True,
-                                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True, timeout=25)
-                    subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(), "-nostdin", "-v", "error", "-i", str(source),
-                                    "-ac", "1", "-ar", "24000", "-c:a", "pcm_s16le", str(target)],
-                                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True, timeout=10)
-                    wav, kana = target.read_bytes(), None
+                from french_speech import synthesize_french
+                wav, kana = synthesize_french(request["text"]), None
             elif request.get("language", "ja") == "ja":
                 wav, kana = synthesize(synth, request["text"], request.get("style", 10), include_reading=True)
             else:
@@ -75,6 +63,8 @@ def main():
                 response["romaji"] = "".join(part["hepburn"] for part in romanizer.convert(reading))
         except Exception:
             response = {"id": request.get("id"), "error": "La synthèse vocale locale a échoué."}
+            if request.get("language") == "fr":
+                response["code"] = "french_speech_unavailable"
         print(json.dumps(response), flush=True)
 
 

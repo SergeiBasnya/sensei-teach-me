@@ -400,7 +400,7 @@ export function Conversation({
     setError("");
     if (connection?.oral) void oral.start();
   };
-  const issue = error || oral.error || speechError || storageError;
+  const issue = error || speechError || oral.error || storageError;
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : undefined}

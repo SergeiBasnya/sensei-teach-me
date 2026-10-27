@@ -1,0 +1,202 @@
+{
+  "artifactDigest": "sha256:f76c21e60f8bf53f9bc0053d86fd8db99b693571511921b08e3f79b94ab01bf6",
+  "checkedAt": "2026-10-27T13:18:20.329809+00:00",
+  "voiceSelection": {
+    "status": "approved-human",
+    "instruction": "la F2 est beaucoup mieux vas y mets Vivienne pour la voix française dans l’app",
+    "samplePath": "assets/voice-proposals/vivienne.wav",
+    "sampleSha256": "d3540f13dba03e63789df6ccc3a51a2c002aa3d14afcb011449354ebe6f32009",
+    "voice": "fr-FR-VivienneMultilingualNeural",
+    "rate": "+0%",
+    "pitch": "+0Hz"
+  },
+  "checks": {
+    "nodeTests": 56,
+    "pythonTests": 5,
+    "types": "pass",
+    "format": "pass",
+    "pythonCompile": "pass",
+    "pipCheck": "no broken requirements",
+    "webExport": "pass",
+    "androidExport": "pass",
+    "iosExport": "pass"
+  },
+  "liveVoice": {
+    "sampleRate": 24000,
+    "channels": 1,
+    "bits": 16,
+    "duration": 8.952,
+    "generationSeconds": 2.1956934169866145,
+    "text": "Aujourd’hui, on va apprendre à dire d’où tu viens. Écoute mon exemple, puis essaie avec ton pays. Prends ton temps. Si tu bloques, je peux te donner un indice.",
+    "configuredVoice": "fr-FR-VivienneMultilingualNeural",
+    "source": "main API after restart",
+    "paidCalls": false
+  },
+  "settings": {
+    "states": [
+      {
+        "width": 390,
+        "height": 844,
+        "font": "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+        "fontSize": "11px",
+        "lineHeight": "18px",
+        "color": "rgb(119, 113, 127)",
+        "rect": {
+          "x": 40,
+          "y": 713.359375,
+          "width": 310,
+          "height": 90
+        },
+        "horizontalOverflow": false
+      },
+      {
+        "width": 320,
+        "height": 568,
+        "font": "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+        "fontSize": "11px",
+        "lineHeight": "18px",
+        "color": "rgb(119, 113, 127)",
+        "rect": {
+          "x": 40,
+          "y": 269.078125,
+          "width": 240,
+          "height": 126
+        },
+        "horizontalOverflow": false
+      },
+      {
+        "width": 844,
+        "height": 390,
+        "font": "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+        "fontSize": "11px",
+        "lineHeight": "18px",
+        "color": "rgb(119, 113, 127)",
+        "rect": {
+          "x": 176,
+          "y": 263.734375,
+          "width": 492,
+          "height": 54
+        },
+        "horizontalOverflow": false
+      },
+      {
+        "width": 1440,
+        "height": 1000,
+        "font": "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+        "fontSize": "11px",
+        "lineHeight": "18px",
+        "color": "rgb(119, 113, 127)",
+        "rect": {
+          "x": 474,
+          "y": 760.046875,
+          "width": 492,
+          "height": 54
+        },
+        "horizontalOverflow": false
+      },
+      {
+        "focusedText": "Vérifier la connexion",
+        "outline": "rgb(115, 80, 198) solid 3px",
+        "decoration": "none"
+      }
+    ],
+    "note": "Le dialogue et la reconnaissance restent sur ton Mac, qui doit rester allumé. La voix française Vivienne utilise Internet : ses textes sont transmis à Microsoft. Aucun compte ni clé OpenAI nécessaire. L’aperçu sur ce Mac se reconnecte automatiquement au serveur local.",
+    "syntheticCodeInScreenshots": true
+  },
+  "settingsBottom": {
+    "completeButtonVisible": true,
+    "syntheticCodeInScreenshots": true
+  },
+  "oral": {
+    "failureVisible": true,
+    "failed": {
+      "starts": 0,
+      "plays": [],
+      "ended": [],
+      "requests": [
+        {
+          "language": "fr",
+          "textLength": 106
+        }
+      ],
+      "responses": [
+        {
+          "status": 502,
+          "audioLength": 0
+        }
+      ]
+    },
+    "recovered": {
+      "starts": 1,
+      "plays": [
+        180907.39999997616,
+        187027.5,
+        195113.5,
+        200885.19999998808
+      ],
+      "ended": [
+        187029.69999998808,
+        188763.80000001192,
+        200885.30000001192,
+        204496.39999997616
+      ],
+      "requests": [
+        {
+          "language": "fr",
+          "textLength": 106
+        },
+        {
+          "language": "fr",
+          "textLength": 106
+        },
+        {
+          "language": "fr",
+          "textLength": 111
+        }
+      ],
+      "responses": [
+        {
+          "status": 502,
+          "audioLength": 0
+        },
+        {
+          "status": 200,
+          "audioLength": 387176
+        },
+        {
+          "status": 200,
+          "audioLength": 365672
+        }
+      ],
+      "recordingAt": 204698.69999998808
+    },
+    "noMicrophoneBeforePlayback": true,
+    "fourCompletedReads": true
+  },
+  "android": {
+    "expoHost": "192.168.1.66:8083",
+    "vivienneDisclosure": true,
+    "frenchReader": true,
+    "sameWavPlayer": true,
+    "memoryPreserved": true,
+    "personalCodeAbsent": true,
+    "servedBundleSha256": "198e84c3e4322043df6cb96497f8e0eef485987ca59e60a8bf5728c80af713ef",
+    "physicalDeviceTested": false,
+    "exports": {
+      "ios": {
+        "bundle": "_expo/static/js/ios/index-a560bac6cb6d9b246280eca62c2266d1.hbc",
+        "sha256": "acef4e5d1e063a415b4fe87ad6e364f968d3640c116ef4456de60c1b70723975"
+      },
+      "android": {
+        "bundle": "_expo/static/js/android/index-4b7e0bd5e25e88800e6900e5207db9a1.hbc",
+        "sha256": "fdc39bb91511dadfc61dcaa046d27aa86d8777ac0d40c49099d087d637c2dc7c"
+      }
+    }
+  },
+  "limits": [
+    "No physical Android device or human microphone.",
+    "Silent synthetic stream in isolated browser; initial French service failure mocked, then real service used.",
+    "Microsoft receives French synthesis text; service depends on Internet and community client.",
+    "Personal code replaced with a synthetic value in screenshots."
+  ]
+}

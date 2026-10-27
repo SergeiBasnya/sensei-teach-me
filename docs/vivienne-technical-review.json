@@ -1,0 +1,75 @@
+{
+  "doctrineDigest": "sha256:6bce44c544352f9be96834eed71b8076c685b35085ef25317cba8ea847d1a1f5",
+  "review": {
+    "schemaVersion": "prisma-technical-review.v1",
+    "id": "mochi-vivienne-french-voice",
+    "missionId": "sensei-japanese-oral-mvp",
+    "decisionId": "use-human-selected-vivienne-f2",
+    "artifact": {
+      "root": "../build/web",
+      "digest": "sha256:f76c21e60f8bf53f9bc0053d86fd8db99b693571511921b08e3f79b94ab01bf6"
+    },
+    "observedAt": "2026-10-27T13:18:20.330323+00:00",
+    "gates": [
+      {
+        "id": "doctrine:no-colored-side-stripes",
+        "passed": true,
+        "evidence": "Zone des réglages et erreur de conversation observées à 320×568, 390×844, 844×390 et 1440×1000. Le nouveau texte reste dans le paragraphe existant, sur blanc ; aucun liseré latéral ou supérieur ajouté. L’erreur est sur un fond rose plein, sans trait coloré décoratif. Le focus violet est un contour fonctionnel complet. Captures evidence/vivienne-settings-320.png, vivienne-error-390.png et vivienne-focus-1440.png. Guard clear et doctor ready, sans allowance ni exclusion ajoutées."
+      },
+      {
+        "id": "doctrine:no-card-title-hover-underlines",
+        "passed": true,
+        "evidence": "Survol du titre Conversation orale à 1440×1000 sans soulignement, capture evidence/vivienne-hover-1440.png. Tab depuis le code de démonstration place le focus sur Vérifier la connexion : contour solid 3px violet, textDecoration none, capture vivienne-focus-1440.png et relevé vivienne-validation.json. Aucun titre cliquable nouveau."
+      },
+      {
+        "id": "doctrine:no-bricolage-grotesque",
+        "passed": true,
+        "evidence": "Famille calculée du paragraphe modifié aux quatre formats : system-ui, -apple-system, system-ui, Segoe UI, sans-serif. Taille existante 11px, interligne 18px. Aucun import ou téléchargement de police ajouté. Relevé settings.states dans evidence/vivienne-validation.json et captures vivienne-settings-320.png et vivienne-focus-1440.png. Famille Android physique non observée."
+      },
+      {
+        "id": "doctrine:no-peripheral-filler-copy",
+        "passed": true,
+        "evidence": "Le paragraphe se trouve sous le champ de code et au-dessus de Vérifier la connexion : il explique le besoin d’Internet et la destination des textes français. L’erreur près du contenu de conversation donne l’action de reprise. Aucun slogan ni promesse en marge. Captures evidence/vivienne-settings-bottom-390.png et vivienne-error-390.png. Textes complets dans VIVIENNE-TEXTES-AVANT-APRES.md."
+      },
+      {
+        "id": "doctrine:no-sage-or-olive",
+        "passed": true,
+        "evidence": "Zones modifiées réellement observées : texte gris sur panneau blanc, actions violettes, erreur rose pleine et avatar violet. Préférence sombre activée : le panneau garde le thème clair, capture evidence/vivienne-dark-390.png. Les switches turquoise et le badge fonctionnel vert existants restent visibles dans les réglages ; aucune palette ou variante sauge/olive n’est ajoutée dans le travail. Captures vivienne-focus-1440.png et vivienne-error-390.png. Le périmètre de revue porte sur le paragraphe ajouté et l’état d’erreur, sans refonte des autres écrans."
+      },
+      {
+        "id": "doctrine:section-composition-and-rhythm",
+        "passed": true,
+        "evidence": "Le formulaire conserve sa hiérarchie : titre, réglages d’apprentissage, source japonaise, connexion et action principale. Le nouveau paragraphe reste rattaché aux champs concernés et ne crée pas de section. L’erreur de voix occupe l’encart prévu dans la conversation, sous l’explication. Captures evidence/vivienne-focus-1440.png, vivienne-settings-bottom-390.png et vivienne-error-390.png."
+      },
+      {
+        "id": "doctrine:responsive-text-clearance",
+        "passed": true,
+        "evidence": "Paragraphe observé en entier à 320×568, 390×844, 844×390 et 1440×1000 ; largeur respective 240, 310, 492 et 492px, sans débordement horizontal mesuré. À 320px, les lignes conservent 40px de marge écran. Les captures vivienne-settings-bottom-390.png et vivienne-settings-bottom-844.png montrent le bouton entier après défilement. Les champs au-dessus de la zone pendant ce défilement ne sont pas tronqués par leur composant. Les captures initiales et complémentaires documentent le défilement normal du formulaire. L’erreur complète est lisible à 390×844, capture vivienne-error-390.png. Clavier Android physique non observé."
+      },
+      {
+        "id": "doctrine:one-clear-cta-per-section",
+        "passed": true,
+        "evidence": "Le formulaire garde Vérifier la connexion comme action principale unique, distincte du texte gris ; Déconnecter le serveur reste une commande fonctionnelle différente. Le focus de l’action principale est visible. Aucune validation de texte ni confirmation de voix n’est ajoutée au parcours oral. En cas d’erreur, le micro permet de reprendre ; la reprise lit les deux langues avant d’écouter. Captures evidence/vivienne-focus-1440.png, vivienne-settings-bottom-844.png et vivienne-error-390.png."
+      },
+      {
+        "id": "technical:vivienne-and-error-recovery",
+        "passed": true,
+        "evidence": "56 tests Node et cinq tests Python passent. Vivienne exacte, paramètres F2, limites de taille et délai total sont contrôlés ; une erreur française ne tue pas la boucle japonaise. Le contrat HTTP expose le message contrôlé, sans diagnostic brut. Le vrai fournisseur est testé en HTTP pour VOICEVOX et Vivienne et produit des WAV lisibles par speechEnergyFromWav. Sur le serveur réellement utilisé par Expo, le texte de F2 est synthétisé en WAV mono 16 bits à 24kHz, durée 8,952s et génération 2,20s pour cet appel seul, sans prétendre à un benchmark. evidence/vivienne-validation.json, liveVoice."
+      },
+      {
+        "id": "technical:oral-and-expo",
+        "passed": true,
+        "evidence": "Sur l’export épinglé, une panne française simulée affiche le message Vivienne et ne démarre aucun micro ni lecture. Une reprise réelle lance quatre lectures et reçoit quatre événements ended avant le premier enregistrement synthétique ; les deux explications françaises sont réellement générées par le service. Capture evidence/vivienne-conversation-390.png et oral dans vivienne-validation.json. Exports web/Android/iOS réussis, et bundle Android réellement servi à 192.168.1.66:8083 contenant le lecteur français et la nouvelle information, sans code personnel. Aucun microphone humain ni appareil physique. Le serveur principal a été redémarré sur son même port et son code conservé."
+      }
+    ],
+    "findings": [
+      {
+        "id": "online-service-and-device-limits",
+        "severity": "minor",
+        "observation": "La synthèse française dépend du service en ligne Microsoft Edge via un client communautaire. Aucun essai sur Android physique ni micro humain.",
+        "recommendation": "Essayer une leçon sur le téléphone avec Internet sur le serveur ; utiliser le message de reprise en cas d’indisponibilité."
+      }
+    ],
+    "summary": "Vivienne F2 remplace la voix française Amélie ; débit et hauteur de l’extrait retenu conservés. Rendu du paragraphe d’information et de l’erreur observé dans le navigateur isolé ; transport audio et séquencement testés avec le vrai service et un flux silencieux synthétique. Aucun avis artistique automatique ni revue indépendante inventée. La préférence humaine porte sur le fichier F2 précisément enregistré ; l’export visuel reste pending-human. OFA révision 10, guard et CI spécialisée conservés, aucune CI générale ajoutée, dossier 0ld préservé, aucun remote Git."
+  }
+}

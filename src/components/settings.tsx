@@ -272,8 +272,8 @@ export function Settings({
           />
           <Txt style={{ color: colors.muted, fontSize: 11, lineHeight: 18 }}>
             {connection?.mode === "openai"
-              ? "Ce serveur utilise OpenAI : audio et messages lui sont transmis."
-              : "La conversation utilise des moteurs gratuits sur ton Mac, qui doit rester allumé. Aucun compte ni clé OpenAI nécessaire."}
+              ? "Ce serveur utilise OpenAI : audio et messages lui sont transmis. Les explications françaises sont aussi envoyées à Microsoft pour la voix Vivienne."
+              : "Le dialogue et la reconnaissance restent sur ton Mac, qui doit rester allumé. La voix française Vivienne utilise Internet : ses textes sont transmis à Microsoft. Aucun compte ni clé OpenAI nécessaire."}
             {Platform.OS !== "web"
               ? " La connexion est conservée dans le stockage sécurisé de ton téléphone."
               : " L’aperçu sur ce Mac se reconnecte automatiquement au serveur local."}

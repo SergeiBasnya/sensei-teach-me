@@ -3,13 +3,39 @@ import assert from "node:assert/strict";
 import type { Server } from "node:http";
 import { createApp, type TutorProvider } from "../server/app";
 import { freeScene } from "../src/data/lessons";
-import type { SpeechProvider } from "../server/local-speech";
+import {
+  FrenchSpeechUnavailable,
+  type SpeechProvider,
+} from "../server/local-speech";
 import { oralResponseSchema } from "../shared/contracts";
 const token = "test-personal-token-at-least-16";
 const auth = {
   Authorization: `Bearer ${token}`,
   "Content-Type": "application/json",
 };
+test("une panne de Vivienne explique la connexion Internet sans exposer les diagnostics", async () => {
+  await withServer(
+    undefined,
+    async (base) => {
+      const response = await fetch(`${base}/api/speech`, {
+        method: "POST",
+        headers: auth,
+        body: JSON.stringify({ text: "Prends ton temps.", language: "fr" }),
+      });
+      assert.equal(response.status, 502);
+      assert.equal(
+        (await response.json()).error,
+        new FrenchSpeechUnavailable().message,
+      );
+    },
+    {
+      async speak() {
+        throw new FrenchSpeechUnavailable();
+      },
+      close() {},
+    },
+  );
+});
 test("la révision distingue rappel, erreur, aide et construction non démontrée avant de poursuivre", async () => {
   const target = {
     id: "skill:origin",

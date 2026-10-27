@@ -14,7 +14,7 @@ import {
   helpResponseSchema,
   type TutorReply,
 } from "../shared/contracts";
-import type { SpeechProvider } from "./local-speech";
+import { FrenchSpeechUnavailable, type SpeechProvider } from "./local-speech";
 import { getLesson } from "../shared/learning-plan";
 import { prepareTutorReply } from "../shared/tutor-feedback";
 import {
@@ -470,6 +470,10 @@ export function createApp({
     res,
     _next,
   ) => {
+    if (error instanceof FrenchSpeechUnavailable) {
+      res.status(502).json({ error: error.message });
+      return;
+    }
     if (error instanceof OpenAI.APIError && error.status === 429) {
       res.status(429).json({
         error:

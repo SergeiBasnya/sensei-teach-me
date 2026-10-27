@@ -1,0 +1,25 @@
+{
+  "doctrineDigest": "sha256:6bce44c544352f9be96834eed71b8076c685b35085ef25317cba8ea847d1a1f5",
+  "artifact": {
+    "root": "/Users/augustdouglas/Documents/projects/apps/sensei-teach-me/build/web",
+    "digest": "sha256:f76c21e60f8bf53f9bc0053d86fd8db99b693571511921b08e3f79b94ab01bf6",
+    "fileCount": 31
+  },
+  "schemaVersion": "prisma-technical-evaluation.v1",
+  "reviewId": "mochi-vivienne-french-voice",
+  "technicalStatus": "pass",
+  "artisticStatus": "not-evaluated",
+  "failures": [],
+  "checkedGateIds": [
+    "doctrine:no-colored-side-stripes",
+    "doctrine:no-card-title-hover-underlines",
+    "doctrine:no-bricolage-grotesque",
+    "doctrine:no-peripheral-filler-copy",
+    "doctrine:no-sage-or-olive",
+    "doctrine:section-composition-and-rhythm",
+    "doctrine:responsive-text-clearance",
+    "doctrine:one-clear-cta-per-section",
+    "technical:vivienne-and-error-recovery",
+    "technical:oral-and-expo"
+  ]
+}
