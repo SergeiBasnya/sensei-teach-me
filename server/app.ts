@@ -17,6 +17,11 @@ import {
 import type { SpeechProvider } from "./local-speech";
 import { getLesson } from "../shared/learning-plan";
 import { prepareTutorReply } from "../shared/tutor-feedback";
+import {
+  assistanceIntent,
+  tutorFromHelp,
+  firstCoachedFollowup,
+} from "../shared/teaching";
 
 export interface TutorProvider {
   turn: (input: typeof turnRequestSchema._output) => Promise<TutorReply>;
@@ -24,6 +29,38 @@ export interface TutorProvider {
   help?: (
     input: typeof helpRequestSchema._output,
   ) => Promise<typeof helpResponseSchema._output>;
+}
+async function teachTurn(
+  provider: TutorProvider,
+  input: typeof turnRequestSchema._output,
+) {
+  const intent = assistanceIntent(input.text);
+  const question = [...input.history]
+    .reverse()
+    .find((item) => item.role === "assistant")?.content;
+  if (intent && question && provider.help) {
+    const help = helpResponseSchema.parse(
+      await provider.help({
+        scenario: input.scenario,
+        history: input.history,
+        question,
+        meaning: intent.meaning,
+      }),
+    );
+    return tutorFromHelp(help);
+  }
+  const tutor = prepareTutorReply(await provider.turn(input), input.text);
+  const bareAcknowledgement =
+    /^(はい|うん|ええ|いいえ|そうです|そうですか)$/.test(
+      input.text.replace(/[\s。、！？.!?]/gu, ""),
+    );
+  const expectsYesOrNo =
+    input.lessonId === "meet-likes" || input.lessonId === "cafe-finish";
+  return !tutor.correction &&
+    !input.guidedStepDone &&
+    (!bareAcknowledgement || expectsYesOrNo)
+    ? firstCoachedFollowup(input.lessonId, input.history, input.text) || tutor
+    : tutor;
 }
 export function createProvider(apiKey: string): TutorProvider {
   const client = new OpenAI({ apiKey, timeout: 35_000, maxRetries: 0 });
@@ -46,7 +83,12 @@ export function createProvider(apiKey: string): TutorProvider {
           ...input.history,
           { role: "user" as const, content: input.text },
         ],
-        text: { format: zodTextFormat(tutorReplySchema, "japanese_tutor") },
+        text: {
+          format: zodTextFormat(
+            tutorReplySchema.omit({ coaching: true, practice: true }),
+            "japanese_tutor",
+          ),
+        },
       });
       if (!response.output_parsed) throw new Error("empty_reply");
       return tutorReplySchema.parse(response.output_parsed);
@@ -222,7 +264,7 @@ export function createApp({
       });
       return;
     }
-    const audio = await speech.speak(parsed.data.text);
+    const audio = await speech.speak(parsed.data.text, parsed.data.language);
     res.json({ audio: audio.toString("base64"), format: "wav" });
   });
   app.post("/api/turn", async (req, res) => {
@@ -241,8 +283,7 @@ export function createApp({
       });
       return;
     }
-    const reply = await provider.turn(parsed.data);
-    res.json(prepareTutorReply(reply, parsed.data.text));
+    res.json(await teachTurn(provider, parsed.data));
   });
   app.post("/api/help", async (req, res) => {
     const parsed = helpRequestSchema.safeParse(req.body);
@@ -302,18 +343,20 @@ export function createApp({
       res.json({ heard: false });
       return;
     }
-    const tutor = prepareTutorReply(
-      await provider.turn({
-        scenario: parsed.data.scenario,
-        ...(parsed.data.lessonId ? { lessonId: parsed.data.lessonId } : {}),
-        history: parsed.data.history,
-        text: transcript,
-      }),
-      transcript,
-    );
+    const tutor = await teachTurn(provider, {
+      scenario: parsed.data.scenario,
+      ...(parsed.data.lessonId ? { lessonId: parsed.data.lessonId } : {}),
+      guidedStepDone: parsed.data.guidedStepDone,
+      history: parsed.data.history,
+      text: transcript,
+    });
     if (res.destroyed) return;
     const text = speechRequestSchema.parse({ text: tutor.reply.japanese });
     const audio = await speech.speak(text.text);
+    if (res.destroyed) return;
+    const coachingAudio = tutor.coaching
+      ? await speech.speak(tutor.coaching, "fr")
+      : undefined;
     tutor.reply.romaji = speech.reading?.(text.text) || tutor.reply.romaji;
     if (!res.destroyed)
       res.json({
@@ -321,6 +364,9 @@ export function createApp({
         transcript,
         tutor,
         audio: audio.toString("base64"),
+        ...(coachingAudio
+          ? { coachingAudio: coachingAudio.toString("base64") }
+          : {}),
         format: "wav",
       });
   });

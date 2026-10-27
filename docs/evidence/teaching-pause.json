@@ -1,0 +1,23 @@
+{
+  "test": {
+    "starts": 0,
+    "plays": [
+      1728.5
+    ],
+    "ended": [],
+    "mode": "silent",
+    "responses": [],
+    "speechRequests": [
+      {
+        "text": "Aujourd’hui, on apprend à se présenter. Écoute cet exemple : il suffit de remplacer le prénom par le tien.",
+        "language": "fr"
+      }
+    ],
+    "autoHelps": 0
+  },
+  "text": "Te présenter\n私はオーギュストです。\nWatashi wa Ōgyusuto desu.\nJe m’appelle August.\nAujourd’hui, on apprend à se présenter. Écoute cet exemple : il suffit de remplacer le prénom par le tien.\nHistorique\nJe bloque\nEn pause",
+  "resumeAvailable": true,
+  "noNextAudio": true,
+  "noRecording": true,
+  "artifactDigest": "sha256:07c796fd8719f35380e50ae775fbe64170521d08ff4d4d472da6a8af71e0c65d"
+}

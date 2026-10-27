@@ -1,0 +1,36 @@
+{
+  "spoken": {
+    "heard": true,
+    "transcript": "Je ne sais pas. Peux-tu m’aider ?",
+    "tutor": {
+      "reply": {
+        "japanese": "アレックスです。",
+        "romaji": "arekkusudesu",
+        "french": "Je suis Alex."
+      },
+      "coaching": "Pour te présenter, dis « [ton prénom] desu ». Voici un exemple : Je suis Alex. Écoute, puis essaie de le dire à ton tour.",
+      "practice": true,
+      "correction": null,
+      "vocabulary": [
+        {
+          "japanese": "アレックスです。",
+          "romaji": "arekkusudesu",
+          "french": "Je suis Alex."
+        }
+      ]
+    },
+    "format": "wav",
+    "frenchAudio": true
+  },
+  "normal": {
+    "reply": {
+      "japanese": "お名前は？",
+      "romaji": "Onamae wa?",
+      "french": "Comment t’appelles-tu ?"
+    },
+    "coaching": "Très bien. Maintenant, apprends à demander le prénom de quelqu’un. Écoute le modèle et pose-moi cette question.",
+    "practice": true,
+    "correction": null,
+    "vocabulary": []
+  }
+}

@@ -5,7 +5,7 @@ import { resolve } from "node:path";
 import { z } from "zod";
 
 export type SpeechProvider = {
-  speak: (text: string) => Promise<Buffer>;
+  speak: (text: string, language?: "ja" | "fr") => Promise<Buffer>;
   reading?: (text: string) => string | undefined;
   close: () => void;
 };
@@ -97,7 +97,7 @@ export function createLocalSpeech(): SpeechProvider | undefined {
   };
   return {
     reading: (text) => readings.get(text),
-    speak(text) {
+    speak(text, language = "ja") {
       if (pending.size >= 4)
         return Promise.reject(
           new Error("Le moteur vocal est occupé. Réessaie dans un instant."),
@@ -114,6 +114,7 @@ export function createLocalSpeech(): SpeechProvider | undefined {
           JSON.stringify({
             id,
             text,
+            language,
             style: 10,
           }) + "\n",
           (error) => {

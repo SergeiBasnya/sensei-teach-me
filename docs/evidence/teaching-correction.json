@@ -1,0 +1,41 @@
+{
+  "syntheticAudio": true,
+  "input": "私はフランスを来ました。",
+  "first": {
+    "heard": true,
+    "transcript": "私はフランスを来ました。",
+    "tutor": {
+      "reply": {
+        "japanese": "私はフランスから来ました。 もう一度、言ってみましょう。",
+        "romaji": "watashiwa furansukara kimashita,mooichido,itte mimashoo",
+        "french": "Je viens de France. Réessaie cette phrase."
+      },
+      "correction": {
+        "original": "私はフランスを来ました。",
+        "corrected": "私はフランスから来ました。",
+        "romaji": "watashi wa furansu kara kima shita.",
+        "french": "Je viens de France.",
+        "explanation": "Utilise kara pour indiquer l'origine, pas wo."
+      },
+      "vocabulary": [],
+      "coaching": "Utilise kara pour indiquer l'origine, pas wo.",
+      "practice": true
+    },
+    "format": "wav"
+  },
+  "second": {
+    "heard": true,
+    "transcript": "私はフランスから来ました。",
+    "tutor": {
+      "reply": {
+        "japanese": "どこに住んでいますか？",
+        "romaji": "dokoni sunde imasuka？",
+        "french": "Où habites-tu ?"
+      },
+      "coaching": "On va préciser où tu habites. Pour répondre, donne ta ville, puis ajoute ni sundeimasu. Écoute ma question et essaie avec ta ville.",
+      "correction": null,
+      "vocabulary": []
+    },
+    "format": "wav"
+  }
+}

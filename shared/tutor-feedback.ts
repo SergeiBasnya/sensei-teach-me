@@ -11,6 +11,8 @@ export function prepareTutorReply(raw: unknown, original: string): TutorReply {
   return {
     ...tutor,
     correction: { ...correction, original },
+    coaching: correction.explanation,
+    practice: true,
     reply: {
       japanese: `${correction.corrected} もう一度、言ってみましょう。`,
       romaji: `${correction.romaji} Mō ichido, itte mimashō.`,

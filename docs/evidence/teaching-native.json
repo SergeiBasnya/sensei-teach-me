@@ -1,0 +1,19 @@
+{
+  "meshBridge": true,
+  "nativeWebView": true,
+  "embeddedHTML": true,
+  "androidManifest": true,
+  "avatarB": true,
+  "expressionAtlas": true,
+  "audioEnergy": true,
+  "oldRabbitAbsent": true,
+  "unapprovedPortraitAbsent": true,
+  "plan": true,
+  "personalCodeAbsent": true,
+  "server": {
+    "ready": true,
+    "mode": "local",
+    "oral": true,
+    "warming": false
+  }
+}

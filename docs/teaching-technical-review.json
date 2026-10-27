@@ -1,0 +1,86 @@
+{
+  "doctrineDigest": "sha256:6bce44c544352f9be96834eed71b8076c685b35085ef25317cba8ea847d1a1f5",
+  "review": {
+    "schemaVersion": "prisma-technical-review.v1",
+    "id": "mochi-spoken-teaching",
+    "missionId": "sensei-japanese-oral-mvp",
+    "decisionId": "teach-and-help-through-spoken-conversation",
+    "artifact": {
+      "root": "../build/web",
+      "digest": "sha256:07c796fd8719f35380e50ae775fbe64170521d08ff4d4d472da6a8af71e0c65d"
+    },
+    "observedAt": "2026-10-27T10:18:13.044162+00:00",
+    "gates": [
+      {
+        "id": "doctrine:no-colored-side-stripes",
+        "passed": true,
+        "evidence": "Conversation observée à 390×844, 320×568, 844×390 et 1440×1000. Les explications utilisent le fond lavande plein existant ; aucun liseré décoratif coloré latéral ou supérieur ajouté. En-tête séparé par un trait neutre. Le focus du micro est un contour fonctionnel complet. Captures evidence/teaching-opening-320.png, teaching-390.png et teaching-focus-1440.png. Guard clear et doctor ready, sans nouvelle exclusion ni allowance."
+      },
+      {
+        "id": "doctrine:no-card-title-hover-underlines",
+        "passed": true,
+        "evidence": "Les titres de leçon et le modèle restent statiques. Survol d’Historique observé sans soulignement. Une touche Tab depuis Historique place le focus sur le micro, outline violet solid 3 px, textDecoration none. Captures evidence/teaching-hover-1440.png et teaching-focus-1440.png ; mesures teaching-responsive.json. Aucune carte promotionnelle ajoutée."
+      },
+      {
+        "id": "doctrine:no-bricolage-grotesque",
+        "passed": true,
+        "evidence": "Famille calculée du modèle rendu aux quatre formats : system-ui, -apple-system, system-ui, Segoe UI, sans-serif, relevée dans evidence/teaching-responsive.json. Aucun import ni téléchargement de police ajouté. Captures teaching-390.png et teaching-focus-1440.png. La famille réellement utilisée sur le téléphone physique reste non observée."
+      },
+      {
+        "id": "doctrine:no-peripheral-filler-copy",
+        "passed": true,
+        "evidence": "Le texte ajouté explique la construction de la réponse et se rattache au modèle japonais courant. L’introduction annonce l’exercice ; la consigne de répétition apparaît sous le modèle, pas dans une marge isolée. Les états parlent, écoute et pause restent près du micro. Aucun slogan, timer ou badge technique. Captures evidence/teaching-opening-scrolled-320.png et teaching-silence-390.png ; texte intégral comparé dans TEACHING-TEXTES-AVANT-APRES.md."
+      },
+      {
+        "id": "doctrine:no-sage-or-olive",
+        "passed": true,
+        "evidence": "Palette réellement vue : fond blanc, avatar violet, texte encre et encart lavande. Préférence système sombre activée : l’app conserve son thème clair imposé, racine rgb(255,255,255). Aucun sauge ni olive observé. Captures evidence/teaching-system-dark-390.png, teaching-focus-1440.png et relevé teaching-responsive.json. Les autres écrans ne sont pas déclarés revus dans cette mission."
+      },
+      {
+        "id": "doctrine:section-composition-and-rhythm",
+        "passed": true,
+        "evidence": "Le visage, le modèle et ses deux aides de lecture restent groupés au centre ; la règle française occupe l’encart existant sous la traduction. Les commandes restent en bas, séparées du contenu. L’historique organise les paroles de Mochi sans ajouter de réponse d’élève. Captures evidence/teaching-390.png, teaching-focus-1440.png et teaching-no-fake-turn-390.png. Le parcours d’accueil et la progression sont conservés."
+      },
+      {
+        "id": "doctrine:responsive-text-clearance",
+        "passed": true,
+        "evidence": "Formats observés : 320×568, 390×844, 844×390, 1440×1000. Aucun débordement horizontal mesuré. Les phrases japonaises courtes adaptent leur taille pour conserver un modèle complet, visible sur teaching-opening-320.png. À 320×568, l’introduction nécessite un défilement central ; teaching-opening-scrolled-320.png montre le texte complet. En paysage, teaching-844.png montre le modèle, puis teaching-scrolled-844.png l’explication complète : les contenus au-dessus de la zone pendant le défilement ne sont pas tronqués. Les mesures du modèle après ce défilement peuvent donc se trouver au-dessus du viewport. Le paragraphe français reste lisible malgré ses retours à la ligne variables. Marges latérales de 26 px dans les formats téléphone. Clavier et marges Android physiques non observés."
+      },
+      {
+        "id": "doctrine:one-clear-cta-per-section",
+        "passed": true,
+        "evidence": "Le bouton central de pause/reprise reste l’action principale de la conversation. Historique et Je bloque sont les commandes fonctionnelles existantes. Aucun bouton ajouté pour valider un texte, confirmer une correction ou lancer l’aide automatique. L’historique propose Reprendre pour revenir à l’échange. Focus visible sur le micro. Captures evidence/teaching-focus-1440.png et teaching-no-fake-turn-390.png."
+      },
+      {
+        "id": "technical:bilingual-teaching",
+        "passed": true,
+        "evidence": "Les neuf objectifs ont une introduction avec modèle japonais et une suite pédagogique préparée, testées par contrat. Le vrai serveur reconnaît la voix synthétique française Je ne sais pas, peux-tu m’aider et renvoie coaching français, modèle japonais et deux WAV ; evidence/teaching-model.json. Une réponse de prénom déclenche la construction pour demander le prénom de Mochi. Une erreur japonaise reste corrigée, puis la répétition est acceptée et mène à l’étape suivante ; teaching-correction.json. Les questions spontanées et les accusés de réception ambigus ne déclenchent pas artificiellement l’étape suivante. Le booléen de séance garde l’étape déjà suivie lorsque l’historique se raccourcit. Les tests ne constituent pas une évaluation de maîtrise."
+      },
+      {
+        "id": "technical:playback-help-and-cancellation",
+        "passed": true,
+        "evidence": "Sur l’export final, l’introduction atteint quatre événements HTML ended avant le premier enregistrement ; l’aide automatique après silence atteint deux autres ended avant le second. Horodatages dans evidence/teaching-silence.json. Une première version réutilisait le lecteur et pouvait terminer trop tôt ; le web attend désormais explicitement ended sur son élément audio, le natif arme son attente après démarrage. Pause interrompt le reste d’une séquence ; test unitaire de readTutor. Dans un autre échange synthétique, la demande d’aide française puis l’hésitation conservent le même modèle Alex, huit lectures se terminent, le second silence met en pause et un seul vrai message d’élève reste dans l’historique ; teaching-flow.json. Cette dernière preuve précède uniquement l’ajustement final de taille des phrases japonaises courtes et porte son propre digest. Sur le dernier export, un silence sans aucune parole produit une aide et zéro message Toi, capture teaching-no-fake-turn-390.png. Aucun micro humain utilisé. Une pause réelle pendant la première explication française est également vérifiée sur l’export final : après 7,5 secondes, une seule lecture lancée, aucun enregistrement, pas de suite japonaise, reprise manuelle disponible ; teaching-pause.json."
+      },
+      {
+        "id": "technical:expo-and-local-voices",
+        "passed": true,
+        "evidence": "43 tests passent, ainsi que types, formatage, compilation Python et exports web/Android/iOS. Bundle Expo Android final et serveur local prêts, code personnel absent du bundle : evidence/teaching-native.json. Le français utilise la voix Amélie existante du serveur Mac, sans installation de voix ni réglage système ; le japonais conserve VOICEVOX voix A. La démo teaching-demo.wav assemble les deux WAV réellement renvoyés par le serveur, pas un enregistrement de téléphone. Aucun appareil Android physique utilisé ; aucun appel d’API payante testé. Le moteur français doit être adapté si le serveur change de système. teaching-expo.json vérifie aussi speakFrench, coachingAudio et guidedStepDone dans le bundle Android réellement servi."
+      }
+    ],
+    "findings": [
+      {
+        "id": "pedagogy-and-physical-device-limits",
+        "severity": "minor",
+        "observation": "Le parcours enseigne des constructions, mais n’évalue pas la maîtrise. La mémoire détaillée des erreurs entre séances et leur révision espacée restent absentes. Les sorties générées peuvent être imprécises ; la reconnaissance peut normaliser une faute. Aucun essai sur téléphone ni microphone humain.",
+        "recommendation": "Essayer les leçons sur le téléphone et poursuivre le travail sur la mémoire pédagogique à partir des retours concrets."
+      },
+      {
+        "id": "french-server-voice",
+        "severity": "minor",
+        "observation": "La voix française est distincte de la voix japonaise et dépend actuellement de la synthèse du serveur macOS. Sa préférence artistique n’est pas approuvée par l’utilisateur.",
+        "recommendation": "Écouter l’extrait et ajuster la voix française à partir du retour utilisateur."
+      }
+    ],
+    "summary": "Mochi commence ses neuf objectifs par une explication et un exemple, comprend des demandes d’aide françaises et japonaises, explique oralement et propose une aide après une hésitation. Le rôle de tuteur est ajouté sans nouvelle navigation. Revue du rendu final dans le navigateur isolé ; tests des vrais moteurs avec audio synthétique, pas de téléphone ni de microphone humain. Aucun verdict artistique automatique, aucune revue indépendante inventée. Les preuves de l’échange explicite portent leur digest antérieur ; le dernier export ne diffère ensuite que par l’adaptation de taille des modèles courts, dont les rendus sont repris. OFA révision 10, contrôle design conservé, aucune CI générale ajoutée, dossier 0ld préservé, aucun remote Git configuré. Textes complets avant/après et nouveaux contenus consignés."
+  }
+}

@@ -7,7 +7,19 @@ import {
   useAudioRecorder,
 } from "expo-audio";
 import { File } from "expo-file-system";
-import { oralResponseSchema, type ScenarioId } from "../../shared/contracts";
+import {
+  oralResponseSchema,
+  helpResponseSchema,
+  type ScenarioId,
+  type TutorReply,
+  type Phrase,
+} from "../../shared/contracts";
+import {
+  openingInvitation,
+  tutorFromHelp,
+  type LessonOpening,
+} from "../../shared/teaching";
+import { readTutor } from "./tutor-playback";
 import { apiRequest, type Connection } from "./api";
 import { beginVoiceActivity, observeVoice } from "./voice-activity";
 import { useJapaneseSpeech } from "../components/japanese-speech";
@@ -46,14 +58,24 @@ export function useOralSession({
   connection,
   scenario,
   lessonId,
+  guidedStepDone,
   history,
   onReply,
+  onAssistance,
+  opening,
+  onOpeningStep,
+  question,
 }: {
   connection: Connection | null;
   scenario: ScenarioId;
   lessonId?: import("../../shared/contracts").LessonId;
+  guidedStepDone?: boolean;
   history: History;
   onReply: (reply: OralReply) => void;
+  onAssistance: (tutor: TutorReply) => void;
+  opening?: LessonOpening;
+  onOpeningStep: (step: { phrase: Phrase; coaching: string } | null) => void;
+  question: { phrase: Phrase; coaching?: string | null; practice?: boolean };
 }) {
   const recorder = useAudioRecorder({
     ...RecordingPresets.HIGH_QUALITY,
@@ -71,15 +93,34 @@ export function useOralSession({
   const mounted = useRef(true);
   const ticker = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
   const abort = useRef<AbortController | null>(null);
+  const openingDone = useRef(false);
+  const silenceHelpOffered = useRef(false);
   const latest = useRef({
     connection,
     scenario,
     lessonId,
+    guidedStepDone,
     history,
     onReply,
     speech,
+    onAssistance,
+    opening,
+    onOpeningStep,
+    question,
   });
-  latest.current = { connection, scenario, lessonId, history, onReply, speech };
+  latest.current = {
+    connection,
+    scenario,
+    lessonId,
+    guidedStepDone,
+    history,
+    onReply,
+    speech,
+    onAssistance,
+    opening,
+    onOpeningStep,
+    question,
+  };
   const discard = useCallback(() => {
     const uri = recorder.uri;
     if (!uri) return;
@@ -139,13 +180,79 @@ export function useOralSession({
         recorder.getStatus().metering,
         Date.now(),
       );
-      if (decision === "quiet")
-        void (async () => {
-          await stop();
-          if (mounted.current) setQuiet(true);
-        })();
+      if (decision === "quiet") void offerHelp(id);
       if (decision === "send") void submit(id);
     }, 100);
+  };
+  const offerHelp = async (id: number) => {
+    const current = () => mounted.current && run.current(id);
+    if (!current() || !capturing.current) return;
+    clearInterval(ticker.current);
+    if (silenceHelpOffered.current) {
+      await stop();
+      if (mounted.current) setQuiet(true);
+      return;
+    }
+    silenceHelpOffered.current = true;
+    capturing.current = false;
+    setPhase("thinking");
+    try {
+      await recorder.stop();
+      discard();
+      if (!current()) return;
+      const config = latest.current;
+      const question = [...config.history]
+        .reverse()
+        .find((item) => item.role === "assistant")?.content;
+      if (!config.connection || !question)
+        throw new Error("Ouvre Je bloque pour préparer ta réponse.");
+      let tutor: TutorReply;
+      if (config.question.practice) {
+        tutor = {
+          reply: config.question.phrase,
+          coaching: "Prends ton temps. Écoute encore le modèle, puis réessaie.",
+          practice: true,
+          correction: null,
+          vocabulary: [],
+        };
+      } else {
+        const controller = new AbortController();
+        abort.current = controller;
+        const help = helpResponseSchema.parse(
+          await apiRequest(
+            config.connection,
+            "/api/help",
+            {
+              scenario: config.scenario,
+              history: config.history.slice(-16),
+              question: question.slice(-500),
+              meaning: "",
+            },
+            controller.signal,
+          ),
+        );
+        tutor = tutorFromHelp(help);
+      }
+      if (!current()) return;
+      config.onAssistance(tutor);
+      setPhase("speaking");
+      if (!(await readTutor(tutor, latest.current.speech, current))) {
+        if (current())
+          await fail(
+            "La lecture de l’aide a été interrompue. Reprends quand tu es prêt.",
+          );
+        return;
+      }
+      run.didRead(id, tutor.reply.japanese);
+      await listen(id);
+    } catch (cause) {
+      if (current())
+        await fail(
+          cause instanceof Error
+            ? cause.message
+            : "Ouvre Je bloque pour préparer ta réponse.",
+        );
+    }
   };
   const submit = async (id: number) => {
     const current = () => mounted.current && run.current(id);
@@ -200,6 +307,7 @@ export function useOralSession({
             format,
             scenario: config.scenario,
             lessonId: config.lessonId,
+            guidedStepDone: config.guidedStepDone,
             history: config.history.slice(-16),
           },
           controller.signal,
@@ -214,9 +322,13 @@ export function useOralSession({
       }
       // Le texte est une trace consultable ; son envoi ne demande aucune validation.
       config.onReply(result);
+      silenceHelpOffered.current = false;
       setPhase("speaking");
-      const played = await latest.current.speech.playJapaneseAudio(
-        result.audio,
+      const played = await readTutor(
+        result.tutor,
+        latest.current.speech,
+        current,
+        { japanese: result.audio, french: result.coachingAudio },
       );
       if (!current()) return;
       if (!played) {
@@ -270,16 +382,60 @@ export function useOralSession({
       abort.current = controller;
       await waitForForeground(controller.signal);
       if (!current()) return;
-      const last = [...latest.current.history]
-        .reverse()
-        .find((message) => message.role === "assistant");
-      if (last && run.needsReading(last.content)) {
+      const last = latest.current.question;
+      if (run.needsReading(last.phrase.japanese)) {
         setPhase("speaking");
-        const played = await latest.current.speech.speakJapanese(last.content);
+        const opening = latest.current.opening;
+        if (opening && !openingDone.current) {
+          latest.current.onOpeningStep({
+            phrase: opening.model,
+            coaching: opening.explanation,
+          });
+          if (
+            !(await readTutor(
+              {
+                reply: opening.model,
+                coaching: opening.explanation,
+                correction: null,
+                vocabulary: [],
+              },
+              latest.current.speech,
+              current,
+            ))
+          ) {
+            if (current())
+              throw new Error(
+                "L’explication a été interrompue. Reprends quand tu es prêt.",
+              );
+            return;
+          }
+          if (!current()) return;
+          latest.current.onOpeningStep(null);
+          const invited =
+            await latest.current.speech.speakFrench(openingInvitation);
+          if (!invited || !current()) {
+            if (current())
+              throw new Error(
+                "L’explication a été interrompue. Reprends quand tu es prêt.",
+              );
+            return;
+          }
+          openingDone.current = true;
+        }
+        const played = await readTutor(
+          {
+            reply: last.phrase,
+            coaching: last.coaching,
+            correction: null,
+            vocabulary: [],
+          },
+          latest.current.speech,
+          current,
+        );
         if (!current()) return;
         if (!played)
           throw new Error("La voix de Mochi n’a pas pu démarrer. Réessaie.");
-        run.didRead(id, last.content);
+        run.didRead(id, last.phrase.japanese);
       } else await latest.current.speech.stopJapanese();
       await listen(id);
     } catch (cause) {

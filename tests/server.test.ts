@@ -10,6 +10,70 @@ const auth = {
   Authorization: `Bearer ${token}`,
   "Content-Type": "application/json",
 };
+test("une demande d’aide orale en français enseigne un modèle et fournit deux langues audio", async () => {
+  const synthesized: { text: string; language?: string }[] = [];
+  const provider: TutorProvider = {
+    async transcribe() {
+      return "Je ne sais pas.";
+    },
+    async turn() {
+      throw new Error(
+        "Une demande d’aide ne doit pas être corrigée comme une réponse japonaise.",
+      );
+    },
+    async help(input) {
+      assert.equal(input.question, "お名前は？");
+      assert.equal(input.meaning, "");
+      return {
+        explanation: "Donne ton prénom, puis ajoute desu.",
+        answer: {
+          japanese: "アレックスです。",
+          romaji: "Arekkusu desu.",
+          french: "Je m’appelle Alex.",
+        },
+      };
+    },
+  };
+  const speech: SpeechProvider = {
+    async speak(text, language) {
+      synthesized.push({ text, language });
+      return Buffer.alloc(60);
+    },
+    close() {},
+  };
+  await withServer(
+    provider,
+    async (base) => {
+      const response = await fetch(`${base}/api/oral-turn`, {
+        method: "POST",
+        headers: auth,
+        body: JSON.stringify({
+          scenario: "meet",
+          history: [{ role: "assistant", content: "お名前は？" }],
+          format: "wav",
+          audio: Buffer.alloc(150).toString("base64"),
+        }),
+      });
+      assert.equal(response.status, 200);
+      const result = oralResponseSchema.parse(await response.json());
+      assert.ok(result.heard);
+      assert.equal(result.transcript, "Je ne sais pas.");
+      assert.equal(result.tutor.correction, null);
+      assert.equal(result.tutor.reply.japanese, "アレックスです。");
+      assert.ok(result.coachingAudio);
+      assert.equal(synthesized[1]?.language, "fr");
+      assert.equal(synthesized[1]?.text, result.tutor.coaching);
+      const invalid = await fetch(`${base}/api/speech`, {
+        method: "POST",
+        headers: auth,
+        body: JSON.stringify({ text: "Bonjour", language: "invalid" }),
+      });
+      assert.equal(invalid.status, 400);
+      assert.equal(synthesized.length, 2);
+    },
+    speech,
+  );
+});
 test("une erreur orale est montrée et lue avant toute nouvelle question, puis la répétition reprend le dialogue", async () => {
   const spoken: string[] = [];
   let repeat = false;
@@ -89,7 +153,9 @@ test("une erreur orale est montrée et lue avant toute nouvelle question, puis l
       );
       assert.ok(next.heard);
       assert.equal(next.tutor.correction, null);
-      assert.equal(spoken[1], "どんな映画が好きですか？");
+      assert.equal(spoken[1], "Avec suki, utilise ga pour ce que tu aimes.");
+      assert.equal(spoken[2], "どんな映画が好きですか？");
+      assert.ok(output.coachingAudio);
     },
     speech,
   );
@@ -114,6 +180,46 @@ async function withServer(
     );
   }
 }
+test("une étape déjà enseignée n’est pas réintroduite quand son ancien message sort du contexte récent", async () => {
+  const reply = {
+    reply: {
+      japanese: "もちです。",
+      romaji: "Mochi desu.",
+      french: "Je m’appelle Mochi.",
+    },
+    coaching: null,
+    correction: null,
+    vocabulary: [],
+  };
+  const provider: TutorProvider = {
+    async turn() {
+      return reply;
+    },
+    async transcribe() {
+      return "";
+    },
+  };
+  await withServer(provider, async (base) => {
+    const post = async (guidedStepDone: boolean, text = "アレックスです。") => {
+      const response = await fetch(`${base}/api/turn`, {
+        method: "POST",
+        headers: auth,
+        body: JSON.stringify({
+          scenario: "meet",
+          lessonId: "meet-name",
+          history: [{ role: "assistant", content: "お名前は？" }],
+          text,
+          guidedStepDone,
+        }),
+      });
+      assert.equal(response.status, 200);
+      return response.json();
+    };
+    assert.deepEqual(await post(true), reply);
+    assert.equal((await post(false)).practice, true);
+    assert.deepEqual(await post(false, "はい。"), reply);
+  });
+});
 test("le serveur protège les appels, refuse les origines tierces et ne prétend pas être configuré", async () => {
   await withServer(undefined, async (base) => {
     assert.equal((await fetch(`${base}/api/health`)).status, 401);

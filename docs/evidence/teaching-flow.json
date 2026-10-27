@@ -1,0 +1,74 @@
+{
+  "test": {
+    "starts": 3,
+    "plays": [
+      1694.699999988079,
+      8000,
+      10305.899999976158,
+      16223.699999988079,
+      26311.80000001192,
+      34633.80000001192,
+      51357.19999998808,
+      55067.5
+    ],
+    "ended": [
+      8000,
+      9701.800000011921,
+      16223.800000011921,
+      19781.69999998808,
+      34633.89999997616,
+      35754.5,
+      54651.09999996424,
+      56181
+    ],
+    "mode": "silent",
+    "responses": [
+      {
+        "transcript": "Je ne sais pas. Peux-tu m’aider ?",
+        "tutor": {
+          "reply": {
+            "japanese": "アレックスです。",
+            "romaji": "arekkusudesu",
+            "french": "Je suis Alex."
+          },
+          "coaching": "Pour te présenter, dis « [ton prénom] desu ». Voici un exemple : Je suis Alex. Écoute, puis essaie de le dire à ton tour.",
+          "practice": true,
+          "correction": null,
+          "vocabulary": [
+            {
+              "japanese": "アレックスです。",
+              "romaji": "arekkusudesu",
+              "french": "Je suis Alex."
+            }
+          ]
+        }
+      }
+    ],
+    "speechRequests": [
+      {
+        "text": "Aujourd’hui, on apprend à se présenter. Écoute cet exemple : il suffit de remplacer le prénom par le tien.",
+        "language": "fr"
+      },
+      {
+        "text": "À toi maintenant. Écoute ma question et essaie de répondre. Tu peux me dire en français si tu as besoin d’aide.",
+        "language": "fr"
+      },
+      {
+        "text": "Prends ton temps. Écoute encore le modèle, puis réessaie.",
+        "language": "fr"
+      },
+      {
+        "text": "アレックスです。"
+      }
+    ],
+    "autoHelps": 0,
+    "recordingTimes": [
+      19785.69999998808,
+      35756.19999998808,
+      56182.59999996424
+    ]
+  },
+  "text": "Te présenter\nアレックスです。\narekkusudesu\nJe suis Alex.\nPrends ton temps. Écoute encore le modèle, puis réessaie.\nHistorique\nJe bloque\nBesoin d’un coup de pouce ?",
+  "userMessages": 1,
+  "artifactDigest": "sha256:024995911309ede78fc5666ba6d8fe89496ecb41827ba5ef83ecdb3d5079829a"
+}

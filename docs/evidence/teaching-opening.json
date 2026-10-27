@@ -1,0 +1,35 @@
+{
+  "test": {
+    "starts": 1,
+    "plays": [
+      1694.699999988079,
+      8000,
+      10305.899999976158,
+      16223.699999988079
+    ],
+    "ended": [
+      8000,
+      9701.800000011921,
+      16223.800000011921,
+      19781.69999998808
+    ],
+    "mode": "french",
+    "responses": [],
+    "speechRequests": [
+      {
+        "text": "Aujourd’hui, on apprend à se présenter. Écoute cet exemple : il suffit de remplacer le prénom par le tien.",
+        "language": "fr"
+      },
+      {
+        "text": "À toi maintenant. Écoute ma question et essaie de répondre. Tu peux me dire en français si tu as besoin d’aide.",
+        "language": "fr"
+      }
+    ],
+    "autoHelps": 0,
+    "recordingTimes": [
+      19785.69999998808
+    ]
+  },
+  "text": "Te présenter\nこんにちは！私はもちです。お名前は？\nKonnichiwa! Watashi wa Mochi desu. Onamae wa?\nBonjour ! Je suis Mochi. Comment t’appelles-tu ?\nHistorique\nJe bloque\nÀ toi de parler",
+  "artifactDigest": "sha256:024995911309ede78fc5666ba6d8fe89496ecb41827ba5ef83ecdb3d5079829a"
+}

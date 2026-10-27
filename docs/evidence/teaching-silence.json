@@ -1,0 +1,48 @@
+{
+  "test": {
+    "starts": 2,
+    "plays": [
+      1756.7999999523163,
+      8059.899999976158,
+      10391.199999988079,
+      16310.699999988079,
+      36433.89999997616,
+      45163.5
+    ],
+    "ended": [
+      8059.899999976158,
+      9756.299999952316,
+      16310.699999988079,
+      19868.5,
+      44743.299999952316,
+      46278.5
+    ],
+    "mode": "silent",
+    "responses": [],
+    "speechRequests": [
+      {
+        "text": "Aujourd’hui, on apprend à se présenter. Écoute cet exemple : il suffit de remplacer le prénom par le tien.",
+        "language": "fr"
+      },
+      {
+        "text": "À toi maintenant. Écoute ma question et essaie de répondre. Tu peux me dire en français si tu as besoin d’aide.",
+        "language": "fr"
+      },
+      {
+        "text": "Pour te présenter, dis « [ton prénom] desu ». Voici un exemple : Je suis Alex. Écoute, puis essaie de le dire à ton tour.",
+        "language": "fr"
+      },
+      {
+        "text": "アレックスです。"
+      }
+    ],
+    "autoHelps": 1,
+    "recordingTimes": [
+      19872.19999998808,
+      46280.19999998808
+    ]
+  },
+  "text": "Te présenter\nアレックスです。\narekkusu desu.\nJe suis Alex.\nPour te présenter, dis « [ton prénom] desu ». Voici un exemple : Je suis Alex. Écoute, puis essaie de le dire à ton tour.\nHistorique\nJe bloque\nÀ toi de parler",
+  "userMessages": 0,
+  "artifactDigest": "sha256:07c796fd8719f35380e50ae775fbe64170521d08ff4d4d472da6a8af71e0c65d"
+}

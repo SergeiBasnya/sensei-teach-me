@@ -22,6 +22,8 @@ export const phraseSchema = z.object({
 export type Phrase = z.infer<typeof phraseSchema>;
 export const tutorReplySchema = z.object({
   reply: phraseSchema,
+  coaching: z.string().trim().min(1).max(500).nullable().optional(),
+  practice: z.boolean().optional(),
   correction: z
     .object({
       original: z.string().trim().min(1).max(1500),
@@ -37,6 +39,7 @@ export type TutorReply = z.infer<typeof tutorReplySchema>;
 export const turnRequestSchema = z.object({
   scenario: scenarioIdSchema,
   lessonId: lessonIdSchema.optional(),
+  guidedStepDone: z.boolean().optional(),
   history: z
     .array(
       z.object({
@@ -72,10 +75,12 @@ export const audioRequestSchema = z.object({
 });
 export const speechRequestSchema = z.object({
   text: z.string().trim().min(1).max(500),
+  language: z.enum(["ja", "fr"]).optional(),
 });
 export const oralRequestSchema = audioRequestSchema.extend({
   scenario: scenarioIdSchema,
   lessonId: lessonIdSchema.optional(),
+  guidedStepDone: z.boolean().optional(),
   history: turnRequestSchema.shape.history,
 });
 export const healthSchema = z.object({
@@ -91,6 +96,7 @@ export const oralResponseSchema = z.discriminatedUnion("heard", [
     transcript: z.string().min(1).max(1500),
     tutor: tutorReplySchema,
     audio: z.string().min(60).max(4_000_000),
+    coachingAudio: z.string().min(60).max(4_000_000).optional(),
     format: z.literal("wav"),
   }),
 ]);

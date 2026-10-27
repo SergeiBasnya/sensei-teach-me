@@ -23,6 +23,8 @@ import type {
 } from "../../shared/contracts";
 import { CoachHelp } from "./coach-help";
 import { conversationMood } from "../lib/avatar-state";
+import { teaching, followups } from "../../shared/teaching";
+import { readTutor } from "../lib/tutor-playback";
 import type { Scene } from "../data/lessons";
 import type { Progress } from "../lib/progress";
 import { requestTurn, type Connection } from "../lib/api";
@@ -34,6 +36,8 @@ type Message = {
   role: "assistant" | "user";
   phrase: Phrase;
   correction?: TutorReply["correction"];
+  coaching?: string | null;
+  practice?: boolean;
 };
 const balancedJapanese: TextStyle & { textWrap?: "balance" } =
   Platform.OS === "web" ? { textWrap: "balance" } : {};
@@ -58,19 +62,28 @@ export function Conversation({
     { id: 0, role: "assistant", phrase: first.tutor },
   ]);
   const [turn, setTurn] = useState(0);
+  const [openingStep, setOpeningStep] = useState<{
+    phrase: Phrase;
+    coaching: string;
+  } | null>(null);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [complete, setComplete] = useState(false);
   const [sheet, setSheet] = useState<"help" | "history" | null>(null);
   const [showKeyboard, setShowKeyboard] = useState(false);
+  const speechReader = useJapaneseSpeech();
   const {
     speakJapanese: speak,
     stopJapanese,
     isSpeaking: speaking,
     error: speechError,
-  } = useJapaneseSpeech();
+  } = speechReader;
+  const assistant = [...messages]
+    .reverse()
+    .find((m) => m.role === "assistant")!;
   const words = useRef<Phrase[]>([]);
+  const guidedStepDone = useRef(false);
   const activeSeconds = useRef(0);
   const foreground = useRef(AppState.currentState === "active");
   const abort = useRef(new AbortController());
@@ -82,11 +95,43 @@ export function Conversation({
     connection,
     scenario: scene.id,
     lessonId: scene.lessonId,
+    guidedStepDone: guidedStepDone.current,
+    question: {
+      phrase: assistant.phrase,
+      coaching: assistant.coaching,
+      practice: assistant.practice,
+    },
+    opening: scene.lessonId
+      ? { explanation: teaching[scene.lessonId], model: first.suggestion }
+      : undefined,
+    onOpeningStep: setOpeningStep,
+    onAssistance(tutor) {
+      setOpeningStep(null);
+      setMessages((previous) => [
+        ...previous,
+        {
+          id: Date.now(),
+          role: "assistant",
+          phrase: tutor.reply,
+          coaching: tutor.coaching,
+          correction: null,
+          practice: tutor.practice,
+        },
+      ]);
+    },
     history: messages.map((message) => ({
       role: message.role,
-      content: message.phrase.japanese,
+      content: [message.coaching, message.phrase.japanese]
+        .filter(Boolean)
+        .join("\n"),
     })),
     onReply(result) {
+      if (
+        scene.lessonId &&
+        result.tutor.coaching === followups[scene.lessonId].coaching
+      )
+        guidedStepDone.current = true;
+      setOpeningStep(null);
       setMessages((previous) => [
         ...previous,
         {
@@ -95,7 +140,14 @@ export function Conversation({
           phrase: { japanese: result.transcript, romaji: "", french: "" },
           correction: result.tutor.correction,
         },
-        { id: Date.now() + 1, role: "assistant", phrase: result.tutor.reply },
+        {
+          id: Date.now() + 1,
+          role: "assistant",
+          phrase: result.tutor.reply,
+          correction: result.tutor.correction,
+          coaching: result.tutor.coaching,
+          practice: result.tutor.practice,
+        },
       ]);
       words.current.push(...result.tutor.vocabulary);
       setTurn((previous) => previous + 1);
@@ -152,18 +204,31 @@ export function Conversation({
       let reply: Phrase;
       let correction: TutorReply["correction"] = null;
       let newWords: Phrase[] = [];
+      let coaching: string | null | undefined;
+      let practice: boolean | undefined;
       if (connection) {
         const result = await requestTurn(
           connection,
           scene.id,
-          messages.map((m) => ({ role: m.role, content: m.phrase.japanese })),
+          messages.map((m) => ({
+            role: m.role,
+            content: [m.coaching, m.phrase.japanese].filter(Boolean).join("\n"),
+          })),
           text,
           abort.current.signal,
           scene.lessonId,
+          guidedStepDone.current,
         );
         reply = result.reply;
         correction = result.correction;
         newWords = result.vocabulary;
+        coaching = result.coaching;
+        if (
+          scene.lessonId &&
+          result.coaching === followups[scene.lessonId].coaching
+        )
+          guidedStepDone.current = true;
+        practice = result.practice;
       } else {
         const next = scene.turns[turn + 1];
         reply = next ? next.tutor : scene.ending;
@@ -179,12 +244,24 @@ export function Conversation({
           phrase: guided || { japanese: text, romaji: "", french: "" },
           correction,
         },
-        { id: Date.now() + 1, role: "assistant", phrase: reply },
+        {
+          id: Date.now() + 1,
+          role: "assistant",
+          phrase: reply,
+          correction,
+          coaching,
+          practice,
+        },
       ]);
       words.current.push(...newWords);
       setInput("");
       setTurn((previous) => previous + 1);
-      if (progress.autoSpeak) void speak(reply.japanese);
+      if (progress.autoSpeak)
+        void readTutor(
+          { reply, coaching, correction, vocabulary: newWords },
+          speechReader,
+          () => mounted.current && !abort.current.signal.aborted,
+        );
     } catch (cause) {
       if (mounted.current)
         setError(
@@ -195,12 +272,10 @@ export function Conversation({
       if (mounted.current) setBusy(false);
     }
   };
-  const question = [...messages]
-    .reverse()
-    .find((m) => m.role === "assistant")!.phrase;
-  const correction = [...messages]
-    .reverse()
-    .find((m) => m.role === "user")?.correction;
+  const question = openingStep?.phrase || assistant.phrase;
+  const correction = assistant.correction;
+  const coaching = openingStep?.coaching || assistant.coaching;
+  const displayedJapanese = correction?.corrected || question.japanese;
   const suggestion = connection
     ? messages.length === 1
       ? first.suggestion
@@ -262,20 +337,19 @@ export function Conversation({
               s.japanese,
               balancedJapanese,
               width < 370 && { fontSize: 24, lineHeight: 36 },
-              correction &&
-                width < 600 &&
-                correction.corrected.length <= 16 && {
+              width < 600 &&
+                displayedJapanese.length <= 16 && {
                   fontSize: Math.max(
                     20,
                     Math.min(
                       28,
-                      Math.floor((width - 52) / correction.corrected.length),
+                      Math.floor((width - 52) / displayedJapanese.length),
                     ),
                   ),
                 },
             ]}
           >
-            {correction?.corrected || question.japanese}
+            {displayedJapanese}
           </Txt>
           {progress.romaji && !!question.romaji && (
             <Txt style={s.romaji}>{correction?.romaji || question.romaji}</Txt>
@@ -285,9 +359,9 @@ export function Conversation({
               {correction?.french || question.french}
             </Txt>
           )}
-          {correction && (
+          {(correction || coaching) && (
             <Txt accessibilityLiveRegion="polite" style={s.feedbackTip}>
-              {correction.explanation}
+              {correction?.explanation || coaching}
             </Txt>
           )}
         </View>
@@ -439,6 +513,11 @@ export function Conversation({
                 {progress.translation && !!message.phrase.french && (
                   <Txt style={{ fontSize: 13, color: colors.muted }}>
                     {message.phrase.french}
+                  </Txt>
+                )}
+                {!!message.coaching && (
+                  <Txt style={{ fontSize: 13, lineHeight: 21 }}>
+                    {message.coaching}
                   </Txt>
                 )}
                 {message.correction && (

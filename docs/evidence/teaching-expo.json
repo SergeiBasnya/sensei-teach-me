@@ -1,0 +1,13 @@
+{
+  "frenchReader": true,
+  "coachingAudio": true,
+  "guidedStep": true,
+  "frenchCoaching": true,
+  "personalCodeAbsent": true,
+  "server": {
+    "ready": true,
+    "mode": "local",
+    "oral": true,
+    "warming": false
+  }
+}

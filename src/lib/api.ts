@@ -120,12 +120,13 @@ export async function requestTurn(
   text: string,
   signal?: AbortSignal,
   lessonId?: LessonId,
+  guidedStepDone?: boolean,
 ) {
   return tutorReplySchema.parse(
     await apiRequest(
       connection,
       "/api/turn",
-      { scenario, lessonId, history: history.slice(-16), text },
+      { scenario, lessonId, guidedStepDone, history: history.slice(-16), text },
       signal,
     ),
   );
