@@ -1,0 +1,80 @@
+{
+  "doctrineDigest": "sha256:6bce44c544352f9be96834eed71b8076c685b35085ef25317cba8ea847d1a1f5",
+  "review": {
+    "schemaVersion": "prisma-technical-review.v1",
+    "id": "mochi-oral-corrections",
+    "missionId": "sensei-japanese-oral-mvp",
+    "decisionId": "correct-clear-learner-errors-before-continuing",
+    "artifact": {
+      "root": "../build/web",
+      "digest": "sha256:d2c241a0fb2a436c771b4e62f5e7a28e4bd39cdc27e6d2a0e58cec526d415c6c"
+    },
+    "observedAt": "2026-10-27T09:15:21.461423+00:00",
+    "gates": [
+      {
+        "id": "doctrine:no-colored-side-stripes",
+        "passed": true,
+        "evidence": "Conversation corrigée observée à 390×844, 320×568, 844×390 et 1440×1000. Explication sur fond lavande plein, sans liseré coloré latéral ou supérieur ; en-tête séparé par un trait neutre. Panneau Je bloque avec surfaces pleines. Le contour violet du micro est le focus clavier fonctionnel, continu sur tout le contour. Captures evidence/corrections-390.png, corrections-help-390.png et corrections-focus-1440.png. Guard clear et doctor ready, sans nouvelle exception."
+      },
+      {
+        "id": "doctrine:no-card-title-hover-underlines",
+        "passed": true,
+        "evidence": "Aucun titre de carte cliquable dans la zone de correction. Le titre de leçon et Essaie plutôt restent statiques ; survol d’Historique sans soulignement. Une vraie touche Tab depuis Historique place le focus sur le micro, outline violet solid 3 px mesuré. Captures evidence/corrections-hover-1440.png et corrections-focus-1440.png, mesures corrections-responsive.json. Le premier focus programmatique sans clavier ne déclenchait pas focus-visible ; le contrôle final utilise Tab."
+      },
+      {
+        "id": "doctrine:no-bricolage-grotesque",
+        "passed": true,
+        "evidence": "Famille effectivement appliquée à la phrase japonaise : system-ui, -apple-system, system-ui, Segoe UI, sans-serif aux quatre formats, relevée dans evidence/corrections-responsive.json. Aucun téléchargement de police ni modification typographique de l’avatar. Captures corrections-390.png et corrections-1440.png. Les familles sur téléphone physique ne sont pas observées."
+      },
+      {
+        "id": "doctrine:no-peripheral-filler-copy",
+        "passed": true,
+        "evidence": "Le nouveau libellé Essaie plutôt introduit la phrase corrigée ; l’explication française expose la construction à utiliser et reste directement sous sa traduction. À toi de réessayer est rattaché au micro pendant l’écoute, puis En pause après pause. Aucun slogan, signature, timer ou badge technique ajouté. Captures evidence/corrections-listening-390.png et corrections-390.png ; textes complets avant/après dans CORRECTIONS-TEXTES-AVANT-APRES.md."
+      },
+      {
+        "id": "doctrine:no-sage-or-olive",
+        "passed": true,
+        "evidence": "Conversation et panneau d’aide observés avec blanc, violet et lavande. Préférence système sombre réellement activée : l’app garde son thème clair imposé, racine rgb(255,255,255), encart lavande ; aucune teinte sauge ou olive observée. Captures evidence/corrections-system-dark-390.png, corrections-help-390.png et relevé corrections-dark.json. Aucun nouveau thème sombre distinct n’a été créé."
+      },
+      {
+        "id": "doctrine:section-composition-and-rhythm",
+        "passed": true,
+        "evidence": "Organisation de conversation conservée : en-tête, visage central, phrase et lecture/traduction groupées, commandes fixes en bas. Le seul encart supplémentaire est la règle liée à l’erreur ; pas d’empilement de cartes. L’aide s’ouvre dans le panneau existant. Captures evidence/corrections-1440.png, corrections-390.png et corrections-help-390.png. Les autres écrans ne sont pas modifiés et ne sont pas déclarés revus dans cette livraison."
+      },
+      {
+        "id": "doctrine:responsive-text-clearance",
+        "passed": true,
+        "evidence": "Formats observés : 390×844, 320×568, 844×390 et 1440×1000, aucun débordement horizontal mesuré. La phrase courte corrigée adapte sa taille (26 px à 390, 20 px à 320), gardant 26 px de marge latérale et un modèle complet sur une ligne. Une première version isolait la fin du verbe ; corrigée avant l’export final. À 320×568 et en paysage, le contenu central défile : captures corrections-scrolled-320.png, corrections-phrase-844.png et corrections-scrolled-844.png montrent la phrase puis l’explication accessibles. Le bord supérieur visible lors d’un défilement n’est pas une troncature du texte. Captures initiales de la fenêtre basse et captures après défilement conservées. Le rendu de clavier et les marges système Android restent non observés."
+      },
+      {
+        "id": "doctrine:one-clear-cta-per-section",
+        "passed": true,
+        "evidence": "Le micro central reste l’action principale de l’échange. Historique et Je bloque sont des commandes fonctionnelles ; la correction n’ajoute aucun bouton ni validation de texte. Dans l’aide, À moi de parler est l’action principale, Réécouter la phrase et Écrire plutôt sont les commandes nécessaires à l’exercice. Focus du micro distinct et visible. Captures evidence/corrections-focus-1440.png et corrections-help-390.png."
+      },
+      {
+        "id": "technical:feedback-and-voice",
+        "passed": true,
+        "evidence": "Le vrai Qwen3-14B local détecte trois erreurs synthétiques (origine, suki, passé) et accepte trois réponses valables (courte, familière, polie) : evidence/corrections-model.json. Whisper transcrit l’erreur synthétique 私はフランスを来ました sans la normaliser ; le serveur synthétise la correction et l’invitation à répéter. La répétition correcte reprend la conversation, correction null. Les enregistrements commencent après les événements audio ended (horodatages corrections-first.json et corrections-repeat.json). Tests avec flux audio synthétique, aucun micro humain."
+      },
+      {
+        "id": "technical:help-and-contracts",
+        "passed": true,
+        "evidence": "Je bloque reprend la correction existante, avec lecture et explication identiques. La relecture se termine sans redémarrer le micro : starts reste 2 avant/après, evidence/corrections-help.json. Le contrat valide les champs et borne leurs tailles, refuse un résultat local mal formé, ignore une correction identique à la ponctuation près et utilise le vrai original. Tests HTTP : même modèle de correction pour clavier et oral, reprise après répétition. 38 tests, types, formatage et compilation Python passent. Le fournisseur payant est adapté au contrat, mais aucun appel payant n’a été testé."
+      },
+      {
+        "id": "technical:expo-android",
+        "passed": true,
+        "evidence": "Exports finaux web, Android et iOS réussis. Bundle Expo Android servi et connexion locale prêts, mode local/oral true, code personnel absent du bundle : evidence/corrections-native.json. La correction utilise les composants React Native existants ; aucun nouveau module natif. Aucun appareil Android physique utilisé : les permissions, le micro, les performances et le retour de ligne natifs réels restent à confirmer."
+      }
+    ],
+    "findings": [
+      {
+        "id": "asr-and-model-limits",
+        "severity": "minor",
+        "observation": "La correction analyse les mots reconnus, pas l’accent ni l’intonation. Whisper peut normaliser une erreur et Qwen peut se tromper ou manquer une faute. Aucun téléphone ni micro humain utilisé.",
+        "recommendation": "Essayer les échanges sur le téléphone ; conserver des exemples de corrections manquées pour améliorer le contrôle."
+      }
+    ],
+    "summary": "Corrections activées dans le moteur gratuit, affichées au centre et prononcées avant une invitation orale à réessayer. Vérifications fonctionnelles avec les vrais moteurs locaux et audio synthétique, revue visuelle de cet export exact dans un navigateur isolé. Aucun changement du visage, de la progression ou des autres écrans. Revue réalisée dans cette conversation, sans revue indépendante ni validation artistique déduite. OFA révision 10, doctor ready, garde clear. Aucun remote Git configuré ; dossier 0ld préservé hors du changement. Textes comparés intégralement dans CORRECTIONS-TEXTES-AVANT-APRES.md."
+  }
+}

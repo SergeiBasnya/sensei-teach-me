@@ -1,0 +1,120 @@
+{
+  "responsive": [
+    {
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "font": "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+      "wrap": "balance",
+      "phraseRect": {
+        "x": 26,
+        "y": 409,
+        "width": 338,
+        "height": 42,
+        "top": 409,
+        "right": 364,
+        "bottom": 451,
+        "left": 26
+      },
+      "tipRect": {
+        "x": 26,
+        "y": 539,
+        "width": 338,
+        "height": 56,
+        "top": 539,
+        "right": 364,
+        "bottom": 595,
+        "left": 26
+      },
+      "text": "Dire d’où tu viens\nEssaie plutôt\n私はフランスから来ました。\nwatashi wa furansu kara kima shita.\nJe viens de France.\nUtilise kara pour indiquer l'origine, pas wo.\nHistorique\nJe bloque\nEn pause"
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "overflow": false,
+      "font": "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+      "wrap": "balance",
+      "phraseRect": {
+        "x": 26,
+        "y": 267,
+        "width": 268,
+        "height": 36,
+        "top": 267,
+        "right": 294,
+        "bottom": 303,
+        "left": 26
+      },
+      "tipRect": {
+        "x": 26,
+        "y": 391,
+        "width": 268,
+        "height": 80,
+        "top": 391,
+        "right": 294,
+        "bottom": 471,
+        "left": 26
+      },
+      "text": "Dire d’où tu viens\nEssaie plutôt\n私はフランスから来ました。\nwatashi wa furansu kara kima shita.\nJe viens de France.\nUtilise kara pour indiquer l'origine, pas wo.\nHistorique\nJe bloque\nEn pause"
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "overflow": false,
+      "font": "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+      "wrap": "balance",
+      "phraseRect": {
+        "x": 132,
+        "y": 259,
+        "width": 580,
+        "height": 42,
+        "top": 259,
+        "right": 712,
+        "bottom": 301,
+        "left": 132
+      },
+      "tipRect": {
+        "x": 132,
+        "y": 389,
+        "width": 580,
+        "height": 56,
+        "top": 389,
+        "right": 712,
+        "bottom": 445,
+        "left": 132
+      },
+      "text": "Dire d’où tu viens\nEssaie plutôt\n私はフランスから来ました。\nwatashi wa furansu kara kima shita.\nJe viens de France.\nUtilise kara pour indiquer l'origine, pas wo.\nHistorique\nJe bloque\nEn pause"
+    },
+    {
+      "width": 1440,
+      "height": 1000,
+      "overflow": false,
+      "font": "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+      "wrap": "balance",
+      "phraseRect": {
+        "x": 430,
+        "y": 487,
+        "width": 580,
+        "height": 42,
+        "top": 487,
+        "right": 1010,
+        "bottom": 529,
+        "left": 430
+      },
+      "tipRect": {
+        "x": 430,
+        "y": 617,
+        "width": 580,
+        "height": 56,
+        "top": 617,
+        "right": 1010,
+        "bottom": 673,
+        "left": 430
+      },
+      "text": "Dire d’où tu viens\nEssaie plutôt\n私はフランスから来ました。\nwatashi wa furansu kara kima shita.\nJe viens de France.\nUtilise kara pour indiquer l'origine, pas wo.\nHistorique\nJe bloque\nEn pause"
+    }
+  ],
+  "focus": {
+    "outline": "rgb(115, 80, 198) solid 3px",
+    "textDecoration": "none"
+  }
+}

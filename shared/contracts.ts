@@ -24,9 +24,11 @@ export const tutorReplySchema = z.object({
   reply: phraseSchema,
   correction: z
     .object({
-      original: z.string(),
-      corrected: z.string(),
-      explanation: z.string(),
+      original: z.string().trim().min(1).max(1500),
+      corrected: z.string().trim().min(1).max(300),
+      romaji: z.string().trim().min(1).max(600),
+      french: z.string().trim().min(1).max(500),
+      explanation: z.string().trim().min(1).max(400),
     })
     .nullable(),
   vocabulary: z.array(phraseSchema),

@@ -4,11 +4,96 @@ import type { Server } from "node:http";
 import { createApp, type TutorProvider } from "../server/app";
 import { freeScene } from "../src/data/lessons";
 import type { SpeechProvider } from "../server/local-speech";
+import { oralResponseSchema } from "../shared/contracts";
 const token = "test-personal-token-at-least-16";
 const auth = {
   Authorization: `Bearer ${token}`,
   "Content-Type": "application/json",
 };
+test("une erreur orale est montrée et lue avant toute nouvelle question, puis la répétition reprend le dialogue", async () => {
+  const spoken: string[] = [];
+  let repeat = false;
+  const provider: TutorProvider = {
+    async transcribe() {
+      return repeat ? "日本語が好きです。" : "日本語を好きです。";
+    },
+    async turn(input) {
+      return {
+        reply: {
+          japanese: "どんな映画が好きですか？",
+          romaji: "donna eiga ga suki desu ka?",
+          french: "Quels films aimes-tu ?",
+        },
+        correction: input.text.includes("を")
+          ? {
+              original: input.text,
+              corrected: "日本語が好きです。",
+              romaji: "nihongo ga suki desu.",
+              french: "J’aime le japonais.",
+              explanation: "Avec suki, utilise ga pour ce que tu aimes.",
+            }
+          : null,
+        vocabulary: [],
+      };
+    },
+  };
+  const speech: SpeechProvider = {
+    async speak(text) {
+      spoken.push(text);
+      return Buffer.alloc(60);
+    },
+    close() {},
+  };
+  await withServer(
+    provider,
+    async (base) => {
+      const body = {
+        scenario: "free",
+        history: [],
+        format: "wav",
+        audio: Buffer.alloc(150).toString("base64"),
+      };
+      const post = async (path: string, payload: unknown) => {
+        const response = await fetch(`${base}${path}`, {
+          method: "POST",
+          headers: auth,
+          body: JSON.stringify(payload),
+        });
+        assert.equal(response.status, 200);
+        return response.json();
+      };
+      const output = oralResponseSchema.parse(
+        await post("/api/oral-turn", body),
+      );
+      assert.ok(output.heard);
+      assert.equal(output.tutor.correction?.corrected, "日本語が好きです。");
+      assert.equal(
+        spoken[0],
+        "日本語が好きです。 もう一度、言ってみましょう。",
+      );
+      assert.equal(output.tutor.reply.japanese, spoken[0]);
+      const typed = await post("/api/turn", {
+        scenario: "free",
+        history: [],
+        text: "日本語を好きです。",
+      });
+      assert.equal(typed.reply.japanese, spoken[0]);
+      repeat = true;
+      const next = oralResponseSchema.parse(
+        await post("/api/oral-turn", {
+          ...body,
+          history: [
+            { role: "assistant", content: output.tutor.reply.japanese },
+          ],
+        }),
+      );
+      assert.ok(next.heard);
+      assert.equal(next.tutor.correction, null);
+      assert.equal(spoken[1], "どんな映画が好きですか？");
+    },
+    speech,
+  );
+});
 async function withServer(
   provider: TutorProvider | undefined,
   run: (base: string) => Promise<void>,

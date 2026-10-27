@@ -11,6 +11,7 @@ import {
   TextInput,
   useWindowDimensions,
   View,
+  type TextStyle,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useJapaneseSpeech } from "./japanese-speech";
@@ -34,6 +35,8 @@ type Message = {
   phrase: Phrase;
   correction?: TutorReply["correction"];
 };
+const balancedJapanese: TextStyle & { textWrap?: "balance" } =
+  Platform.OS === "web" ? { textWrap: "balance" } : {};
 export type SessionResult = { seconds: number; turns: number; words: Phrase[] };
 export function Conversation({
   scene,
@@ -195,6 +198,9 @@ export function Conversation({
   const question = [...messages]
     .reverse()
     .find((m) => m.role === "assistant")!.phrase;
+  const correction = [...messages]
+    .reverse()
+    .find((m) => m.role === "user")?.correction;
   const suggestion = connection
     ? messages.length === 1
       ? first.suggestion
@@ -202,7 +208,9 @@ export function Conversation({
     : scene.turns[turn]?.suggestion;
   const status =
     oral.phase === "listening"
-      ? "À toi de parler"
+      ? correction
+        ? "À toi de réessayer"
+        : "À toi de parler"
       : oral.phase === "thinking" || busy
         ? "Mochi réfléchit…"
         : oral.phase === "speaking" || speaking
@@ -247,19 +255,40 @@ export function Conversation({
           mood={conversationMood(oral.phase, speaking)}
         />
         <View style={s.question}>
+          {correction && <Txt style={s.feedbackLabel}>Essaie plutôt</Txt>}
           <Txt
+            textBreakStrategy="balanced"
             style={[
               s.japanese,
+              balancedJapanese,
               width < 370 && { fontSize: 24, lineHeight: 36 },
+              correction &&
+                width < 600 &&
+                correction.corrected.length <= 16 && {
+                  fontSize: Math.max(
+                    20,
+                    Math.min(
+                      28,
+                      Math.floor((width - 52) / correction.corrected.length),
+                    ),
+                  ),
+                },
             ]}
           >
-            {question.japanese}
+            {correction?.corrected || question.japanese}
           </Txt>
           {progress.romaji && !!question.romaji && (
-            <Txt style={s.romaji}>{question.romaji}</Txt>
+            <Txt style={s.romaji}>{correction?.romaji || question.romaji}</Txt>
           )}
           {progress.translation && !!question.french && (
-            <Txt style={s.translation}>{question.french}</Txt>
+            <Txt style={s.translation}>
+              {correction?.french || question.french}
+            </Txt>
+          )}
+          {correction && (
+            <Txt accessibilityLiveRegion="polite" style={s.feedbackTip}>
+              {correction.explanation}
+            </Txt>
           )}
         </View>
         {!!issue && (
@@ -426,24 +455,37 @@ export function Conversation({
             ))
           ) : (
             <>
-              <CoachHelp
-                connection={connection}
-                question={question}
-                history={messages.map((message) => ({
-                  role: message.role,
-                  content: message.phrase.japanese,
-                }))}
-                scenario={scene.id}
-                fallback={suggestion}
-                romaji={progress.romaji}
-                cache={helpCache}
-              />
+              {correction ? (
+                <View style={s.correction}>
+                  <Txt style={{ fontSize: 22, lineHeight: 34 }}>
+                    {correction.corrected}
+                  </Txt>
+                  {progress.romaji && <Txt>{correction.romaji}</Txt>}
+                  <Txt>{correction.french}</Txt>
+                  <Txt>{correction.explanation}</Txt>
+                </View>
+              ) : (
+                <CoachHelp
+                  connection={connection}
+                  question={question}
+                  history={messages.map((message) => ({
+                    role: message.role,
+                    content: message.phrase.japanese,
+                  }))}
+                  scenario={scene.id}
+                  fallback={suggestion}
+                  romaji={progress.romaji}
+                  cache={helpCache}
+                />
+              )}
               <Button
                 secondary
                 icon="volume"
-                onPress={() => void speak(question.japanese)}
+                onPress={() =>
+                  void speak(correction?.corrected || question.japanese)
+                }
               >
-                Réécouter la question
+                {correction ? "Réécouter la phrase" : "Réécouter la question"}
               </Button>
               {!connection && suggestion && (
                 <Button
@@ -547,6 +589,21 @@ const s = StyleSheet.create({
     gap: 24,
   },
   question: { gap: 12, maxWidth: 580, width: "100%" },
+  feedbackLabel: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: colors.purple,
+    textAlign: "center",
+  },
+  feedbackTip: {
+    fontSize: 15,
+    lineHeight: 24,
+    textAlign: "center",
+    marginTop: 6,
+    padding: 16,
+    borderRadius: 16,
+    backgroundColor: colors.light,
+  },
   japanese: {
     fontSize: 28,
     lineHeight: 42,

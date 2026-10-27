@@ -1,0 +1,11 @@
+{
+  "before": {
+    "starts": 2,
+    "ended": 2
+  },
+  "after": {
+    "starts": 2,
+    "ended": 3
+  },
+  "microStayedPaused": true
+}

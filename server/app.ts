@@ -16,6 +16,7 @@ import {
 } from "../shared/contracts";
 import type { SpeechProvider } from "./local-speech";
 import { getLesson } from "../shared/learning-plan";
+import { prepareTutorReply } from "../shared/tutor-feedback";
 
 export interface TutorProvider {
   turn: (input: typeof turnRequestSchema._output) => Promise<TutorReply>;
@@ -32,7 +33,7 @@ export function createProvider(apiKey: string): TutorProvider {
         model: process.env.OPENAI_CHAT_MODEL || "gpt-4.1-mini",
         store: false,
         max_output_tokens: 1000,
-        instructions: `Tu es Mochi, un tuteur de japonais pour un adulte francophone tout débutant (avant JLPT N5). Scénario : ${input.scenario}. Reste dans cette situation, réponds naturellement en japonais poli très simple en une ou deux phrases courtes, puis pose une seule petite question. Fournis la lecture romaji exacte et une traduction française naturelle dans reply. Accepte le français et le romaji pour aider à démarrer. N'invente pas d'erreur : correction est null si la phrase est acceptable ; sinon recopie la phrase originale complète, propose une correction et une courte explication française bienveillante. Ne juge jamais la prononciation à partir du texte ou d'une transcription. Donne au maximum deux expressions courtes utiles dans vocabulary avec romaji et français. Ne prétends pas enregistrer de données ni connaître des séances précédentes.`,
+        instructions: `Tu es Mochi, un tuteur de japonais pour un adulte francophone tout débutant (avant JLPT N5). Scénario : ${input.scenario}. Reste dans cette situation, réponds naturellement en japonais poli très simple en une ou deux phrases courtes, puis pose une seule petite question. Fournis la lecture romaji exacte et une traduction française naturelle dans reply. Accepte le français et le romaji pour aider à démarrer. Vérifie chaque réponse : correction est null si elle est acceptable, y compris une réponse courte, familière ou avec sujet omis. Corrige seulement une erreur claire de grammaire, particule, conjugaison ou vocabulaire, sans changer les faits ni le sens. Dans correction, recopie l’original complet, fournis corrected avec la phrase corrigée complète, sa lecture romaji, sa traduction french et une seule courte explication française avec tu. Ne présente pas une préférence de style, la ponctuation, un nom propre ou une incertitude de transcription comme une erreur. Si ton dernier message demandait de répéter une correction et que la réponse est acceptable, encourage brièvement puis reprends le sujet précédent. Ne juge jamais la prononciation à partir du texte ou d'une transcription. Donne au maximum deux expressions courtes utiles dans vocabulary avec romaji et français. Ne prétends pas enregistrer de données ni connaître des séances précédentes.`,
         input: [
           ...(input.lessonId
             ? [
@@ -241,7 +242,7 @@ export function createApp({
       return;
     }
     const reply = await provider.turn(parsed.data);
-    res.json(tutorReplySchema.parse(reply));
+    res.json(prepareTutorReply(reply, parsed.data.text));
   });
   app.post("/api/help", async (req, res) => {
     const parsed = helpRequestSchema.safeParse(req.body);
@@ -301,13 +302,14 @@ export function createApp({
       res.json({ heard: false });
       return;
     }
-    const tutor = tutorReplySchema.parse(
+    const tutor = prepareTutorReply(
       await provider.turn({
         scenario: parsed.data.scenario,
         ...(parsed.data.lessonId ? { lessonId: parsed.data.lessonId } : {}),
         history: parsed.data.history,
         text: transcript,
       }),
+      transcript,
     );
     if (res.destroyed) return;
     const text = speechRequestSchema.parse({ text: tutor.reply.japanese });

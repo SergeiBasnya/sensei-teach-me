@@ -1,0 +1,128 @@
+[
+  {
+    "name": "origin-particle",
+    "question": "どこから来ましたか？",
+    "text": "私はフランスを来ました。",
+    "expected": true,
+    "status": 200,
+    "seconds": 2.2,
+    "passed": true,
+    "tutor": {
+      "reply": {
+        "japanese": "私はフランスから来ました。 もう一度、言ってみましょう。",
+        "romaji": "watashi wa furansu kara kima shita. Mō ichido, itte mimashō.",
+        "french": "Je viens de France. Réessaie cette phrase."
+      },
+      "correction": {
+        "original": "私はフランスを来ました。",
+        "corrected": "私はフランスから来ました。",
+        "romaji": "watashi wa furansu kara kima shita.",
+        "french": "Je viens de France.",
+        "explanation": "Utilise kara pour indiquer l'origine, pas wo."
+      },
+      "vocabulary": []
+    }
+  },
+  {
+    "name": "likes-particle",
+    "question": "日本語は好きですか？",
+    "text": "日本語を好きです。",
+    "expected": true,
+    "status": 200,
+    "seconds": 2.1,
+    "passed": true,
+    "tutor": {
+      "reply": {
+        "japanese": "日本語が好きです。 もう一度、言ってみましょう。",
+        "romaji": "nihongo ga suki desu. Mō ichido, itte mimashō.",
+        "french": "J’aime le japonais. Réessaie cette phrase."
+      },
+      "correction": {
+        "original": "日本語を好きです。",
+        "corrected": "日本語が好きです。",
+        "romaji": "nihongo ga suki desu.",
+        "french": "J’aime le japonais.",
+        "explanation": "Avec suki, utilise ga pour ce que tu aimes."
+      },
+      "vocabulary": []
+    }
+  },
+  {
+    "name": "acceptable-short",
+    "question": "どこから来ましたか？",
+    "text": "フランスです。",
+    "expected": false,
+    "status": 200,
+    "seconds": 2.5,
+    "passed": true,
+    "tutor": {
+      "reply": {
+        "japanese": "フランスから来ましたのですね。フランスのことは好きですか？",
+        "romaji": "furansu kara kima shitanodesune. furansu nokotoha suki desuka ？",
+        "french": "Vous venez de France, n'est-ce pas ? Aimez-vous la France ?"
+      },
+      "correction": null,
+      "vocabulary": []
+    }
+  },
+  {
+    "name": "acceptable-casual",
+    "question": "コーヒーは好きですか？",
+    "text": "うん、好き。",
+    "expected": false,
+    "status": 200,
+    "seconds": 2.2,
+    "passed": true,
+    "tutor": {
+      "reply": {
+        "japanese": "コーヒーは毎日飲みますか？",
+        "romaji": "koohii wa mainichi nomi masuka ？",
+        "french": "Vous buvez du café tous les jours ?"
+      },
+      "correction": null,
+      "vocabulary": []
+    }
+  },
+  {
+    "name": "acceptable-polite",
+    "question": "日本語は好きですか？",
+    "text": "はい、日本語が好きです。",
+    "expected": false,
+    "status": 200,
+    "seconds": 2.3,
+    "passed": true,
+    "tutor": {
+      "reply": {
+        "japanese": "とてもいいですね！コーヒーは飲みますか？",
+        "romaji": "totemoiidesune! koohii wa nomi masuka ？",
+        "french": "C'est très bien ! Vous buvez du café ?"
+      },
+      "correction": null,
+      "vocabulary": []
+    }
+  },
+  {
+    "name": "past-tense",
+    "question": "昨日、何をしましたか？",
+    "text": "昨日、映画を見ますでした。",
+    "expected": true,
+    "status": 200,
+    "seconds": 2.6,
+    "passed": true,
+    "tutor": {
+      "reply": {
+        "japanese": "昨日、映画を見ました。 もう一度、言ってみましょう。",
+        "romaji": "kinou, eiga o mima shita. Mō ichido, itte mimashō.",
+        "french": "Hier, j’ai regardé un film. Réessaie cette phrase."
+      },
+      "correction": {
+        "original": "昨日、映画を見ますでした。",
+        "corrected": "昨日、映画を見ました。",
+        "romaji": "kinou, eiga o mima shita.",
+        "french": "Hier, j’ai regardé un film.",
+        "explanation": "Pour une action passée, utilise la forme polie en mashita."
+      },
+      "vocabulary": []
+    }
+  }
+]
