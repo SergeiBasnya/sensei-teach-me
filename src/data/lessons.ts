@@ -1,8 +1,11 @@
 import type { LessonId, Phrase, ScenarioId } from "../../shared/contracts";
+import type { ReviewTarget } from "../../shared/learning-memory";
 
 export type Scene = {
   id: ScenarioId;
   lessonId?: LessonId;
+  review?: ReviewTarget;
+  reviewAssisted?: boolean;
   title: string;
   subtitle: string;
   place: string;

@@ -3,6 +3,10 @@ import {
   type LessonId,
   type ScenarioId,
 } from "../../shared/contracts";
+import type {
+  LearnerContext,
+  ReviewContext,
+} from "../../shared/learning-memory";
 
 export type Connection = {
   url: string;
@@ -121,12 +125,20 @@ export async function requestTurn(
   signal?: AbortSignal,
   lessonId?: LessonId,
   guidedStepDone?: boolean,
+  learning?: { learner?: LearnerContext; review?: ReviewContext },
 ) {
   return tutorReplySchema.parse(
     await apiRequest(
       connection,
       "/api/turn",
-      { scenario, lessonId, guidedStepDone, history: history.slice(-16), text },
+      {
+        scenario,
+        lessonId,
+        guidedStepDone,
+        ...learning,
+        history: history.slice(-16),
+        text,
+      },
       signal,
     ),
   );

@@ -10,6 +10,129 @@ const auth = {
   Authorization: `Bearer ${token}`,
   "Content-Type": "application/json",
 };
+test("la révision distingue rappel, erreur, aide et construction non démontrée avant de poursuivre", async () => {
+  const target = {
+    id: "skill:origin",
+    skill: "origin" as const,
+    reference: {
+      japanese: "フランスから来ました。",
+      romaji: "Furansu kara kimashita.",
+      french: "Je viens de France.",
+    },
+    explanation: "Utilise kara pour dire d’où tu viens.",
+  };
+  let outcome: "correct" | "error" | "not_shown" = "correct",
+    checks = 0,
+    correction = true;
+  const provider: TutorProvider = {
+    async transcribe() {
+      return "私はフランスから来ました。";
+    },
+    async assessReview(input) {
+      checks++;
+      assert.equal(input.target.skill, "origin");
+      return {
+        outcome,
+        feedback: "Essaie une phrase complète pour dire d’où tu viens.",
+      };
+    },
+    async turn(input) {
+      return {
+        reply: target.reference,
+        coaching: null,
+        correction: correction
+          ? {
+              original: input.text,
+              corrected: target.reference.japanese,
+              romaji: target.reference.romaji,
+              french: target.reference.french,
+              explanation: target.explanation,
+            }
+          : null,
+        vocabulary: [],
+      };
+    },
+  };
+  const spoken: { text: string; language?: string }[] = [];
+  const speech: SpeechProvider = {
+    async speak(text, language) {
+      spoken.push({ text, language });
+      return Buffer.alloc(60);
+    },
+    close() {},
+  };
+  await withServer(
+    provider,
+    async (base) => {
+      const body = {
+        scenario: "meet",
+        lessonId: "meet-origin",
+        history: [{ role: "assistant", content: "日本語で言ってみましょう。" }],
+        text: "私はフランスから来ました。",
+        review: { target, assisted: false },
+        learner: { support: "supported", weak: ["origin"], stable: [] },
+      };
+      const post = async (payload: unknown, path = "/api/turn") => {
+        const r = await fetch(`${base}${path}`, {
+          method: "POST",
+          headers: auth,
+          body: JSON.stringify(payload),
+        });
+        return { status: r.status, data: await r.json() };
+      };
+      const correct = await post(body);
+      assert.equal(correct.status, 200);
+      assert.equal(correct.data.review.outcome, "correct");
+      assert.equal(correct.data.correction, null);
+      outcome = "not_shown";
+      const short = await post({ ...body, text: "はい。" });
+      assert.equal(short.data.review.outcome, "not_shown");
+      assert.equal(short.data.correction, null);
+      assert.equal(short.data.practice, true);
+      outcome = "error";
+      const wrong = await post({ ...body, text: "フランスを来ました。" });
+      assert.equal(wrong.data.review.outcome, "error");
+      assert.ok(wrong.data.correction);
+      correction = false;
+      const disagreement = await post({ ...body, text: "フランスです。" });
+      assert.equal(disagreement.data.review.outcome, "not_shown");
+      assert.equal(disagreement.data.correction, null);
+      const previousChecks = checks;
+      const help = await post({ ...body, text: "Je ne sais pas." });
+      assert.equal(help.data.review.outcome, "helped");
+      assert.equal(checks, previousChecks);
+      assert.equal(
+        (
+          await post({
+            ...body,
+            review: {
+              target: { ...target, skill: "unknown" },
+              assisted: false,
+            },
+          })
+        ).status,
+        400,
+      );
+      outcome = "correct";
+      const oral = await post(
+        {
+          ...body,
+          text: undefined,
+          audio: Buffer.alloc(150).toString("base64"),
+          format: "wav",
+        },
+        "/api/oral-turn",
+      );
+      assert.equal(oral.status, 200);
+      const parsed = oralResponseSchema.parse(oral.data);
+      assert.ok(parsed.heard);
+      assert.equal(parsed.tutor.review?.outcome, "correct");
+      assert.ok(parsed.coachingAudio);
+      assert.equal(spoken.at(-1)?.language, "fr");
+    },
+    speech,
+  );
+});
 test("une demande d’aide orale en français enseigne un modèle et fournit deux langues audio", async () => {
   const synthesized: { text: string; language?: string }[] = [];
   const provider: TutorProvider = {

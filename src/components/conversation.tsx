@@ -24,6 +24,12 @@ import type {
 import { CoachHelp } from "./coach-help";
 import { conversationMood } from "../lib/avatar-state";
 import { teaching, followups } from "../../shared/teaching";
+import {
+  learnerContext,
+  lessonSkills,
+  reviewCoaching,
+  type LearningTurn,
+} from "../../shared/learning-memory";
 import { readTutor } from "../lib/tutor-playback";
 import type { Scene } from "../data/lessons";
 import type { Progress } from "../lib/progress";
@@ -48,18 +54,31 @@ export function Conversation({
   connection,
   onFinish,
   onConfigure,
+  onLearning,
+  onExposeReview,
+  storageError,
 }: {
   scene: Scene;
   progress: Progress;
   connection: Connection | null;
   onFinish: (result: SessionResult) => void;
   onConfigure: () => void;
+  onLearning: (event: LearningTurn) => void;
+  onExposeReview: (id: string) => void;
+  storageError: string;
 }) {
   const { width, height } = useWindowDimensions();
   const compact = height < 720;
   const first = scene.turns[0]!;
   const [messages, setMessages] = useState<Message[]>([
-    { id: 0, role: "assistant", phrase: first.tutor },
+    {
+      id: 0,
+      role: "assistant",
+      phrase: first.tutor,
+      coaching: scene.review
+        ? reviewCoaching(scene.review, scene.reviewAssisted)
+        : null,
+    },
   ]);
   const [turn, setTurn] = useState(0);
   const [openingStep, setOpeningStep] = useState<{
@@ -84,6 +103,30 @@ export function Conversation({
     .find((m) => m.role === "assistant")!;
   const words = useRef<Phrase[]>([]);
   const guidedStepDone = useRef(false);
+  const memorySession = useRef(
+    `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 9)}`,
+  ).current;
+  const eventCounter = useRef(0);
+  const reviewAssisted = useRef(!!scene.reviewAssisted);
+  const reviewFinished = useRef(false);
+  const learner = learnerContext(progress.learning);
+  const exposeCurrentPoint = () => {
+    const id =
+      scene.review?.id ||
+      (scene.lessonId ? `skill:${lessonSkills[scene.lessonId]}` : undefined);
+    if (id) onExposeReview(id);
+  };
+  const remember = (tutor: TutorReply) =>
+    onLearning({
+      id: `${memorySession}:${++eventCounter.current}`,
+      sessionId: memorySession,
+      at: new Date().toISOString(),
+      scenario: scene.id,
+      lessonId: scene.lessonId,
+      tutor,
+      reviewId: scene.review?.id,
+      independent: !reviewAssisted.current,
+    });
   const activeSeconds = useRef(0);
   const foreground = useRef(AppState.currentState === "active");
   const abort = useRef(new AbortController());
@@ -96,16 +139,33 @@ export function Conversation({
     scenario: scene.id,
     lessonId: scene.lessonId,
     guidedStepDone: guidedStepDone.current,
+    learner,
+    review: scene.review
+      ? { target: scene.review, assisted: reviewAssisted.current }
+      : undefined,
+    finished: () => reviewFinished.current,
     question: {
       phrase: assistant.phrase,
       coaching: assistant.coaching,
       practice: assistant.practice,
     },
-    opening: scene.lessonId
-      ? { explanation: teaching[scene.lessonId], model: first.suggestion }
-      : undefined,
-    onOpeningStep: setOpeningStep,
+    opening:
+      scene.lessonId &&
+      !(
+        learner.support === "light" &&
+        learner.stable.includes(lessonSkills[scene.lessonId])
+      )
+        ? { explanation: teaching[scene.lessonId], model: first.suggestion }
+        : undefined,
+    onOpeningStep(step) {
+      if (step) exposeCurrentPoint();
+      setOpeningStep(step);
+    },
     onAssistance(tutor) {
+      exposeCurrentPoint();
+      if (scene.review) {
+        reviewAssisted.current = true;
+      }
       setOpeningStep(null);
       setMessages((previous) => [
         ...previous,
@@ -126,6 +186,15 @@ export function Conversation({
         .join("\n"),
     })),
     onReply(result) {
+      remember(result.tutor);
+      if (result.tutor.practice) exposeCurrentPoint();
+      if (scene.review) {
+        if (result.tutor.review?.outcome === "correct") {
+          reviewFinished.current = true;
+          setComplete(true);
+        } else if (result.tutor.practice || result.tutor.correction)
+          reviewAssisted.current = true;
+      }
       if (
         scene.lessonId &&
         result.tutor.coaching === followups[scene.lessonId].coaching
@@ -218,8 +287,23 @@ export function Conversation({
           abort.current.signal,
           scene.lessonId,
           guidedStepDone.current,
+          {
+            learner,
+            review: scene.review
+              ? { target: scene.review, assisted: reviewAssisted.current }
+              : undefined,
+          },
         );
         reply = result.reply;
+        remember(result);
+        if (result.practice) exposeCurrentPoint();
+        if (scene.review) {
+          if (result.review?.outcome === "correct") {
+            reviewFinished.current = true;
+            setComplete(true);
+          } else if (result.practice || result.correction)
+            reviewAssisted.current = true;
+        }
         correction = result.correction;
         newWords = result.vocabulary;
         coaching = result.coaching;
@@ -297,6 +381,17 @@ export function Conversation({
               : "En pause";
   const openSheet = async (next: "help" | "history") => {
     await oral.stop();
+    if (next === "help") exposeCurrentPoint();
+    if (next === "help" && scene.review) {
+      const tutor = {
+        reply: scene.review.reference,
+        correction: null,
+        vocabulary: [],
+        review: { id: scene.review.id, outcome: "helped" as const },
+      };
+      remember(tutor);
+      reviewAssisted.current = true;
+    }
     if (mounted.current) setSheet(next);
   };
   const resume = () => {
@@ -305,7 +400,7 @@ export function Conversation({
     setError("");
     if (connection?.oral) void oral.start();
   };
-  const issue = error || oral.error || speechError;
+  const issue = error || oral.error || speechError || storageError;
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -374,7 +469,7 @@ export function Conversation({
       <View style={s.composer}>
         {complete ? (
           <Button onPress={finish} icon="check">
-            Terminer la séance
+            {scene.review ? "Terminer la révision" : "Terminer la séance"}
           </Button>
         ) : !connection?.oral && !showKeyboard ? (
           <Button onPress={onConfigure} icon="mic">
@@ -534,7 +629,18 @@ export function Conversation({
             ))
           ) : (
             <>
-              {correction ? (
+              {scene.review ? (
+                <View style={s.correction}>
+                  <Txt style={{ fontSize: 22, lineHeight: 34 }}>
+                    {scene.review.reference.japanese}
+                  </Txt>
+                  {progress.romaji && (
+                    <Txt>{scene.review.reference.romaji}</Txt>
+                  )}
+                  <Txt>{scene.review.reference.french}</Txt>
+                  <Txt>{scene.review.explanation}</Txt>
+                </View>
+              ) : correction ? (
                 <View style={s.correction}>
                   <Txt style={{ fontSize: 22, lineHeight: 34 }}>
                     {correction.corrected}
@@ -561,10 +667,16 @@ export function Conversation({
                 secondary
                 icon="volume"
                 onPress={() =>
-                  void speak(correction?.corrected || question.japanese)
+                  void speak(
+                    scene.review?.reference.japanese ||
+                      correction?.corrected ||
+                      question.japanese,
+                  )
                 }
               >
-                {correction ? "Réécouter la phrase" : "Réécouter la question"}
+                {scene.review || correction
+                  ? "Réécouter la phrase"
+                  : "Réécouter la question"}
               </Button>
               {!connection && suggestion && (
                 <Button

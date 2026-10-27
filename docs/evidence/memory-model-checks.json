@@ -1,0 +1,162 @@
+[
+  {
+    "name": "reference",
+    "text": "私はフランスから来ました。",
+    "expected": "correct",
+    "status": 200,
+    "seconds": 1.8,
+    "tutor": {
+      "reply": {
+        "japanese": "いいですね！お疲れさまでした。",
+        "romaji": "Ii desu ne! Otsukaresama deshita.",
+        "french": "Bien joué ! Merci pour ton effort."
+      },
+      "coaching": "C’est juste. Tu as retrouvé la construction sans modèle. On reverra ce point plus tard.",
+      "correction": null,
+      "vocabulary": [],
+      "review": {
+        "id": "skill:origin",
+        "outcome": "correct"
+      }
+    },
+    "passed": true
+  },
+  {
+    "name": "valid-variation",
+    "text": "スペインから来ました。",
+    "expected": "correct",
+    "status": 200,
+    "seconds": 1.6,
+    "tutor": {
+      "reply": {
+        "japanese": "いいですね！お疲れさまでした。",
+        "romaji": "Ii desu ne! Otsukaresama deshita.",
+        "french": "Bien joué ! Merci pour ton effort."
+      },
+      "coaching": "C’est juste. Tu as retrouvé la construction sans modèle. On reverra ce point plus tard.",
+      "correction": null,
+      "vocabulary": [],
+      "review": {
+        "id": "skill:origin",
+        "outcome": "correct"
+      }
+    },
+    "passed": true
+  },
+  {
+    "name": "wrong-particle",
+    "text": "私はフランスを来ました。",
+    "expected": "error",
+    "status": 200,
+    "seconds": 4.5,
+    "tutor": {
+      "reply": {
+        "japanese": "私はフランスから来ました。 もう一度、言ってみましょう。",
+        "romaji": "watashi wa furansu kara kima shita. Mō ichido, itte mimashō.",
+        "french": "Je viens de France. Réessaie cette phrase."
+      },
+      "correction": {
+        "original": "私はフランスを来ました。",
+        "corrected": "私はフランスから来ました。",
+        "romaji": "watashi wa furansu kara kima shita.",
+        "french": "Je viens de France.",
+        "explanation": "Pour dire d’où tu viens, utilise kara après le pays."
+      },
+      "vocabulary": [],
+      "coaching": "Pour dire d’où tu viens, utilise kara après le pays.",
+      "practice": true,
+      "review": {
+        "id": "skill:origin",
+        "outcome": "error"
+      }
+    },
+    "passed": true
+  },
+  {
+    "name": "bare-yes",
+    "text": "はい。",
+    "expected": "not_shown",
+    "status": 200,
+    "seconds": 2.1,
+    "tutor": {
+      "reply": {
+        "japanese": "私はフランスから来ました。",
+        "romaji": "Watashi wa Furansu kara kimashita.",
+        "french": "Je viens de France."
+      },
+      "coaching": "On reprend ce point. Utilise kara pour dire d’où tu viens. Écoute ce modèle, puis réessaie.",
+      "practice": true,
+      "correction": null,
+      "vocabulary": [
+        {
+          "japanese": "私はフランスから来ました。",
+          "romaji": "Watashi wa Furansu kara kimashita.",
+          "french": "Je viens de France."
+        }
+      ],
+      "review": {
+        "id": "skill:origin",
+        "outcome": "not_shown"
+      }
+    },
+    "passed": true
+  },
+  {
+    "name": "natural-short-answer",
+    "text": "フランスです。",
+    "expected": "not_shown",
+    "status": 200,
+    "seconds": 1.8,
+    "tutor": {
+      "reply": {
+        "japanese": "私はフランスから来ました。",
+        "romaji": "Watashi wa Furansu kara kimashita.",
+        "french": "Je viens de France."
+      },
+      "coaching": "On reprend ce point. Utilise kara pour dire d’où tu viens. Écoute ce modèle, puis réessaie.",
+      "practice": true,
+      "correction": null,
+      "vocabulary": [
+        {
+          "japanese": "私はフランスから来ました。",
+          "romaji": "Watashi wa Furansu kara kimashita.",
+          "french": "Je viens de France."
+        }
+      ],
+      "review": {
+        "id": "skill:origin",
+        "outcome": "not_shown"
+      }
+    },
+    "passed": true
+  },
+  {
+    "name": "spoken-help",
+    "text": "Je ne sais pas.",
+    "expected": "helped",
+    "status": 200,
+    "seconds": 0,
+    "tutor": {
+      "reply": {
+        "japanese": "私はフランスから来ました。",
+        "romaji": "Watashi wa Furansu kara kimashita.",
+        "french": "Je viens de France."
+      },
+      "coaching": "Utilise kara pour dire d’où tu viens. Voici un exemple : Je viens de France. Écoute, puis essaie de le dire à ton tour.",
+      "practice": true,
+      "correction": null,
+      "vocabulary": [
+        {
+          "japanese": "私はフランスから来ました。",
+          "romaji": "Watashi wa Furansu kara kimashita.",
+          "french": "Je viens de France."
+        }
+      ],
+      "review": {
+        "id": "skill:origin",
+        "outcome": "helped"
+      }
+    },
+    "passed": true
+  }
+]

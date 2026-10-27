@@ -12,6 +12,12 @@ import { colors, Txt } from "./components/ui";
 import { Settings } from "./components/settings";
 import { Home } from "./screens/home";
 import { JapaneseSpeechProvider } from "./components/japanese-speech";
+import {
+  recordLearningTurn,
+  rememberLesson,
+  exposeModel,
+  type LearningTurn,
+} from "../shared/learning-memory";
 
 export default function App() {
   return (
@@ -39,7 +45,10 @@ function Sensei() {
     result: SessionResult;
   } | null>(null);
   const start = (scene: Scene) => {
-    if (scene.id === "free" && !connection) {
+    if (
+      (scene.id === "free" && !connection) ||
+      (scene.review && !connection?.oral)
+    ) {
       setSettings(true);
       return;
     }
@@ -60,8 +69,19 @@ function Sensei() {
     if (result.turns > 0) {
       setProgress((previous) => {
         const next = addWords(previous, result.words);
+        const learning =
+          session.lessonId && !session.review
+            ? rememberLesson(
+                next.learning,
+                session.lessonId,
+                session.turns[0]!.suggestion,
+                session.id,
+                new Date().toISOString(),
+              )
+            : next.learning;
         return {
           ...next,
+          learning,
           sessions: [
             ...next.sessions,
             {
@@ -69,6 +89,9 @@ function Sensei() {
               date: dayKey(),
               scenario: session.id,
               ...(session.lessonId ? { lessonId: session.lessonId } : {}),
+              ...(session.review
+                ? { reviewId: session.review.id, reviewTitle: session.title }
+                : {}),
               seconds: result.seconds,
               turns: result.turns,
             },
@@ -103,12 +126,29 @@ function Sensei() {
       >
         {session ? (
           <Conversation
-            key={session.lessonId || session.id}
+            key={session.review?.id || session.lessonId || session.id}
             scene={session}
             progress={progress}
             connection={connection}
             onFinish={finish}
             onConfigure={() => setSettings(true)}
+            onLearning={(event: LearningTurn) =>
+              setProgress((previous) => ({
+                ...previous,
+                learning: recordLearningTurn(previous.learning, event),
+              }))
+            }
+            onExposeReview={(id) =>
+              setProgress((previous) => ({
+                ...previous,
+                learning: exposeModel(
+                  previous.learning,
+                  id,
+                  new Date().toISOString(),
+                ),
+              }))
+            }
+            storageError={storageError}
           />
         ) : (
           <Home

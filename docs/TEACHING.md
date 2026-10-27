@@ -20,6 +20,6 @@ Le téléphone lit des WAV dans les deux langues. La même animation suit leur �
 
 ## Limites
 
-Les neuf leçons ont des introductions et suites préparées ; les explications du dialogue libre sont générées et peuvent rester imprécises. Les réponses courtes sont acceptées. Whisper peut mal reconnaître ou normaliser une erreur. L’accent, l’intonation et le rythme ne sont pas notés. La progression indique un objectif pratiqué, sans déclaration de maîtrise. La mémoire détaillée des erreurs entre séances et leur révision espacée ne sont pas encore développées.
+Les neuf leçons ont des introductions et suites préparées ; les explications du dialogue libre sont générées et peuvent rester imprécises. Les réponses courtes sont acceptées. Whisper peut mal reconnaître ou normaliser une erreur. L’accent, l’intonation et le rythme ne sont pas notés. La progression indique un objectif pratiqué, sans déclaration de maîtrise. La [mémoire des erreurs et les révisions espacées](LEARNING-MEMORY.md) sont désormais conservées sur cet appareil ; l’aide s’adapte d’après des rappels indépendants, sans attribution automatique d’un niveau JLPT.
 
 Les tests audio utilisent des voix synthétiques, sans microphone humain. Les exports Expo sont vérifiés ; l’appareil Android physique reste à essayer. La décision artistique reste en attente de l’utilisateur sur l’export exact. Voir les textes avant/après, les preuves teaching-* et la revue technique associée.

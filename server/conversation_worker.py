@@ -98,6 +98,8 @@ def main():
                         messages = [{"role": "system", "content": INSTRUCTIONS + "\nSituation : " + scenario}]
                         if request.get("objective"):
                             messages[0]["content"] += "\nCurrent beginner practice objective: " + request["objective"] + " Keep your follow-up questions focused on this objective."
+                        if request.get("learnerGuidance"):
+                            messages[0]["content"] += "\n" + request["learnerGuidance"]
                         messages += request["history"][-12:]
                         messages.append({"role": "user", "content": request["text"]})
                         prompt = tokenizer.apply_chat_template(messages, add_generation_prompt=True, tokenize=False, enable_thinking=False)
@@ -118,6 +120,15 @@ def main():
                         phrase = {"japanese": japanese, "french": french[:500]}
                         phrase["romaji"] = romanize(japanese)
                         result = {"reply": {key: phrase[key] for key in ("japanese", "romaji", "french")}, "correction": None, "coaching": coaching, "vocabulary": []}
+                elif request["kind"] == "review":
+                    prompt = tokenizer.apply_chat_template([
+                        {"role": "system", "content": request["instructions"]},
+                        {"role": "user", "content": json.dumps({"target": request["target"], "learner_utterance": request["text"], "recent_conversation": request["history"][-4:]}, ensure_ascii=False)},
+                    ], add_generation_prompt=True, tokenize=False, enable_thinking=False)
+                    raw = generate(model, tokenizer, prompt=prompt, max_tokens=200, sampler=make_sampler(temp=0), verbose=False).strip()
+                    result = json.loads(raw)
+                    if not isinstance(result, dict) or set(result) != {"outcome", "feedback"} or result["outcome"] not in ("correct", "error", "not_shown") or not isinstance(result["feedback"], str) or not 1 <= len(result["feedback"].strip()) <= 350:
+                        raise ValueError("invalid_review_assessment")
                 elif request["kind"] == "help":
                     def coach_generate(instruction, content, tokens=110):
                         prompt = tokenizer.apply_chat_template([

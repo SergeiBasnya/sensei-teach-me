@@ -1,29 +1,20 @@
 import { z } from "zod";
 
-export const scenarioIdSchema = z.enum(["meet", "cafe", "station", "free"]);
-export type ScenarioId = z.infer<typeof scenarioIdSchema>;
-export const lessonIdSchema = z.enum([
-  "meet-name",
-  "meet-origin",
-  "meet-likes",
-  "cafe-order",
-  "cafe-choice",
-  "cafe-finish",
-  "station-destination",
-  "station-ticket",
-  "station-thanks",
-]);
-export type LessonId = z.infer<typeof lessonIdSchema>;
-export const phraseSchema = z.object({
-  japanese: z.string(),
-  romaji: z.string(),
-  french: z.string(),
-});
-export type Phrase = z.infer<typeof phraseSchema>;
+export * from "./language";
+import { scenarioIdSchema, lessonIdSchema, phraseSchema } from "./language";
+import {
+  learnerContextSchema,
+  reviewContextSchema,
+  reviewOutcomeSchema,
+} from "./learning-memory";
+
 export const tutorReplySchema = z.object({
   reply: phraseSchema,
   coaching: z.string().trim().min(1).max(500).nullable().optional(),
   practice: z.boolean().optional(),
+  review: z
+    .object({ id: z.string().min(1).max(100), outcome: reviewOutcomeSchema })
+    .optional(),
   correction: z
     .object({
       original: z.string().trim().min(1).max(1500),
@@ -40,6 +31,8 @@ export const turnRequestSchema = z.object({
   scenario: scenarioIdSchema,
   lessonId: lessonIdSchema.optional(),
   guidedStepDone: z.boolean().optional(),
+  learner: learnerContextSchema.optional(),
+  review: reviewContextSchema.optional(),
   history: z
     .array(
       z.object({
@@ -81,6 +74,8 @@ export const oralRequestSchema = audioRequestSchema.extend({
   scenario: scenarioIdSchema,
   lessonId: lessonIdSchema.optional(),
   guidedStepDone: z.boolean().optional(),
+  learner: learnerContextSchema.optional(),
+  review: reviewContextSchema.optional(),
   history: turnRequestSchema.shape.history,
 });
 export const healthSchema = z.object({

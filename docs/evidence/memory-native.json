@@ -1,0 +1,24 @@
+{
+  "memoryStorageV2": true,
+  "memoryPanel": true,
+  "recordMistakes": true,
+  "reviewScene": true,
+  "adaptiveHelp": true,
+  "assistedReview": true,
+  "personalCodeAbsent": true,
+  "mobilePlatforms": [
+    "android",
+    "ios"
+  ],
+  "physicalDeviceTested": false,
+  "exports": {
+    "ios": {
+      "bundle": "_expo/static/js/ios/index-ffdc03726dd75c869d7bd464c0d008de.hbc",
+      "sha256": "b2fdb5a78dcaa13d6caebaebeae7b3eb0de6e296e7c6bac4bef3159bc3c6ac59"
+    },
+    "android": {
+      "bundle": "_expo/static/js/android/index-548276b73010cc30676b454d91936262.hbc",
+      "sha256": "21ceeb2408ffe5b6a3f31a942b10e475373af7d50c149d9d8aff2475d5364d07"
+    }
+  }
+}

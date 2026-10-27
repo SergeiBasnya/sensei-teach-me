@@ -24,6 +24,10 @@ import { apiRequest, type Connection } from "./api";
 import { beginVoiceActivity, observeVoice } from "./voice-activity";
 import { useJapaneseSpeech } from "../components/japanese-speech";
 import { OralRun } from "./oral-run";
+import type {
+  LearnerContext,
+  ReviewContext,
+} from "../../shared/learning-memory";
 
 type OralReply = Extract<typeof oralResponseSchema._output, { heard: true }>;
 type History = { role: "user" | "assistant"; content: string }[];
@@ -59,6 +63,9 @@ export function useOralSession({
   scenario,
   lessonId,
   guidedStepDone,
+  learner,
+  review,
+  finished,
   history,
   onReply,
   onAssistance,
@@ -70,6 +77,9 @@ export function useOralSession({
   scenario: ScenarioId;
   lessonId?: import("../../shared/contracts").LessonId;
   guidedStepDone?: boolean;
+  learner?: LearnerContext;
+  review?: ReviewContext;
+  finished?: () => boolean;
   history: History;
   onReply: (reply: OralReply) => void;
   onAssistance: (tutor: TutorReply) => void;
@@ -100,6 +110,9 @@ export function useOralSession({
     scenario,
     lessonId,
     guidedStepDone,
+    learner,
+    review,
+    finished,
     history,
     onReply,
     speech,
@@ -113,6 +126,9 @@ export function useOralSession({
     scenario,
     lessonId,
     guidedStepDone,
+    learner,
+    review,
+    finished,
     history,
     onReply,
     speech,
@@ -207,7 +223,12 @@ export function useOralSession({
       if (!config.connection || !question)
         throw new Error("Ouvre Je bloque pour préparer ta réponse.");
       let tutor: TutorReply;
-      if (config.question.practice) {
+      if (config.review) {
+        tutor = tutorFromHelp({
+          explanation: config.review.target.explanation,
+          answer: config.review.target.reference,
+        });
+      } else if (config.question.practice) {
         tutor = {
           reply: config.question.phrase,
           coaching: "Prends ton temps. Écoute encore le modèle, puis réessaie.",
@@ -308,6 +329,8 @@ export function useOralSession({
             scenario: config.scenario,
             lessonId: config.lessonId,
             guidedStepDone: config.guidedStepDone,
+            learner: config.learner,
+            review: config.review,
             history: config.history.slice(-16),
           },
           controller.signal,
@@ -338,6 +361,10 @@ export function useOralSession({
         return;
       }
       run.didRead(id, result.tutor.reply.japanese);
+      if (latest.current.finished?.()) {
+        await stop();
+        return;
+      }
       await listen(id);
     } catch (cause) {
       if (current())

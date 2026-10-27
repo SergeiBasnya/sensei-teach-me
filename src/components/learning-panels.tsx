@@ -8,6 +8,11 @@ import { formatDuration } from "../lib/format";
 import { Icon } from "./art";
 import { WeekStrip } from "./progress-widgets";
 import { Button, colors, Panel, Txt } from "./ui";
+import {
+  dueReviews,
+  learnerContext,
+  supportLabels,
+} from "../../shared/learning-memory";
 
 export function LearningPlan({
   progress,
@@ -137,16 +142,20 @@ export function LearningDashboard({
   progress,
   practice,
   notebook,
+  reviews,
 }: {
   progress: Progress;
   practice: () => void;
   notebook: () => void;
+  reviews: () => void;
 }) {
   const stats = getStats(progress);
+  const dueCount = dueReviews(progress.learning).length;
   const learning = getLearningStats(progress);
   const last = progress.sessions.at(-1);
   const lastTitle = last
-    ? getLesson(last.lessonId)?.title ||
+    ? last.reviewTitle ||
+      getLesson(last.lessonId)?.title ||
       scenes.find((scene) => scene.id === last.scenario)?.title ||
       "Conversation libre"
     : learning.next.title;
@@ -232,6 +241,14 @@ export function LearningDashboard({
           </Txt>
         </Pressable>
       </View>
+      <Panel style={{ gap: 14 }}>
+        <Txt style={{ fontSize: 19, fontWeight: "600" }}>Révisions</Txt>
+        <Txt style={{ color: colors.muted }}>
+          {dueCount} point{dueCount > 1 ? "s" : ""} à reprendre ·{" "}
+          {supportLabels[learnerContext(progress.learning).support]}
+        </Txt>
+        <Button onPress={reviews}>Mes révisions</Button>
+      </Panel>
       <Button
         onPress={practice}
         icon="chat"
@@ -284,7 +301,8 @@ export function LearningDashboard({
                 }}
               >
                 <Txt style={{ fontWeight: "600" }}>
-                  {getLesson(session.lessonId)?.title ||
+                  {session.reviewTitle ||
+                    getLesson(session.lessonId)?.title ||
                     scenes.find((scene) => scene.id === session.scenario)
                       ?.title ||
                     "Conversation libre"}

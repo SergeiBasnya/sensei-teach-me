@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useRef, useState } from "react";
 import { initialProgress, progressSchema, type Progress } from "./progress";
 
-const STORAGE_KEY = "sensei:progress:v1";
+const STORAGE_KEY = "sensei:progress:v2";
 export function useProgress() {
   const [progress, setProgress] = useState<Progress>(initialProgress);
   const [loaded, setLoaded] = useState(false);
@@ -12,6 +12,10 @@ export function useProgress() {
   useEffect(() => {
     let mounted = true;
     AsyncStorage.getItem(STORAGE_KEY)
+      .then(
+        async (raw) =>
+          raw ?? (await AsyncStorage.getItem("sensei:progress:v1")),
+      )
       .then((raw) => {
         const next = raw
           ? progressSchema.parse(JSON.parse(raw))

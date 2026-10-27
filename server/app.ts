@@ -18,6 +18,13 @@ import type { SpeechProvider } from "./local-speech";
 import { getLesson } from "../shared/learning-plan";
 import { prepareTutorReply } from "../shared/tutor-feedback";
 import {
+  reviewAssessmentSchema,
+  lessonSkills,
+  type ReviewTarget,
+  type ReviewAssessment,
+} from "../shared/learning-memory";
+import { reviewPrompt } from "../shared/review-prompt";
+import {
   assistanceIntent,
   tutorFromHelp,
   firstCoachedFollowup,
@@ -26,6 +33,11 @@ import {
 export interface TutorProvider {
   turn: (input: typeof turnRequestSchema._output) => Promise<TutorReply>;
   transcribe: (input: typeof audioRequestSchema._output) => Promise<string>;
+  assessReview?: (input: {
+    text: string;
+    target: ReviewTarget;
+    history: typeof turnRequestSchema._output.history;
+  }) => Promise<ReviewAssessment>;
   help?: (
     input: typeof helpRequestSchema._output,
   ) => Promise<typeof helpResponseSchema._output>;
@@ -35,6 +47,60 @@ async function teachTurn(
   input: typeof turnRequestSchema._output,
 ) {
   const intent = assistanceIntent(input.text);
+  if (input.review) {
+    const { target, assisted } = input.review;
+    const model = () =>
+      tutorFromHelp({
+        explanation: target.explanation,
+        answer: target.reference,
+      });
+    if (intent)
+      return {
+        ...model(),
+        review: { id: target.id, outcome: "helped" as const },
+      };
+    if (!provider.assessReview)
+      throw new Error(
+        "Le contrôle des révisions est indisponible sur ce serveur.",
+      );
+    const assessment = reviewAssessmentSchema.parse(
+      await provider.assessReview({
+        text: input.text,
+        target,
+        history: input.history,
+      }),
+    );
+    if (assessment.outcome === "correct")
+      return {
+        reply: {
+          japanese: "いいですね！お疲れさまでした。",
+          romaji: "Ii desu ne! Otsukaresama deshita.",
+          french: "Bien joué ! Merci pour ton effort.",
+        },
+        coaching: assisted
+          ? "Cette répétition est juste. On reprendra ce point sans modèle une autre fois."
+          : "C’est juste. Tu as retrouvé la construction sans modèle. On reverra ce point plus tard.",
+        correction: null,
+        vocabulary: [],
+        review: { id: target.id, outcome: "correct" as const },
+      };
+    if (assessment.outcome === "error") {
+      const corrected = prepareTutorReply(
+        await provider.turn(input),
+        input.text,
+      );
+      if (corrected.correction)
+        return {
+          ...corrected,
+          review: { id: target.id, outcome: "error" as const },
+        };
+    }
+    return {
+      ...model(),
+      coaching: `On reprend ce point. ${target.explanation} Écoute ce modèle, puis réessaie.`,
+      review: { id: target.id, outcome: "not_shown" as const },
+    };
+  }
   const question = [...input.history]
     .reverse()
     .find((item) => item.role === "assistant")?.content;
@@ -58,7 +124,12 @@ async function teachTurn(
     input.lessonId === "meet-likes" || input.lessonId === "cafe-finish";
   return !tutor.correction &&
     !input.guidedStepDone &&
-    (!bareAcknowledgement || expectsYesOrNo)
+    (!bareAcknowledgement || expectsYesOrNo) &&
+    !(
+      input.learner?.support === "light" &&
+      input.lessonId &&
+      input.learner.stable.includes(lessonSkills[input.lessonId])
+    )
     ? firstCoachedFollowup(input.lessonId, input.history, input.text) || tutor
     : tutor;
 }
@@ -85,7 +156,11 @@ export function createProvider(apiKey: string): TutorProvider {
         ],
         text: {
           format: zodTextFormat(
-            tutorReplySchema.omit({ coaching: true, practice: true }),
+            tutorReplySchema.omit({
+              coaching: true,
+              practice: true,
+              review: true,
+            }),
             "japanese_tutor",
           ),
         },
@@ -104,6 +179,19 @@ export function createProvider(apiKey: string): TutorProvider {
         }),
       });
       return result.text.trim();
+    },
+    async assessReview(input) {
+      const response = await client.responses.parse({
+        model: process.env.OPENAI_CHAT_MODEL || "gpt-4.1-mini",
+        store: false,
+        max_output_tokens: 500,
+        instructions: reviewPrompt(input.target.skill),
+        input: JSON.stringify(input),
+        text: {
+          format: zodTextFormat(reviewAssessmentSchema, "review_assessment"),
+        },
+      });
+      return reviewAssessmentSchema.parse(response.output_parsed);
     },
     async help(input) {
       const response = await client.responses.parse({
@@ -347,6 +435,8 @@ export function createApp({
       scenario: parsed.data.scenario,
       ...(parsed.data.lessonId ? { lessonId: parsed.data.lessonId } : {}),
       guidedStepDone: parsed.data.guidedStepDone,
+      learner: parsed.data.learner,
+      review: parsed.data.review,
       history: parsed.data.history,
       text: transcript,
     });

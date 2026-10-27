@@ -4,6 +4,10 @@ import {
   phraseSchema,
   type Phrase,
 } from "../../shared/contracts";
+import {
+  learningMemorySchema,
+  emptyLearningMemory,
+} from "../../shared/learning-memory";
 
 export const progressSchema = z.object({
   sessions: z.array(
@@ -11,6 +15,8 @@ export const progressSchema = z.object({
       id: z.string(),
       scenario: z.string(),
       lessonId: lessonIdSchema.optional(),
+      reviewId: z.string().optional(),
+      reviewTitle: z.string().optional(),
       date: z.string(),
       seconds: z.number().nonnegative(),
       turns: z.number().int().nonnegative(),
@@ -21,6 +27,7 @@ export const progressSchema = z.object({
   romaji: z.boolean(),
   translation: z.boolean(),
   autoSpeak: z.boolean(),
+  learning: learningMemorySchema.default(emptyLearningMemory),
 });
 export type Progress = z.infer<typeof progressSchema>;
 export const initialProgress: Progress = {
@@ -30,6 +37,7 @@ export const initialProgress: Progress = {
   romaji: true,
   translation: true,
   autoSpeak: true,
+  learning: emptyLearningMemory(),
 };
 export function dayKey(date = new Date()): string {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type ComponentRef } from "react";
 import {
   AccessibilityInfo,
+  AppState,
   Animated,
   Modal,
   PanResponder,
@@ -21,8 +22,11 @@ import { Mochi, Icon } from "../components/art";
 import { LearningDashboard, LearningPlan } from "../components/learning-panels";
 import { Notebook } from "./notebook";
 import { Button, colors, IconButton, Txt } from "../components/ui";
+import { dueReviews } from "../../shared/learning-memory";
+import { reviewScene } from "../lib/review-scene";
+import { LearningMemoryPanel } from "../components/learning-memory-panel";
 
-type PanelName = "home" | "progress" | "plan" | "words";
+type PanelName = "home" | "progress" | "plan" | "words" | "reviews";
 export function Home({
   progress,
   setProgress,
@@ -45,6 +49,7 @@ export function Home({
   const [frameWidth, setFrameWidth] = useState(Math.min(width, 920));
   const [panel, setPanel] = useState<PanelName>("home");
   const [page, setPage] = useState(0);
+  const [now, setNow] = useState(Date.now());
   const [reduced, setReduced] = useState(true);
   const pager = useRef<ComponentRef<typeof ScrollView>>(null);
   const travel = useRef(new Animated.Value(0)).current;
@@ -53,7 +58,18 @@ export function Home({
   current.current = { panel, height };
   const stats = getStats(progress);
   const learning = getLearningStats(progress);
-  const lesson = lessonScene(learning.next);
+  const due = dueReviews(progress.learning, new Date(now));
+  const lesson = due[0] ? reviewScene(due[0]) : lessonScene(learning.next);
+  useEffect(() => {
+    const timer = setInterval(() => setNow(Date.now()), 60_000);
+    const sub = AppState.addEventListener("change", (state) => {
+      if (state === "active") setNow(Date.now());
+    });
+    return () => {
+      clearInterval(timer);
+      sub.remove();
+    };
+  }, []);
   useEffect(() => {
     let live = true;
     void AccessibilityInfo.isReduceMotionEnabled().then((value) => {
@@ -347,7 +363,9 @@ export function Home({
                   ? "Ma progression"
                   : panel === "plan"
                     ? "Mon plan"
-                    : "Mon carnet"}
+                    : panel === "reviews"
+                      ? "Mes révisions"
+                      : "Mon carnet"}
               </Txt>
               <IconButton
                 name="close"
@@ -373,6 +391,7 @@ export function Home({
                     selectPage(1);
                   }}
                   notebook={() => open("words")}
+                  reviews={() => open("reviews")}
                 />
               )}
               {panel === "plan" && (
@@ -386,6 +405,13 @@ export function Home({
                   progress={progress}
                   setProgress={setProgress}
                   onStart={() => startScene(lesson)}
+                />
+              )}
+              {panel === "reviews" && (
+                <LearningMemoryPanel
+                  progress={progress}
+                  setProgress={setProgress}
+                  start={startScene}
                 />
               )}
             </ScrollView>

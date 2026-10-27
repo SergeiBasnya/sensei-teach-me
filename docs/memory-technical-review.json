@@ -1,0 +1,86 @@
+{
+  "doctrineDigest": "sha256:6bce44c544352f9be96834eed71b8076c685b35085ef25317cba8ea847d1a1f5",
+  "review": {
+    "schemaVersion": "prisma-technical-review.v1",
+    "id": "mochi-learning-memory",
+    "missionId": "sensei-japanese-oral-mvp",
+    "decisionId": "remember-mistakes-and-adapt-oral-reviews",
+    "artifact": {
+      "root": "../build/web",
+      "digest": "sha256:4cbf051fc0f3311325e2079577c4debc1024718a9293db39696c6819bb946593"
+    },
+    "observedAt": "2026-10-27T12:01:23.067105+00:00",
+    "gates": [
+      {
+        "id": "doctrine:no-colored-side-stripes",
+        "passed": true,
+        "evidence": "Mes révisions observé à 390×844, 320×568, 844×390 et 1440×1000, cartes repliées et correction déployée. Les cartes blanches ont un contour neutre complet ; aucun liseré décoratif coloré sur un côté ou en haut. Le violet plein sert aux actions. Le contour complet de focus est fonctionnel. Captures evidence/memory-list-320.png, memory-final-details-320.png et memory-focus-1440.png. Guard clear et doctor ready, sans nouvel allowance ni exclusion."
+      },
+      {
+        "id": "doctrine:no-card-title-hover-underlines",
+        "passed": true,
+        "evidence": "À 1440×1000, survol réel du titre Te présenter : pas de soulignement ; l’action S’entraîner reste explicite. Tab depuis le bouton de fermeture place le focus sur S’entraîner avec un outline violet solid 3 px et textDecoration none. Captures evidence/memory-hover-1440.png, memory-focus-1440.png ; valeurs calculées dans memory-validation.json, finalExport.responsive."
+      },
+      {
+        "id": "doctrine:no-bricolage-grotesque",
+        "passed": true,
+        "evidence": "Famille calculée des titres rendus aux quatre formats : system-ui, -apple-system, system-ui, Segoe UI, sans-serif. Aucun chargement de police ajouté. La typographie est observée sur memory-list-320.png et memory-focus-1440.png, avec relevés dans memory-validation.json. La famille effective sur Android physique reste non observée."
+      },
+      {
+        "id": "doctrine:no-peripheral-filler-copy",
+        "passed": true,
+        "evidence": "Les dates et le compteur sont attachés au point concerné. Le mode d’accompagnement et sa phrase expliquent le calcul des aides ; le message de modèle consulté précise son effet sur le rappel. L’état vide indique ce qui sera sauvegardé. Aucun slogan en marge, timer ni badge de disponibilité ajouté. Captures evidence/memory-final-details-bottom-320.png, memory-empty-320.png, memory-progress-390.png ; textes complets dans MEMORY-TEXTES-AVANT-APRES.md."
+      },
+      {
+        "id": "doctrine:no-sage-or-olive",
+        "passed": true,
+        "evidence": "Palette observée : blanc, fond très légèrement lavande, texte encre, actions et avatar violets. Aucun sauge ni olive dans les états observés. Avec préférence système sombre, l’app garde son thème clair existant ; le body calculé est blanc, le conteneur racine transparent. Captures evidence/memory-system-dark-390.png et memory-final-review-prompt-390.png. Aucun autre thème nouveau ni palette alternative."
+      },
+      {
+        "id": "doctrine:section-composition-and-rhythm",
+        "passed": true,
+        "evidence": "Le panneau organise d’abord les prochains rappels et le mode d’aide, puis une carte par construction. Le bouton lance le point ; les détails sont repliés jusqu’à consultation. Le modèle, sa lecture et sa traduction sont groupés dans la même carte. La progression intercale un accès Révisions entre les statistiques et la pratique libre. La conversation conserve avatar, tâche et commande orale ; aucune nouvelle navigation permanente. Captures evidence/memory-list-390.png, memory-progress-390.png et memory-final-review-prompt-390.png."
+      },
+      {
+        "id": "doctrine:responsive-text-clearance",
+        "passed": true,
+        "evidence": "Rendu réellement observé à 320×568, 390×844, 844×390 et 1440×1000 : titres et dates reviennent à la ligne sans débordement horizontal mesuré. Les cartes et détails défilent normalement dans le panneau. À 320 px, le modèle long avec 私は a d’abord laissé une fin trop courte sur une ligne ; le nouveau détail utilise une coupure équilibrée, observée dans memory-details-320.png. Les détails finaux et la suppression restent accessibles en défilant, memory-final-details-320.png et memory-final-details-bottom-320.png. En paysage, memory-list-844.png montre le haut de la première carte ; sa suite est dans le défilement normal, sans hauteur fixe de carte. Les marges externes sont au moins 23 px et le texte intérieur au moins 43 px du bord à 320 px. Le clavier et les marges du téléphone physique ne sont pas évalués."
+      },
+      {
+        "id": "doctrine:one-clear-cta-per-section",
+        "passed": true,
+        "evidence": "Sur l’accueil dû, Commencer ma leçon ouvre le point recommandé. Dans Ma progression, la section Révisions a l’unique action Mes révisions. Chaque carte de point propose une action principale Réviser ce point ou S’entraîner ; afficher/masquer le modèle et retirer le point sont des commandes fonctionnelles. Après réussite, Terminer la révision est l’action principale unique. Le focus de S’entraîner est visible. Captures evidence/memory-final-due-home-390.png, memory-progress-390.png, memory-focus-1440.png et memory-final-review-passed-390.png."
+      },
+      {
+        "id": "technical:local-memory-and-migration",
+        "passed": true,
+        "evidence": "55 tests passent, y compris échéances, déduplication, classification fondée sur le changement, aide et absence de faux acquis. Le navigateur isolé migre une sauvegarde v1 fictive : carnet, séances et objectif conservés et v1 inchangée. Une vraie correction issue des moteurs locaux est conservée avant de terminer la séance, puis retrouvée après rechargement. Le retrait persiste après rechargement sans effacer les séances ni le carnet. Une réécoute du modèle dans une leçon reporte aussi un point déjà conservé d’au moins un jour, sans crédit ajouté ; finalExport.lessonModelExposure et memory-lesson-model-exposure-390.png. Détails dans evidence/memory-validation.json. Les cas de première correction et migration précèdent seulement les derniers ajustements de détail japonais ; le contrôle final de rappel et l’état vide sont sur l’artefact épinglé."
+      },
+      {
+        "id": "technical:oral-recall-and-adaptation",
+        "passed": true,
+        "evidence": "Sur le dernier export, une fixture d’erreur réellement produite par le modèle local est arrivée à échéance via horloge de test avancée de deux jours. La réponse reste cachée au démarrage ; le flux audio synthétique correct est transcrit puis accepté. Quatre lectures atteignent ended, un seul enregistrement, un crédit indépendant, stade 1 et prochain rappel dans trois jours ; le micro ne repart pas en fin de révision. Capture memory-final-review-passed-390.png et données finalExport.recall dans memory-validation.json. Une répétition après consultation du modèle ne donne aucun crédit supplémentaire. Un profil fictif construit avec six rappels espacés de trois constructions passe en Plus autonome : une seule lecture japonaise, zéro demande de synthèse française avant le premier enregistrement, sans aide automatique déclenchée. memory-light-conversation-390.png et lightSupportOpening. Dates simulées et voix synthétiques, pas une mesure de progrès humain."
+      },
+      {
+        "id": "technical:local-grader-and-expo",
+        "passed": true,
+        "evidence": "Six cas avec Qwen réel passent : réponse de référence, autre pays, faute de particule, oui seul, réponse courte acceptable et demande d’aide française. Les réponses courtes non démonstratives restent distinctes des fautes. evidence/memory-model-checks.json. Exports web, Android et iOS réussis ; types, format et compilation Python passent. Le bundle Android réellement servi par Expo contient la mémoire v2, le panneau, la persistance des corrections, le contexte adaptatif et la scène de révision, sans code personnel embarqué ; hashes et contrôles dans memory-native.json. Serveur prêt en mode local oral lors du contrôle. Aucun appel IA payant ; aucun appareil Android physique ni microphone humain utilisé."
+      }
+    ],
+    "findings": [
+      {
+        "id": "model-and-device-limits",
+        "severity": "minor",
+        "observation": "Whisper peut normaliser une faute et le modèle peut mal évaluer une réponse. La mémoire suit les constructions transcrites, pas la prononciation. Aucun essai sur Android physique ni suivi humain sur plusieurs jours.",
+        "recommendation": "Essayer les rappels avec la voix de l’élève sur son téléphone ; ajuster les retours à partir des erreurs concrètement observées."
+      },
+      {
+        "id": "local-memory-scope",
+        "severity": "minor",
+        "observation": "Mémoire locale par installation, sans synchronisation, notification ni sauvegarde distante. Les délais dépendent de l’horloge de l’appareil. Le fournisseur payant optionnel n’a pas été exercé ; le chemin local gratuit est la référence testée.",
+        "recommendation": "Conserver la distinction entre navigateur et téléphone et consulter les rappels depuis l’app ouverte."
+      }
+    ],
+    "summary": "Mémoire des corrections immédiate, migration locale préservant l’existant, rappels espacés sans faux crédit de répétition et adaptation prudente de l’aide au sein du parcours débutant. Revue technique du rendu effectuée dans un navigateur isolé, sans contrôle du Mac utilisateur, avec preuves sur l’export exact. Les preuves fonctionnelles antérieures sont signalées comme telles ; rappel oral complet, profils d’aide, responsive, focus et thème observés sur le dernier export. OFA révision 10, guard et CI spécialisée conservés, aucune CI générale ajoutée. Dossier 0ld préservé. Aucun remote Git configuré. Aucun verdict artistique ni revue indépendante inventés."
+  }
+}

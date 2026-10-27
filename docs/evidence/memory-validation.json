@@ -1,0 +1,635 @@
+{
+  "date": "2026-10-27T12:01:13.561261+00:00",
+  "artifactDigest": "sha256:4cbf051fc0f3311325e2079577c4debc1024718a9293db39696c6819bb946593",
+  "microphone": "synthetic stream in isolated headless browser; no human microphone",
+  "clock": "Date.now and Date constructor offset by two days in the isolated browser only; no system clock change",
+  "profiles": "fictional test data; no longitudinal human learning claim",
+  "checks": {
+    "localTests": {
+      "passed": 55,
+      "failed": 0
+    },
+    "types": "pass",
+    "format": "pass",
+    "pythonCompile": "pass",
+    "webExport": "pass",
+    "androidExport": "pass",
+    "iosExport": "pass"
+  },
+  "finalExport": {
+    "recall": {
+      "answerHidden": true,
+      "memory": {
+        "version": 1,
+        "items": [
+          {
+            "id": "skill:origin",
+            "skill": "origin",
+            "reference": {
+              "japanese": "私はフランスから来ました。",
+              "romaji": "watashi wa furansu kara kima shita.",
+              "french": "Je viens de France."
+            },
+            "explanation": "Pour dire d’où tu viens, utilise kara après le pays.",
+            "source": "mistake",
+            "original": "私はフランスを来ました。",
+            "scenario": "meet",
+            "lessonId": "meet-origin",
+            "occurrences": 1,
+            "firstSeen": "2026-10-27T11:56:05.737Z",
+            "lastSeen": "2026-10-29T12:00:29.601Z",
+            "dueAt": "2026-11-01T12:00:29.601Z",
+            "box": 1,
+            "successes": 1,
+            "practices": 1,
+            "lastModelAt": "2026-10-27T11:56:05.737Z",
+            "lastAttemptSession": "mvthre8m-2bwkuln",
+            "lastCreditDay": "2026-10-29"
+          }
+        ],
+        "seenEvents": [
+          "final-fixture-error",
+          "mvthre8m-2bwkuln:1"
+        ],
+        "attempts": [
+          {
+            "itemId": "skill:origin",
+            "at": "2026-10-29T12:00:29.601Z",
+            "outcome": "correct",
+            "independent": true,
+            "credited": true
+          }
+        ]
+      },
+      "item": {
+        "id": "skill:origin",
+        "skill": "origin",
+        "reference": {
+          "japanese": "私はフランスから来ました。",
+          "romaji": "watashi wa furansu kara kima shita.",
+          "french": "Je viens de France."
+        },
+        "explanation": "Pour dire d’où tu viens, utilise kara après le pays.",
+        "source": "mistake",
+        "original": "私はフランスを来ました。",
+        "scenario": "meet",
+        "lessonId": "meet-origin",
+        "occurrences": 1,
+        "firstSeen": "2026-10-27T11:56:05.737Z",
+        "lastSeen": "2026-10-29T12:00:29.601Z",
+        "dueAt": "2026-11-01T12:00:29.601Z",
+        "box": 1,
+        "successes": 1,
+        "practices": 1,
+        "lastModelAt": "2026-10-27T11:56:05.737Z",
+        "lastAttemptSession": "mvthre8m-2bwkuln",
+        "lastCreditDay": "2026-10-29"
+      },
+      "nextInDays": 2.9999,
+      "voice": {
+        "starts": 1,
+        "plays": [
+          3355.5,
+          9172.300000011921,
+          19105,
+          24353.19999998808
+        ],
+        "ended": [
+          8552.100000023842,
+          10946.199999988079,
+          24353.19999998808,
+          26902.900000035763
+        ],
+        "mode": "silent",
+        "responses": [
+          {
+            "transcript": "私はフランスから来ました。",
+            "tutor": {
+              "reply": {
+                "japanese": "いいですね！お疲れさまでした。",
+                "romaji": "iidesune,otsukaresamadeshita",
+                "french": "Bien joué ! Merci pour ton effort."
+              },
+              "coaching": "C’est juste. Tu as retrouvé la construction sans modèle. On reverra ce point plus tard.",
+              "correction": null,
+              "vocabulary": [],
+              "review": {
+                "id": "skill:origin",
+                "outcome": "correct"
+              }
+            }
+          }
+        ],
+        "speechRequests": [
+          {
+            "text": "Petite révision, sans modèle pour commencer. Dis d’où tu viens avec une phrase complète.",
+            "language": "fr"
+          },
+          {
+            "text": "日本語で言ってみましょう。"
+          }
+        ],
+        "autoHelps": 0,
+        "recordingTimes": [
+          10950.5
+        ],
+        "reviewRequests": [
+          {
+            "reviewId": "skill:origin",
+            "assisted": false,
+            "learner": {
+              "support": "supported",
+              "weak": [
+                "origin"
+              ],
+              "stable": []
+            }
+          }
+        ]
+      },
+      "legacyUnchanged": true
+    },
+    "lightSupportOpening": {
+      "text": "Te présenter\nこんにちは！私はもちです。お名前は？\nKonnichiwa! Watashi wa Mochi desu. Onamae wa?\nBonjour ! Je suis Mochi. Comment t’appelles-tu ?\nHistorique\nJe bloque\nEn pause",
+      "telemetry": {
+        "starts": 1,
+        "plays": [
+          2895.899999976158
+        ],
+        "ended": [
+          6453.099999964237
+        ],
+        "mode": "silent",
+        "responses": [],
+        "speechRequests": [],
+        "autoHelps": 0,
+        "recordingTimes": [
+          6457
+        ]
+      }
+    },
+    "responsive": {
+      "states": [
+        {
+          "width": 390,
+          "height": 844,
+          "font": "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+          "titleDecoration": "none",
+          "titleRect": {
+            "x": 47,
+            "y": 263,
+            "width": 296,
+            "height": 27
+          },
+          "horizontalOverflow": false,
+          "bodyBackground": "rgb(255, 255, 255)"
+        },
+        {
+          "width": 320,
+          "height": 568,
+          "font": "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+          "titleDecoration": "none",
+          "titleRect": {
+            "x": 43.84375,
+            "y": 259.84375,
+            "width": 232.3125,
+            "height": 27
+          },
+          "horizontalOverflow": false,
+          "bodyBackground": "rgb(255, 255, 255)"
+        },
+        {
+          "width": 844,
+          "height": 390,
+          "font": "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+          "titleDecoration": "none",
+          "titleRect": {
+            "x": 89,
+            "y": 241,
+            "width": 666,
+            "height": 27
+          },
+          "horizontalOverflow": false,
+          "bodyBackground": "rgb(255, 255, 255)"
+        },
+        {
+          "width": 1440,
+          "height": 1000,
+          "font": "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+          "titleDecoration": "none",
+          "titleRect": {
+            "x": 387,
+            "y": 241,
+            "width": 666,
+            "height": 27
+          },
+          "horizontalOverflow": false,
+          "bodyBackground": "rgb(255, 255, 255)"
+        },
+        {
+          "focusText": "S’entraîner",
+          "focusLabel": null,
+          "outline": "rgb(115, 80, 198) solid 3px",
+          "textDecoration": "none"
+        },
+        {
+          "systemDark": true,
+          "rootBackground": "rgba(0, 0, 0, 0)"
+        }
+      ],
+      "scripts": [
+        "http://localhost:8787/_expo/static/js/web/index-9e4e27f8635bad22e509a2b9275d1b0c.js"
+      ],
+      "text": "L1\nMa progression\n0\nUn café à Tokyo\nCommander une boisson\nCommencer ma leçon\nAvec Mochi\nConversation libre\nParler librement\nMon plan\nMes révisions\nTes prochains rappels\nAccompagnement : Plus autonome\nMochi adapte son aide d’après tes révisions sans modèle.\nTe présenter\nProchain rappel : 5 novembre · Point pratiqué\nS’entraîner\nVoir la correction\nDire d’où tu viens\nProchain rappel : 5 novembre · Point pratiqué\nS’entraîner\nMasquer la correction\nフランスから来ました。\nFuransu kara kimashita.\nJe viens de France.\nPour dire d’où tu viens, donne ton pays ou ta ville, puis ajoute kara kimashita.\nModèle consulté : ce point sera repris sans aide plus tard.\nRetirer ce point\nParler de tes goûts\nProchain rappel : 5 novembre · Point pratiqué\nS’entraîner\nVoir la correction"
+    },
+    "deletionPersistence": {
+      "items": 0,
+      "attempts": 0,
+      "sessions": 3,
+      "words": 1,
+      "goal": 10,
+      "legacyUnchanged": true
+    },
+    "emptyPanel": {
+      "emptyVisible": true,
+      "text": "L1\nMa progression\n1\nSéance enregistrée\n1 réponse · 24 s de pratique\nFaire connaissance\nDire d’où tu viens\nCommencer ma leçon\nAvec Mochi\nConversation libre\nParler librement\nMon plan\nMes révisions\nTes prochains rappels\nAccompagnement : Accompagné\nMochi adapte son aide d’après tes révisions sans modèle.\nLes corrections et les objectifs pratiqués seront gardés ici pour les revoir plus tard."
+    },
+    "lessonModelExposure": {
+      "before": {
+        "id": "skill:origin",
+        "skill": "origin",
+        "reference": {
+          "japanese": "私はフランスから来ました。",
+          "romaji": "watashi wa furansu kara kima shita.",
+          "french": "Je viens de France."
+        },
+        "explanation": "Pour dire d’où tu viens, utilise kara après le pays.",
+        "source": "mistake",
+        "original": "私はフランスを来ました。",
+        "scenario": "meet",
+        "lessonId": "meet-origin",
+        "occurrences": 1,
+        "firstSeen": "2026-10-27T11:56:05.737Z",
+        "lastSeen": "2026-10-27T11:56:05.737Z",
+        "dueAt": "2026-10-28T11:56:05.737Z",
+        "box": 0,
+        "successes": 0,
+        "practices": 0,
+        "lastModelAt": "2026-10-27T11:56:05.737Z"
+      },
+      "after": {
+        "id": "skill:origin",
+        "skill": "origin",
+        "reference": {
+          "japanese": "私はフランスから来ました。",
+          "romaji": "watashi wa furansu kara kima shita.",
+          "french": "Je viens de France."
+        },
+        "explanation": "Pour dire d’où tu viens, utilise kara après le pays.",
+        "source": "mistake",
+        "original": "私はフランスを来ました。",
+        "scenario": "meet",
+        "lessonId": "meet-origin",
+        "occurrences": 1,
+        "firstSeen": "2026-10-27T11:56:05.737Z",
+        "lastSeen": "2026-10-27T11:56:05.737Z",
+        "dueAt": "2026-10-30T11:59:57.602Z",
+        "box": 0,
+        "successes": 0,
+        "practices": 0,
+        "lastModelAt": "2026-10-29T11:59:57.602Z",
+        "nextInDays": 0.999996863425926
+      },
+      "oneDayMinimum": true,
+      "noExtraCredit": true
+    },
+    "expandedMemory": {
+      "answerHiddenUntilRequested": true,
+      "before": {
+        "id": "skill:origin",
+        "skill": "origin",
+        "reference": {
+          "japanese": "私はフランスから来ました。",
+          "romaji": "watashi wa furansu kara kima shita.",
+          "french": "Je viens de France."
+        },
+        "explanation": "Pour dire d’où tu viens, utilise kara après le pays.",
+        "source": "mistake",
+        "original": "私はフランスを来ました。",
+        "scenario": "meet",
+        "lessonId": "meet-origin",
+        "occurrences": 1,
+        "firstSeen": "2026-10-27T11:56:05.737Z",
+        "lastSeen": "2026-10-27T11:56:05.737Z",
+        "dueAt": "2026-10-28T11:56:05.737Z",
+        "box": 0,
+        "successes": 0,
+        "practices": 0,
+        "lastModelAt": "2026-10-27T11:56:05.737Z"
+      },
+      "after": {
+        "id": "skill:origin",
+        "skill": "origin",
+        "reference": {
+          "japanese": "私はフランスから来ました。",
+          "romaji": "watashi wa furansu kara kima shita.",
+          "french": "Je viens de France."
+        },
+        "explanation": "Pour dire d’où tu viens, utilise kara après le pays.",
+        "source": "mistake",
+        "original": "私はフランスを来ました。",
+        "scenario": "meet",
+        "lessonId": "meet-origin",
+        "occurrences": 1,
+        "firstSeen": "2026-10-27T11:56:05.737Z",
+        "lastSeen": "2026-10-27T11:56:05.737Z",
+        "dueAt": "2026-10-30T12:00:55.418Z",
+        "box": 0,
+        "successes": 0,
+        "practices": 0,
+        "lastModelAt": "2026-10-29T12:00:55.418Z"
+      }
+    },
+    "longDetails": {
+      "text": "L1\nMa progression\n0\nFaire connaissance\nDire d’où tu viens\nCommencer ma leçon\nAvec Mochi\nConversation libre\nParler librement\nMon plan\nMes révisions\nTes prochains rappels\nAccompagnement : Accompagné\nMochi adapte son aide d’après tes révisions sans modèle.\nDire d’où tu viens\nProchain rappel : 30 octobre · 1 erreur corrigée\nS’entraîner\nMasquer la correction\nTu avais dit : 私はフランスを来ました。\n私はフランスから来ました。\nwatashi wa furansu kara kima shita.\nJe viens de France.\nPour dire d’où tu viens, utilise kara après le pays.\nModèle consulté : ce point sera repris sans aide plus tard.\nRetirer ce point",
+      "horizontalOverflow": false
+    }
+  },
+  "earlierFunctionalChecks": {
+    "note": "These recordings precede the final Japanese text wrapping adjustment in the memory panel. Core persistence and oral logic are unchanged; the final export recall and responsive views are above.",
+    "migration": {
+      "legacyUnchanged": true,
+      "sessions": 1,
+      "words": 1,
+      "goal": 10,
+      "memory": {
+        "version": 1,
+        "items": [],
+        "seenEvents": [],
+        "attempts": []
+      }
+    },
+    "firstCorrection": {
+      "memory": {
+        "version": 1,
+        "items": [
+          {
+            "id": "skill:origin",
+            "skill": "origin",
+            "reference": {
+              "japanese": "私はフランスから来ました。",
+              "romaji": "watashi wa furansu kara kima shita.",
+              "french": "Je viens de France."
+            },
+            "explanation": "Utilise kara pour indiquer l'origine, pas wo.",
+            "source": "mistake",
+            "original": "私はフランスを来ました。",
+            "scenario": "meet",
+            "lessonId": "meet-origin",
+            "lastSeen": "2026-10-27T11:37:03.796Z",
+            "dueAt": "2026-10-28T11:37:03.796Z",
+            "box": 0,
+            "occurrences": 1,
+            "lastModelAt": "2026-10-27T11:37:03.796Z",
+            "firstSeen": "2026-10-27T11:37:03.796Z",
+            "successes": 0,
+            "practices": 0
+          }
+        ],
+        "seenEvents": [
+          "mvqm1ayr-v7xr7rv:1"
+        ],
+        "attempts": []
+      },
+      "sessions": 1,
+      "voice": {
+        "starts": 1,
+        "plays": [
+          52065.69999998808,
+          58011.39999997616,
+          60323.89999997616,
+          66240.79999995232,
+          78504.09999996424
+        ],
+        "ended": [
+          58013.5,
+          59611.59999996424,
+          66240.89999997616,
+          69147
+        ],
+        "mode": "silent",
+        "responses": [
+          {
+            "transcript": "私はフランスを来ました。",
+            "tutor": {
+              "reply": {
+                "japanese": "私はフランスから来ました。 もう一度、言ってみましょう。",
+                "romaji": "watashiwa furansukara kimashita,mooichido,itte mimashoo",
+                "french": "Je viens de France. Réessaie cette phrase."
+              },
+              "correction": {
+                "original": "私はフランスを来ました。",
+                "corrected": "私はフランスから来ました。",
+                "romaji": "watashi wa furansu kara kima shita.",
+                "french": "Je viens de France.",
+                "explanation": "Utilise kara pour indiquer l'origine, pas wo."
+              },
+              "vocabulary": [],
+              "coaching": "Utilise kara pour indiquer l'origine, pas wo.",
+              "practice": true
+            }
+          }
+        ],
+        "speechRequests": [
+          {
+            "text": "On va dire d’où tu viens. Écoute cet exemple avec la France. Tu pourras remplacer le pays par le tien.",
+            "language": "fr"
+          },
+          {
+            "text": "À toi maintenant. Écoute ma question et essaie de répondre. Tu peux me dire en français si tu as besoin d’aide.",
+            "language": "fr"
+          }
+        ],
+        "autoHelps": 0,
+        "recordingTimes": [
+          69335.69999998808
+        ],
+        "reviewRequests": [
+          {
+            "learner": {
+              "support": "supported",
+              "weak": [],
+              "stable": []
+            }
+          }
+        ]
+      },
+      "legacyUnchanged": true
+    },
+    "reload": {
+      "persisted": {
+        "items": 1,
+        "occurrences": 1,
+        "legacySessions": 1,
+        "goal": 10
+      },
+      "timeAdvancedByDays": 2,
+      "home": "L1\nMa progression\n0\nRévision ciblée\nDire d’où tu viens\nCommencer ma leçon\nAvec Mochi\nConversation libre\nParler librement\nMon plan"
+    },
+    "assistedRepeat": {
+      "before": {
+        "id": "skill:origin",
+        "skill": "origin",
+        "reference": {
+          "japanese": "私はフランスから来ました。",
+          "romaji": "watashi wa furansu kara kima shita.",
+          "french": "Je viens de France."
+        },
+        "explanation": "Utilise kara pour indiquer l'origine, pas wo.",
+        "source": "mistake",
+        "original": "私はフランスを来ました。",
+        "scenario": "meet",
+        "lessonId": "meet-origin",
+        "occurrences": 1,
+        "firstSeen": "2026-10-27T11:37:03.796Z",
+        "lastSeen": "2026-10-29T11:39:15.746Z",
+        "dueAt": "2026-11-01T11:39:15.746Z",
+        "box": 1,
+        "successes": 1,
+        "practices": 1,
+        "lastAttemptSession": "mvth035f-0rzt058",
+        "lastCreditDay": "2026-10-29",
+        "lastModelAt": "2026-10-29T11:44:34.374Z"
+      },
+      "memory": {
+        "version": 1,
+        "items": [
+          {
+            "id": "skill:origin",
+            "skill": "origin",
+            "reference": {
+              "japanese": "私はフランスから来ました。",
+              "romaji": "watashi wa furansu kara kima shita.",
+              "french": "Je viens de France."
+            },
+            "explanation": "Utilise kara pour indiquer l'origine, pas wo.",
+            "source": "mistake",
+            "original": "私はフランスを来ました。",
+            "scenario": "meet",
+            "lessonId": "meet-origin",
+            "occurrences": 1,
+            "firstSeen": "2026-10-27T11:37:03.796Z",
+            "lastSeen": "2026-10-29T11:39:15.746Z",
+            "dueAt": "2026-11-01T11:39:15.746Z",
+            "box": 1,
+            "successes": 1,
+            "practices": 2,
+            "lastAttemptSession": "mvth9l3l-m5uet47",
+            "lastCreditDay": "2026-10-29",
+            "lastModelAt": "2026-10-29T11:44:34.374Z"
+          }
+        ],
+        "seenEvents": [
+          "mvqm1ayr-v7xr7rv:1",
+          "mvth035f-0rzt058:1",
+          "mvth9l3l-m5uet47:1"
+        ],
+        "attempts": [
+          {
+            "itemId": "skill:origin",
+            "at": "2026-10-29T11:39:15.746Z",
+            "outcome": "correct",
+            "independent": true,
+            "credited": true
+          }
+        ]
+      },
+      "item": {
+        "id": "skill:origin",
+        "skill": "origin",
+        "reference": {
+          "japanese": "私はフランスから来ました。",
+          "romaji": "watashi wa furansu kara kima shita.",
+          "french": "Je viens de France."
+        },
+        "explanation": "Utilise kara pour indiquer l'origine, pas wo.",
+        "source": "mistake",
+        "original": "私はフランスを来ました。",
+        "scenario": "meet",
+        "lessonId": "meet-origin",
+        "occurrences": 1,
+        "firstSeen": "2026-10-27T11:37:03.796Z",
+        "lastSeen": "2026-10-29T11:39:15.746Z",
+        "dueAt": "2026-11-01T11:39:15.746Z",
+        "box": 1,
+        "successes": 1,
+        "practices": 2,
+        "lastAttemptSession": "mvth9l3l-m5uet47",
+        "lastCreditDay": "2026-10-29",
+        "lastModelAt": "2026-10-29T11:44:34.374Z"
+      },
+      "voice": {
+        "starts": 1,
+        "plays": [
+          109457.90000003576,
+          114238.40000003576,
+          123977.60000002384,
+          128250.5
+        ],
+        "ended": [
+          113631.90000003576,
+          116038.10000002384,
+          128250.60000002384,
+          130799.90000003576
+        ],
+        "mode": "silent",
+        "responses": [
+          {
+            "transcript": "私はフランスから来ました。",
+            "tutor": {
+              "reply": {
+                "japanese": "いいですね！お疲れさまでした。",
+                "romaji": "iidesune,otsukaresamadeshita",
+                "french": "Bien joué ! Merci pour ton effort."
+              },
+              "coaching": "Cette répétition est juste. On reprendra ce point sans modèle une autre fois.",
+              "correction": null,
+              "vocabulary": [],
+              "review": {
+                "id": "skill:origin",
+                "outcome": "correct"
+              }
+            }
+          }
+        ],
+        "speechRequests": [
+          {
+            "text": "On s’entraîne après le modèle. Dis d’où tu viens avec une phrase complète.",
+            "language": "fr"
+          },
+          {
+            "text": "日本語で言ってみましょう。"
+          }
+        ],
+        "autoHelps": 0,
+        "recordingTimes": [
+          116041.90000003576
+        ],
+        "reviewRequests": [
+          {
+            "reviewId": "skill:origin",
+            "assisted": true,
+            "learner": {
+              "support": "supported",
+              "weak": [
+                "origin"
+              ],
+              "stable": []
+            }
+          }
+        ]
+      },
+      "noExtraCredit": true
+    }
+  }
+}

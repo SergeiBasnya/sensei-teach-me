@@ -6,6 +6,9 @@ import { z } from "zod";
 import { tutorReplySchema, helpResponseSchema } from "../shared/contracts";
 import type { TutorProvider } from "./app";
 import { getLesson } from "../shared/learning-plan";
+import { reviewAssessmentSchema } from "../shared/learning-memory";
+import { reviewPrompt } from "../shared/review-prompt";
+import { learnerGuidance } from "../shared/learner-guidance";
 
 export type LocalTutor = TutorProvider & {
   ready: () => boolean;
@@ -143,6 +146,7 @@ export function createLocalTutor(): LocalTutor | undefined {
           kind: "turn",
           ...input,
           objective: getLesson(input.lessonId)?.focus,
+          learnerGuidance: learnerGuidance(input.learner),
         }),
       );
     },
@@ -151,6 +155,15 @@ export function createLocalTutor(): LocalTutor | undefined {
         .string()
         .max(1500)
         .parse(await call({ kind: "transcribe", ...input }));
+    },
+    async assessReview(input) {
+      return reviewAssessmentSchema.parse(
+        await call({
+          kind: "review",
+          ...input,
+          instructions: reviewPrompt(input.target.skill),
+        }),
+      );
     },
     async help(input) {
       return helpResponseSchema.parse(await call({ kind: "help", ...input }));
