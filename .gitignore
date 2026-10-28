@@ -12,3 +12,5 @@ output/
 .local/
 .venv/
 __pycache__/
+
+0ld/
