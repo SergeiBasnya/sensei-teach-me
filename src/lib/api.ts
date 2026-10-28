@@ -7,7 +7,11 @@ import type {
   LearnerContext,
   ReviewContext,
 } from "../../shared/learning-memory";
-import { responseOralMetrics, parseServerTiming } from "./oral-metrics";
+import {
+  responseOralMetrics,
+  parseServerTiming,
+  captureOralMetrics,
+} from "./oral-metrics";
 
 export type Connection = {
   url: string;
@@ -71,6 +75,7 @@ export async function apiRequest(
   body?: unknown,
   signal?: AbortSignal,
 ): Promise<unknown> {
+  const metricToken = captureOralMetrics();
   const controller = new AbortController();
   const cancel = () => controller.abort();
   if (signal?.aborted) cancel();
@@ -98,12 +103,15 @@ export async function apiRequest(
     const raw = await response.text();
     const result: unknown = JSON.parse(raw);
     if (path === "/api/oral-turn")
-      responseOralMetrics({
-        requestMs: Math.round(performance.now() - started),
-        responseBodyMs: Math.round(performance.now() - received),
-        responseChars: raw.length,
-        server: parseServerTiming(response.headers.get("server-timing")),
-      });
+      responseOralMetrics(
+        {
+          requestMs: Math.round(performance.now() - started),
+          responseBodyMs: Math.round(performance.now() - received),
+          responseChars: raw.length,
+          server: parseServerTiming(response.headers.get("server-timing")),
+        },
+        metricToken,
+      );
     if (!response.ok) {
       const message =
         typeof result === "object" &&

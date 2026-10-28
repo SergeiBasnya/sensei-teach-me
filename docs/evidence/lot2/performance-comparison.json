@@ -1,0 +1,46 @@
+{
+  "scope": "Round 1, warm engines, six distinct synthetic answers, audio cache disabled",
+  "samplesPerVariant": 6,
+  "beforeMeanMs": 4925,
+  "afterMeanMs": 4878,
+  "beforeMedianMs": 4686.5,
+  "afterMedianMs": 4781.0,
+  "rows": [
+    {
+      "id": "identity",
+      "beforeMs": 6172,
+      "afterMs": 5623,
+      "changePercent": -8.9
+    },
+    {
+      "id": "origin",
+      "beforeMs": 4571,
+      "afterMs": 4551,
+      "changePercent": -0.4
+    },
+    {
+      "id": "likes",
+      "beforeMs": 5065,
+      "afterMs": 5176,
+      "changePercent": 2.2
+    },
+    {
+      "id": "order",
+      "beforeMs": 4443,
+      "afterMs": 4356,
+      "changePercent": -2.0
+    },
+    {
+      "id": "temperature",
+      "beforeMs": 4496,
+      "afterMs": 4591,
+      "changePercent": 2.1
+    },
+    {
+      "id": "destination",
+      "beforeMs": 4802,
+      "afterMs": 4971,
+      "changePercent": 3.5
+    }
+  ]
+}

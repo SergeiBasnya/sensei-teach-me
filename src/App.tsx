@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Modal, Platform, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
@@ -6,6 +6,11 @@ import type { Scene } from "./data/lessons";
 import { addWords, dayKey } from "./lib/progress";
 import { useProgress } from "./lib/use-progress";
 import { useConnection } from "./lib/use-connection";
+import {
+  storedReadingTexts,
+  fetchStoredReadings,
+  applyStoredReadings,
+} from "./lib/reading-refresh";
 import { Conversation, type SessionResult } from "./components/conversation";
 import { Mochi } from "./components/art";
 import { colors, Txt } from "./components/ui";
@@ -40,6 +45,38 @@ function Sensei() {
     setConnection,
     reconnect,
   } = useConnection();
+  const readingRefresh = useRef("");
+  useEffect(() => {
+    if (!loaded || !connection || session) return;
+    const texts = storedReadingTexts(progress);
+    const signature = JSON.stringify([connection.url, texts]);
+    if (signature === readingRefresh.current || !texts.length) return;
+    readingRefresh.current = signature;
+    const controller = new AbortController();
+    let applied = false;
+    void fetchStoredReadings(connection, texts, controller.signal)
+      .then((readings) => {
+        if (!controller.signal.aborted) {
+          applied = true;
+          setProgress((previous) => applyStoredReadings(previous, readings));
+        }
+      })
+      .catch(() => {
+        // Cleanup owns cancellation; an old callback must not reset a newer request.
+      });
+    return () => {
+      controller.abort();
+      if (!applied && readingRefresh.current === signature)
+        readingRefresh.current = "";
+    };
+  }, [
+    loaded,
+    connection,
+    session,
+    progress.words,
+    progress.learning.items,
+    setProgress,
+  ]);
   const [summary, setSummary] = useState<{
     scene: Scene;
     result: SessionResult;

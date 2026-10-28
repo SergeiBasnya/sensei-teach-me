@@ -4,12 +4,10 @@ import json
 import os
 from pathlib import Path
 import sys
-import re
-
-from voicevox_core.blocking import Onnxruntime, OpenJtalk, Synthesizer, VoiceModelFile
 
 
 def create_synthesizer():
+    from voicevox_core.blocking import Onnxruntime, OpenJtalk, Synthesizer, VoiceModelFile
     root = Path(os.environ.get("VOICEVOX_ROOT", ".local/voicevox/runtime"))
     libraries = list((root / "onnxruntime/lib").glob("*voicevox*"))
     if not libraries:
@@ -28,41 +26,48 @@ def create_synthesizer():
     return synth
 
 
-def synthesize(synth, text, style, include_reading=False):
+def synthesize(synth, text, style):
     if style not in (10, 11) or not isinstance(text, str) or not 1 <= len(text.strip()) <= 500:
         raise ValueError("Requête vocale invalide")
     query = synth.create_audio_query(text.strip(), style)
     query.speed_scale = 1.0
     query.pitch_scale = 0.0
     query.intonation_scale = 1.0
-    audio = synth.synthesis(query, style)
-    return (audio, query.kana) if include_reading else audio
+    return synth.synthesis(query, style)
 
 
 def main():
     synth = None
-    try:
-        import pykakasi
-        romanizer = pykakasi.kakasi()
-    except ImportError:
-        romanizer = None
+    romanizer = None
     for line in sys.stdin:
         request = {}
         try:
             request = json.loads(line)
-            if request.get("language", "ja") == "fr":
-                from french_speech import synthesize_french
-                wav, kana = synthesize_french(request["text"]), None
-            elif request.get("language", "ja") == "ja":
-                if synth is None:
-                    synth = create_synthesizer()
-                wav, kana = synthesize(synth, request["text"], request.get("style", 10), include_reading=True)
+            if request.get("kind") == "readings":
+                texts = request.get("texts")
+                if (request.get("language", "ja") != "ja" or not isinstance(texts, list) or len(texts) > 50
+                        or any(not isinstance(text, str) or not 1 <= len(text.strip()) <= 500 for text in texts)):
+                    raise ValueError("invalid_readings_request")
+                if texts and romanizer is None:
+                    from pedagogic_romaji import PedagogicRomanizer
+                    romanizer = PedagogicRomanizer()
+                readings = [romanizer(text.strip()) for text in texts]
+                if any(not isinstance(reading, str) or len(reading) > 2000 for reading in readings):
+                    raise ValueError("invalid_readings_response")
+                response = {"id":request["id"], "readings":readings}
             else:
-                raise ValueError("invalid_speech_language")
-            response = {"id": request["id"], "audio": base64.b64encode(wav).decode("ascii")}
-            if romanizer and kana:
-                reading = re.sub(r"[_']", "", kana).replace("/", " ")
-                response["romaji"] = "".join(part["hepburn"] for part in romanizer.convert(reading))
+                if request.get("kind") not in (None, "speech"):
+                    raise ValueError("invalid_speech_operation")
+                if request.get("language", "ja") == "fr":
+                    from french_speech import synthesize_french
+                    wav = synthesize_french(request["text"])
+                elif request.get("language", "ja") == "ja":
+                    if synth is None:
+                        synth = create_synthesizer()
+                    wav = synthesize(synth, request["text"], request.get("style", 10))
+                else:
+                    raise ValueError("invalid_speech_language")
+                response = {"id": request["id"], "audio": base64.b64encode(wav).decode("ascii")}
         except Exception:
             response = {"id": request.get("id"), "error": "La synthèse vocale locale a échoué."}
             if request.get("language") == "fr":

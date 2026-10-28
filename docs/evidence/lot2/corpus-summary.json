@@ -1,0 +1,9 @@
+{
+  "cases": 33,
+  "turns": 45,
+  "httpErrors": 0,
+  "automaticObservations": 55,
+  "observationsToInspect": 0,
+  "humanReview": "pending",
+  "claim": "No automatic linguistic score. Checks cover limited literal/boolean expectations only."
+}

@@ -3,6 +3,7 @@ import {
   Platform,
   Pressable,
   ScrollView,
+  Share,
   Switch,
   TextInput,
   View,
@@ -14,6 +15,7 @@ import { isLoopbackUrl, type ConnectionConfig } from "../lib/connection-config";
 import type { ConnectionStatus } from "../lib/use-connection";
 import { appStyles as s } from "../styles";
 import { voiceCredit } from "../data/recorded-speech";
+import { startOralTrial, oralTrialReport } from "../lib/oral-metrics";
 import {
   Badge,
   Button,
@@ -55,6 +57,34 @@ export function Settings({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const edited = useRef(false);
+  const [trialStarted, setTrialStarted] = useState(
+    oralTrialReport("other").started,
+  );
+  const [trialMessage, setTrialMessage] = useState("");
+  const beginTrial = () => {
+    startOralTrial();
+    setTrialStarted(true);
+    setTrialMessage(
+      "Mesures démarrées. Ferme les réglages et commence ta leçon.",
+    );
+  };
+  const shareTrial = async () => {
+    const platform =
+      Platform.OS === "android" ||
+      Platform.OS === "ios" ||
+      Platform.OS === "web"
+        ? Platform.OS
+        : "other";
+    const message = JSON.stringify(oralTrialReport(platform), null, 2);
+    try {
+      if (Platform.OS === "web" && navigator.clipboard) {
+        await navigator.clipboard.writeText(message);
+        setTrialMessage("Bilan technique copié.");
+      } else await Share.share({ title: "Bilan technique Sensei", message });
+    } catch {
+      setTrialMessage("Le partage n’a pas abouti. Réessaie.");
+    }
+  };
   useEffect(() => {
     if (edited.current) return;
     setUrl(connection?.url || savedConnection?.url || suggestedUrl);
@@ -187,6 +217,41 @@ export function Settings({
               />
             </View>
           ))}
+        </View>
+        <View style={{ height: 1, backgroundColor: colors.line }} />
+        <View style={{ gap: 12 }}>
+          <SectionTitle
+            title="Essai oral de 15 minutes"
+            detail="Mesure les délais et les incidents, sans enregistrer tes conversations dans le bilan."
+          />
+          {!trialStarted ? (
+            <Button onPress={beginTrial}>Démarrer les mesures</Button>
+          ) : (
+            <>
+              <Button onPress={() => void shareTrial()}>
+                {Platform.OS === "web"
+                  ? "Copier le bilan technique"
+                  : "Partager le bilan technique"}
+              </Button>
+              <Pressable
+                accessibilityRole="button"
+                onPress={beginTrial}
+                style={{ paddingVertical: 8 }}
+              >
+                <Txt style={{ color: colors.purple, fontSize: 13 }}>
+                  Recommencer les mesures
+                </Txt>
+              </Pressable>
+            </>
+          )}
+          {!!trialMessage && (
+            <Txt
+              accessibilityLiveRegion="polite"
+              style={{ color: colors.muted, fontSize: 13 }}
+            >
+              {trialMessage}
+            </Txt>
+          )}
         </View>
         <View style={{ height: 1, backgroundColor: colors.line }} />
         <Txt style={{ color: colors.muted, fontSize: 11, lineHeight: 18 }}>

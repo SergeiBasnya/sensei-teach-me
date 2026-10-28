@@ -28,6 +28,9 @@ import {
   beginOralMetrics,
   sentOralMetrics,
   finishOralMetrics,
+  captureOralMetrics,
+  captureOralTrial,
+  noteOralEvent,
 } from "./oral-metrics";
 import type {
   LearnerContext,
@@ -285,6 +288,9 @@ export function useOralSession({
   const submit = async (id: number) => {
     const current = () => mounted.current && run.current(id);
     if (!current() || !capturing.current) return;
+    const metricToken = captureOralMetrics();
+    const trialToken = captureOralTrial();
+    let waitingForServer = false;
     capturing.current = false;
     clearInterval(ticker.current);
     sentOralMetrics(Math.max(0, Date.now() - lastVoiceAt.current));
@@ -327,6 +333,7 @@ export function useOralSession({
         throw new Error("Connecte le serveur local pour parler à Mochi.");
       const controller = new AbortController();
       abort.current = controller;
+      waitingForServer = true;
       const result = oralResponseSchema.parse(
         await apiRequest(
           config.connection,
@@ -343,9 +350,16 @@ export function useOralSession({
           controller.signal,
         ),
       );
+      waitingForServer = false;
       if (!current()) return;
       if (!result.heard) {
-        finishOralMetrics(false);
+        noteOralEvent(
+          result.reason === "uncertain"
+            ? "recognition_uncertain"
+            : "recognition_empty",
+          trialToken,
+        );
+        finishOralMetrics(false, undefined, metricToken);
         if (++unclearCount.current >= 3) {
           await stop();
           if (mounted.current) setQuiet(true);
@@ -360,6 +374,8 @@ export function useOralSession({
         return;
       }
       unclearCount.current = 0;
+      if (result.coachingUnavailable)
+        noteOralEvent("french_unavailable", trialToken);
       // Le texte est une trace consultable ; son envoi ne demande aucune validation.
       config.onReply(result);
       silenceHelpOffered.current = false;
@@ -382,19 +398,21 @@ export function useOralSession({
         return;
       }
       run.didRead(id, result.tutor.reply.japanese);
-      finishOralMetrics(true);
+      finishOralMetrics(true, undefined, metricToken);
       if (latest.current.finished?.()) {
         await stop();
         return;
       }
       await listen(id);
     } catch (cause) {
-      if (current())
+      if (current()) {
+        if (waitingForServer) noteOralEvent("request_error", trialToken);
         await fail(
           cause instanceof Error
             ? cause.message
             : "Mochi est indisponible. Reprends la conversation.",
         );
+      }
     }
   };
   const start = useCallback(async () => {
@@ -491,7 +509,10 @@ export function useOralSession({
   useEffect(() => {
     mounted.current = true;
     const subscription = AppState.addEventListener("change", (state) => {
-      if (run.shouldPause(state)) void stop();
+      if (run.shouldPause(state)) {
+        if (run.isActive) noteOralEvent("interruption_background");
+        void stop();
+      }
     });
     return () => {
       mounted.current = false;
@@ -505,6 +526,9 @@ export function useOralSession({
     quiet,
     active: phase !== "idle",
     start,
-    stop,
+    stop: () => {
+      if (run.isActive) noteOralEvent("interruption_user");
+      return stop();
+    },
   };
 }

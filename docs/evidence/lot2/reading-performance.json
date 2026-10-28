@@ -1,0 +1,12 @@
+{
+  "scope": "Local pure romanization and synthetic WAV, no human voice",
+  "references": 72,
+  "romanizerStartupMs": 89.843,
+  "firstReadingMeanMs": 0.993,
+  "firstReadingMaxMs": 25.861,
+  "cachedReadingMeanMs": 0.00017,
+  "japaneseAudioIdentical": true,
+  "japaneseAudioBeforeSha256": "0d5840aa321533dfb35fb4ff6fe9b781e5fd97baf443931aeaa30c7b7fa96840",
+  "japaneseAudioAfterSha256": "0d5840aa321533dfb35fb4ff6fe9b781e5fd97baf443931aeaa30c7b7fa96840",
+  "style": 10
+}

@@ -170,6 +170,12 @@ export function createLocalTutor(): LocalTutor | undefined {
   start();
   return {
     ready: () => ready,
+    async romanize(texts) {
+      return z
+        .array(z.string().max(2000))
+        .length(texts.length)
+        .parse(await call({ kind: "readings", texts }));
+    },
     async turn(input) {
       return tutorReplySchema.parse(
         await call({

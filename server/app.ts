@@ -13,6 +13,8 @@ import {
   oralRequestSchema,
   helpRequestSchema,
   helpResponseSchema,
+  readingsRequestSchema,
+  readingsResponseSchema,
   type TutorReply,
 } from "../shared/contracts";
 import { FrenchSpeechUnavailable, type SpeechProvider } from "./local-speech";
@@ -28,6 +30,7 @@ import { reviewPrompt } from "../shared/review-prompt";
 import { assistanceIntent, tutorFromHelp } from "../shared/teaching";
 
 export interface TutorProvider {
+  romanize?: (texts: string[]) => Promise<string[]>;
   turn: (input: typeof turnRequestSchema._output) => Promise<TutorReply>;
   transcribe: (input: typeof audioRequestSchema._output) => Promise<string>;
   transcribeDetailed?: (
@@ -260,6 +263,37 @@ export function createApp({
   origins?: string[];
 }) {
   const app = express();
+  const romanize = provider?.romanize || speech?.romanize;
+  const withReadings = async (tutor: TutorReply): Promise<TutorReply> => {
+    if (!romanize) return tutor;
+    const phrases = [
+      tutor.reply.japanese,
+      ...(tutor.correction ? [tutor.correction.corrected] : []),
+      ...tutor.vocabulary.map((value) => value.japanese),
+    ];
+    let readings: string[];
+    try {
+      readings = readingsResponseSchema.parse({
+        readings: await timed("romanization", () => romanize(phrases)),
+      }).readings;
+      if (readings.length !== phrases.length)
+        throw new Error("invalid_readings");
+    } catch {
+      readings = phrases.map(() => "…");
+    }
+    let index = 0;
+    return {
+      ...tutor,
+      reply: { ...tutor.reply, romaji: readings[index++]! },
+      correction: tutor.correction
+        ? { ...tutor.correction, romaji: readings[index++]! }
+        : null,
+      vocabulary: tutor.vocabulary.map((value) => ({
+        ...value,
+        romaji: readings[index++]!,
+      })),
+    };
+  };
   app.disable("x-powered-by");
   app.use((_req, res, next) => {
     res.setHeader("Cache-Control", "no-store");
@@ -404,6 +438,26 @@ export function createApp({
     if (!audio) throw new FrenchSpeechUnavailable();
     res.json({ audio: audio.toString("base64"), format: "wav" });
   });
+  app.post("/api/readings", async (req, res) => {
+    const parsed = readingsRequestSchema.safeParse(req.body);
+    if (!parsed.success) {
+      res
+        .status(400)
+        .json({ error: "La lecture accepte au plus 50 phrases courtes." });
+      return;
+    }
+    if (!romanize) {
+      res
+        .status(503)
+        .json({ error: "La lecture pédagogique locale est indisponible." });
+      return;
+    }
+    res.json(
+      readingsResponseSchema.parse({
+        readings: await romanize(parsed.data.texts),
+      }),
+    );
+  });
   app.post("/api/turn", async (req, res) => {
     const parsed = turnRequestSchema.safeParse(req.body);
     if (!parsed.success) {
@@ -420,7 +474,7 @@ export function createApp({
       });
       return;
     }
-    res.json(await teachTurn(provider, parsed.data));
+    res.json(await withReadings(await teachTurn(provider, parsed.data)));
   });
   app.post("/api/help", async (req, res) => {
     const parsed = helpRequestSchema.safeParse(req.body);
@@ -439,6 +493,14 @@ export function createApp({
       return;
     }
     const help = helpResponseSchema.parse(await provider.help(parsed.data));
+    if (romanize) {
+      try {
+        const [reading] = await romanize([help.answer.japanese]);
+        help.answer.romaji = reading || "…";
+      } catch {
+        help.answer.romaji = "…";
+      }
+    }
     if (!res.destroyed) res.json(help);
   });
   app.post("/api/transcribe", async (req, res) => {
@@ -490,16 +552,18 @@ export function createApp({
       });
       return;
     }
-    const tutor = await timed("teaching", () =>
-      teachTurn(provider, {
-        scenario: parsed.data.scenario,
-        ...(parsed.data.lessonId ? { lessonId: parsed.data.lessonId } : {}),
-        guidedStepDone: parsed.data.guidedStepDone,
-        learner: parsed.data.learner,
-        review: parsed.data.review,
-        history: parsed.data.history,
-        text: transcript,
-      }),
+    const tutor = await withReadings(
+      await timed("teaching", () =>
+        teachTurn(provider, {
+          scenario: parsed.data.scenario,
+          ...(parsed.data.lessonId ? { lessonId: parsed.data.lessonId } : {}),
+          guidedStepDone: parsed.data.guidedStepDone,
+          learner: parsed.data.learner,
+          review: parsed.data.review,
+          history: parsed.data.history,
+          text: transcript,
+        }),
+      ),
     );
     if (res.destroyed) return;
     const text = speechRequestSchema.parse({ text: tutor.reply.japanese });
@@ -513,7 +577,6 @@ export function createApp({
     const audio = await timed("tts_ja", () => speech.speak(text.text));
     if (res.destroyed) return;
     const coachingAudio = await french;
-    tutor.reply.romaji = speech.reading?.(text.text) || tutor.reply.romaji;
     if (!res.destroyed)
       res.json({
         heard: true,

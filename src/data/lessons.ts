@@ -28,12 +28,12 @@ export const scenes: Scene[] = [
       {
         tutor: {
           japanese: "こんにちは！私はもちです。お名前は？",
-          romaji: "Konnichiwa! Watashi wa Mochi desu. Onamae wa?",
+          romaji: "Konnichiwa! Watashi wa mochi desu. Onamae wa?",
           french: "Bonjour ! Je suis Mochi. Comment t’appelles-tu ?",
         },
         suggestion: {
           japanese: "私はオーギュストです。",
-          romaji: "Watashi wa Ōgyusuto desu.",
+          romaji: "Watashi wa ōgyusuto desu.",
           french: "Je m’appelle August.",
         },
       },
@@ -64,7 +64,7 @@ export const scenes: Scene[] = [
     ],
     ending: {
       japanese: "よろしくお願いします！また話しましょう。",
-      romaji: "Yoroshiku onegaishimasu! Mata hanashimashō.",
+      romaji: "Yoroshiku onegai shimasu! Mata hanashimashō.",
       french: "Ravi de te connaître ! On se reparle bientôt.",
     },
   },
@@ -97,19 +97,19 @@ export const scenes: Scene[] = [
         },
         suggestion: {
           japanese: "ホットでお願いします。",
-          romaji: "Hotto de onegaishimasu.",
+          romaji: "Hotto de onegai shimasu.",
           french: "Chaud, s’il vous plaît.",
         },
       },
       {
         tutor: {
           japanese: "かしこまりました。ほかに何か？",
-          romaji: "Kashikomarimashita. Hoka ni nanika?",
+          romaji: "Kashikomarimashita. Hoka ni nani ka?",
           french: "Très bien. Autre chose ?",
         },
         suggestion: {
           japanese: "いいえ、ありがとうございます。",
-          romaji: "Iie, arigatō gozaimasu.",
+          romaji: "Īe, arigatō gozaimasu.",
           french: "Non, merci beaucoup.",
         },
       },
@@ -137,7 +137,7 @@ export const scenes: Scene[] = [
         },
         suggestion: {
           japanese: "京都までお願いします。",
-          romaji: "Kyōto made onegaishimasu.",
+          romaji: "Kyōto made onegai shimasu.",
           french: "Jusqu’à Kyoto, s’il vous plaît.",
         },
       },

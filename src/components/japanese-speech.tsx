@@ -23,7 +23,14 @@ import {
   type SpeechEnergy,
 } from "../lib/speech-energy";
 import { selectJapaneseVoice } from "../lib/voice-selection";
-import { playbackOralMetrics } from "../lib/oral-metrics";
+import {
+  playbackOralMetrics,
+  captureOralMetrics,
+  captureOralTrial,
+  noteOralEvent,
+  type OralMetricToken,
+  type OralTrialToken,
+} from "../lib/oral-metrics";
 
 type SpeechService = {
   speakJapanese: (text: string) => Promise<boolean>;
@@ -57,6 +64,9 @@ export function JapaneseSpeechProvider({
   const energy = useRef<SpeechEnergy | null>(null);
   const playbackArmed = useRef(false);
   const playbackStarted = useRef(false);
+  const playbackMetric = useRef<OralMetricToken | null>(null);
+  const playbackTrial = useRef<OralTrialToken | null>(null);
+  const playbackErrorReported = useRef(false);
   const fallbackStart = useRef(0);
   const [error, setError] = useState("");
   const sequence = useRef(0);
@@ -113,7 +123,7 @@ export function JapaneseSpeechProvider({
         if (!alive.current || !playbackArmed.current) return;
         if (status.playing && !status.isBuffering && !status.didJustFinish) {
           playbackStarted.current = true;
-          playbackOralMetrics();
+          playbackOralMetrics(undefined, playbackMetric.current);
         }
         setAudioPlaying(
           !!status.playing &&
@@ -122,6 +132,10 @@ export function JapaneseSpeechProvider({
             !status.error,
         );
         if ((status.didJustFinish && playbackStarted.current) || status.error) {
+          if (status.error && !playbackErrorReported.current) {
+            playbackErrorReported.current = true;
+            noteOralEvent("playback_error", playbackTrial.current);
+          }
           playbackArmed.current = false;
           clearTimeout(playbackTimer.current);
           setSpeaking(false);
@@ -201,16 +215,26 @@ export function JapaneseSpeechProvider({
       suppliedAudio?: string,
       language: "ja" | "fr" = "ja",
     ): Promise<boolean> => {
+      const metricToken = captureOralMetrics();
+      const trialToken = captureOralTrial();
       // stopJapanese incrémente la séquence avant son premier await.
       const current = sequence.current + 1;
       await stopJapanese();
       const isCurrent = () => alive.current && current === sequence.current;
       if ((!text.trim() && !suppliedAudio) || !isCurrent()) return false;
+      playbackErrorReported.current = false;
+      const reportPlaybackError = () => {
+        if (isCurrent() && !playbackErrorReported.current) {
+          playbackErrorReported.current = true;
+          noteOralEvent("playback_error", trialToken);
+        }
+      };
       setError("");
       setSpeaking(true);
       const ended = new Promise<boolean>((resolve) => {
         completion.current = resolve;
       });
+      let waitingForFrench = false;
       const finish = (played: boolean) => {
         if (!isCurrent()) return;
         setSpeaking(false);
@@ -233,16 +257,18 @@ export function JapaneseSpeechProvider({
           webAudio.current = audio;
           audio.onplaying = () => {
             if (isCurrent()) {
-              playbackOralMetrics();
+              playbackOralMetrics(undefined, metricToken);
               setAudioPlaying(true);
             }
           };
           audio.onended = () => finish(true);
           audio.onerror = () => {
+            reportPlaybackError();
             if (isCurrent()) setError("La lecture audio a échoué. Réessaie.");
             finish(false);
           };
           void audio.play().catch(() => {
+            reportPlaybackError();
             if (isCurrent())
               setError(
                 "La lecture audio n’a pas démarré. Reprends la conversation.",
@@ -250,6 +276,8 @@ export function JapaneseSpeechProvider({
             finish(false);
           });
         } else {
+          playbackMetric.current = metricToken;
+          playbackTrial.current = trialToken;
           player.replace(source);
           playbackArmed.current = true;
           player.play();
@@ -270,6 +298,7 @@ export function JapaneseSpeechProvider({
         } else if (connection || suppliedAudio) {
           const controller = new AbortController();
           request.current = controller;
+          waitingForFrench = language === "fr" && !suppliedAudio;
           const result = suppliedAudio
             ? audioResponse.parse({ audio: suppliedAudio, format: "wav" })
             : audioResponse.parse(
@@ -280,6 +309,7 @@ export function JapaneseSpeechProvider({
                   controller.signal,
                 ),
               );
+          waitingForFrench = false;
           if (!isCurrent()) return false;
           energy.current = speechEnergyFromWav(result.audio);
           fallbackStart.current = Date.now();
@@ -321,7 +351,7 @@ export function JapaneseSpeechProvider({
             pitch: 1,
             onStart: () => {
               if (isCurrent()) {
-                playbackOralMetrics();
+                playbackOralMetrics(undefined, metricToken);
                 fallbackStart.current = Date.now();
                 setAudioPlaying(true);
               }
@@ -333,6 +363,7 @@ export function JapaneseSpeechProvider({
               finish(false);
             },
             onError: () => {
+              reportPlaybackError();
               if (isCurrent()) {
                 finish(false);
                 setError("La voix japonaise de cet appareil est indisponible.");
@@ -343,6 +374,7 @@ export function JapaneseSpeechProvider({
         }
         playbackTimer.current = setTimeout(() => {
           if (isCurrent()) {
+            reportPlaybackError();
             player.pause();
             webAudio.current?.pause();
             finish(false);
@@ -354,6 +386,8 @@ export function JapaneseSpeechProvider({
         }, 90_000);
       } catch (cause) {
         if (isCurrent()) {
+          if (waitingForFrench) noteOralEvent("french_unavailable", trialToken);
+          else reportPlaybackError();
           finish(false);
           setError(
             cause instanceof Error

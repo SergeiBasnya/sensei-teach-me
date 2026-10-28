@@ -1,0 +1,434 @@
+[
+  {
+    "id": "origin-question",
+    "category": "question",
+    "japanese": "どこから来ましたか？",
+    "expected": "Doko kara kimashita ka?"
+  },
+  {
+    "id": "likes-question",
+    "category": "question",
+    "japanese": "日本語が好きですか？",
+    "expected": "Nihongo ga suki desu ka?"
+  },
+  {
+    "id": "residence",
+    "category": "te-iru",
+    "japanese": "リヨンに住んでいます。",
+    "expected": "Riyon ni sunde imasu."
+  },
+  {
+    "id": "reading",
+    "category": "te-iru",
+    "japanese": "本を読んでいます。",
+    "expected": "Hon o yonde imasu."
+  },
+  {
+    "id": "watching-past",
+    "category": "te-iru",
+    "japanese": "映画を見ていました。",
+    "expected": "Eiga o mite imashita."
+  },
+  {
+    "id": "living-negative",
+    "category": "te-iru",
+    "japanese": "東京に住んでいません。",
+    "expected": "Tōkyō ni sunde imasen."
+  },
+  {
+    "id": "object",
+    "category": "particle",
+    "japanese": "お茶をください。",
+    "expected": "Ocha o kudasai."
+  },
+  {
+    "id": "topic",
+    "category": "particle",
+    "japanese": "私は学生です。",
+    "expected": "Watashi wa gakusei desu."
+  },
+  {
+    "id": "destination",
+    "category": "particle",
+    "japanese": "東京へ行きます。",
+    "expected": "Tōkyō e ikimasu."
+  },
+  {
+    "id": "source",
+    "category": "particle",
+    "japanese": "フランスから来ました。",
+    "expected": "Furansu kara kimashita."
+  },
+  {
+    "id": "and",
+    "category": "particle",
+    "japanese": "母と父です。",
+    "expected": "Haha to chichi desu."
+  },
+  {
+    "id": "location",
+    "category": "particle",
+    "japanese": "カフェで話します。",
+    "expected": "Kafe de hanashimasu."
+  },
+  {
+    "id": "past",
+    "category": "conjugation",
+    "japanese": "昨日、映画を見ました。",
+    "expected": "Kinō, eiga o mimashita."
+  },
+  {
+    "id": "negative-past",
+    "category": "conjugation",
+    "japanese": "食べませんでした。",
+    "expected": "Tabemasen deshita."
+  },
+  {
+    "id": "plain-past",
+    "category": "conjugation",
+    "japanese": "学校へ行った。",
+    "expected": "Gakkō e itta."
+  },
+  {
+    "id": "volitional",
+    "category": "conjugation",
+    "japanese": "また話しましょう。",
+    "expected": "Mata hanashimashō."
+  },
+  {
+    "id": "desire",
+    "category": "conjugation",
+    "japanese": "日本に行きたいです。",
+    "expected": "Nihon ni ikitai desu."
+  },
+  {
+    "id": "negative-question",
+    "category": "conjugation",
+    "japanese": "一緒に来ませんか？",
+    "expected": "Issho ni kimasen ka?"
+  },
+  {
+    "id": "try",
+    "category": "conjugation",
+    "japanese": "日本語で言ってみましょう。",
+    "expected": "Nihongo de itte mimashō."
+  },
+  {
+    "id": "adjective-past",
+    "category": "conjugation",
+    "japanese": "楽しかったです。",
+    "expected": "Tanoshikatta desu."
+  },
+  {
+    "id": "price-300",
+    "category": "number",
+    "japanese": "三百円です。",
+    "expected": "Sanbyaku en desu."
+  },
+  {
+    "id": "price-600",
+    "category": "number",
+    "japanese": "六百円です。",
+    "expected": "Roppyaku en desu."
+  },
+  {
+    "id": "price-800",
+    "category": "number",
+    "japanese": "八百円です。",
+    "expected": "Happyaku en desu."
+  },
+  {
+    "id": "price-3500",
+    "category": "number",
+    "japanese": "三千五百円です。",
+    "expected": "Sanzen gohyaku en desu."
+  },
+  {
+    "id": "price-arabic",
+    "category": "number",
+    "japanese": "300円です。",
+    "expected": "Sanbyaku en desu."
+  },
+  {
+    "id": "price-wide",
+    "category": "number",
+    "japanese": "３００円です。",
+    "expected": "Sanbyaku en desu."
+  },
+  {
+    "id": "two-people",
+    "category": "counter",
+    "japanese": "二人です。",
+    "expected": "Futari desu."
+  },
+  {
+    "id": "four-people",
+    "category": "counter",
+    "japanese": "四人です。",
+    "expected": "Yonin desu."
+  },
+  {
+    "id": "three-items",
+    "category": "counter",
+    "japanese": "3つください。",
+    "expected": "Mittsu kudasai."
+  },
+  {
+    "id": "ticket",
+    "category": "counter",
+    "japanese": "片道を一枚ください。",
+    "expected": "Katamichi o ichimai kudasai."
+  },
+  {
+    "id": "platform",
+    "category": "counter",
+    "japanese": "三番線です。",
+    "expected": "Sanbansen desu."
+  },
+  {
+    "id": "time-four",
+    "category": "counter",
+    "japanese": "四時です。",
+    "expected": "Yoji desu."
+  },
+  {
+    "id": "time-seven",
+    "category": "counter",
+    "japanese": "七時です。",
+    "expected": "Shichiji desu."
+  },
+  {
+    "id": "minutes",
+    "category": "counter",
+    "japanese": "三十分です。",
+    "expected": "Sanjuppun desu."
+  },
+  {
+    "id": "date",
+    "category": "date",
+    "japanese": "今日は四月一日です。",
+    "expected": "Kyō wa shigatsu tsuitachi desu."
+  },
+  {
+    "id": "hello",
+    "category": "expression",
+    "japanese": "こんにちは。",
+    "expected": "Konnichiwa."
+  },
+  {
+    "id": "morning",
+    "category": "expression",
+    "japanese": "おはようございます。",
+    "expected": "Ohayō gozaimasu."
+  },
+  {
+    "id": "thanks",
+    "category": "expression",
+    "japanese": "ありがとうございます。",
+    "expected": "Arigatō gozaimasu."
+  },
+  {
+    "id": "welcome",
+    "category": "expression",
+    "japanese": "どういたしまして。",
+    "expected": "Dō itashimashite."
+  },
+  {
+    "id": "request",
+    "category": "expression",
+    "japanese": "よろしくお願いします。",
+    "expected": "Yoroshiku onegai shimasu."
+  },
+  {
+    "id": "excuse-me",
+    "category": "expression",
+    "japanese": "すみません。",
+    "expected": "Sumimasen."
+  },
+  {
+    "id": "name",
+    "category": "expression",
+    "japanese": "お名前は？",
+    "expected": "Onamae wa?"
+  },
+  {
+    "id": "what",
+    "category": "question",
+    "japanese": "何ですか？",
+    "expected": "Nan desu ka?"
+  },
+  {
+    "id": "what-time",
+    "category": "question",
+    "japanese": "何時ですか？",
+    "expected": "Nanji desu ka?"
+  },
+  {
+    "id": "how-many-people",
+    "category": "question",
+    "japanese": "何人ですか？",
+    "expected": "Nannin desu ka?"
+  },
+  {
+    "id": "long-vowels",
+    "category": "phonetics",
+    "japanese": "コーヒーをください。",
+    "expected": "Kōhī o kudasai."
+  },
+  {
+    "id": "parents",
+    "category": "phonetics",
+    "japanese": "お母さんとお父さん。",
+    "expected": "Okāsan to otōsan."
+  },
+  {
+    "id": "double-consonant",
+    "category": "phonetics",
+    "japanese": "切手をください。",
+    "expected": "Kitte o kudasai."
+  },
+  {
+    "id": "n-vowel",
+    "category": "phonetics",
+    "japanese": "禁煙です。",
+    "expected": "Kin'en desu."
+  },
+  {
+    "id": "polite-negative",
+    "category": "conjugation",
+    "japanese": "学生ではありません。",
+    "expected": "Gakusei de wa arimasen."
+  },
+  {
+    "id": "minutes-question",
+    "category": "counter-family",
+    "japanese": "何分ですか？",
+    "expected": "Nanpun desu ka?"
+  },
+  {
+    "id": "bottles-question",
+    "category": "counter-family",
+    "japanese": "何本ですか？",
+    "expected": "Nanbon desu ka?"
+  },
+  {
+    "id": "cups-question",
+    "category": "counter-family",
+    "japanese": "何杯ですか？",
+    "expected": "Nanbai desu ka?"
+  },
+  {
+    "id": "month-question",
+    "category": "counter-family",
+    "japanese": "何月ですか？",
+    "expected": "Nangatsu desu ka?"
+  },
+  {
+    "id": "fourteen-people",
+    "category": "counter-family",
+    "japanese": "十四人です。",
+    "expected": "Jūyonin desu."
+  },
+  {
+    "id": "fourteen-hours",
+    "category": "counter-family",
+    "japanese": "十四時です。",
+    "expected": "Jūyoji desu."
+  },
+  {
+    "id": "nineteen-hours",
+    "category": "counter-family",
+    "japanese": "十九時です。",
+    "expected": "Jūkuji desu."
+  },
+  {
+    "id": "four-days",
+    "category": "counter-family",
+    "japanese": "四日です。",
+    "expected": "Yokka desu."
+  },
+  {
+    "id": "two-days-duration",
+    "category": "counter-family",
+    "japanese": "二日間です。",
+    "expected": "Futsukakan desu."
+  },
+  {
+    "id": "one-day-duration",
+    "category": "counter-family",
+    "japanese": "一日間です。",
+    "expected": "Ichinichikan desu."
+  },
+  {
+    "id": "zero-hour",
+    "category": "counter-family",
+    "japanese": "零時です。",
+    "expected": "Reiji desu."
+  },
+  {
+    "id": "one-month",
+    "category": "duration-and-context",
+    "japanese": "一か月です。",
+    "expected": "Ikkagetsu desu."
+  },
+  {
+    "id": "one-month-kanji",
+    "category": "duration-and-context",
+    "japanese": "一ヶ月です。",
+    "expected": "Ikkagetsu desu."
+  },
+  {
+    "id": "six-months",
+    "category": "duration-and-context",
+    "japanese": "六か月です。",
+    "expected": "Rokkagetsu desu."
+  },
+  {
+    "id": "eight-months",
+    "category": "duration-and-context",
+    "japanese": "八か月です。",
+    "expected": "Hakkagetsu desu."
+  },
+  {
+    "id": "ten-months",
+    "category": "duration-and-context",
+    "japanese": "十か月です。",
+    "expected": "Jukkagetsu desu."
+  },
+  {
+    "id": "one-week",
+    "category": "duration-and-context",
+    "japanese": "一週間です。",
+    "expected": "Isshūkan desu."
+  },
+  {
+    "id": "ten-weeks",
+    "category": "duration-and-context",
+    "japanese": "十週間です。",
+    "expected": "Jusshūkan desu."
+  },
+  {
+    "id": "through-day",
+    "category": "duration-and-context",
+    "japanese": "一日中です。",
+    "expected": "Ichinichijū desu."
+  },
+  {
+    "id": "through-japan",
+    "category": "duration-and-context",
+    "japanese": "日本中です。",
+    "expected": "Nihonjū desu."
+  },
+  {
+    "id": "first-day-explicit",
+    "category": "duration-and-context",
+    "japanese": "今日は一日です。",
+    "expected": "Kyō wa tsuitachi desu."
+  },
+  {
+    "id": "first-day-weekday",
+    "category": "duration-and-context",
+    "japanese": "一日は水曜日です。",
+    "expected": "Tsuitachi wa suiyōbi desu."
+  }
+]

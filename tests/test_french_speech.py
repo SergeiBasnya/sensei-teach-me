@@ -67,7 +67,7 @@ class FrenchSpeechTests(unittest.TestCase):
         output = io.StringIO()
         wav = b"RIFF" + b"\x00" * 4 + b"WAVE" + b"\x00" * 40
         with patch.object(voice_worker, "create_synthesizer", return_value=object()), \
-                patch.object(voice_worker, "synthesize", return_value=(wav, None)), \
+                patch.object(voice_worker, "synthesize", return_value=wav), \
                 patch.object(french_speech, "synthesize_french", side_effect=OSError("private diagnostic")), \
                 patch.object(sys, "stdin", io.StringIO(requests)), contextlib.redirect_stdout(output):
             voice_worker.main()

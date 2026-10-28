@@ -1,0 +1,93 @@
+{
+  "browser": "isolated Chromium",
+  "method": "Synthetic public WAV injected; first HTTP uncertain, second empty; next real Whisper/Qwen/VOICEVOX/Vivienne; double pause then finish; clipboard stub without OS clipboard",
+  "humanAndroid": "pending",
+  "states": {
+    "states": [
+      {
+        "name": "small",
+        "width": 320,
+        "height": 568,
+        "fontFamily": "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+        "fontSize": "13px",
+        "lineHeight": "23px",
+        "rect": {
+          "x": 40,
+          "y": 260.078125,
+          "width": 240,
+          "height": 69
+        },
+        "overflow": false
+      },
+      {
+        "name": "desktop",
+        "width": 1440,
+        "height": 900,
+        "fontFamily": "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+        "fontSize": "13px",
+        "lineHeight": "23px",
+        "rect": {
+          "x": 474,
+          "y": 270.046875,
+          "width": 492,
+          "height": 46
+        },
+        "overflow": false
+      },
+      {
+        "name": "landscape",
+        "width": 844,
+        "height": 390,
+        "fontFamily": "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+        "fontSize": "13px",
+        "lineHeight": "23px",
+        "rect": {
+          "x": 176,
+          "y": 239.734375,
+          "width": 492,
+          "height": 46
+        },
+        "overflow": false
+      }
+    ],
+    "focus": {
+      "outline": "rgb(115, 80, 198) solid 3px",
+      "decoration": "none"
+    },
+    "hover": {
+      "decoration": "none",
+      "font": "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif"
+    }
+  },
+  "reportStates": [
+    {
+      "name": "report-desktop",
+      "width": 1440,
+      "height": 900,
+      "overflow": false,
+      "button": {
+        "x": 474,
+        "y": 295.046875,
+        "width": 492,
+        "height": 48
+      }
+    },
+    {
+      "name": "report-landscape",
+      "width": 844,
+      "height": 390,
+      "overflow": false,
+      "button": {
+        "x": 176,
+        "y": 279.734375,
+        "width": 492,
+        "height": 48
+      }
+    }
+  ],
+  "console": [
+    "favicon.ico 404",
+    "password field not in form (browser advisory)"
+  ],
+  "reportContainsConversation": false
+}

@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "sensei-oral-trial.v1",
+  "humanValidation": "pending",
+  "platform": "web",
+  "started": true,
+  "elapsedMs": 275055,
+  "turnInProgress": false,
+  "counts": {
+    "recordingStarts": 4,
+    "sentTurns": 3,
+    "finishedTurns": 4,
+    "completedTurns": 1
+  },
+  "events": {
+    "recognition_empty": 1,
+    "recognition_uncertain": 1,
+    "playback_error": 0,
+    "request_error": 0,
+    "french_unavailable": 0,
+    "interruption_user": 1,
+    "interruption_background": 0
+  },
+  "firstPlaybackAfterSendMs": {
+    "samples": 1,
+    "meanMs": 6745,
+    "minMs": 6745,
+    "maxMs": 6745
+  },
+  "firstPlaybackAfterDetectedVoiceMs": {
+    "samples": 1,
+    "meanMs": 8545,
+    "minMs": 8545,
+    "maxMs": 8545
+  },
+  "retainedTurnLimit": 120,
+  "retainedTurns": 4,
+  "turns": [
+    {
+      "recordingMs": 4602,
+      "silenceTailMs": 1900,
+      "requestMs": 4,
+      "responseBodyMs": 0,
+      "responseChars": 36,
+      "completed": false
+    },
+    {
+      "recordingMs": 4702,
+      "silenceTailMs": 1800,
+      "requestMs": 6,
+      "responseBodyMs": 0,
+      "responseChars": 15,
+      "completed": false
+    },
+    {
+      "recordingMs": 4703,
+      "silenceTailMs": 1800,
+      "requestMs": 6720,
+      "responseBodyMs": 1,
+      "responseChars": 413671,
+      "server": {
+        "decode": 45.4,
+        "whisper": 348.4,
+        "worker_roundtrip": 5012.6,
+        "worker_queue": 2.6,
+        "asr": 396.2,
+        "correction": 2085.2,
+        "generations": 2,
+        "dialogue_translation": 2506.4,
+        "teaching": 4617.5,
+        "romanization": 0.6,
+        "tts_fr": 836.8,
+        "tts_ja": 1692.7,
+        "server": 6708.5
+      },
+      "firstPlaybackMs": 6745,
+      "playbackMs": 6544,
+      "completed": true
+    },
+    {
+      "completed": false
+    }
+  ]
+}

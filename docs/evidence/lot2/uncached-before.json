@@ -1,0 +1,267 @@
+{
+  "date": "2026-10-28T10:38:23.267Z",
+  "sourceHash": "4044dceca4f75435f5b52a5883371a9816a634fb0c5748dedcd45cd27d1c19b6",
+  "readyMs": 4650,
+  "audioCache": false,
+  "fixture": "Six distinct synthetic VOICEVOX recordings, no human or physical phone",
+  "rounds": 2,
+  "results": [
+    {
+      "id": "identity",
+      "round": 0,
+      "firstInference": true,
+      "status": 200,
+      "requestMs": 8417,
+      "responseBytes": 254489,
+      "timing": "decode;dur=70.4, whisper;dur=347.9, worker_roundtrip;dur=5375, worker_queue;dur=2, asr;dur=420.2, correction;dur=1775.6, generations;desc=\"2\", dialogue_translation;dur=3169.8, teaching;dur=4956.2, tts_ja;dur=2318.9, server;dur=8380.5",
+      "heard": true,
+      "transcript": "私はオーギュストです。",
+      "tutor": {
+        "reply": {
+          "japanese": "オーギュストさん、こんにちは！どこから来ましたか？",
+          "romaji": "oogyusutosan,konnichiwa,dokokara kimashitaka？",
+          "french": "Bonjour, Auguste ! D’où viens-tu ?"
+        },
+        "coaching": "D’où viens-tu ? veut dire « d’où viens-tu ? ». Réponds avec ton pays ou ta ville.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "coachingUnavailable": true
+    },
+    {
+      "id": "origin",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 5401,
+      "responseBytes": 353808,
+      "timing": "decode;dur=29.6, whisper;dur=128, worker_roundtrip;dur=3578.6, worker_queue;dur=1.6, asr;dur=159, correction;dur=1176.4, generations;desc=\"2\", dialogue_translation;dur=2242.4, teaching;dur=3420.2, tts_ja;dur=635.8, tts_fr;dur=1813.2, server;dur=5393.3",
+      "heard": true,
+      "transcript": "フランスから来ました。",
+      "tutor": {
+        "reply": {
+          "japanese": "どの町から来ましたか？",
+          "romaji": "dono machikara kimashitaka？",
+          "french": "De quelle ville viens-tu ?"
+        },
+        "coaching": "Machi veut dire ville. Tu peux dire [ta ville] kara kimashita.",
+        "correction": null,
+        "vocabulary": []
+      }
+    },
+    {
+      "id": "likes",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 7117,
+      "responseBytes": 98767,
+      "timing": "decode;dur=27.4, whisper;dur=146, worker_roundtrip;dur=4108.1, worker_queue;dur=2.1, asr;dur=174.9, correction;dur=1246, generations;desc=\"2\", dialogue_translation;dur=2686, teaching;dur=3933.6, tts_ja;dur=581.9, server;dur=7110.3",
+      "heard": true,
+      "transcript": "はい。日本語が好きです。",
+      "tutor": {
+        "reply": {
+          "japanese": "何が好きですか？",
+          "romaji": "naniga sukidesuka？",
+          "french": "Qu'est-ce que tu aimes ?"
+        },
+        "coaching": "Nani ga suki desu ka veut dire 'Qu'est-ce que tu aimes ?'. Réponds avec un exemple, comme 'eiga' ou 'ongaku'.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "coachingUnavailable": true
+    },
+    {
+      "id": "order",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 6482,
+      "responseBytes": 158819,
+      "timing": "decode;dur=32.1, whisper;dur=137.1, worker_roundtrip;dur=3472.6, worker_queue;dur=1.6, asr;dur=170.8, correction;dur=1176.4, generations;desc=\"2\", dialogue_translation;dur=2124.7, teaching;dur=3302.3, tts_ja;dur=781.7, server;dur=6474.9",
+      "heard": true,
+      "transcript": "コーヒーを一つください。",
+      "tutor": {
+        "reply": {
+          "japanese": "ホットですか、アイスですか？",
+          "romaji": "hottodesuka,aisudesuka？",
+          "french": "Chaud ou glacé ?"
+        },
+        "coaching": "Hotto veut dire chaud, aisu veut dire glacé. Réponds avec ton choix.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "coachingUnavailable": true
+    },
+    {
+      "id": "temperature",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 6644,
+      "responseBytes": 113069,
+      "timing": "decode;dur=26.1, whisper;dur=107.9, worker_roundtrip;dur=3633.6, worker_queue;dur=1.6, asr;dur=135.6, correction;dur=1155.9, generations;desc=\"2\", dialogue_translation;dur=2341.4, teaching;dur=3498.5, tts_ja;dur=671.6, server;dur=6636.5",
+      "heard": true,
+      "transcript": "ホットでお願いします。",
+      "tutor": {
+        "reply": {
+          "japanese": "何サイズにしますか？",
+          "romaji": "nansaizuni shimasuka？",
+          "french": "Quelle taille veux-tu ?"
+        },
+        "coaching": "Gairozuri veut dire taille. Tu peux dire [petit/moyen/grand] gairozuri.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "coachingUnavailable": true
+    },
+    {
+      "id": "destination",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 6876,
+      "responseBytes": 172529,
+      "timing": "decode;dur=26.7, whisper;dur=101.7, worker_roundtrip;dur=3868.1, worker_queue;dur=1.1, asr;dur=130.1, correction;dur=1156, generations;desc=\"2\", dialogue_translation;dur=2581.1, teaching;dur=3738.3, tts_ja;dur=904.9, server;dur=6870.9",
+      "heard": true,
+      "transcript": "京都までお願いします。",
+      "tutor": {
+        "reply": {
+          "japanese": "京都行きの改札はどちらですか？",
+          "romaji": "kyootoikino kaisatsuwa dochiradesuka？",
+          "french": "Le guichet pour Kyoto, c'est du côté de quel côté ?"
+        },
+        "coaching": "Kiyoto yuki veut dire 'direction Kyoto'. Réponds avec 'gauche' ou 'droite'.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "coachingUnavailable": true
+    },
+    {
+      "id": "identity",
+      "round": 1,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 6172,
+      "responseBytes": 587897,
+      "timing": "decode;dur=17.7, whisper;dur=112.5, worker_roundtrip;dur=4629.4, worker_queue;dur=1.4, asr;dur=131.2, correction;dur=1157.1, generations;desc=\"2\", dialogue_translation;dur=3340.5, teaching;dur=4498.5, tts_fr;dur=848.7, tts_ja;dur=1536.3, server;dur=6166.6",
+      "heard": true,
+      "transcript": "私はオーギュストです。",
+      "tutor": {
+        "reply": {
+          "japanese": "オーギュストさん、こんにちは！どこから来ましたか？",
+          "romaji": "oogyusutosan,konnichiwa,dokokara kimashitaka？",
+          "french": "Bonjour, Auguste ! D’où viens-tu ?"
+        },
+        "coaching": "D’où viens-tu ? veut dire « d’où viens-tu ? ». Réponds avec ton pays ou ta ville.",
+        "correction": null,
+        "vocabulary": []
+      }
+    },
+    {
+      "id": "origin",
+      "round": 1,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 4571,
+      "responseBytes": 353808,
+      "timing": "decode;dur=23, whisper;dur=125.7, worker_roundtrip;dur=3592.7, worker_queue;dur=1.7, asr;dur=150.4, correction;dur=1269.2, generations;desc=\"2\", dialogue_translation;dur=2172.4, teaching;dur=3442.6, tts_ja;dur=730.2, tts_fr;dur=972.8, server;dur=4566.4",
+      "heard": true,
+      "transcript": "フランスから来ました。",
+      "tutor": {
+        "reply": {
+          "japanese": "どの町から来ましたか？",
+          "romaji": "dono machikara kimashitaka？",
+          "french": "De quelle ville viens-tu ?"
+        },
+        "coaching": "Machi veut dire ville. Tu peux dire [ta ville] kara kimashita.",
+        "correction": null,
+        "vocabulary": []
+      }
+    },
+    {
+      "id": "likes",
+      "round": 1,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 5065,
+      "responseBytes": 538159,
+      "timing": "decode;dur=21, whisper;dur=128.7, worker_roundtrip;dur=4063.3, worker_queue;dur=1.3, asr;dur=151, correction;dur=1175.9, generations;desc=\"2\", dialogue_translation;dur=2735.6, teaching;dur=3912.6, tts_ja;dur=633.4, tts_fr;dur=994.2, server;dur=5058.7",
+      "heard": true,
+      "transcript": "はい。日本語が好きです。",
+      "tutor": {
+        "reply": {
+          "japanese": "何が好きですか？",
+          "romaji": "naniga sukidesuka？",
+          "french": "Qu'est-ce que tu aimes ?"
+        },
+        "coaching": "Nani ga suki desu ka veut dire 'Qu'est-ce que tu aimes ?'. Réponds avec un exemple, comme 'eiga' ou 'ongaku'.",
+        "correction": null,
+        "vocabulary": []
+      }
+    },
+    {
+      "id": "order",
+      "round": 1,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 4443,
+      "responseBytes": 441539,
+      "timing": "decode;dur=19.8, whisper;dur=127.1, worker_roundtrip;dur=3513.6, worker_queue;dur=1.6, asr;dur=148, correction;dur=1208.1, generations;desc=\"2\", dialogue_translation;dur=2156.7, teaching;dur=3365.9, tts_ja;dur=900.9, tts_fr;dur=925, server;dur=4439.5",
+      "heard": true,
+      "transcript": "コーヒーを一つください。",
+      "tutor": {
+        "reply": {
+          "japanese": "ホットですか、アイスですか？",
+          "romaji": "hottodesuka,aisudesuka？",
+          "french": "Chaud ou glacé ?"
+        },
+        "coaching": "Hotto veut dire chaud, aisu veut dire glacé. Réponds avec ton choix.",
+        "correction": null,
+        "vocabulary": []
+      }
+    },
+    {
+      "id": "temperature",
+      "round": 1,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 4496,
+      "responseBytes": 417293,
+      "timing": "decode;dur=18.9, whisper;dur=97.1, worker_roundtrip;dur=3569.1, worker_queue;dur=1.1, asr;dur=116.9, correction;dur=1058.1, generations;desc=\"2\", dialogue_translation;dur=2393.4, teaching;dur=3452.4, tts_ja;dur=655.7, tts_fr;dur=921.8, server;dur=4491.6",
+      "heard": true,
+      "transcript": "ホットでお願いします。",
+      "tutor": {
+        "reply": {
+          "japanese": "何サイズにしますか？",
+          "romaji": "nansaizuni shimasuka？",
+          "french": "Quelle taille veux-tu ?"
+        },
+        "coaching": "Gairozuri veut dire taille. Tu peux dire [petit/moyen/grand] gairozuri.",
+        "correction": null,
+        "vocabulary": []
+      }
+    },
+    {
+      "id": "destination",
+      "round": 1,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 4802,
+      "responseBytes": 528977,
+      "timing": "decode;dur=22, whisper;dur=98.7, worker_roundtrip;dur=3791.3, worker_queue;dur=3.3, asr;dur=123.7, correction;dur=1053.5, generations;desc=\"2\", dialogue_translation;dur=2613.3, teaching;dur=3667.8, tts_fr;dur=944.5, tts_ja;dur=1005.7, server;dur=4797.9",
+      "heard": true,
+      "transcript": "京都までお願いします。",
+      "tutor": {
+        "reply": {
+          "japanese": "京都行きの改札はどちらですか？",
+          "romaji": "kyootoikino kaisatsuwa dochiradesuka？",
+          "french": "Le guichet pour Kyoto, c'est du côté de quel côté ?"
+        },
+        "coaching": "Kiyoto yuki veut dire 'direction Kyoto'. Réponds avec 'gauche' ou 'droite'.",
+        "correction": null,
+        "vocabulary": []
+      }
+    }
+  ]
+}

@@ -22,7 +22,7 @@ def main():
     if not python.exists():
         subprocess.run([sys.executable, "-m", "venv", str(ROOT / ".venv")], check=True)
     subprocess.run([str(python), "-m", "pip", "install", "--cache-dir", str(ROOT / ".local/pip-cache"),
-                    "mlx-lm==0.32.2", "mlx-whisper==0.4.3", "imageio-ffmpeg==0.6.0", "pykakasi==2.3.0"], check=True)
+                    "mlx-lm==0.32.2", "mlx-whisper==0.4.3", "imageio-ffmpeg==0.6.0", "pykakasi==2.3.0", "Janome==0.5.0"], check=True)
     if Path(sys.prefix).resolve() != (ROOT / ".venv").resolve():
         subprocess.run([str(python), str(Path(__file__).resolve())], check=True)
         return

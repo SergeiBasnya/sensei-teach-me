@@ -1,0 +1,2270 @@
+{
+  "date": "2026-10-28T10:49:21.830Z",
+  "sourceHash": "382d94b02e942b3fcd6979e05fcc2c0442c2a58d3d84a3890888f8f36839b02b",
+  "scope": "Fictitious text corpus; actual local model; no human language review or phone test",
+  "humanReview": "pending",
+  "results": [
+    {
+      "id": "name-preserve-and-recall",
+      "kind": "continuity",
+      "step": 0,
+      "status": 200,
+      "requestMs": 5566,
+      "input": {
+        "scenario": "meet",
+        "lessonId": "meet-name",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "お名前は？"
+          }
+        ],
+        "text": "オーギュストです。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "オーギュストさん、こんにちは！どこから来ましたか？",
+          "romaji": "oogyusuto san, konnichiha! dokokara kima shitaka ？",
+          "french": "Bonjour, Auguste ! D’où viens-tu ?"
+        },
+        "coaching": "D’où viens-tu ? veut dire « d’où viens-tu ? ». Réponds avec ton pays ou ta ville.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        }
+      ],
+      "manualChecks": [
+        "Accepter le prénom tel qu’il est donné ; ne pas en déduire un pays.",
+        "Ne pas redemander immédiatement le même prénom."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "name-preserve-and-recall",
+      "kind": "continuity",
+      "step": 1,
+      "status": 200,
+      "requestMs": 2527,
+      "input": {
+        "scenario": "meet",
+        "lessonId": "meet-name",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "お名前は？"
+          },
+          {
+            "role": "user",
+            "content": "オーギュストです。"
+          },
+          {
+            "role": "assistant",
+            "content": "D’où viens-tu ? veut dire « d’où viens-tu ? ». Réponds avec ton pays ou ta ville.\nオーギュストさん、こんにちは！どこから来ましたか？"
+          }
+        ],
+        "text": "私の名前は何ですか？"
+      },
+      "output": {
+        "reply": {
+          "japanese": "私の名前はオーギュストです。 もう一度、言ってみましょう。",
+          "romaji": "watashi no namae wa oogyusuto desu. Mō ichido, itte mimashō.",
+          "french": "Mon nom est Auguste. Réessaie cette phrase."
+        },
+        "correction": {
+          "original": "私の名前は何ですか？",
+          "corrected": "私の名前はオーギュストです。",
+          "romaji": "watashi no namae wa oogyusuto desu.",
+          "french": "Mon nom est Auguste.",
+          "explanation": "Pour dire ton nom, utilise \"desu\" après le nom."
+        },
+        "vocabulary": [],
+        "coaching": "Pour dire ton nom, utilise \"desu\" après le nom.",
+        "practice": true
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "literal-includes-any",
+            "field": "reply.japanese",
+            "alternatives": [
+              "オーギュスト"
+            ]
+          },
+          "status": "satisfied",
+          "observed": "私の名前はオーギュストです。 もう一度、言ってみましょう。"
+        }
+      ],
+      "manualChecks": [
+        "Répondre à la question de mémoire immédiate sans inventer un autre nom.",
+        "La présence littérale du nom ne valide pas à elle seule le sens de la réponse."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "origin-country-city-recall",
+      "kind": "continuity",
+      "step": 0,
+      "status": 200,
+      "requestMs": 3453,
+      "input": {
+        "scenario": "meet",
+        "lessonId": "meet-origin",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          }
+        ],
+        "text": "ベルギーから来ました。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "どの町から来ましたか？",
+          "romaji": "dono machi kara kima shitaka ？",
+          "french": "De quelle ville viens-tu ?"
+        },
+        "coaching": "Machi veut dire ville. Tu peux dire [ta ville] kara kimashita.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        }
+      ],
+      "manualChecks": [
+        "Conserver la Belgique, sans la remplacer par la France de l’exemple système.",
+        "Une relance peut préciser la ville mais ne doit pas redemander le pays déjà fourni."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "origin-country-city-recall",
+      "kind": "continuity",
+      "step": 1,
+      "status": 200,
+      "requestMs": 4136,
+      "input": {
+        "scenario": "meet",
+        "lessonId": "meet-origin",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          },
+          {
+            "role": "user",
+            "content": "ベルギーから来ました。"
+          },
+          {
+            "role": "assistant",
+            "content": "Machi veut dire ville. Tu peux dire [ta ville] kara kimashita.\nどの町から来ましたか？"
+          }
+        ],
+        "text": "ベルギーのリエージュに住んでいます。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "リエージュはどの辺りですか？",
+          "romaji": "rieeju hadono atari desuka ？",
+          "french": "Lieux-je est dans quelle région ?"
+        },
+        "coaching": "'Dewa' veut dire 'dans la région de'. Tu peux dire [lieu] dewa desu.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        }
+      ],
+      "manualChecks": [
+        "Intégrer la ville de Liège à la Belgique, sans confondre origine et lieu de résidence."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "origin-country-city-recall",
+      "kind": "continuity",
+      "step": 2,
+      "status": 200,
+      "requestMs": 5588,
+      "input": {
+        "scenario": "meet",
+        "lessonId": "meet-origin",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          },
+          {
+            "role": "user",
+            "content": "ベルギーから来ました。"
+          },
+          {
+            "role": "assistant",
+            "content": "Machi veut dire ville. Tu peux dire [ta ville] kara kimashita.\nどの町から来ましたか？"
+          },
+          {
+            "role": "user",
+            "content": "ベルギーのリエージュに住んでいます。"
+          },
+          {
+            "role": "assistant",
+            "content": "'Dewa' veut dire 'dans la région de'. Tu peux dire [lieu] dewa desu.\nリエージュはどの辺りですか？"
+          }
+        ],
+        "text": "私の国と町を覚えていますか？"
+      },
+      "output": {
+        "reply": {
+          "japanese": "はい、覚えています。ベルギーのリエージュですね。",
+          "romaji": "hai, oboe teimasu. berugii no rieeju desune.",
+          "french": "Oui, je m'en souviens. C'est Liège en Belgique, d'accord ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "literal-includes-any",
+            "field": "reply.japanese",
+            "alternatives": [
+              "ベルギー"
+            ]
+          },
+          "status": "satisfied",
+          "observed": "はい、覚えています。ベルギーのリエージュですね。"
+        },
+        {
+          "check": {
+            "kind": "literal-includes-any",
+            "field": "reply.japanese",
+            "alternatives": [
+              "リエージュ"
+            ]
+          },
+          "status": "satisfied",
+          "observed": "はい、覚えています。ベルギーのリエージュですね。"
+        }
+      ],
+      "manualChecks": [
+        "Rappeler les deux informations en s’appuyant sur les vrais tours précédents.",
+        "Ne pas reposer les trois mêmes questions sur le pays et la ville."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "origin-natural-fragment",
+      "kind": "acceptable",
+      "step": 0,
+      "status": 200,
+      "requestMs": 3580,
+      "input": {
+        "scenario": "meet",
+        "lessonId": "meet-origin",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          }
+        ],
+        "text": "フランスです。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "どの町から来ましたか？",
+          "romaji": "dono machi kara kima shitaka ？",
+          "french": "De quelle ville viens-tu ?"
+        },
+        "coaching": "Machi veut dire ville. Tu peux dire [ta ville] kara kimashita.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        }
+      ],
+      "manualChecks": [
+        "Accepter le fragment sans exiger une phrase complète.",
+        "Enseigner éventuellement kara ensuite sans qualifier la réponse naturelle de faute ni déclarer la particule acquise."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "likes-casual-fragment",
+      "kind": "acceptable",
+      "step": 0,
+      "status": 200,
+      "requestMs": 4272,
+      "input": {
+        "scenario": "meet",
+        "lessonId": "meet-likes",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "日本語は好きですか？"
+          }
+        ],
+        "text": "うん、好き。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "何が好きですか？",
+          "romaji": "nani ga suki desuka ？",
+          "french": "Qu'est-ce que tu aimes ?"
+        },
+        "coaching": "Nani ga suki desu ka veut dire 'Qu'est-ce que tu aimes ?'. Réponds avec un exemple, comme 'sushi' ou 'livres'.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        }
+      ],
+      "manualChecks": [
+        "Accepter le registre familier et le sujet omis.",
+        "Ne pas imposer un changement de politesse ni une construction complète comme condition de dialogue."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "likes-contrast-wa",
+      "kind": "acceptable",
+      "step": 0,
+      "status": 200,
+      "requestMs": 3590,
+      "input": {
+        "scenario": "meet",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "お茶とコーヒーは好きですか？"
+          }
+        ],
+        "text": "お茶は好きですが、コーヒーは好きじゃないです。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "じゃあ、お茶を飲みますか？",
+          "romaji": "jaa, o cha o nomi masuka ？",
+          "french": "Alors, tu vas boire du thé ?"
+        },
+        "coaching": "Ocha veut dire thé. Réponds avec oui ou non.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        }
+      ],
+      "manualChecks": [
+        "Ne pas remplacer automatiquement wa par ga : le contraste est voulu.",
+        "La traduction doit conserver le goût pour le thé et le rejet du café, sans inverser la négation."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "likes-kana-spelling",
+      "kind": "acceptable",
+      "step": 0,
+      "status": 200,
+      "requestMs": 3886,
+      "input": {
+        "scenario": "meet",
+        "lessonId": "meet-likes",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "何が好きですか？"
+          }
+        ],
+        "text": "にほんごがすきです。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "どんな本が好きですか？",
+          "romaji": "donna hon ga suki desuka ？",
+          "french": "Quel type de livre aimes-tu ?"
+        },
+        "coaching": "Donne un exemple de livre que tu aimes, par exemple [romans] ga suki desu.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        }
+      ],
+      "manualChecks": [
+        "Accepter les kana sans imposer de kanji.",
+        "Ne pas transformer la graphie en erreur persistante ou en jugement de prononciation."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "origin-particle-wo",
+      "kind": "clear-error",
+      "step": 0,
+      "status": 200,
+      "requestMs": 2394,
+      "input": {
+        "scenario": "meet",
+        "lessonId": "meet-origin",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          }
+        ],
+        "text": "私はフランスを来ました。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "私はフランスから来ました。 もう一度、言ってみましょう。",
+          "romaji": "watashi wa furansu kara kima shita. Mō ichido, itte mimashō.",
+          "french": "Je viens de France. Réessaie cette phrase."
+        },
+        "correction": {
+          "original": "私はフランスを来ました。",
+          "corrected": "私はフランスから来ました。",
+          "romaji": "watashi wa furansu kara kima shita.",
+          "french": "Je viens de France.",
+          "explanation": "Utilise kara pour indiquer l'origine, pas wo."
+        },
+        "vocabulary": [],
+        "coaching": "Utilise kara pour indiquer l'origine, pas wo.",
+        "practice": true
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "literal-includes-any",
+            "field": "correction.corrected",
+            "alternatives": [
+              "フランス"
+            ],
+            "onlyWhenPresent": true
+          },
+          "status": "satisfied",
+          "observed": "私はフランスから来ました。"
+        }
+      ],
+      "manualChecks": [
+        "Corriger la provenance avec kara, en préservant la France et l’intention.",
+        "L’explication française doit enseigner la construction correcte de façon concrète ; aucune faute de français ou règle inventée."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "origin-particle-wo",
+      "kind": "clear-error",
+      "step": 1,
+      "status": 200,
+      "requestMs": 4044,
+      "input": {
+        "scenario": "meet",
+        "lessonId": "meet-origin",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          },
+          {
+            "role": "user",
+            "content": "私はフランスを来ました。"
+          },
+          {
+            "role": "assistant",
+            "content": "Utilise kara pour indiquer l'origine, pas wo.\n私はフランスから来ました。 もう一度、言ってみましょう。"
+          }
+        ],
+        "text": "私はフランスから来ました。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "じゃあ、どの町から来ましたか？",
+          "romaji": "jaa, dono machi kara kima shitaka ？",
+          "french": "Alors, de quelle ville viens-tu ?"
+        },
+        "coaching": "Machi veut dire ville. Tu peux dire [ta ville] kara kimashita.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        }
+      ],
+      "manualChecks": [
+        "Accepter la nouvelle tentative et sortir de la boucle de répétition.",
+        "Réutiliser kara dans une petite variation pertinente, sans redemander simplement le même pays.",
+        "La répétition après le modèle reste assistée dans la mémoire ; elle ne prouve pas un rappel espacé."
+      ],
+      "precondition": "Continuer seulement si la première réponse a réellement fourni la correction ; sinon noter cet échec.",
+      "humanReview": "pending"
+    },
+    {
+      "id": "likes-particle-wo",
+      "kind": "clear-error",
+      "step": 0,
+      "status": 200,
+      "requestMs": 2388,
+      "input": {
+        "scenario": "meet",
+        "lessonId": "meet-likes",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "何が好きですか？"
+          }
+        ],
+        "text": "日本語を好きです。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "日本語が好きです。 もう一度、言ってみましょう。",
+          "romaji": "nihongo ga suki desu. Mō ichido, itte mimashō.",
+          "french": "J’aime le japonais. Réessaie cette phrase."
+        },
+        "correction": {
+          "original": "日本語を好きです。",
+          "corrected": "日本語が好きです。",
+          "romaji": "nihongo ga suki desu.",
+          "french": "J’aime le japonais.",
+          "explanation": "Avec suki, utilise ga pour ce que tu aimes."
+        },
+        "vocabulary": [],
+        "coaching": "Avec suki, utilise ga pour ce que tu aimes.",
+        "practice": true
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "literal-includes-any",
+            "field": "correction.corrected",
+            "alternatives": [
+              "日本語"
+            ],
+            "onlyWhenPresent": true
+          },
+          "status": "satisfied",
+          "observed": "日本語が好きです。"
+        }
+      ],
+      "manualChecks": [
+        "Corriger en une formulation naturelle avec ga suki, sans remplacer le japonais par un autre goût.",
+        "Expliquer suki avec des mots simples ; éviter de le présenter comme un verbe transitif français."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "likes-particle-wo",
+      "kind": "clear-error",
+      "step": 1,
+      "status": 200,
+      "requestMs": 3994,
+      "input": {
+        "scenario": "meet",
+        "lessonId": "meet-likes",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "何が好きですか？"
+          },
+          {
+            "role": "user",
+            "content": "日本語を好きです。"
+          },
+          {
+            "role": "assistant",
+            "content": "Avec suki, utilise ga pour ce que tu aimes.\n日本語が好きです。 もう一度、言ってみましょう。"
+          }
+        ],
+        "text": "日本語が好きです。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "じゃあ、何を勉強していますか？",
+          "romaji": "jaa, naniwo benkyou shiteimasuka ？",
+          "french": "Alors, qu'est-ce que tu étudies ?"
+        },
+        "coaching": "Menshoun (benkyou) veut dire étudier. Réponds avec ton sujet d'étude.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        }
+      ],
+      "manualChecks": [
+        "Ne pas corriger de nouveau la phrase désormais acceptable.",
+        "Poursuivre les goûts avec une variation de la même construction, sans répéter l’explication déjà entendue."
+      ],
+      "precondition": "La première réponse doit avoir effectivement présenté le modèle corrigé.",
+      "humanReview": "pending"
+    },
+    {
+      "id": "object-particle-ga",
+      "kind": "clear-error",
+      "step": 0,
+      "status": 200,
+      "requestMs": 2329,
+      "input": {
+        "scenario": "cafe",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "何を飲みますか？"
+          }
+        ],
+        "text": "私は水が飲みます。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "私は水を飲みます。 もう一度、言ってみましょう。",
+          "romaji": "watashi wa mizu o nomi masu. Mō ichido, itte mimashō.",
+          "french": "Je bois de l'eau. Réessaie cette phrase."
+        },
+        "correction": {
+          "original": "私は水が飲みます。",
+          "corrected": "私は水を飲みます。",
+          "romaji": "watashi wa mizu o nomi masu.",
+          "french": "Je bois de l'eau.",
+          "explanation": "Utilise wo pour indiquer l'objet direct de l'action."
+        },
+        "vocabulary": [],
+        "coaching": "Utilise wo pour indiquer l'objet direct de l'action.",
+        "practice": true
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "literal-includes-any",
+            "field": "correction.corrected",
+            "alternatives": [
+              "水"
+            ],
+            "onlyWhenPresent": true
+          },
+          "status": "satisfied",
+          "observed": "私は水を飲みます。"
+        }
+      ],
+      "manualChecks": [
+        "Conserver le sens je bois de l’eau ; corriger l’objet avec o, sans transformer la phrase en je peux boire.",
+        "Expliquer la fonction de la particule dans cette phrase, sans prétendre que ga est toujours incorrect avec nom de boisson."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "activity-location-ni",
+      "kind": "clear-error",
+      "step": 0,
+      "status": 200,
+      "requestMs": 2862,
+      "input": {
+        "scenario": "free",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこで勉強しますか？"
+          }
+        ],
+        "text": "図書館に勉強します。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "図書館で勉強します。 もう一度、言ってみましょう。",
+          "romaji": "toshokan de benkyou shimasu. Mō ichido, itte mimashō.",
+          "french": "Je fais mes études à la bibliothèque. Réessaie cette phrase."
+        },
+        "correction": {
+          "original": "図書館に勉強します。",
+          "corrected": "図書館で勉強します。",
+          "romaji": "toshokan de benkyou shimasu.",
+          "french": "Je fais mes études à la bibliothèque.",
+          "explanation": "Utilise de, pas ni, pour indiquer le lieu où tu fais quelque chose."
+        },
+        "vocabulary": [],
+        "coaching": "Utilise de, pas ni, pour indiquer le lieu où tu fais quelque chose.",
+        "practice": true
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "literal-includes-any",
+            "field": "correction.corrected",
+            "alternatives": [
+              "図書館"
+            ],
+            "onlyWhenPresent": true
+          },
+          "status": "satisfied",
+          "observed": "図書館で勉強します。"
+        }
+      ],
+      "manualChecks": [
+        "Employer de pour le lieu où l’on étudie, en gardant la bibliothèque.",
+        "Éviter une règle absolue selon laquelle ni ne pourrait jamais suivre un lieu ; une destination et le lieu d’une activité sont différents."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "past-polite-ending",
+      "kind": "clear-error",
+      "step": 0,
+      "status": 200,
+      "requestMs": 2343,
+      "input": {
+        "scenario": "free",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "昨日、何をしましたか？"
+          }
+        ],
+        "text": "昨日、映画を見ますでした。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "昨日、映画を見ました。 もう一度、言ってみましょう。",
+          "romaji": "kinou, eiga o mima shita. Mō ichido, itte mimashō.",
+          "french": "Hier, j’ai regardé un film. Réessaie cette phrase."
+        },
+        "correction": {
+          "original": "昨日、映画を見ますでした。",
+          "corrected": "昨日、映画を見ました。",
+          "romaji": "kinou, eiga o mima shita.",
+          "french": "Hier, j’ai regardé un film.",
+          "explanation": "Pour une action passée, utilise la forme polie en mashita."
+        },
+        "vocabulary": [],
+        "coaching": "Pour une action passée, utilise la forme polie en mashita.",
+        "practice": true
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "literal-includes-any",
+            "field": "correction.corrected",
+            "alternatives": [
+              "昨日"
+            ],
+            "onlyWhenPresent": true
+          },
+          "status": "satisfied",
+          "observed": "昨日、映画を見ました。"
+        },
+        {
+          "check": {
+            "kind": "literal-includes-any",
+            "field": "correction.corrected",
+            "alternatives": [
+              "映画"
+            ],
+            "onlyWhenPresent": true
+          },
+          "status": "satisfied",
+          "observed": "昨日、映画を見ました。"
+        }
+      ],
+      "manualChecks": [
+        "Employer une forme passée naturelle de miru, sans changer hier ni le film.",
+        "Expliquer la forme en mashita ; ne pas généraliser une terminaison verbale aux adjectifs ou aux noms."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "adjective-na-ending",
+      "kind": "clear-error",
+      "step": 0,
+      "status": 200,
+      "requestMs": 3069,
+      "input": {
+        "scenario": "station",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "この駅はどうですか？"
+          }
+        ],
+        "text": "この駅は静かいです。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "どこへ行きますか？",
+          "romaji": "dokohe iki masuka ？",
+          "french": "Où vas-tu ?"
+        },
+        "coaching": "Doko veut dire 'où'. Réponds avec ton destination.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "literal-includes-any",
+            "field": "correction.corrected",
+            "alternatives": [
+              "駅"
+            ],
+            "onlyWhenPresent": true
+          },
+          "status": "not-applicable",
+          "observed": null
+        }
+      ],
+      "manualChecks": [
+        "Donner une forme naturelle de shizuka desu en conservant le sens calme.",
+        "Évaluer humainement l’importance de l’erreur avant de décider d’interrompre l’échange ; ne pas enseigner une fausse règle sur les mots finissant par ka."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "negative-natural-janai",
+      "kind": "acceptable",
+      "step": 0,
+      "status": 200,
+      "requestMs": 3334,
+      "input": {
+        "scenario": "cafe",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "コーヒーは好きですか？"
+          }
+        ],
+        "text": "いいえ、あまり好きじゃないです。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "じゃあ、お茶にしますか？",
+          "romaji": "jaa, o cha nishimasuka ？",
+          "french": "Alors, tu veux du thé ?"
+        },
+        "coaching": "Ocha veut dire thé. Réponds avec 'oui' ou 'non'.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        }
+      ],
+      "manualChecks": [
+        "Accepter janai desu et ne pas imposer dewa arimasen pour une préférence de style.",
+        "Traduire amari avec la négation par pas beaucoup ou pas tellement, sans transformer cela en détestation."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "ongoing-te-iru",
+      "kind": "acceptable",
+      "step": 0,
+      "status": 200,
+      "requestMs": 3486,
+      "input": {
+        "scenario": "free",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "今、何をしていますか？"
+          }
+        ],
+        "text": "今、日本語を勉強しています。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "どの曜日に勉強していますか？",
+          "romaji": "dono youbi ni benkyou shiteimasuka ？",
+          "french": "Quel jour de la semaine étudies-tu le japonais ?"
+        },
+        "coaching": "Yōbi veut dire jour de la semaine. Réponds avec le nom du jour.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        }
+      ],
+      "manualChecks": [
+        "Conserver l’activité en cours et ne pas la convertir en passé.",
+        "Inspecter la segmentation pédagogique de benkyō shite imasu et distinguer cette lecture de celle du moteur vocal."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "past-casual-natural",
+      "kind": "acceptable",
+      "step": 0,
+      "status": 200,
+      "requestMs": 3672,
+      "input": {
+        "scenario": "free",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "昨日、何をしましたか？"
+          }
+        ],
+        "text": "友達と映画を見た。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "どの映画を見ましたか？",
+          "romaji": "dono eiga o mima shitaka ？",
+          "french": "Quel film avez-vous vu ?"
+        },
+        "coaching": "Eiga veut dire film. Tu peux dire [le nom du film] o mite mita.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        }
+      ],
+      "manualChecks": [
+        "Accepter la forme familière mita sans exiger mimashita.",
+        "Conserver avec un ami ou des amis sans inventer une identité, un nombre exact d’amis ou le titre du film."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "origin-self-repair",
+      "kind": "acceptable",
+      "step": 0,
+      "status": 200,
+      "requestMs": 3994,
+      "input": {
+        "scenario": "meet",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          }
+        ],
+        "text": "ええと、フランスを…いや、フランスから来ました。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "フランスから来ましたね。どの町からですか？",
+          "romaji": "furansu kara kima shitane. dono machi karadesuka ？",
+          "french": "Tu viens de France, d'accord. De quelle ville ?"
+        },
+        "coaching": "Machi veut dire ville. Tu peux dire [ta ville] kara kimashita.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        }
+      ],
+      "manualChecks": [
+        "Tenir compte de la réparation finale plutôt que de corriger le faux départ abandonné.",
+        "Ne pas mémoriser l’hésitation seule comme erreur et ne pas noter la prononciation depuis le texte."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "origin-destination-ambiguity",
+      "kind": "ambiguous",
+      "step": 0,
+      "status": 200,
+      "requestMs": 3727,
+      "input": {
+        "scenario": "meet",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          }
+        ],
+        "text": "日本に来ました。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "どの町から来ましたか？",
+          "romaji": "dono machi kara kima shitaka ？",
+          "french": "De quelle ville viens-tu ?"
+        },
+        "coaching": "Machi veut dire ville. Tu peux dire [ta ville] kara kimashita.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        }
+      ],
+      "manualChecks": [
+        "La phrase je suis venu au Japon est grammaticalement acceptable, même si elle ne donne pas le pays d’origine.",
+        "Clarifier l’information encore demandée ; ne pas remplacer ni par kara en attribuant une origine japonaise à l’élève."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "subject-focus-ga",
+      "kind": "acceptable",
+      "step": 0,
+      "status": 200,
+      "requestMs": 3661,
+      "input": {
+        "scenario": "meet",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "学生は誰ですか？"
+          }
+        ],
+        "text": "私が学生です。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "どの国から来ましたか？",
+          "romaji": "dono kuni kara kima shitaka ？",
+          "french": "D'où viens-tu ?"
+        },
+        "coaching": "Kuni veut dire pays. Réponds avec ton pays.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        }
+      ],
+      "manualChecks": [
+        "Accepter le focus sur watashi ga dans cette réponse.",
+        "Ne pas appliquer une règle artificielle selon laquelle une présentation doit toujours commencer par watashi wa."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "cafe-quantity-change-memory",
+      "kind": "continuity",
+      "step": 0,
+      "status": 200,
+      "requestMs": 3826,
+      "input": {
+        "scenario": "cafe",
+        "lessonId": "cafe-order",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "ご注文は？"
+          }
+        ],
+        "text": "コーヒーを二つください。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "どちらのサイズですか？",
+          "romaji": "dochirano saizu desuka ？",
+          "french": "Quelle taille veux-tu ?"
+        },
+        "coaching": "Dochira no saizu desu ka veut dire 'quelle taille veux-tu ?'. Réponds avec 'small', 'medium' ou 'large'.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        }
+      ],
+      "manualChecks": [
+        "Accepter le compteur général futatsu pour deux cafés dans cette commande.",
+        "Ne pas imposer une quantité ou un prix absent de l’échange."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "cafe-quantity-change-memory",
+      "kind": "continuity",
+      "step": 1,
+      "status": 200,
+      "requestMs": 4138,
+      "input": {
+        "scenario": "cafe",
+        "lessonId": "cafe-order",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "ご注文は？"
+          },
+          {
+            "role": "user",
+            "content": "コーヒーを二つください。"
+          },
+          {
+            "role": "assistant",
+            "content": "Dochira no saizu desu ka veut dire 'quelle taille veux-tu ?'. Réponds avec 'small', 'medium' ou 'large'.\nどちらのサイズですか？"
+          }
+        ],
+        "text": "やっぱり、一つだけください。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "おひとつですね。ホットですか、アイスですか？",
+          "romaji": "ohitotsudesune. hotto desuka, aisu desuka ？",
+          "french": "Un seul, d'accord. Chaud ou glacé ?"
+        },
+        "coaching": "Hotto veut dire chaud, aisu veut dire glacé. Réponds avec ton choix.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        }
+      ],
+      "manualChecks": [
+        "Mettre à jour la quantité : un seul café remplace les deux précédents."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "cafe-quantity-change-memory",
+      "kind": "continuity",
+      "step": 2,
+      "status": 200,
+      "requestMs": 3551,
+      "input": {
+        "scenario": "cafe",
+        "lessonId": "cafe-order",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "ご注文は？"
+          },
+          {
+            "role": "user",
+            "content": "コーヒーを二つください。"
+          },
+          {
+            "role": "assistant",
+            "content": "Dochira no saizu desu ka veut dire 'quelle taille veux-tu ?'. Réponds avec 'small', 'medium' ou 'large'.\nどちらのサイズですか？"
+          },
+          {
+            "role": "user",
+            "content": "やっぱり、一つだけください。"
+          },
+          {
+            "role": "assistant",
+            "content": "Hotto veut dire chaud, aisu veut dire glacé. Réponds avec ton choix.\nおひとつですね。ホットですか、アイスですか？"
+          }
+        ],
+        "text": "注文したコーヒーはいくつですか？"
+      },
+      "output": {
+        "reply": {
+          "japanese": "注文したコーヒーはいくつですか？",
+          "romaji": "chuumon shita koohii haikutsudesuka ？",
+          "french": "Combien de cafés as-tu commandé ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "literal-includes-any",
+            "field": "reply.japanese",
+            "alternatives": [
+              "一つ",
+              "ひとつ",
+              "1つ",
+              "一杯",
+              "1杯"
+            ]
+          },
+          "status": "inspect",
+          "observed": "注文したコーヒーはいくつですか？"
+        }
+      ],
+      "manualChecks": [
+        "Répondre avec la dernière quantité, sans revenir aux deux cafés initiaux.",
+        "Vérifier humainement que le nombre est affirmé dans la réponse, et non cité dans une question ou une négation."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "cafe-price-350-recall",
+      "kind": "continuity",
+      "step": 0,
+      "status": 200,
+      "requestMs": 3945,
+      "input": {
+        "scenario": "cafe",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "このコーヒーは三百五十円です。"
+          }
+        ],
+        "text": "三百五十円ですね。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "じゃあ、お支払いは現金ですか？",
+          "romaji": "jaa, o shiharai wa genkin desuka ？",
+          "french": "Alors, le paiement sera en espèces ?"
+        },
+        "coaching": "Genkin veut dire en espèces. Réponds avec 'oui' ou 'non'.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        }
+      ],
+      "manualChecks": [
+        "Accepter la confirmation du prix sans ajouter de taxe ni convertir la devise.",
+        "Inspecter la lecture de sanbyaku gojū en et la traduction de 350 yens."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "cafe-price-350-recall",
+      "kind": "continuity",
+      "step": 1,
+      "status": 200,
+      "requestMs": 4059,
+      "input": {
+        "scenario": "cafe",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "このコーヒーは三百五十円です。"
+          },
+          {
+            "role": "user",
+            "content": "三百五十円ですね。"
+          },
+          {
+            "role": "assistant",
+            "content": "Genkin veut dire en espèces. Réponds avec 'oui' ou 'non'.\nじゃあ、お支払いは現金ですか？"
+          }
+        ],
+        "text": "このコーヒーはいくらですか？"
+      },
+      "output": {
+        "reply": {
+          "japanese": "じゃあ、お支払いは現金ですか？",
+          "romaji": "jaa, o shiharai wa genkin desuka ？",
+          "french": "Alors, payez-vous en espèces ?"
+        },
+        "coaching": "Genkin veut dire en espèces. Réponds avec 'oui' ou 'non'.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "literal-includes-any",
+            "field": "reply.japanese",
+            "alternatives": [
+              "三百五十円",
+              "350円",
+              "３５０円"
+            ]
+          },
+          "status": "inspect",
+          "observed": "じゃあ、お支払いは現金ですか？"
+        }
+      ],
+      "manualChecks": [
+        "Rappeler le prix déjà donné, sans inventer 300 ou 500 yens.",
+        "Une correspondance littérale prouve uniquement que le montant figure dans la sortie."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "cafe-drink-change-memory",
+      "kind": "continuity",
+      "step": 0,
+      "status": 200,
+      "requestMs": 3958,
+      "input": {
+        "scenario": "cafe",
+        "lessonId": "cafe-order",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "コーヒーですね。ホットですか、アイスですか？"
+          }
+        ],
+        "text": "やっぱりコーヒーじゃなくて、お茶をください。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "お茶ですね。ホットですか、アイスですか？",
+          "romaji": "o cha desune. hotto desuka, aisu desuka ？",
+          "french": "Du thé, d'accord. Chaud ou glacé ?"
+        },
+        "coaching": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».",
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        }
+      ],
+      "manualChecks": [
+        "Confirmer ou prendre en compte le thé sans corriger une formulation naturelle.",
+        "Enseigner les options de la nouvelle question si elles sont inconnues ; le conseil doit permettre d’y répondre."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "cafe-drink-change-memory",
+      "kind": "continuity",
+      "step": 1,
+      "status": 200,
+      "requestMs": 4914,
+      "input": {
+        "scenario": "cafe",
+        "lessonId": "cafe-order",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "コーヒーですね。ホットですか、アイスですか？"
+          },
+          {
+            "role": "user",
+            "content": "やっぱりコーヒーじゃなくて、お茶をください。"
+          },
+          {
+            "role": "assistant",
+            "content": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».\nお茶ですね。ホットですか、アイスですか？"
+          }
+        ],
+        "text": "今、何を注文しましたか？"
+      },
+      "output": {
+        "reply": {
+          "japanese": "お茶を注文しました。",
+          "romaji": "o cha o chuumon shimashita.",
+          "french": "Vous avez commandé du thé."
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "literal-includes-any",
+            "field": "reply.japanese",
+            "alternatives": [
+              "お茶"
+            ]
+          },
+          "status": "satisfied",
+          "observed": "お茶を注文しました。"
+        }
+      ],
+      "manualChecks": [
+        "Répondre en se souvenant du dernier choix, pas seulement mentionner le thé dans une nouvelle question.",
+        "Ne pas inventer un type de thé, un prix ou une taille non donnés."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "station-destination-ni",
+      "kind": "acceptable",
+      "step": 0,
+      "status": 200,
+      "requestMs": 5022,
+      "input": {
+        "scenario": "station",
+        "lessonId": "station-destination",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこに行きますか？"
+          }
+        ],
+        "text": "京都に行きます。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "京都行きの電車はどのホームですか？",
+          "romaji": "kyouto iki no densha hadono hoomu desuka ？",
+          "french": "Le train pour Kyoto, quel quai prendre ?"
+        },
+        "coaching": "Kyo-to yuki no densha wa doko no hōmu desu ka ? veut dire 'Quel quai prendre pour le train vers Kyoto ?'",
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        }
+      ],
+      "manualChecks": [
+        "Accepter ni ikimasu ; ne pas forcer made ou e comme correction.",
+        "Conserver Kyoto et ne pas proposer un trajet avec une autre destination supposée."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "station-one-way-memory",
+      "kind": "continuity",
+      "step": 0,
+      "status": 200,
+      "requestMs": 4762,
+      "input": {
+        "scenario": "station",
+        "lessonId": "station-ticket",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どんな切符がほしいですか？"
+          }
+        ],
+        "text": "片道を一枚ください。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "どちらへ行きますか？",
+          "romaji": "dochirahe iki masuka ？",
+          "french": "Vers quelle destination vas-tu ?"
+        },
+        "coaching": "Dochira wa veut dire 'vers quelle direction' ou 'vers quelle destination'. Tu peux dire [ton destination] e kimasu.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        }
+      ],
+      "manualChecks": [
+        "Accepter le nom billet omis quand il est clair dans le contexte.",
+        "Lire ichimai correctement et ne pas transformer l’aller simple en aller-retour."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "station-one-way-memory",
+      "kind": "continuity",
+      "step": 1,
+      "status": 200,
+      "requestMs": 4635,
+      "input": {
+        "scenario": "station",
+        "lessonId": "station-ticket",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どんな切符がほしいですか？"
+          },
+          {
+            "role": "user",
+            "content": "片道を一枚ください。"
+          },
+          {
+            "role": "assistant",
+            "content": "Dochira wa veut dire 'vers quelle direction' ou 'vers quelle destination'. Tu peux dire [ton destination] e kimasu.\nどちらへ行きますか？"
+          }
+        ],
+        "text": "私の切符は片道ですか、往復ですか？"
+      },
+      "output": {
+        "reply": {
+          "japanese": "どちらがよろしいですか？",
+          "romaji": "dochiragayoroshiidesuka ？",
+          "french": "Lequel préfères-tu ?"
+        },
+        "coaching": "Chidori wa veut dire 'lequel'. Tu peux dire [ton choix] ga yoroshii desu.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "literal-includes-any",
+            "field": "reply.japanese",
+            "alternatives": [
+              "片道"
+            ]
+          },
+          "status": "inspect",
+          "observed": "どちらがよろしいですか？"
+        }
+      ],
+      "manualChecks": [
+        "Se souvenir que l’élève a demandé un aller simple.",
+        "Ne pas reposer la même alternative comme si aucune demande n’avait été faite."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "station-time-half-past-nine",
+      "kind": "acceptable",
+      "step": 0,
+      "status": 200,
+      "requestMs": 3518,
+      "input": {
+        "scenario": "station",
+        "lessonId": "station-ticket",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "何時に出発しますか？"
+          }
+        ],
+        "text": "九時半です。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "どちらへ行きますか？",
+          "romaji": "dochirahe iki masuka ？",
+          "french": "Vers quelle destination vas-tu ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        }
+      ],
+      "manualChecks": [
+        "Accepter le fragment à neuf heures et demie, sans imposer une phrase complète.",
+        "Ne pas traduire par neuf heures ou huit heures et demie ; inspecter kuji han dans le rōmaji."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "request-repeat-fr",
+      "kind": "request",
+      "step": 0,
+      "status": 200,
+      "requestMs": 2,
+      "input": {
+        "scenario": "meet",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          }
+        ],
+        "text": "Répète la question, s’il te plaît."
+      },
+      "output": {
+        "reply": {
+          "japanese": "どこから来ましたか？",
+          "romaji": "dokokara kima shitaka ？",
+          "french": ""
+        },
+        "coaching": null,
+        "assisted": false,
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        }
+      ],
+      "manualChecks": [
+        "Répéter la question actuelle sans inventer une réponse d’élève ou une faute.",
+        "Dans une révision, la répétition seule d’une consigne ne doit pas être confondue avec la révélation d’un modèle."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "request-translate-question-fr",
+      "kind": "request",
+      "step": 0,
+      "status": 200,
+      "requestMs": 736,
+      "input": {
+        "scenario": "cafe",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "ホットですか、アイスですか？"
+          }
+        ],
+        "text": "Traduis-moi ce que tu viens de dire."
+      },
+      "output": {
+        "reply": {
+          "japanese": "ホットですか、アイスですか？",
+          "romaji": "hotto desuka, aisu desuka ？",
+          "french": "Chaud ou glace ?"
+        },
+        "coaching": "Chaud ou glace ?",
+        "assisted": true,
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        },
+        {
+          "check": {
+            "kind": "boolean-field",
+            "field": "assisted",
+            "value": true
+          },
+          "status": "satisfied",
+          "observed": true
+        }
+      ],
+      "manualChecks": [
+        "Expliquer chaud ou glacé en français, sans choisir à la place de l’élève.",
+        "Ne pas traduire littéralement l’ordre français en une nouvelle phrase japonaise.",
+        "Vérifier que la trace d’aide est prise en compte si ce chemin est utilisé dans une révision."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "request-translate-own-intention",
+      "kind": "request",
+      "step": 0,
+      "status": 200,
+      "requestMs": 3316,
+      "input": {
+        "scenario": "meet",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこに住んでいますか？"
+          }
+        ],
+        "text": "Comment on dit : j’habite à Lyon ?"
+      },
+      "output": {
+        "reply": {
+          "japanese": "私はリヨンに住んでいます。",
+          "romaji": "watashi wa riyon ni sun deimasu.",
+          "french": "J'habite à Lyon."
+        },
+        "coaching": "Tu réponds en disant \"Watashi wa [lieu] ni sunde imasu\" en remplaçant [lieu] par l'endroit où tu habites. Voici un exemple : J'habite à Lyon. Écoute, puis essaie de le dire à ton tour.",
+        "practice": true,
+        "correction": null,
+        "vocabulary": [
+          {
+            "japanese": "私はリヨンに住んでいます。",
+            "romaji": "watashi wa riyon ni sun deimasu.",
+            "french": "J'habite à Lyon."
+          }
+        ]
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        },
+        {
+          "check": {
+            "kind": "literal-includes-any",
+            "field": "reply.japanese",
+            "alternatives": [
+              "リヨン"
+            ]
+          },
+          "status": "satisfied",
+          "observed": "私はリヨンに住んでいます。"
+        },
+        {
+          "check": {
+            "kind": "boolean-field",
+            "field": "practice",
+            "value": true
+          },
+          "status": "satisfied",
+          "observed": true
+        }
+      ],
+      "manualChecks": [
+        "Le modèle japonais doit dire j’habite à Lyon, sans demander à Mochi si elle y habite.",
+        "La traduction et l’explication doivent conserver l’intention déclarative ; ne pas ajouter prénom, nationalité ou pays.",
+        "La lecture pédagogique doit conserver le groupe sunde imasu plutôt que couper arbitrairement le verbe."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "request-explain-kara-fr",
+      "kind": "request",
+      "step": 0,
+      "status": 200,
+      "requestMs": 1262,
+      "input": {
+        "scenario": "meet",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          }
+        ],
+        "text": "Pourquoi tu utilises kara ?"
+      },
+      "output": {
+        "reply": {
+          "japanese": "どこから来ましたか？",
+          "romaji": "dokokara kima shitaka ？",
+          "french": ""
+        },
+        "coaching": "\"Kara\" signifie \"de\" en japonais. Il indique d'où quelqu'un vient.",
+        "assisted": true,
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        },
+        {
+          "check": {
+            "kind": "boolean-field",
+            "field": "assisted",
+            "value": true
+          },
+          "status": "satisfied",
+          "observed": true
+        }
+      ],
+      "manualChecks": [
+        "Expliquer que kara marque ici la provenance, en français naturel et en mots simples.",
+        "Répondre au mot réellement demandé, sans expliquer un autre point ou attribuer un pays à l’élève.",
+        "Ne pas affirmer que kara ne sert jamais à autre chose ; ne pas inventer une faute française ou une propriété de prononciation."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "request-negative-own-intention",
+      "kind": "request",
+      "step": 0,
+      "status": 200,
+      "requestMs": 1045,
+      "input": {
+        "scenario": "meet",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "何が好きですか？"
+          }
+        ],
+        "text": "Je veux dire : je n’aime pas le café."
+      },
+      "output": {
+        "reply": {
+          "japanese": "コーヒーが好きではありません。",
+          "romaji": "koohii ga suki dehaarimasen.",
+          "french": "Je n’aime pas le café."
+        },
+        "coaching": "Pour parler de tes goûts, dis « [ce que tu aimes] ga suki desu ». Voici un exemple : Je n’aime pas le café. Écoute, puis essaie de le dire à ton tour.",
+        "practice": true,
+        "correction": null,
+        "vocabulary": [
+          {
+            "japanese": "コーヒーが好きではありません。",
+            "romaji": "koohii ga suki dehaarimasen.",
+            "french": "Je n’aime pas le café."
+          }
+        ]
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        },
+        {
+          "check": {
+            "kind": "literal-includes-any",
+            "field": "reply.japanese",
+            "alternatives": [
+              "コーヒー"
+            ]
+          },
+          "status": "satisfied",
+          "observed": "コーヒーが好きではありません。"
+        },
+        {
+          "check": {
+            "kind": "boolean-field",
+            "field": "practice",
+            "value": true
+          },
+          "status": "satisfied",
+          "observed": true
+        }
+      ],
+      "manualChecks": [
+        "Le modèle et sa traduction doivent conserver la négation, sans transformer pas aimer en détester.",
+        "L’explication doit permettre de former la phrase négative effectivement donnée ; le seul modèle positif ga suki desu serait insuffisant.",
+        "Choisir le conseil à partir de l’intention ou de la réponse fournie, sans se limiter à l’ancienne question positive."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "review-help-then-assisted-repeat",
+      "kind": "continuity",
+      "step": 0,
+      "status": 200,
+      "requestMs": 2,
+      "input": {
+        "scenario": "meet",
+        "review": {
+          "target": {
+            "id": "skill:origin",
+            "skill": "origin",
+            "reference": {
+              "japanese": "フランスから来ました。",
+              "romaji": "Furansu kara kimashita.",
+              "french": "Je viens de France."
+            },
+            "explanation": "Pour dire d’où tu viens, utilise kara après le pays ou la ville."
+          },
+          "assisted": false
+        },
+        "history": [
+          {
+            "role": "assistant",
+            "content": "Petite révision, sans modèle pour commencer. Dis d’où tu viens avec une phrase complète.\n日本語で言ってみましょう。"
+          }
+        ],
+        "text": "Je ne sais pas, aide-moi."
+      },
+      "output": {
+        "reply": {
+          "japanese": "フランスから来ました。",
+          "romaji": "Furansu kara kimashita.",
+          "french": "Je viens de France."
+        },
+        "coaching": "Pour dire d’où tu viens, utilise kara après le pays ou la ville. Voici un exemple : Je viens de France. Écoute, puis essaie de le dire à ton tour.",
+        "practice": true,
+        "correction": null,
+        "vocabulary": [
+          {
+            "japanese": "フランスから来ました。",
+            "romaji": "Furansu kara kimashita.",
+            "french": "Je viens de France."
+          }
+        ],
+        "review": {
+          "id": "skill:origin",
+          "outcome": "helped"
+        }
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        },
+        {
+          "check": {
+            "kind": "boolean-field",
+            "field": "practice",
+            "value": true
+          },
+          "status": "satisfied",
+          "observed": true
+        }
+      ],
+      "manualChecks": [
+        "Présenter un modèle utile sans considérer la demande d’aide comme une faute grammaticale.",
+        "Enregistrer l’aide ou l’exposition du modèle sans déclarer une compétence acquise."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "review-help-then-assisted-repeat",
+      "kind": "continuity",
+      "step": 1,
+      "status": 200,
+      "requestMs": 2166,
+      "input": {
+        "scenario": "meet",
+        "review": {
+          "target": {
+            "id": "skill:origin",
+            "skill": "origin",
+            "reference": {
+              "japanese": "フランスから来ました。",
+              "romaji": "Furansu kara kimashita.",
+              "french": "Je viens de France."
+            },
+            "explanation": "Pour dire d’où tu viens, utilise kara après le pays ou la ville."
+          },
+          "assisted": true
+        },
+        "history": [
+          {
+            "role": "assistant",
+            "content": "Petite révision, sans modèle pour commencer. Dis d’où tu viens avec une phrase complète.\n日本語で言ってみましょう。"
+          },
+          {
+            "role": "user",
+            "content": "Je ne sais pas, aide-moi."
+          },
+          {
+            "role": "assistant",
+            "content": "Pour dire d’où tu viens, utilise kara après le pays ou la ville. Voici un exemple : Je viens de France. Écoute, puis essaie de le dire à ton tour.\nフランスから来ました。"
+          }
+        ],
+        "text": "フランスから来ました。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "いいですね！お疲れさまでした。",
+          "romaji": "Ii desu ne! Otsukaresama deshita.",
+          "french": "Bien joué ! Merci pour ton effort."
+        },
+        "coaching": "Cette répétition est juste. On reprendra ce point sans modèle une autre fois.",
+        "correction": null,
+        "vocabulary": [],
+        "review": {
+          "id": "skill:origin",
+          "outcome": "correct"
+        }
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        }
+      ],
+      "manualChecks": [
+        "Accepter la répétition en indiquant qu’elle a été aidée.",
+        "Dans l’app, successes et la boîte de rappel ne doivent pas avancer après cette répétition immédiate."
+      ],
+      "precondition": "Le modèle doit avoir été effectivement donné au premier tour. Conserver son aide dans le vrai état local.",
+      "humanReview": "pending"
+    },
+    {
+      "id": "review-independent-other-country",
+      "kind": "acceptable",
+      "step": 0,
+      "status": 200,
+      "requestMs": 1742,
+      "input": {
+        "scenario": "meet",
+        "review": {
+          "target": {
+            "id": "skill:origin",
+            "skill": "origin",
+            "reference": {
+              "japanese": "フランスから来ました。",
+              "romaji": "Furansu kara kimashita.",
+              "french": "Je viens de France."
+            },
+            "explanation": "Pour dire d’où tu viens, utilise kara après le pays ou la ville."
+          },
+          "assisted": false
+        },
+        "history": [
+          {
+            "role": "assistant",
+            "content": "Petite révision, sans modèle pour commencer. Dis d’où tu viens avec une phrase complète.\n日本語で言ってみましょう。"
+          }
+        ],
+        "text": "ベルギーから来ました。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "いいですね！お疲れさまでした。",
+          "romaji": "Ii desu ne! Otsukaresama deshita.",
+          "french": "Bien joué ! Merci pour ton effort."
+        },
+        "coaching": "C’est juste. Tu as retrouvé la construction sans modèle. On reverra ce point plus tard.",
+        "correction": null,
+        "vocabulary": [],
+        "review": {
+          "id": "skill:origin",
+          "outcome": "correct"
+        }
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        }
+      ],
+      "manualChecks": [
+        "Accepter la Belgique : la référence France est un exemple, pas un fait imposé.",
+        "Contrôler la grammaire démontrée sans réclamer une répétition littérale.",
+        "La mémoire peut créditer au plus un rappel si les conditions locales sont remplies ; une réussite seule ne justifie ni maîtrise durable ni niveau JLPT."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "difficulty-supported",
+      "kind": "continuity",
+      "step": 0,
+      "status": 200,
+      "requestMs": 3445,
+      "input": {
+        "scenario": "meet",
+        "lessonId": "meet-origin",
+        "learner": {
+          "support": "supported",
+          "weak": [
+            "origin"
+          ],
+          "stable": []
+        },
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          }
+        ],
+        "text": "フランスです。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "どの町から来ましたか？",
+          "romaji": "dono machi kara kima shitaka ？",
+          "french": "De quelle ville viens-tu ?"
+        },
+        "coaching": "Machi veut dire ville. Tu peux dire [ta ville] kara kimashita.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        }
+      ],
+      "manualChecks": [
+        "Poser une seule question concrète et courte, avec l’aide nécessaire pour le prochain mot ou la prochaine construction.",
+        "Ne pas donner une leçon française incorrecte ni supposer connu un vocabulaire complexe."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "difficulty-supported",
+      "kind": "continuity",
+      "step": 1,
+      "status": 200,
+      "requestMs": 1052,
+      "input": {
+        "scenario": "meet",
+        "lessonId": "meet-origin",
+        "learner": {
+          "support": "supported",
+          "weak": [
+            "origin"
+          ],
+          "stable": []
+        },
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          },
+          {
+            "role": "user",
+            "content": "フランスです。"
+          },
+          {
+            "role": "assistant",
+            "content": "Machi veut dire ville. Tu peux dire [ta ville] kara kimashita.\nどの町から来ましたか？"
+          }
+        ],
+        "text": "Je ne comprends pas, c’est trop difficile."
+      },
+      "output": {
+        "reply": {
+          "japanese": "トーキョーから来ました。",
+          "romaji": "tookyoo kara kima shita.",
+          "french": "Je viens de Tokyo."
+        },
+        "coaching": "Pour dire d’où tu viens, utilise « [pays ou ville] kara kimashita ». Voici un exemple : Je viens de Tokyo. Écoute, puis essaie de le dire à ton tour.",
+        "practice": true,
+        "correction": null,
+        "vocabulary": [
+          {
+            "japanese": "トーキョーから来ました。",
+            "romaji": "tookyoo kara kima shita.",
+            "french": "Je viens de Tokyo."
+          }
+        ]
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        },
+        {
+          "check": {
+            "kind": "boolean-field",
+            "field": "practice",
+            "value": true
+          },
+          "status": "satisfied",
+          "observed": true
+        }
+      ],
+      "manualChecks": [
+        "Simplifier ou montrer un exemple utilisable pour la question courante.",
+        "Ne pas augmenter la difficulté après ce signal, ne pas noter une faute japonaise, et ne pas confondre l’aide avec un rappel indépendant."
+      ],
+      "humanReview": "pending"
+    },
+    {
+      "id": "difficulty-light",
+      "kind": "continuity",
+      "step": 0,
+      "status": 200,
+      "requestMs": 3611,
+      "input": {
+        "scenario": "meet",
+        "lessonId": "meet-origin",
+        "learner": {
+          "support": "light",
+          "weak": [],
+          "stable": [
+            "origin",
+            "identity",
+            "likes"
+          ]
+        },
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          }
+        ],
+        "text": "フランスから来ました。"
+      },
+      "output": {
+        "reply": {
+          "japanese": "どの町から来ましたか？",
+          "romaji": "dono machi kara kima shitaka ？",
+          "french": "De quelle ville viens-tu ?"
+        },
+        "coaching": "Machi veut dire ville. Tu peux dire [ta ville] kara kimashita.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "automaticObservations": [
+        {
+          "check": {
+            "kind": "correction-absent"
+          },
+          "status": "satisfied"
+        }
+      ],
+      "manualChecks": [
+        "Éviter de réenseigner la construction d’origine supposée connue ; proposer une petite variation encore adaptée au débutant.",
+        "Expliquer un mot réellement nouveau si la question en introduit un, sans transformer light en cours avancé.",
+        "Ne pas annoncer une maîtrise, une durée d’apprentissage ou un niveau JLPT qui ne sont pas démontrés."
+      ],
+      "humanReview": "pending"
+    }
+  ]
+}

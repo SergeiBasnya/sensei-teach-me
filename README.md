@@ -4,6 +4,8 @@ Application personnelle de pratique du japonais pour débutant francophone. Code
 
 L’avatar manga B est animé avec Mesh Avatar : mouvements du visage et des cheveux, clignements et bouche reliée à la voix. Le rendu est inclus dans l’application, y compris Android avec Expo Go. [Fonctionnement, reconstruction et limites](docs/MESH-AVATAR.md).
 
+Le [lot 2](docs/LOT-2.md) harmonise le rōmaji, protège certaines corrections et améliore les aides et la continuité du dialogue. Le [parcours Android de 15 minutes](docs/ANDROID-15-MINUTES.md) permet de partager un bilan technique sans conversation personnelle. **Essai humain Android et revue linguistique spécialisée : en attente.** [Textes et corpus avant/après](docs/lot2-copy-before-after.md).
+
 ## Essayer tout de suite
 
 ```sh
@@ -42,7 +44,7 @@ Le fournisseur OpenAI historique reste optionnel, uniquement avec `SENSEI_PROVID
 
 ## Voix japonaise locale, gratuite
 
-Les exercices, la phrase du jour et les expressions correspondantes du carnet utilisent les fichiers de `assets/speech/`. Les textes japonais, le romaji et les traductions n’ont pas été modifiés. Le lecteur est partagé entre les écrans : une nouvelle lecture remplace la précédente, et l’ouverture du micro arrête la voix.
+Les exercices, la phrase du jour et les expressions correspondantes du carnet utilisent les fichiers de `assets/speech/`. Les textes japonais et les traductions des exercices sont conservés ; sept lectures rōmaji sont harmonisées dans le lot 2, sans modifier les enregistrements. Le lecteur est partagé entre les écrans : une nouvelle lecture remplace la précédente, et l’ouverture du micro arrête la voix.
 
 Pour générer les nouvelles phrases des conversations sur le serveur personnel :
 
@@ -90,7 +92,7 @@ npm run build:mobile
 python3 /Users/augustdouglas/Documents/projects/ofa/scripts/install_design_guard.py doctor --project "$PWD"
 ```
 
-`build` exporte le web sous `build/web`. `build:mobile` vérifie la génération des bundles iOS/Android ; ce n’est pas une compilation Xcode/Gradle. Les tests d’API emploient un fournisseur simulé, sans appel payant. Le contrôle de liserés est raccordé aux commandes, aux hooks Git et à une CI portable. Il reste à publier le dépôt pour exécuter cette CI à distance ; aucune protection distante n’est active ici.
+`build` exporte le web sous `build/web`. `build:mobile` vérifie la génération des bundles iOS/Android ; ce n’est pas une compilation Xcode/Gradle. Les tests d’API emploient un fournisseur simulé, sans appel payant ; les corpus du lot 2 complètent ces tests avec les vrais moteurs locaux. Le contrôle de liserés est raccordé aux commandes, aux hooks Git et à la CI spécialisée du dépôt public. La réussite de cette CI et la protection de branche sont deux états distincts.
 
 Une alerte npm reste sur `node-forge@1.4.0`, dépendance transitive de l’outillage de signature Expo (GHSA-86w9-cpqp-85rv), sans version corrigée disponible lors de la vérification. Elle remonte aussi via ses trois packages parents. Zod a été corrigé par mise à jour et override compatible. Aucun `audit fix --force` ni rétrogradation d’Expo n’a été appliqué.
 

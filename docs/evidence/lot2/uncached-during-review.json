@@ -1,0 +1,268 @@
+{
+  "date": "2026-10-28T11:14:15.035Z",
+  "sourceHash": "da44f8e65220d00f9f6753f1ef45bb24287f57b227ca87624f6dc48acb66d451",
+  "readyMs": 4852,
+  "audioCache": false,
+  "fixture": "Six distinct synthetic VOICEVOX recordings, no human or physical phone",
+  "rounds": 2,
+  "results": [
+    {
+      "id": "identity",
+      "round": 0,
+      "firstInference": true,
+      "status": 200,
+      "requestMs": 8698,
+      "responseBytes": 254512,
+      "timing": "decode;dur=67.8, whisper;dur=400.1, worker_roundtrip;dur=5661.3, worker_queue;dur=2.3, asr;dur=470, correction;dur=1980.3, generations;desc=\"2\", dialogue_translation;dur=3198.3, teaching;dur=5192.4, romanization;dur=0.4, tts_ja;dur=2202, server;dur=8666.7",
+      "heard": true,
+      "transcript": "私はオーギュストです。",
+      "tutor": {
+        "reply": {
+          "japanese": "オーギュストさん、こんにちは！どこから来ましたか？",
+          "romaji": "Ōgyusutosan, konnichiwa! Doko kara kimashita ka?",
+          "french": "Bonjour, Auguste ! D’où viens-tu ?"
+        },
+        "coaching": "Bonjour, Auguste ! D’où viens-tu ? Essaie une réponse courte. Dis « je ne sais pas » si tu veux un exemple.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "coachingUnavailable": true
+    },
+    {
+      "id": "origin",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 6500,
+      "responseBytes": 117171,
+      "timing": "decode;dur=23, whisper;dur=122.2, worker_roundtrip;dur=3491.3, worker_queue;dur=2.3, asr;dur=146.6, correction;dur=1157.1, generations;desc=\"2\", dialogue_translation;dur=2186.3, teaching;dur=3345.1, romanization;dur=0.2, tts_ja;dur=642.2, server;dur=6494.1",
+      "heard": true,
+      "transcript": "フランスから来ました。",
+      "tutor": {
+        "reply": {
+          "japanese": "どの町から来ましたか？",
+          "romaji": "Dono machi kara kimashita ka?",
+          "french": "De quelle ville viens-tu ?"
+        },
+        "coaching": "Machi veut dire ville. Tu peux dire « [ville] kara kimashita ».",
+        "correction": null,
+        "vocabulary": []
+      },
+      "coachingUnavailable": true
+    },
+    {
+      "id": "likes",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 7372,
+      "responseBytes": 152725,
+      "timing": "decode;dur=29.7, whisper;dur=120.8, worker_roundtrip;dur=4364.1, worker_queue;dur=1.1, asr;dur=151.9, correction;dur=1179.3, generations;desc=\"2\", dialogue_translation;dur=3031.2, teaching;dur=4212.5, romanization;dur=0.2, tts_ja;dur=791.2, server;dur=7366.2",
+      "heard": true,
+      "transcript": "はい。日本語が好きです。",
+      "tutor": {
+        "reply": {
+          "japanese": "じゃあ、何が好きですか？",
+          "romaji": "Jā, nani ga suki desu ka?",
+          "french": "Alors, qu’est-ce que tu aimes ?"
+        },
+        "coaching": "Alors, qu’est-ce que tu aimes ? Essaie une réponse courte. Dis « je ne sais pas » si tu veux un exemple.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "coachingUnavailable": true
+    },
+    {
+      "id": "order",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 4798,
+      "responseBytes": 218173,
+      "timing": "decode;dur=29.4, whisper;dur=129.4, worker_roundtrip;dur=3699.7, worker_queue;dur=3.7, asr;dur=160.2, correction;dur=1318, generations;desc=\"2\", dialogue_translation;dur=2216.3, teaching;dur=3537.8, romanization;dur=2.1, tts_ja;dur=1092.4, server;dur=4793.1",
+      "heard": true,
+      "transcript": "コーヒーを一つください。",
+      "tutor": {
+        "reply": {
+          "japanese": "お支払いは現金ですか、カードですか？",
+          "romaji": "Oshiharai wa genkin desu ka, kādo desu ka?",
+          "french": "Voulez-vous payer en espèces ou par carte ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      }
+    },
+    {
+      "id": "temperature",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 6598,
+      "responseBytes": 126080,
+      "timing": "decode;dur=18.2, whisper;dur=103.2, worker_roundtrip;dur=3591, worker_queue;dur=1.1, asr;dur=122.4, correction;dur=1134.5, generations;desc=\"2\", dialogue_translation;dur=2332, teaching;dur=3468.7, romanization;dur=0.3, tts_ja;dur=647.1, server;dur=6592.7",
+      "heard": true,
+      "transcript": "ホットでお願いします。",
+      "tutor": {
+        "reply": {
+          "japanese": "サイズはどれにしますか？",
+          "romaji": "Saizu wa dore ni shimasu ka?",
+          "french": "Quelle taille veux-tu ?"
+        },
+        "coaching": "Quelle taille veux-tu ? Essaie une réponse courte. Dis « je ne sais pas » si tu veux un exemple.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "coachingUnavailable": true
+    },
+    {
+      "id": "destination",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 6891,
+      "responseBytes": 160944,
+      "timing": "decode;dur=28.4, whisper;dur=104.8, worker_roundtrip;dur=3882.4, worker_queue;dur=1.4, asr;dur=134.2, correction;dur=1157.4, generations;desc=\"2\", dialogue_translation;dur=2588.9, teaching;dur=3748.2, romanization;dur=0.2, tts_ja;dur=800.3, server;dur=6883.9",
+      "heard": true,
+      "transcript": "京都までお願いします。",
+      "tutor": {
+        "reply": {
+          "japanese": "京都行きのホームはどちらですか？",
+          "romaji": "Kyōtoiki no hōmu wa dochira desu ka?",
+          "french": "Le quai pour Kyoto, c’est lequel ?"
+        },
+        "coaching": "Le quai pour Kyoto, c’est lequel ? Essaie une réponse courte. Dis « je ne sais pas » si tu veux un exemple.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "coachingUnavailable": true
+    },
+    {
+      "id": "identity",
+      "round": 1,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 7485,
+      "responseBytes": 254512,
+      "timing": "decode;dur=28.1, whisper;dur=116, worker_roundtrip;dur=4473.4, worker_queue;dur=1.5, asr;dur=145.6, correction;dur=1157.3, generations;desc=\"2\", dialogue_translation;dur=3169.7, teaching;dur=4327.9, romanization;dur=0.2, tts_ja;dur=1217.7, server;dur=7478.3",
+      "heard": true,
+      "transcript": "私はオーギュストです。",
+      "tutor": {
+        "reply": {
+          "japanese": "オーギュストさん、こんにちは！どこから来ましたか？",
+          "romaji": "Ōgyusutosan, konnichiwa! Doko kara kimashita ka?",
+          "french": "Bonjour, Auguste ! D’où viens-tu ?"
+        },
+        "coaching": "Bonjour, Auguste ! D’où viens-tu ? Essaie une réponse courte. Dis « je ne sais pas » si tu veux un exemple.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "coachingUnavailable": true
+    },
+    {
+      "id": "origin",
+      "round": 1,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 6449,
+      "responseBytes": 413715,
+      "timing": "decode;dur=26.5, whisper;dur=109.4, worker_roundtrip;dur=3634, worker_queue;dur=3, asr;dur=138.4, correction;dur=1173.9, generations;desc=\"2\", dialogue_translation;dur=2321.1, teaching;dur=3495.8, romanization;dur=0.2, tts_ja;dur=760.3, tts_fr;dur=2807.8, server;dur=6443",
+      "heard": true,
+      "transcript": "フランスから来ました。",
+      "tutor": {
+        "reply": {
+          "japanese": "どの町から来ましたか？",
+          "romaji": "Dono machi kara kimashita ka?",
+          "french": "De quelle ville viens-tu ?"
+        },
+        "coaching": "Machi veut dire ville. Tu peux dire « [ville] kara kimashita ».",
+        "correction": null,
+        "vocabulary": []
+      }
+    },
+    {
+      "id": "likes",
+      "round": 1,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 5039,
+      "responseBytes": 562933,
+      "timing": "decode;dur=21.5, whisper;dur=120, worker_roundtrip;dur=4071.7, worker_queue;dur=1.7, asr;dur=143, correction;dur=1176.7, generations;desc=\"2\", dialogue_translation;dur=2751.2, teaching;dur=3928.8, romanization;dur=0.2, tts_ja;dur=774.1, tts_fr;dur=960.9, server;dur=5033.5",
+      "heard": true,
+      "transcript": "はい。日本語が好きです。",
+      "tutor": {
+        "reply": {
+          "japanese": "じゃあ、何が好きですか？",
+          "romaji": "Jā, nani ga suki desu ka?",
+          "french": "Alors, qu’est-ce que tu aimes ?"
+        },
+        "coaching": "Alors, qu’est-ce que tu aimes ? Essaie une réponse courte. Dis « je ne sais pas » si tu veux un exemple.",
+        "correction": null,
+        "vocabulary": []
+      }
+    },
+    {
+      "id": "order",
+      "round": 1,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 4157,
+      "responseBytes": 218173,
+      "timing": "decode;dur=21.1, whisper;dur=108.9, worker_roundtrip;dur=3090.1, worker_queue;dur=1.1, asr;dur=131, correction;dur=1041.9, generations;desc=\"2\", dialogue_translation;dur=1916.4, teaching;dur=2959.2, romanization;dur=0.2, tts_ja;dur=1062.1, server;dur=4153",
+      "heard": true,
+      "transcript": "コーヒーを一つください。",
+      "tutor": {
+        "reply": {
+          "japanese": "お支払いは現金ですか、カードですか？",
+          "romaji": "Oshiharai wa genkin desu ka, kādo desu ka?",
+          "french": "Voulez-vous payer en espèces ou par carte ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      }
+    },
+    {
+      "id": "temperature",
+      "round": 1,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 4526,
+      "responseBytes": 496352,
+      "timing": "decode;dur=18, whisper;dur=107.3, worker_roundtrip;dur=3622.5, worker_queue;dur=1.5, asr;dur=126.2, correction;dur=1165.2, generations;desc=\"2\", dialogue_translation;dur=2330.3, teaching;dur=3496.4, romanization;dur=0.2, tts_ja;dur=658.6, tts_fr;dur=899.4, server;dur=4522.9",
+      "heard": true,
+      "transcript": "ホットでお願いします。",
+      "tutor": {
+        "reply": {
+          "japanese": "サイズはどれにしますか？",
+          "romaji": "Saizu wa dore ni shimasu ka?",
+          "french": "Quelle taille veux-tu ?"
+        },
+        "coaching": "Quelle taille veux-tu ? Essaie une réponse courte. Dis « je ne sais pas » si tu veux un exemple.",
+        "correction": null,
+        "vocabulary": []
+      }
+    },
+    {
+      "id": "destination",
+      "round": 1,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 4664,
+      "responseBytes": 600336,
+      "timing": "decode;dur=19, whisper;dur=97.2, worker_roundtrip;dur=3725.8, worker_queue;dur=2.8, asr;dur=118.3, correction;dur=1019.2, generations;desc=\"2\", dialogue_translation;dur=2587.5, teaching;dur=3607.6, romanization;dur=0.2, tts_ja;dur=804.4, tts_fr;dur=933.3, server;dur=4660",
+      "heard": true,
+      "transcript": "京都までお願いします。",
+      "tutor": {
+        "reply": {
+          "japanese": "京都行きのホームはどちらですか？",
+          "romaji": "Kyōtoiki no hōmu wa dochira desu ka?",
+          "french": "Le quai pour Kyoto, c’est lequel ?"
+        },
+        "coaching": "Le quai pour Kyoto, c’est lequel ? Essaie une réponse courte. Dis « je ne sais pas » si tu veux un exemple.",
+        "correction": null,
+        "vocabulary": []
+      }
+    }
+  ]
+}

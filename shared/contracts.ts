@@ -59,6 +59,12 @@ export const helpResponseSchema = z.object({
   }),
 });
 export type ConversationHelp = z.infer<typeof helpResponseSchema>;
+export const readingsRequestSchema = z.object({
+  texts: z.array(z.string().trim().min(1).max(500)).max(50),
+});
+export const readingsResponseSchema = z.object({
+  readings: z.array(z.string().max(2000)).max(50),
+});
 export const audioRequestSchema = z.object({
   audio: z
     .string()

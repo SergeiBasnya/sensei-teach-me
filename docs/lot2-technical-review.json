@@ -1,0 +1,75 @@
+{
+  "doctrineDigest": "sha256:6bce44c544352f9be96834eed71b8076c685b35085ef25317cba8ea847d1a1f5",
+  "review": {
+    "schemaVersion": "prisma-technical-review.v1",
+    "id": "sensei-lot2-linguistic-reliability",
+    "missionId": "sensei-japanese-oral-mvp",
+    "decisionId": "lot2-oral-trial-controls",
+    "artifact": {
+      "root": "../build/web",
+      "digest": "sha256:121549efd564a111ea4b3f5d7d5ecd30dec078e9ee614a305246692b035591d3"
+    },
+    "observedAt": "2026-10-28T11:40:27.906180+00:00",
+    "gates": [
+      {
+        "id": "doctrine:no-colored-side-stripes",
+        "passed": true,
+        "evidence": "Nouvelle section Essai oral et états démarrage/copie observés à 320×568, 390×844, 844×390 et 1440×900. Panneau blanc, séparateurs horizontaux neutres de 1 px entre groupes fonctionnels, aucun liseré coloré latéral ou décoratif supérieur. Le contour violet complet de 3 px est le focus fonctionnel. Captures evidence/lot2/settings-small.png, settings-report-390.png, settings-focus.png, settings-report-desktop.png ; contrôle local des liserés réussi sans exclusion ni baseline ajoutée."
+      },
+      {
+        "id": "doctrine:no-card-title-hover-underlines",
+        "passed": true,
+        "evidence": "Le titre Essai oral de 15 minutes survolé à 1440×900 reste sans soulignement : textDecoration none. Le bouton Démarrer les mesures conserve un focus visible violet solid 3px. Captures evidence/lot2/settings-hover.png et settings-focus.png ; valeurs calculées dans ui-observations.json. Aucun nouveau titre de carte cliquable."
+      },
+      {
+        "id": "doctrine:no-bricolage-grotesque",
+        "passed": true,
+        "evidence": "Familles calculées dans la nouvelle section aux formats 320×568, 844×390 et 1440×900 : system-ui, -apple-system, system-ui, Segoe UI, sans-serif. Texte secondaire 13px, interligne 23px. Aucun import de police ajouté. Captures evidence/lot2/settings-small.png, settings-focus.png et relevés ui-observations.json. Famille native Android physique non observée."
+      },
+      {
+        "id": "doctrine:no-peripheral-filler-copy",
+        "passed": true,
+        "evidence": "Le texte Mesure les délais et les incidents explique exactement le bouton de mesure et la confidentialité du bilan, directement sous son titre. Après copie, le message Bilan technique copié se trouve sous les commandes concernées. Aucun slogan ou signature périphérique ajouté. Captures evidence/lot2/settings-small.png, settings-report-390.png et settings-report-desktop.png ; texte complet dans lot2-copy-before-after.md."
+      },
+      {
+        "id": "doctrine:no-sage-or-olive",
+        "passed": true,
+        "evidence": "La zone ajoutée utilise le blanc, les textes gris et les boutons/commandes violets existants. Préférence sombre activée à 390×844 : le panneau conserve le thème clair, sans variante sauge/olive. Les switches turquoise et le badge fonctionnel vert préexistants restent visibles, sans modification de palette. Captures evidence/lot2/settings-dark.png, settings-report-390.png et settings-report-desktop.png. Le rōmaji de conversation conserve sa couleur préexistante ; aucune nouvelle palette de conversation."
+      },
+      {
+        "id": "doctrine:one-clear-cta-per-section",
+        "passed": true,
+        "evidence": "Avant essai, un bouton principal Démarrer les mesures ; après démarrage, il est remplacé par Copier le bilan technique sur web (Partager sur natif). Recommencer les mesures est une commande fonctionnelle secondaire, sans deuxième sollicitation promotionnelle. Boutons pleins de 48px, lisibles sur mobile/bureau ; focus 3px observé. Captures evidence/lot2/settings-focus.png, settings-small.png, settings-report-390.png, settings-report-desktop.png et settings-report-landscape-bottom.png. La connexion demeure une section distincte."
+      },
+      {
+        "id": "doctrine:responsive-text-clearance",
+        "passed": true,
+        "evidence": "Observations réelles à 320×568, 390×844, 844×390 et 1440×900 : titre et explication lisibles, marges de 40px à 320px ; paragraphe de largeur 240px, trois lignes. Aucun débordement horizontal mesuré. En paysage, défilement normal sous le titre fixe ; les boutons copie et réinitialisation deviennent entièrement accessibles, voir evidence/lot2/settings-report-landscape.png et settings-report-landscape-bottom.png. Ce défilement masque une partie des autres sections sans tronquer leur texte. Captures settings-small.png, settings-report-390.png, settings-report-desktop.png. Clavier et taille système Android non observés."
+      },
+      {
+        "id": "doctrine:section-composition-and-rhythm",
+        "passed": true,
+        "evidence": "Nouvelle section insérée entre les préférences d’apprentissage et le crédit vocal/connexion, en réutilisant la hiérarchie titre, explication puis commande ; les espaces et séparateurs neutres organisent ces groupes. Après démarrage, la copie remplace le bouton initial et le retour d’état est rattaché aux commandes. Pas de multiplication de fonds colorés. Captures evidence/lot2/settings-small.png, settings-report-390.png et settings-report-desktop.png. Avatar et écran oral sans refonte ; conversation réellement observée dans conversation-390.png."
+      },
+      {
+        "id": "technical:linguistics-and-memory",
+        "passed": true,
+        "evidence": "81 tests TypeScript et 31 méthodes Python passent, dont 72 références de rōmaji et les invariants de mémoire aidée/indépendante et ASR incertain. Corpus Qwen réel de 33 situations, 45 tours, 55 observations ciblées, zéro écart dans leur seul périmètre. Aucune certification linguistique globale. Détails dans LOT-2.md et evidence/lot2/corpus-summary.json."
+      },
+      {
+        "id": "technical:metrics-and-oral-flow",
+        "passed": true,
+        "evidence": "Export web épinglé testé avec un WAV synthétique public : deux réponses HTTP simulées (incertaine puis vide), puis vrais Whisper/Qwen/VOICEVOX/Vivienne. Quatre écoutes démarrées, trois envois, un tour terminé, une seule interruption malgré double pause puis fin. Copie interceptée par un presse-papiers de test sans accès au presse-papiers du Mac. Bilan numérique sans contenu ni identifiant, humanValidation pending. Captures conversation-390.png et settings-report-390.png, bilan browser-trial.json, méthode ui-observations.json. Console : favicon 404 et avertissement champ mot de passe hors formulaire. Android/iOS exportés ; appareils physiques et feuille native non testés."
+      }
+    ],
+    "findings": [
+      {
+        "id": "human-android-pending",
+        "severity": "minor",
+        "observation": "Aucune séance Android humaine de quinze minutes ni revue linguistique spécialisée réalisée. Les métriques navigateur sont synthétiques ; traductions libres et correction différée restent limitées.",
+        "recommendation": "Suivre ANDROID-15-MINUTES.md puis transmettre bilan et observations ; ne pas déclarer validé avant cet essai."
+      }
+    ],
+    "summary": "Revue technique et doctrine de la nouvelle section de mesures, avec contrôle du texte/lecture de conversation. Aucune revue indépendante ou décision artistique inventée : pending-human. Publication applicative explicitement demandée dans la mission lot 2. OFA révision 10, contrôles locaux et CI spécialisée conservés ; aucune CI générale ni modification système. Protection distante distincte de la réussite de CI."
+  }
+}

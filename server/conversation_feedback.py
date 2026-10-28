@@ -23,7 +23,7 @@ Question: コーヒーは好きですか？ Learner: うん、好き。
 """
 
 
-def parse_feedback(raw, original, romanize):
+def parse_feedback(raw, original, romanize, safe_correction=None):
     # Bad model output must fail the turn, never silently claim "no error".
     payload = json.loads(raw)
     if not isinstance(payload, dict) or set(payload) != {"correction"}:
@@ -42,5 +42,7 @@ def parse_feedback(raw, original, romanize):
         raise ValueError("invalid_feedback")
     normalize = lambda text: re.sub(r"[\s。、！？.!?]", "", text)
     if normalize(correction["corrected"]) == normalize(original):
+        return None
+    if safe_correction and not safe_correction(original, correction["corrected"]):
         return None
     return {"original": original, **correction, "romaji": romanize(correction["corrected"])}

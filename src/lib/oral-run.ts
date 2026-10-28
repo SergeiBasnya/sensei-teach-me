@@ -4,6 +4,9 @@ export class OralRun {
   private active = false;
   private permission = false;
   private spoken = "";
+  get isActive(): boolean {
+    return this.active;
+  }
   begin(): number | null {
     if (this.active) return null;
     this.active = true;
