@@ -1,0 +1,291 @@
+{
+  "date": "2026-10-28T09:06:22.202Z",
+  "fixture": "Synthetic VOICEVOX audio, no human or phone test",
+  "readyMs": 2857,
+  "rounds": 3,
+  "sourceHash": "0fb9415e0289a2fb91679cc54d1399a77d3ebb658357402cbd7358719b6d7c98",
+  "results": [
+    {
+      "id": "origin-fragment",
+      "round": 0,
+      "firstInference": true,
+      "status": 200,
+      "requestMs": 3335,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 250,
+      "timing": "correction;dur=1139.5, generations;desc=\"2\", dialogue_translation;dur=2143.8, worker_roundtrip;dur=3307.6, worker_queue;dur=1.6, server;dur=3309.1",
+      "reply": {
+        "japanese": "どの町から来ましたか？",
+        "romaji": "dono machi kara kima shitaka ？",
+        "french": "De quelle ville viens-tu ?"
+      },
+      "coaching": "Machi veut dire ville. Tu peux dire [ta ville] kara kimashita.",
+      "correction": null
+    },
+    {
+      "id": "cafe-change",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 3607,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 356,
+      "timing": "correction;dur=1035.6, generations;desc=\"2\", dialogue_translation;dur=2567.5, worker_roundtrip;dur=3603.9, worker_queue;dur=0.9, server;dur=3604.4",
+      "reply": {
+        "japanese": "お茶ですね。ホットですか、アイスですか？",
+        "romaji": "o cha desune. hotto desuka, aisu desuka ？",
+        "french": "Du thé, d'accord. Chaud ou glacé ?"
+      },
+      "coaching": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».",
+      "correction": null
+    },
+    {
+      "id": "origin-error",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 2142,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 586,
+      "timing": "correction;dur=2138.9, generations;desc=\"1\", worker_roundtrip;dur=2139.7, worker_queue;dur=0.7, server;dur=2140.2",
+      "reply": {
+        "japanese": "私はフランスから来ました。 もう一度、言ってみましょう。",
+        "romaji": "watashi wa furansu kara kima shita. Mō ichido, itte mimashō.",
+        "french": "Je viens de France. Réessaie cette phrase."
+      },
+      "coaching": "Utilise kara pour indiquer l'origine, pas wo.",
+      "correction": {
+        "original": "私はフランスを来ました。",
+        "corrected": "私はフランスから来ました。",
+        "romaji": "watashi wa furansu kara kima shita.",
+        "french": "Je viens de France.",
+        "explanation": "Utilise kara pour indiquer l'origine, pas wo."
+      }
+    },
+    {
+      "id": "repeat",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 3,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 171,
+      "timing": "worker_roundtrip;dur=0.3, worker_queue;dur=0.3, server;dur=0.4",
+      "reply": {
+        "japanese": "どこから来ましたか？",
+        "romaji": "dokokara kima shitaka ？",
+        "french": ""
+      },
+      "coaching": null,
+      "correction": null,
+      "assisted": false
+    },
+    {
+      "id": "oral-origin",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 5208,
+      "bodyTransferParseMs": 1,
+      "responseBytes": 353814,
+      "timing": "decode;dur=60.2, whisper;dur=264.4, worker_roundtrip;dur=3503.3, worker_queue;dur=1.3, asr;dur=326.1, correction;dur=1031.7, generations;desc=\"2\", dialogue_translation;dur=2144.4, teaching;dur=3177.7, tts_fr;dur=1185.8, tts_ja;dur=1698.3, server;dur=5203.9",
+      "transcript": "私はフランスから来ました。",
+      "reply": {
+        "japanese": "どの町から来ましたか？",
+        "romaji": "dono machikara kimashitaka？",
+        "french": "De quelle ville viens-tu ?"
+      },
+      "coaching": "Machi veut dire ville. Tu peux dire [ta ville] kara kimashita.",
+      "correction": null,
+      "heard": true
+    },
+    {
+      "id": "origin-fragment",
+      "round": 1,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 3289,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 250,
+      "timing": "correction;dur=1129.7, generations;desc=\"2\", dialogue_translation;dur=2156.7, worker_roundtrip;dur=3287.2, worker_queue;dur=0.2, server;dur=3287.3",
+      "reply": {
+        "japanese": "どの町から来ましたか？",
+        "romaji": "dono machi kara kima shitaka ？",
+        "french": "De quelle ville viens-tu ?"
+      },
+      "coaching": "Machi veut dire ville. Tu peux dire [ta ville] kara kimashita.",
+      "correction": null
+    },
+    {
+      "id": "cafe-change",
+      "round": 1,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 3569,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 356,
+      "timing": "correction;dur=1032.8, generations;desc=\"2\", dialogue_translation;dur=2533.9, worker_roundtrip;dur=3567.4, worker_queue;dur=0.4, server;dur=3567.6",
+      "reply": {
+        "japanese": "お茶ですね。ホットですか、アイスですか？",
+        "romaji": "o cha desune. hotto desuka, aisu desuka ？",
+        "french": "Du thé, d'accord. Chaud ou glacé ?"
+      },
+      "coaching": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».",
+      "correction": null
+    },
+    {
+      "id": "origin-error",
+      "round": 1,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 2154,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 586,
+      "timing": "correction;dur=2150, generations;desc=\"1\", worker_roundtrip;dur=2150.6, worker_queue;dur=0.6, server;dur=2150.8",
+      "reply": {
+        "japanese": "私はフランスから来ました。 もう一度、言ってみましょう。",
+        "romaji": "watashi wa furansu kara kima shita. Mō ichido, itte mimashō.",
+        "french": "Je viens de France. Réessaie cette phrase."
+      },
+      "coaching": "Utilise kara pour indiquer l'origine, pas wo.",
+      "correction": {
+        "original": "私はフランスを来ました。",
+        "corrected": "私はフランスから来ました。",
+        "romaji": "watashi wa furansu kara kima shita.",
+        "french": "Je viens de France.",
+        "explanation": "Utilise kara pour indiquer l'origine, pas wo."
+      }
+    },
+    {
+      "id": "repeat",
+      "round": 1,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 4,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 171,
+      "timing": "worker_roundtrip;dur=1.3, worker_queue;dur=1.3, server;dur=1.3",
+      "reply": {
+        "japanese": "どこから来ましたか？",
+        "romaji": "dokokara kima shitaka ？",
+        "french": ""
+      },
+      "coaching": null,
+      "correction": null,
+      "assisted": false
+    },
+    {
+      "id": "oral-origin",
+      "round": 1,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 3352,
+      "bodyTransferParseMs": 1,
+      "responseBytes": 353814,
+      "timing": "decode;dur=24.1, whisper;dur=106.7, worker_roundtrip;dur=3345.9, worker_queue;dur=0.9, asr;dur=132.2, correction;dur=1030, generations;desc=\"2\", dialogue_translation;dur=2183.3, teaching;dur=3214.3, tts_fr;dur=0, tts_ja;dur=0, server;dur=3347.1",
+      "transcript": "私はフランスから来ました。",
+      "reply": {
+        "japanese": "どの町から来ましたか？",
+        "romaji": "dono machikara kimashitaka？",
+        "french": "De quelle ville viens-tu ?"
+      },
+      "coaching": "Machi veut dire ville. Tu peux dire [ta ville] kara kimashita.",
+      "correction": null,
+      "heard": true
+    },
+    {
+      "id": "origin-fragment",
+      "round": 2,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 3112,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 250,
+      "timing": "correction;dur=1019.8, generations;desc=\"2\", dialogue_translation;dur=2090, worker_roundtrip;dur=3110.5, worker_queue;dur=0.5, server;dur=3110.6",
+      "reply": {
+        "japanese": "どの町から来ましたか？",
+        "romaji": "dono machi kara kima shitaka ？",
+        "french": "De quelle ville viens-tu ?"
+      },
+      "coaching": "Machi veut dire ville. Tu peux dire [ta ville] kara kimashita.",
+      "correction": null
+    },
+    {
+      "id": "cafe-change",
+      "round": 2,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 3492,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 356,
+      "timing": "correction;dur=1020.1, generations;desc=\"2\", dialogue_translation;dur=2470, worker_roundtrip;dur=3490.7, worker_queue;dur=0.7, server;dur=3490.8",
+      "reply": {
+        "japanese": "お茶ですね。ホットですか、アイスですか？",
+        "romaji": "o cha desune. hotto desuka, aisu desuka ？",
+        "french": "Du thé, d'accord. Chaud ou glacé ?"
+      },
+      "coaching": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».",
+      "correction": null
+    },
+    {
+      "id": "origin-error",
+      "round": 2,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 2115,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 586,
+      "timing": "correction;dur=2113.2, generations;desc=\"1\", worker_roundtrip;dur=2113.7, worker_queue;dur=0.7, server;dur=2113.8",
+      "reply": {
+        "japanese": "私はフランスから来ました。 もう一度、言ってみましょう。",
+        "romaji": "watashi wa furansu kara kima shita. Mō ichido, itte mimashō.",
+        "french": "Je viens de France. Réessaie cette phrase."
+      },
+      "coaching": "Utilise kara pour indiquer l'origine, pas wo.",
+      "correction": {
+        "original": "私はフランスを来ました。",
+        "corrected": "私はフランスから来ました。",
+        "romaji": "watashi wa furansu kara kima shita.",
+        "french": "Je viens de France.",
+        "explanation": "Utilise kara pour indiquer l'origine, pas wo."
+      }
+    },
+    {
+      "id": "repeat",
+      "round": 2,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 3,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 171,
+      "timing": "worker_roundtrip;dur=0.2, worker_queue;dur=0.2, server;dur=0.3",
+      "reply": {
+        "japanese": "どこから来ましたか？",
+        "romaji": "dokokara kima shitaka ？",
+        "french": ""
+      },
+      "coaching": null,
+      "correction": null,
+      "assisted": false
+    },
+    {
+      "id": "oral-origin",
+      "round": 2,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 3290,
+      "bodyTransferParseMs": 1,
+      "responseBytes": 353814,
+      "timing": "decode;dur=18.7, whisper;dur=102.8, worker_roundtrip;dur=3285.1, worker_queue;dur=1.1, asr;dur=122.5, correction;dur=1038.5, generations;desc=\"2\", dialogue_translation;dur=2123.3, teaching;dur=3162.8, tts_fr;dur=0, tts_ja;dur=0, server;dur=3285.8",
+      "transcript": "私はフランスから来ました。",
+      "reply": {
+        "japanese": "どの町から来ましたか？",
+        "romaji": "dono machikara kimashitaka？",
+        "french": "De quelle ville viens-tu ?"
+      },
+      "coaching": "Machi veut dire ville. Tu peux dire [ta ville] kara kimashita.",
+      "correction": null,
+      "heard": true
+    }
+  ]
+}

@@ -9,6 +9,8 @@ import { getLesson } from "../shared/learning-plan";
 import { reviewAssessmentSchema } from "../shared/learning-memory";
 import { reviewPrompt } from "../shared/review-prompt";
 import { learnerGuidance } from "../shared/learner-guidance";
+import { conversationGuidance } from "../shared/conversation-curriculum";
+import { addTiming, timingContext, type Timings } from "./timing";
 
 export type LocalTutor = TutorProvider & {
   ready: () => boolean;
@@ -17,6 +19,10 @@ export type LocalTutor = TutorProvider & {
 const responseSchema = z.object({
   id: z.number(),
   result: z.unknown().optional(),
+  seconds: z.number().nonnegative().optional(),
+  metrics: z
+    .record(z.string().regex(/^[a-z_]{1,40}$/), z.number().nonnegative())
+    .optional(),
   error: z.string().optional(),
   diagnostic: z
     .string()
@@ -50,6 +56,8 @@ export function createLocalTutor(): LocalTutor | undefined {
       resolve: (result: unknown) => void;
       reject: (error: Error) => void;
       timer: ReturnType<typeof setTimeout>;
+      timings?: Timings;
+      started: number;
     }
   >();
   const fail = () => {
@@ -89,6 +97,22 @@ export function createLocalTutor(): LocalTutor | undefined {
       if (!request) return;
       pending.delete(parsed.data.id);
       clearTimeout(request.timer);
+      for (const [name, ms] of Object.entries(parsed.data.metrics || {}))
+        addTiming(name, ms, request.timings);
+      addTiming(
+        "worker_roundtrip",
+        performance.now() - request.started,
+        request.timings,
+      );
+      if (parsed.data.seconds !== undefined)
+        addTiming(
+          "worker_queue",
+          Math.max(
+            0,
+            performance.now() - request.started - parsed.data.seconds * 1000,
+          ),
+          request.timings,
+        );
       if (parsed.data.error) {
         const category = /^[A-Za-z]+Error$/.test(parsed.data.error)
           ? parsed.data.error
@@ -131,7 +155,13 @@ export function createLocalTutor(): LocalTutor | undefined {
         fail();
         child.kill();
       }, 80_000);
-      pending.set(id, { resolve: resolveResult, reject, timer });
+      pending.set(id, {
+        resolve: resolveResult,
+        reject,
+        timer,
+        timings: timingContext.getStore(),
+        started: performance.now(),
+      });
       child.stdin.write(JSON.stringify({ ...body, id }) + "\n", (error) => {
         if (error) fail();
       });
@@ -147,6 +177,7 @@ export function createLocalTutor(): LocalTutor | undefined {
           ...input,
           objective: getLesson(input.lessonId)?.focus,
           learnerGuidance: learnerGuidance(input.learner),
+          conversationGuidance: conversationGuidance(input.scenario),
         }),
       );
     },
@@ -155,6 +186,14 @@ export function createLocalTutor(): LocalTutor | undefined {
         .string()
         .max(1500)
         .parse(await call({ kind: "transcribe", ...input }));
+    },
+    async transcribeDetailed(input) {
+      return z
+        .object({ text: z.string().max(1500), uncertain: z.boolean() })
+        .parse(await call({ kind: "transcribe", ...input, detailed: true }));
+    },
+    async question(input) {
+      return tutorReplySchema.parse(await call({ kind: "question", ...input }));
     },
     async assessReview(input) {
       return reviewAssessmentSchema.parse(

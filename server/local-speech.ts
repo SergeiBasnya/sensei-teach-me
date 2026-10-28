@@ -23,7 +23,7 @@ const resultSchema = z.object({
   code: z.literal("french_speech_unavailable").optional(),
   romaji: z.string().max(2000).optional(),
 });
-export function createLocalSpeech(): SpeechProvider | undefined {
+function createSpeechLane(): SpeechProvider | undefined {
   const python =
     process.env.VOICEVOX_PYTHON ||
     resolve(
@@ -35,6 +35,7 @@ export function createLocalSpeech(): SpeechProvider | undefined {
     return undefined;
   let worker: ChildProcessWithoutNullStreams | undefined;
   let serial = 0;
+  let closed = false;
   const readings = new Map<string, string>();
   const pending = new Map<
     number,
@@ -111,6 +112,7 @@ export function createLocalSpeech(): SpeechProvider | undefined {
   return {
     reading: (text) => readings.get(text),
     speak(text, language = "ja") {
+      if (closed) return Promise.reject(new Error("Speech provider closed"));
       if (pending.size >= 4)
         return Promise.reject(
           new Error("Le moteur vocal est occupé. Réessaie dans un instant."),
@@ -137,10 +139,65 @@ export function createLocalSpeech(): SpeechProvider | undefined {
       });
     },
     close() {
+      closed = true;
       failAll();
       readings.clear();
       worker?.kill();
       worker = undefined;
+    },
+  };
+}
+
+// Same engines and JSONL protocol, independent failure domains. French network
+// delays cannot occupy or kill the Japanese worker. Audio cache is RAM-only.
+export function createLocalSpeech(): SpeechProvider | undefined {
+  const japanese = createSpeechLane();
+  const french = createSpeechLane();
+  if (!japanese || !french) return;
+  const cache = new Map<string, Buffer>();
+  const inFlight = new Map<string, Promise<Buffer>>();
+  let bytes = 0;
+  let closed = false;
+  return {
+    reading: japanese.reading,
+    speak(text, language = "ja") {
+      if (closed) return Promise.reject(new Error("Speech provider closed"));
+      const key = `${language}:${text}`;
+      const cached = cache.get(key);
+      if (cached) {
+        cache.delete(key);
+        cache.set(key, cached);
+        return Promise.resolve(cached);
+      }
+      const existing = inFlight.get(key);
+      if (existing) return existing;
+      const result = (language === "fr" ? french : japanese)
+        .speak(text, language)
+        .then((audio) => {
+          if (!closed && audio.length <= 8_000_000) {
+            while (
+              cache.size &&
+              (cache.size >= 32 || bytes + audio.length > 8_000_000)
+            ) {
+              const oldest = cache.keys().next().value!;
+              bytes -= cache.get(oldest)!.length;
+              cache.delete(oldest);
+            }
+            cache.set(key, audio);
+            bytes += audio.length;
+          }
+          return audio;
+        })
+        .finally(() => inFlight.delete(key));
+      inFlight.set(key, result);
+      return result;
+    },
+    close() {
+      closed = true;
+      cache.clear();
+      bytes = 0;
+      japanese.close();
+      french.close();
     },
   };
 }

@@ -24,6 +24,11 @@ import { apiRequest, type Connection } from "./api";
 import { beginVoiceActivity, observeVoice } from "./voice-activity";
 import { useJapaneseSpeech } from "../components/japanese-speech";
 import { OralRun } from "./oral-run";
+import {
+  beginOralMetrics,
+  sentOralMetrics,
+  finishOralMetrics,
+} from "./oral-metrics";
 import type {
   LearnerContext,
   ReviewContext,
@@ -62,7 +67,6 @@ export function useOralSession({
   connection,
   scenario,
   lessonId,
-  guidedStepDone,
   learner,
   review,
   finished,
@@ -76,7 +80,6 @@ export function useOralSession({
   connection: Connection | null;
   scenario: ScenarioId;
   lessonId?: import("../../shared/contracts").LessonId;
-  guidedStepDone?: boolean;
   learner?: LearnerContext;
   review?: ReviewContext;
   finished?: () => boolean;
@@ -99,17 +102,18 @@ export function useOralSession({
   const [quiet, setQuiet] = useState(false);
   const run = useRef(new OralRun()).current;
   const capturing = useRef(false);
+  const lastVoiceAt = useRef(0);
   const stopping = useRef<Promise<void>>(Promise.resolve());
   const mounted = useRef(true);
   const ticker = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
   const abort = useRef<AbortController | null>(null);
   const openingDone = useRef(false);
   const silenceHelpOffered = useRef(false);
+  const unclearCount = useRef(0);
   const latest = useRef({
     connection,
     scenario,
     lessonId,
-    guidedStepDone,
     learner,
     review,
     finished,
@@ -125,7 +129,6 @@ export function useOralSession({
     connection,
     scenario,
     lessonId,
-    guidedStepDone,
     learner,
     review,
     finished,
@@ -147,6 +150,7 @@ export function useOralSession({
     }
   }, [recorder]);
   const stop = useCallback(() => {
+    finishOralMetrics(false);
     const id = run.stop();
     clearInterval(ticker.current);
     abort.current?.abort();
@@ -188,6 +192,7 @@ export function useOralSession({
       return;
     }
     setPhase("listening");
+    beginOralMetrics();
     const activity = beginVoiceActivity(Date.now());
     ticker.current = setInterval(() => {
       if (!current()) return;
@@ -196,6 +201,7 @@ export function useOralSession({
         recorder.getStatus().metering,
         Date.now(),
       );
+      lastVoiceAt.current = activity.lastVoice;
       if (decision === "quiet") void offerHelp(id);
       if (decision === "send") void submit(id);
     }, 100);
@@ -210,6 +216,7 @@ export function useOralSession({
       return;
     }
     silenceHelpOffered.current = true;
+    finishOralMetrics(false);
     capturing.current = false;
     setPhase("thinking");
     try {
@@ -280,6 +287,7 @@ export function useOralSession({
     if (!current() || !capturing.current) return;
     capturing.current = false;
     clearInterval(ticker.current);
+    sentOralMetrics(Math.max(0, Date.now() - lastVoiceAt.current));
     setPhase("thinking");
     try {
       await recorder.stop();
@@ -328,7 +336,6 @@ export function useOralSession({
             format,
             scenario: config.scenario,
             lessonId: config.lessonId,
-            guidedStepDone: config.guidedStepDone,
             learner: config.learner,
             review: config.review,
             history: config.history.slice(-16),
@@ -338,11 +345,21 @@ export function useOralSession({
       );
       if (!current()) return;
       if (!result.heard) {
-        await fail(
-          "Je n’ai pas bien compris. Reprends la conversation et essaie une phrase courte.",
+        finishOralMetrics(false);
+        if (++unclearCount.current >= 3) {
+          await stop();
+          if (mounted.current) setQuiet(true);
+          return;
+        }
+        // No reply or memory event: an uncertain recording is not a learner error.
+        setPhase("speaking");
+        await latest.current.speech.speakFrench(
+          "Je n’ai pas bien entendu. Essaie encore, prends ton temps.",
         );
+        if (current()) await listen(id);
         return;
       }
+      unclearCount.current = 0;
       // Le texte est une trace consultable ; son envoi ne demande aucune validation.
       config.onReply(result);
       silenceHelpOffered.current = false;
@@ -351,7 +368,11 @@ export function useOralSession({
         result.tutor,
         latest.current.speech,
         current,
-        { japanese: result.audio, french: result.coachingAudio },
+        {
+          japanese: result.audio,
+          french: result.coachingAudio,
+          coachingUnavailable: result.coachingUnavailable,
+        },
       );
       if (!current()) return;
       if (!played) {
@@ -361,6 +382,7 @@ export function useOralSession({
         return;
       }
       run.didRead(id, result.tutor.reply.japanese);
+      finishOralMetrics(true);
       if (latest.current.finished?.()) {
         await stop();
         return;
@@ -385,6 +407,7 @@ export function useOralSession({
     const id = run.begin();
     if (id === null) return;
     setError("");
+    unclearCount.current = 0;
     setQuiet(false);
     setPhase("starting");
     const current = () => mounted.current && run.current(id);
@@ -438,15 +461,8 @@ export function useOralSession({
           }
           if (!current()) return;
           latest.current.onOpeningStep(null);
-          const invited =
-            await latest.current.speech.speakFrench(openingInvitation);
-          if (!invited || !current()) {
-            if (current())
-              throw new Error(
-                "L’explication a été interrompue. Reprends quand tu es prêt.",
-              );
-            return;
-          }
+          await latest.current.speech.speakFrench(openingInvitation);
+          if (!current()) return;
           openingDone.current = true;
         }
         const played = await readTutor(

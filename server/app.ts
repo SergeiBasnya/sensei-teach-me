@@ -1,4 +1,5 @@
 import { timingSafeEqual } from "node:crypto";
+import { timingContext, timed, serverTimingHeader } from "./timing";
 import { resolve } from "node:path";
 import express, { type ErrorRequestHandler } from "express";
 import { rateLimit } from "express-rate-limit";
@@ -16,23 +17,27 @@ import {
 } from "../shared/contracts";
 import { FrenchSpeechUnavailable, type SpeechProvider } from "./local-speech";
 import { getLesson } from "../shared/learning-plan";
+import { supportQuestion } from "../shared/conversation-curriculum";
 import { prepareTutorReply } from "../shared/tutor-feedback";
 import {
   reviewAssessmentSchema,
-  lessonSkills,
   type ReviewTarget,
   type ReviewAssessment,
 } from "../shared/learning-memory";
 import { reviewPrompt } from "../shared/review-prompt";
-import {
-  assistanceIntent,
-  tutorFromHelp,
-  firstCoachedFollowup,
-} from "../shared/teaching";
+import { assistanceIntent, tutorFromHelp } from "../shared/teaching";
 
 export interface TutorProvider {
   turn: (input: typeof turnRequestSchema._output) => Promise<TutorReply>;
   transcribe: (input: typeof audioRequestSchema._output) => Promise<string>;
+  transcribeDetailed?: (
+    input: typeof audioRequestSchema._output,
+  ) => Promise<{ text: string; uncertain: boolean }>;
+  question?: (input: {
+    question: string;
+    request: string;
+    intent: "repeat" | "translate" | "explain";
+  }) => Promise<TutorReply>;
   assessReview?: (input: {
     text: string;
     target: ReviewTarget;
@@ -47,6 +52,51 @@ async function teachTurn(
   input: typeof turnRequestSchema._output,
 ) {
   const intent = assistanceIntent(input.text);
+  const question = [...input.history]
+    .reverse()
+    .find((item) => item.role === "assistant")?.content;
+  if (intent?.kind === "question" && question) {
+    if (intent.action === "repeat" && input.review)
+      return {
+        reply: {
+          japanese: question
+            .split("\n")
+            .filter((line) => /[\u3040-\u30ff\u3400-\u9fff]/.test(line))
+            .map((line) => line.replace(/^[^\u3040-\u30ff\u3400-\u9fff]+/u, ""))
+            .join("\n"),
+          romaji: "",
+          french: "",
+        },
+        coaching:
+          question
+            .split("\n")
+            .filter((line) => !/[\u3040-\u30ff\u3400-\u9fff]/.test(line))
+            .join("\n")
+            .slice(0, 500) || null,
+        correction: null,
+        vocabulary: [],
+      };
+    if (provider.question)
+      return provider.question({
+        question,
+        request: input.text,
+        intent: intent.action,
+      });
+    if (intent.action === "repeat")
+      return {
+        reply: {
+          japanese: question
+            .split("\n")
+            .filter((line) => /[\u3040-\u30ff\u3400-\u9fff]/.test(line))
+            .map((line) => line.replace(/^[^\u3040-\u30ff\u3400-\u9fff]+/u, ""))
+            .join("\n"),
+          romaji: "",
+          french: "",
+        },
+        correction: null,
+        vocabulary: [],
+      };
+  }
   if (input.review) {
     const { target, assisted } = input.review;
     const model = () =>
@@ -101,10 +151,7 @@ async function teachTurn(
       review: { id: target.id, outcome: "not_shown" as const },
     };
   }
-  const question = [...input.history]
-    .reverse()
-    .find((item) => item.role === "assistant")?.content;
-  if (intent && question && provider.help) {
+  if (intent?.kind === "answer" && question && provider.help) {
     const help = helpResponseSchema.parse(
       await provider.help({
         scenario: input.scenario,
@@ -116,22 +163,7 @@ async function teachTurn(
     return tutorFromHelp(help);
   }
   const tutor = prepareTutorReply(await provider.turn(input), input.text);
-  const bareAcknowledgement =
-    /^(はい|うん|ええ|いいえ|そうです|そうですか)$/.test(
-      input.text.replace(/[\s。、！？.!?]/gu, ""),
-    );
-  const expectsYesOrNo =
-    input.lessonId === "meet-likes" || input.lessonId === "cafe-finish";
-  return !tutor.correction &&
-    !input.guidedStepDone &&
-    (!bareAcknowledgement || expectsYesOrNo) &&
-    !(
-      input.learner?.support === "light" &&
-      input.lessonId &&
-      input.learner.stable.includes(lessonSkills[input.lessonId])
-    )
-    ? firstCoachedFollowup(input.lessonId, input.history, input.text) || tutor
-    : tutor;
+  return supportQuestion(tutor, input.history, input.learner);
 }
 export function createProvider(apiKey: string): TutorProvider {
   const client = new OpenAI({ apiKey, timeout: 35_000, maxRetries: 0 });
@@ -159,6 +191,7 @@ export function createProvider(apiKey: string): TutorProvider {
             tutorReplySchema.omit({
               coaching: true,
               practice: true,
+              assisted: true,
               review: true,
             }),
             "japanese_tutor",
@@ -337,6 +370,18 @@ export function createApp({
     });
   });
   app.use("/api", express.json({ limit: "13mb" }));
+  app.use("/api", (_req, res, next) => {
+    const started = performance.now();
+    const timings: Record<string, number> = {};
+    const json = res.json.bind(res);
+    res.json = (body) => {
+      timings.server = Math.round((performance.now() - started) * 10) / 10;
+      res.setHeader("Server-Timing", serverTimingHeader(timings));
+      res.setHeader("Access-Control-Expose-Headers", "Server-Timing");
+      return json(body);
+    };
+    timingContext.run(timings, next);
+  });
   app.post("/api/speech", async (req, res) => {
     const parsed = speechRequestSchema.safeParse(req.body);
     if (!parsed.success) {
@@ -352,7 +397,11 @@ export function createApp({
       });
       return;
     }
-    const audio = await speech.speak(parsed.data.text, parsed.data.language);
+    const audio =
+      parsed.data.language === "fr"
+        ? await optionalFrench(() => speech.speak(parsed.data.text, "fr"))
+        : await speech.speak(parsed.data.text);
+    if (!audio) throw new FrenchSpeechUnavailable();
     res.json({ audio: audio.toString("base64"), format: "wav" });
   });
   app.post("/api/turn", async (req, res) => {
@@ -425,28 +474,45 @@ export function createApp({
       });
       return;
     }
-    const transcript = (await provider.transcribe(parsed.data)).trim();
+    const recognition = await timed("asr", () =>
+      provider.transcribeDetailed
+        ? provider.transcribeDetailed(parsed.data)
+        : provider
+            .transcribe(parsed.data)
+            .then((text) => ({ text, uncertain: false })),
+    );
+    const transcript = recognition.text.trim();
     if (res.destroyed) return;
-    if (!transcript) {
-      res.json({ heard: false });
+    if (!transcript || recognition.uncertain) {
+      res.json({
+        heard: false,
+        ...(recognition.uncertain ? { reason: "uncertain" } : {}),
+      });
       return;
     }
-    const tutor = await teachTurn(provider, {
-      scenario: parsed.data.scenario,
-      ...(parsed.data.lessonId ? { lessonId: parsed.data.lessonId } : {}),
-      guidedStepDone: parsed.data.guidedStepDone,
-      learner: parsed.data.learner,
-      review: parsed.data.review,
-      history: parsed.data.history,
-      text: transcript,
-    });
+    const tutor = await timed("teaching", () =>
+      teachTurn(provider, {
+        scenario: parsed.data.scenario,
+        ...(parsed.data.lessonId ? { lessonId: parsed.data.lessonId } : {}),
+        guidedStepDone: parsed.data.guidedStepDone,
+        learner: parsed.data.learner,
+        review: parsed.data.review,
+        history: parsed.data.history,
+        text: transcript,
+      }),
+    );
     if (res.destroyed) return;
     const text = speechRequestSchema.parse({ text: tutor.reply.japanese });
-    const audio = await speech.speak(text.text);
-    if (res.destroyed) return;
-    const coachingAudio = tutor.coaching
-      ? await speech.speak(tutor.coaching, "fr")
+    // Both workers can progress independently. A bounded secondary failure must
+    // never discard the Japanese audio or force the client to request French again.
+    const french = tutor.coaching
+      ? optionalFrench(() =>
+          timed("tts_fr", () => speech.speak(tutor.coaching!, "fr")),
+        )
       : undefined;
+    const audio = await timed("tts_ja", () => speech.speak(text.text));
+    if (res.destroyed) return;
+    const coachingAudio = await french;
     tutor.reply.romaji = speech.reading?.(text.text) || tutor.reply.romaji;
     if (!res.destroyed)
       res.json({
@@ -456,6 +522,9 @@ export function createApp({
         audio: audio.toString("base64"),
         ...(coachingAudio
           ? { coachingAudio: coachingAudio.toString("base64") }
+          : {}),
+        ...(tutor.coaching && !coachingAudio
+          ? { coachingUnavailable: true }
           : {}),
         format: "wav",
       });
@@ -502,4 +571,20 @@ export function createApp({
   };
   app.use(errorHandler);
   return app;
+}
+
+async function optionalFrench(
+  work: () => Promise<Buffer>,
+): Promise<Buffer | undefined> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  try {
+    return await Promise.race([
+      work().catch(() => undefined),
+      new Promise<undefined>((resolve) => {
+        timer = setTimeout(() => resolve(undefined), 3000);
+      }),
+    ]);
+  } finally {
+    clearTimeout(timer);
+  }
 }

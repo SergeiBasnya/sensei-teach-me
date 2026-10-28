@@ -1,0 +1,42 @@
+{
+  "unit": "milliseconds",
+  "scope": "HTTP loopback, synthetic audio, repeated identical scenarios; not first audible response",
+  "baselineCommit": "86fc818",
+  "rows": [
+    {
+      "id": "origin-fragment",
+      "warmSamplesPerVariant": 2,
+      "beforeMeanMs": 4187.5,
+      "afterMeanMs": 3200.5,
+      "gainPercent": 23.6
+    },
+    {
+      "id": "cafe-change",
+      "warmSamplesPerVariant": 2,
+      "beforeMeanMs": 4304.5,
+      "afterMeanMs": 3530.5,
+      "gainPercent": 18.0
+    },
+    {
+      "id": "origin-error",
+      "warmSamplesPerVariant": 2,
+      "beforeMeanMs": 2219,
+      "afterMeanMs": 2134.5,
+      "gainPercent": 3.8
+    },
+    {
+      "id": "repeat",
+      "warmSamplesPerVariant": 2,
+      "beforeMeanMs": 1030.5,
+      "afterMeanMs": 3.5,
+      "gainPercent": 99.7
+    },
+    {
+      "id": "oral-origin",
+      "warmSamplesPerVariant": 2,
+      "beforeMeanMs": 6342,
+      "afterMeanMs": 3321,
+      "gainPercent": 47.6
+    }
+  ]
+}

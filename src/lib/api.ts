@@ -7,6 +7,7 @@ import type {
   LearnerContext,
   ReviewContext,
 } from "../../shared/learning-memory";
+import { responseOralMetrics, parseServerTiming } from "./oral-metrics";
 
 export type Connection = {
   url: string;
@@ -83,6 +84,7 @@ export async function apiRequest(
         : 85_000,
   );
   try {
+    const started = performance.now();
     const response = await fetch(`${validServerUrl(connection.url)}${path}`, {
       method: body ? "POST" : "GET",
       headers: {
@@ -92,7 +94,16 @@ export async function apiRequest(
       body: body ? JSON.stringify(body) : undefined,
       signal: controller.signal,
     });
-    const result: unknown = await response.json();
+    const received = performance.now();
+    const raw = await response.text();
+    const result: unknown = JSON.parse(raw);
+    if (path === "/api/oral-turn")
+      responseOralMetrics({
+        requestMs: Math.round(performance.now() - started),
+        responseBodyMs: Math.round(performance.now() - received),
+        responseChars: raw.length,
+        server: parseServerTiming(response.headers.get("server-timing")),
+      });
     if (!response.ok) {
       const message =
         typeof result === "object" &&

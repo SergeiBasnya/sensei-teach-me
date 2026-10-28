@@ -316,3 +316,11 @@ test("un entraînement juste avant l’échéance ne permet pas de créditer un 
   assert.equal(memory.items[0]!.successes, 0);
   assert.equal(memory.attempts.length, 0);
 });
+
+test("un résultat marqué assisté ne crédite jamais un rappel autonome", () => {
+  const attempt = review("explicit-hint", 2, "correct", true);
+  attempt.tutor = { ...attempt.tutor, assisted: true };
+  const memory = recordLearningTurn(seed(), attempt);
+  assert.equal(memory.items[0]!.successes, 0);
+  assert.equal(memory.items[0]!.practices, 1);
+});

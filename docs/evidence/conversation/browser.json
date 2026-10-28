@@ -1,0 +1,26 @@
+{
+  "recordingStarts": 4,
+  "responses": [
+    {
+      "at": 108789.69999998808,
+      "heard": false,
+      "reason": "uncertain"
+    },
+    {
+      "at": 116617.59999996424,
+      "heard": false
+    },
+    {
+      "at": 130213.09999996424,
+      "heard": true,
+      "transcript": "私はフランスから来ました。",
+      "reply": {
+        "japanese": "どの町から来ましたか？",
+        "romaji": "dono machikara kimashitaka？",
+        "french": "De quelle ville viens-tu ?"
+      }
+    }
+  ],
+  "firstPlaybackAfterRequestMs": 5287.399999976158,
+  "method": "Chromium isolé 390x844, micro WAV synthétique, deux réponses heard:false simulées puis vrai ASR/Qwen/TTS ; événement playing, pas écoute humaine ni Android physique."
+}

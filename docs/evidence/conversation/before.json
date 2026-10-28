@@ -1,0 +1,284 @@
+{
+  "date": "2026-10-28T08:46:44.903Z",
+  "fixture": "Synthetic VOICEVOX audio, no human or phone test",
+  "readyMs": 4748,
+  "rounds": 3,
+  "results": [
+    {
+      "id": "origin-fragment",
+      "round": 0,
+      "firstInference": true,
+      "status": 200,
+      "requestMs": 4956,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 303,
+      "timing": "correction;dur=1852.1, generations;dur=3, dialogue;dur=2500.7, translation;dur=546.7, worker_roundtrip;dur=4921.9, server;dur=4924",
+      "reply": {
+        "japanese": "どこに住んでいますか？",
+        "romaji": "Doko ni sundeimasu ka?",
+        "french": "Où habites-tu ?"
+      },
+      "coaching": "On va préciser où tu habites. Pour répondre, donne ta ville, puis ajoute ni sundeimasu. Écoute ma question et essaie avec ta ville.",
+      "correction": null
+    },
+    {
+      "id": "cafe-change",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 4148,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 340,
+      "timing": "correction;dur=1020.8, generations;dur=3, dialogue;dur=2311.6, translation;dur=811.3, worker_roundtrip;dur=4144.8, server;dur=4145.1",
+      "reply": {
+        "japanese": "ホットですか、アイスですか？",
+        "romaji": "Hotto desu ka, aisu desu ka?",
+        "french": "Chaud ou glacé ?"
+      },
+      "coaching": "Je te demande de choisir. Hotto veut dire chaud, et aisu, glacé. Tu peux répondre avec ton choix, suivi de de onegaishimasu, pour dire s’il vous plaît.",
+      "correction": null
+    },
+    {
+      "id": "origin-error",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 2106,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 586,
+      "timing": "correction;dur=2103.5, generations;dur=1, worker_roundtrip;dur=2104.2, server;dur=2104.6",
+      "reply": {
+        "japanese": "私はフランスから来ました。 もう一度、言ってみましょう。",
+        "romaji": "watashi wa furansu kara kima shita. Mō ichido, itte mimashō.",
+        "french": "Je viens de France. Réessaie cette phrase."
+      },
+      "coaching": "Utilise kara pour indiquer l'origine, pas wo.",
+      "correction": {
+        "original": "私はフランスを来ました。",
+        "corrected": "私はフランスから来ました。",
+        "romaji": "watashi wa furansu kara kima shita.",
+        "french": "Je viens de France.",
+        "explanation": "Utilise kara pour indiquer l'origine, pas wo."
+      }
+    },
+    {
+      "id": "repeat",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 1020,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 479,
+      "timing": "help;dur=452.3, generations;dur=2, worker_roundtrip;dur=1017.2, server;dur=1017.6",
+      "reply": {
+        "japanese": "アメリカから来ました。",
+        "romaji": "amerika kara kima shita.",
+        "french": "Je viens des États-Unis."
+      },
+      "coaching": "Pour dire d’où tu viens, utilise « [pays ou ville] kara kimashita ». Voici un exemple : Je viens des États-Unis. Écoute, puis essaie de le dire à ton tour.",
+      "correction": null
+    },
+    {
+      "id": "oral-origin",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 6887,
+      "bodyTransferParseMs": 1,
+      "responseBytes": 632571,
+      "timing": "decode;dur=53.1, whisper;dur=241.4, worker_roundtrip;dur=4185.4, asr;dur=295.7, correction;dur=1014.8, generations;dur=3, dialogue;dur=2299, translation;dur=574.9, teaching;dur=3890, tts_ja;dur=1586.8, tts_fr;dur=1107, server;dur=6880.6",
+      "transcript": "私はフランスから来ました。",
+      "reply": {
+        "japanese": "どこに住んでいますか？",
+        "romaji": "dokoni sunde imasuka？",
+        "french": "Où habites-tu ?"
+      },
+      "coaching": "On va préciser où tu habites. Pour répondre, donne ta ville, puis ajoute ni sundeimasu. Écoute ma question et essaie avec ta ville.",
+      "correction": null
+    },
+    {
+      "id": "origin-fragment",
+      "round": 1,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 4749,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 304,
+      "timing": "correction;dur=1153.2, generations;dur=3, dialogue;dur=2719.1, translation;dur=873.7, worker_roundtrip;dur=4746.9, server;dur=4747.1",
+      "reply": {
+        "japanese": "どこに住んでいますか？",
+        "romaji": "dokoni sunde imasuka？",
+        "french": "Où habites-tu ?"
+      },
+      "coaching": "On va préciser où tu habites. Pour répondre, donne ta ville, puis ajoute ni sundeimasu. Écoute ma question et essaie avec ta ville.",
+      "correction": null
+    },
+    {
+      "id": "cafe-change",
+      "round": 1,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 4136,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 340,
+      "timing": "correction;dur=1016.9, generations;dur=3, dialogue;dur=2303, translation;dur=813.2, worker_roundtrip;dur=4133.9, server;dur=4134.1",
+      "reply": {
+        "japanese": "ホットですか、アイスですか？",
+        "romaji": "Hotto desu ka, aisu desu ka?",
+        "french": "Chaud ou glacé ?"
+      },
+      "coaching": "Je te demande de choisir. Hotto veut dire chaud, et aisu, glacé. Tu peux répondre avec ton choix, suivi de de onegaishimasu, pour dire s’il vous plaît.",
+      "correction": null
+    },
+    {
+      "id": "origin-error",
+      "round": 1,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 2101,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 586,
+      "timing": "correction;dur=2098, generations;dur=1, worker_roundtrip;dur=2098.6, server;dur=2098.8",
+      "reply": {
+        "japanese": "私はフランスから来ました。 もう一度、言ってみましょう。",
+        "romaji": "watashi wa furansu kara kima shita. Mō ichido, itte mimashō.",
+        "french": "Je viens de France. Réessaie cette phrase."
+      },
+      "coaching": "Utilise kara pour indiquer l'origine, pas wo.",
+      "correction": {
+        "original": "私はフランスを来ました。",
+        "corrected": "私はフランスから来ました。",
+        "romaji": "watashi wa furansu kara kima shita.",
+        "french": "Je viens de France.",
+        "explanation": "Utilise kara pour indiquer l'origine, pas wo."
+      }
+    },
+    {
+      "id": "repeat",
+      "round": 1,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 1021,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 479,
+      "timing": "help;dur=453.7, generations;dur=2, worker_roundtrip;dur=1018, server;dur=1018.2",
+      "reply": {
+        "japanese": "アメリカから来ました。",
+        "romaji": "amerika kara kima shita.",
+        "french": "Je viens des États-Unis."
+      },
+      "coaching": "Pour dire d’où tu viens, utilise « [pays ou ville] kara kimashita ». Voici un exemple : Je viens des États-Unis. Écoute, puis essaie de le dire à ton tour.",
+      "correction": null
+    },
+    {
+      "id": "oral-origin",
+      "round": 1,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 5480,
+      "bodyTransferParseMs": 1,
+      "responseBytes": 632571,
+      "timing": "decode;dur=22.9, whisper;dur=102.2, worker_roundtrip;dur=3970.1, asr;dur=126.1, correction;dur=1016.7, generations;dur=3, dialogue;dur=2337.5, translation;dur=488.7, teaching;dur=3844.1, tts_ja;dur=574.9, tts_fr;dur=925.3, server;dur=5471.2",
+      "transcript": "私はフランスから来ました。",
+      "reply": {
+        "japanese": "どこに住んでいますか？",
+        "romaji": "dokoni sunde imasuka？",
+        "french": "Où habites-tu ?"
+      },
+      "coaching": "On va préciser où tu habites. Pour répondre, donne ta ville, puis ajoute ni sundeimasu. Écoute ma question et essaie avec ta ville.",
+      "correction": null
+    },
+    {
+      "id": "origin-fragment",
+      "round": 2,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 3626,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 304,
+      "timing": "correction;dur=1220.8, generations;dur=3, dialogue;dur=2053.6, translation;dur=348.3, worker_roundtrip;dur=3623.7, server;dur=3623.8",
+      "reply": {
+        "japanese": "どこに住んでいますか？",
+        "romaji": "dokoni sunde imasuka？",
+        "french": "Où habites-tu ?"
+      },
+      "coaching": "On va préciser où tu habites. Pour répondre, donne ta ville, puis ajoute ni sundeimasu. Écoute ma question et essaie avec ta ville.",
+      "correction": null
+    },
+    {
+      "id": "cafe-change",
+      "round": 2,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 4473,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 340,
+      "timing": "correction;dur=1022.4, generations;dur=3, dialogue;dur=2665.8, translation;dur=782.8, worker_roundtrip;dur=4471.9, server;dur=4472",
+      "reply": {
+        "japanese": "ホットですか、アイスですか？",
+        "romaji": "Hotto desu ka, aisu desu ka?",
+        "french": "Chaud ou glacé ?"
+      },
+      "coaching": "Je te demande de choisir. Hotto veut dire chaud, et aisu, glacé. Tu peux répondre avec ton choix, suivi de de onegaishimasu, pour dire s’il vous plaît.",
+      "correction": null
+    },
+    {
+      "id": "origin-error",
+      "round": 2,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 2337,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 586,
+      "timing": "correction;dur=2334.7, generations;dur=1, worker_roundtrip;dur=2335.3, server;dur=2335.4",
+      "reply": {
+        "japanese": "私はフランスから来ました。 もう一度、言ってみましょう。",
+        "romaji": "watashi wa furansu kara kima shita. Mō ichido, itte mimashō.",
+        "french": "Je viens de France. Réessaie cette phrase."
+      },
+      "coaching": "Utilise kara pour indiquer l'origine, pas wo.",
+      "correction": {
+        "original": "私はフランスを来ました。",
+        "corrected": "私はフランスから来ました。",
+        "romaji": "watashi wa furansu kara kima shita.",
+        "french": "Je viens de France.",
+        "explanation": "Utilise kara pour indiquer l'origine, pas wo."
+      }
+    },
+    {
+      "id": "repeat",
+      "round": 2,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 1040,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 479,
+      "timing": "help;dur=464.5, generations;dur=2, worker_roundtrip;dur=1037.3, server;dur=1037.4",
+      "reply": {
+        "japanese": "アメリカから来ました。",
+        "romaji": "amerika kara kima shita.",
+        "french": "Je viens des États-Unis."
+      },
+      "coaching": "Pour dire d’où tu viens, utilise « [pays ou ville] kara kimashita ». Voici un exemple : Je viens des États-Unis. Écoute, puis essaie de le dire à ton tour.",
+      "correction": null
+    },
+    {
+      "id": "oral-origin",
+      "round": 2,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 7204,
+      "bodyTransferParseMs": 1,
+      "responseBytes": 632571,
+      "timing": "decode;dur=18.9, whisper;dur=106.7, worker_roundtrip;dur=5628.7, asr;dur=126.7, correction;dur=1029.8, generations;dur=3, dialogue;dur=3699.6, translation;dur=771.7, teaching;dur=5502.2, tts_ja;dur=621.2, tts_fr;dur=948.3, server;dur=7198.9",
+      "transcript": "私はフランスから来ました。",
+      "reply": {
+        "japanese": "どこに住んでいますか？",
+        "romaji": "dokoni sunde imasuka？",
+        "french": "Où habites-tu ?"
+      },
+      "coaching": "On va préciser où tu habites. Pour répondre, donne ta ville, puis ajoute ni sundeimasu. Écoute ma question et essaie avec ta ville.",
+      "correction": null
+    }
+  ]
+}

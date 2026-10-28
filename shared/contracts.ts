@@ -12,6 +12,7 @@ export const tutorReplySchema = z.object({
   reply: phraseSchema,
   coaching: z.string().trim().min(1).max(500).nullable().optional(),
   practice: z.boolean().optional(),
+  assisted: z.boolean().optional(),
   review: z
     .object({ id: z.string().min(1).max(100), outcome: reviewOutcomeSchema })
     .optional(),
@@ -85,13 +86,17 @@ export const healthSchema = z.object({
   warming: z.boolean(),
 });
 export const oralResponseSchema = z.discriminatedUnion("heard", [
-  z.object({ heard: z.literal(false) }),
+  z.object({
+    heard: z.literal(false),
+    reason: z.literal("uncertain").optional(),
+  }),
   z.object({
     heard: z.literal(true),
     transcript: z.string().min(1).max(1500),
     tutor: tutorReplySchema,
     audio: z.string().min(60).max(4_000_000),
     coachingAudio: z.string().min(60).max(4_000_000).optional(),
+    coachingUnavailable: z.boolean().optional(),
     format: z.literal("wav"),
   }),
 ]);

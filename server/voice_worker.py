@@ -40,7 +40,7 @@ def synthesize(synth, text, style, include_reading=False):
 
 
 def main():
-    synth = create_synthesizer()
+    synth = None
     try:
         import pykakasi
         romanizer = pykakasi.kakasi()
@@ -54,6 +54,8 @@ def main():
                 from french_speech import synthesize_french
                 wav, kana = synthesize_french(request["text"]), None
             elif request.get("language", "ja") == "ja":
+                if synth is None:
+                    synth = create_synthesizer()
                 wav, kana = synthesize(synth, request["text"], request.get("style", 10), include_reading=True)
             else:
                 raise ValueError("invalid_speech_language")

@@ -10,14 +10,17 @@ export async function readTutor(
   tutor: TutorReply,
   reader: Reader,
   current: () => boolean,
-  audio?: { japanese: string; french?: string },
+  audio?: { japanese: string; french?: string; coachingUnavailable?: boolean },
 ) {
   if (!current()) return false;
-  if (tutor.coaching) {
-    const explained = audio?.french
-      ? await reader.playJapaneseAudio(audio.french)
-      : await reader.speakFrench(tutor.coaching);
-    if (!explained || !current()) return false;
+  if (tutor.coaching && !audio?.coachingUnavailable) {
+    try {
+      if (audio?.french) await reader.playJapaneseAudio(audio.french);
+      else await reader.speakFrench(tutor.coaching);
+    } catch {
+      /* The Japanese turn remains usable if optional French fails. */
+    }
+    if (!current()) return false;
   }
   const played = audio
     ? await reader.playJapaneseAudio(audio.japanese)

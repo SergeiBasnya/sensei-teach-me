@@ -154,7 +154,10 @@ test("la révision distingue rappel, erreur, aide et construction non démontré
       assert.ok(parsed.heard);
       assert.equal(parsed.tutor.review?.outcome, "correct");
       assert.ok(parsed.coachingAudio);
-      assert.equal(spoken.at(-1)?.language, "fr");
+      assert.equal(
+        spoken.find((item) => item.language === "fr")?.language,
+        "fr",
+      );
     },
     speech,
   );
@@ -210,8 +213,8 @@ test("une demande d’aide orale en français enseigne un modèle et fournit deu
       assert.equal(result.tutor.correction, null);
       assert.equal(result.tutor.reply.japanese, "アレックスです。");
       assert.ok(result.coachingAudio);
-      assert.equal(synthesized[1]?.language, "fr");
-      assert.equal(synthesized[1]?.text, result.tutor.coaching);
+      assert.equal(synthesized[0]?.language, "fr");
+      assert.equal(synthesized[0]?.text, result.tutor.coaching);
       const invalid = await fetch(`${base}/api/speech`, {
         method: "POST",
         headers: auth,
@@ -281,16 +284,16 @@ test("une erreur orale est montrée et lue avant toute nouvelle question, puis l
       assert.ok(output.heard);
       assert.equal(output.tutor.correction?.corrected, "日本語が好きです。");
       assert.equal(
-        spoken[0],
+        spoken[1],
         "日本語が好きです。 もう一度、言ってみましょう。",
       );
-      assert.equal(output.tutor.reply.japanese, spoken[0]);
+      assert.equal(output.tutor.reply.japanese, spoken[1]);
       const typed = await post("/api/turn", {
         scenario: "free",
         history: [],
         text: "日本語を好きです。",
       });
-      assert.equal(typed.reply.japanese, spoken[0]);
+      assert.equal(typed.reply.japanese, spoken[1]);
       repeat = true;
       const next = oralResponseSchema.parse(
         await post("/api/oral-turn", {
@@ -302,7 +305,7 @@ test("une erreur orale est montrée et lue avant toute nouvelle question, puis l
       );
       assert.ok(next.heard);
       assert.equal(next.tutor.correction, null);
-      assert.equal(spoken[1], "Avec suki, utilise ga pour ce que tu aimes.");
+      assert.equal(spoken[0], "Avec suki, utilise ga pour ce que tu aimes.");
       assert.equal(spoken[2], "どんな映画が好きですか？");
       assert.ok(output.coachingAudio);
     },
@@ -365,7 +368,7 @@ test("une étape déjà enseignée n’est pas réintroduite quand son ancien me
       return response.json();
     };
     assert.deepEqual(await post(true), reply);
-    assert.equal((await post(false)).practice, true);
+    assert.deepEqual(await post(false), reply);
     assert.deepEqual(await post(false, "はい。"), reply);
   });
 });

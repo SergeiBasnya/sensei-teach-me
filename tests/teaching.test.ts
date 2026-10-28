@@ -1,12 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {
-  assistanceIntent,
-  teaching,
-  tutorFromHelp,
-  firstCoachedFollowup,
-  followups,
-} from "../shared/teaching";
+import { assistanceIntent, teaching, tutorFromHelp } from "../shared/teaching";
 import { lessons } from "../shared/learning-plan";
 import { tutorReplySchema } from "../shared/contracts";
 import { readTutor } from "../src/lib/tutor-playback";
@@ -19,22 +13,6 @@ const help = {
     french: "Je m’appelle Alex.",
   },
 };
-test("chaque objectif enseigne une suite préparée sans répéter l’étape déjà suivie ni détourner une question", () => {
-  for (const lesson of lessons) {
-    const step = firstCoachedFollowup(lesson.id, [], "はい。");
-    assert.ok(tutorReplySchema.safeParse(step).success);
-    assert.equal(step?.coaching, followups[lesson.id].coaching);
-    assert.equal(
-      firstCoachedFollowup(
-        lesson.id,
-        [{ role: "assistant", content: followups[lesson.id].coaching }],
-        "はい。",
-      ),
-      null,
-    );
-    assert.equal(firstCoachedFollowup(lesson.id, [], "お名前は？"), null);
-  }
-});
 test("les neuf leçons ont une introduction et les demandes d’aide ne sont pas de fausses erreurs", () => {
   for (const lesson of lessons) assert.ok(teaching[lesson.id].length > 30);
   for (const text of [
@@ -43,8 +21,9 @@ test("les neuf leçons ont une introduction et les demandes d’aide ne sont pas
     "Je ne comprends pas",
     "わかりません。",
   ])
-    assert.deepEqual(assistanceIntent(text), { meaning: "" });
+    assert.deepEqual(assistanceIntent(text), { kind: "answer", meaning: "" });
   assert.deepEqual(assistanceIntent("Je veux dire : j’aime le café"), {
+    kind: "answer",
     meaning: "j’aime le café",
   });
   assert.equal(assistanceIntent("私はフランスから来ました。"), null);
@@ -112,7 +91,7 @@ test("l’explication française se termine avant le japonais ; une pause interr
       },
       () => active,
     ),
-    false,
+    true,
   );
-  assert.deepEqual(operations, []);
+  assert.deepEqual(operations, ["ja:アレックスです。"]);
 });

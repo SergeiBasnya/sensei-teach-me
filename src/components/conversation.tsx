@@ -23,7 +23,7 @@ import type {
 } from "../../shared/contracts";
 import { CoachHelp } from "./coach-help";
 import { conversationMood } from "../lib/avatar-state";
-import { teaching, followups } from "../../shared/teaching";
+import { teaching } from "../../shared/teaching";
 import {
   learnerContext,
   lessonSkills,
@@ -102,7 +102,6 @@ export function Conversation({
     .reverse()
     .find((m) => m.role === "assistant")!;
   const words = useRef<Phrase[]>([]);
-  const guidedStepDone = useRef(false);
   const memorySession = useRef(
     `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 9)}`,
   ).current;
@@ -138,7 +137,6 @@ export function Conversation({
     connection,
     scenario: scene.id,
     lessonId: scene.lessonId,
-    guidedStepDone: guidedStepDone.current,
     learner,
     review: scene.review
       ? { target: scene.review, assisted: reviewAssisted.current }
@@ -187,19 +185,18 @@ export function Conversation({
     })),
     onReply(result) {
       remember(result.tutor);
-      if (result.tutor.practice) exposeCurrentPoint();
+      if (result.tutor.practice || result.tutor.assisted) exposeCurrentPoint();
       if (scene.review) {
         if (result.tutor.review?.outcome === "correct") {
           reviewFinished.current = true;
           setComplete(true);
-        } else if (result.tutor.practice || result.tutor.correction)
+        } else if (
+          result.tutor.practice ||
+          result.tutor.correction ||
+          result.tutor.assisted
+        )
           reviewAssisted.current = true;
       }
-      if (
-        scene.lessonId &&
-        result.tutor.coaching === followups[scene.lessonId].coaching
-      )
-        guidedStepDone.current = true;
       setOpeningStep(null);
       setMessages((previous) => [
         ...previous,
@@ -286,7 +283,7 @@ export function Conversation({
           text,
           abort.current.signal,
           scene.lessonId,
-          guidedStepDone.current,
+          undefined,
           {
             learner,
             review: scene.review
@@ -296,22 +293,17 @@ export function Conversation({
         );
         reply = result.reply;
         remember(result);
-        if (result.practice) exposeCurrentPoint();
+        if (result.practice || result.assisted) exposeCurrentPoint();
         if (scene.review) {
           if (result.review?.outcome === "correct") {
             reviewFinished.current = true;
             setComplete(true);
-          } else if (result.practice || result.correction)
+          } else if (result.practice || result.correction || result.assisted)
             reviewAssisted.current = true;
         }
         correction = result.correction;
         newWords = result.vocabulary;
         coaching = result.coaching;
-        if (
-          scene.lessonId &&
-          result.coaching === followups[scene.lessonId].coaching
-        )
-          guidedStepDone.current = true;
         practice = result.practice;
       } else {
         const next = scene.turns[turn + 1];

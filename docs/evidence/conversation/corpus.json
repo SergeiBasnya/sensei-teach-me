@@ -1,0 +1,273 @@
+{
+  "date": "2026-10-28T09:06:51.589Z",
+  "fixture": "Synthetic VOICEVOX audio, no human or phone test",
+  "readyMs": 3266,
+  "rounds": 1,
+  "sourceHash": "0fb9415e0289a2fb91679cc54d1399a77d3ebb658357402cbd7358719b6d7c98",
+  "results": [
+    {
+      "id": "origin-fragment",
+      "round": 0,
+      "firstInference": true,
+      "status": 200,
+      "requestMs": 3343,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 250,
+      "timing": "correction;dur=1111.3, generations;desc=\"2\", dialogue_translation;dur=2188.2, worker_roundtrip;dur=3321.4, worker_queue;dur=1.4, server;dur=3322.9",
+      "reply": {
+        "japanese": "どの町から来ましたか？",
+        "romaji": "dono machi kara kima shitaka ？",
+        "french": "De quelle ville viens-tu ?"
+      },
+      "coaching": "Machi veut dire ville. Tu peux dire [ta ville] kara kimashita.",
+      "correction": null
+    },
+    {
+      "id": "likes-short",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 3814,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 279,
+      "timing": "correction;dur=1075.7, generations;desc=\"2\", dialogue_translation;dur=2734.8, worker_roundtrip;dur=3811.4, worker_queue;dur=0.4, server;dur=3811.7",
+      "reply": {
+        "japanese": "何が好きですか？",
+        "romaji": "nani ga suki desuka ？",
+        "french": "Qu'est-ce que tu aimes ?"
+      },
+      "coaching": "Nani ga suki desu ka veut dire 'Qu'est-ce que tu aimes ?'. Réponds avec un exemple, comme 'sushi' ou 'livres'.",
+      "correction": null
+    },
+    {
+      "id": "origin-error",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 2233,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 586,
+      "timing": "correction;dur=2229.5, generations;desc=\"1\", worker_roundtrip;dur=2230.5, worker_queue;dur=0.5, server;dur=2230.9",
+      "reply": {
+        "japanese": "私はフランスから来ました。 もう一度、言ってみましょう。",
+        "romaji": "watashi wa furansu kara kima shita. Mō ichido, itte mimashō.",
+        "french": "Je viens de France. Réessaie cette phrase."
+      },
+      "coaching": "Utilise kara pour indiquer l'origine, pas wo.",
+      "correction": {
+        "original": "私はフランスを来ました。",
+        "corrected": "私はフランスから来ました。",
+        "romaji": "watashi wa furansu kara kima shita.",
+        "french": "Je viens de France.",
+        "explanation": "Utilise kara pour indiquer l'origine, pas wo."
+      }
+    },
+    {
+      "id": "origin-self-correction",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 3429,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 250,
+      "timing": "correction;dur=1118.3, generations;desc=\"2\", dialogue_translation;dur=2306.6, worker_roundtrip;dur=3425.6, worker_queue;dur=0.6, server;dur=3425.8",
+      "reply": {
+        "japanese": "どの町から来ましたか？",
+        "romaji": "dono machi kara kima shitaka ？",
+        "french": "De quelle ville viens-tu ?"
+      },
+      "coaching": "Machi veut dire ville. Tu peux dire [ta ville] kara kimashita.",
+      "correction": null
+    },
+    {
+      "id": "cafe-change",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 3596,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 356,
+      "timing": "correction;dur=1140.2, generations;desc=\"2\", dialogue_translation;dur=2453, worker_roundtrip;dur=3594.1, worker_queue;dur=0.1, server;dur=3594.3",
+      "reply": {
+        "japanese": "お茶ですね。ホットですか、アイスですか？",
+        "romaji": "o cha desune. hotto desuka, aisu desuka ？",
+        "french": "Du thé, d'accord. Chaud ou glacé ?"
+      },
+      "coaching": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».",
+      "correction": null
+    },
+    {
+      "id": "repeat",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 3,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 171,
+      "timing": "worker_roundtrip;dur=0.5, worker_queue;dur=0.5, server;dur=0.7",
+      "reply": {
+        "japanese": "どこから来ましたか？",
+        "romaji": "dokokara kima shitaka ？",
+        "french": ""
+      },
+      "coaching": null,
+      "correction": null,
+      "assisted": false
+    },
+    {
+      "id": "repeat-french",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 3,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 171,
+      "timing": "worker_roundtrip;dur=0.2, worker_queue;dur=0.3, server;dur=0.4",
+      "reply": {
+        "japanese": "どこから来ましたか？",
+        "romaji": "dokokara kima shitaka ？",
+        "french": ""
+      },
+      "coaching": null,
+      "correction": null,
+      "assisted": false
+    },
+    {
+      "id": "translate-question",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 449,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 204,
+      "timing": "question_help;dur=446, generations;desc=\"1\", worker_roundtrip;dur=446.5, worker_queue;dur=0.5, server;dur=446.7",
+      "reply": {
+        "japanese": "どこから来ましたか？",
+        "romaji": "dokokara kima shitaka ？",
+        "french": "D'où venez-vous ?"
+      },
+      "coaching": "D'où venez-vous ?",
+      "correction": null,
+      "assisted": true
+    },
+    {
+      "id": "translate-intention",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 2409,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 520,
+      "timing": "help;dur=2405.1, generations;desc=\"3\", worker_roundtrip;dur=2406.2, worker_queue;dur=0.2, server;dur=2406.8",
+      "reply": {
+        "japanese": "私はリヨンに住んでいます。",
+        "romaji": "watashi wa riyon ni sun deimasu.",
+        "french": "J'habite à Lyon."
+      },
+      "coaching": "Tu réponds en disant \"Watashi wa [lieu] ni sunde imasu\" en remplaçant [lieu] par l'endroit où tu habites. Voici un exemple : J'habite à Lyon. Écoute, puis essaie de le dire à ton tour.",
+      "correction": null
+    },
+    {
+      "id": "explain-kara",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 1022,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 247,
+      "timing": "question_help;dur=1018.2, generations;desc=\"1\", worker_roundtrip;dur=1018.7, worker_queue;dur=0.7, server;dur=1019",
+      "reply": {
+        "japanese": "フランスから来ました。",
+        "romaji": "furansu kara kima shita.",
+        "french": ""
+      },
+      "coaching": "\"Kara\" signifie \"de\" en japonais. On le utilise pour dire d'où on vient.",
+      "correction": null,
+      "assisted": true
+    },
+    {
+      "id": "review-help",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 3,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 504,
+      "timing": "server;dur=0.6",
+      "reply": {
+        "japanese": "フランスから来ました。",
+        "romaji": "Furansu kara kimashita.",
+        "french": "Je viens de France."
+      },
+      "coaching": "Pour dire d’où tu viens, utilise kara après le pays ou la ville. Voici un exemple : Je viens de France. Écoute, puis essaie de le dire à ton tour.",
+      "correction": null,
+      "review": {
+        "id": "skill:origin",
+        "outcome": "helped"
+      }
+    },
+    {
+      "id": "review-assisted",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 1714,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 341,
+      "timing": "review;dur=1710.4, generations;desc=\"1\", worker_roundtrip;dur=1711, worker_queue;dur=0, server;dur=1711.3",
+      "reply": {
+        "japanese": "いいですね！お疲れさまでした。",
+        "romaji": "Ii desu ne! Otsukaresama deshita.",
+        "french": "Bien joué ! Merci pour ton effort."
+      },
+      "coaching": "Cette répétition est juste. On reprendra ce point sans modèle une autre fois.",
+      "correction": null,
+      "review": {
+        "id": "skill:origin",
+        "outcome": "correct"
+      }
+    },
+    {
+      "id": "review-independent",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 1653,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 352,
+      "timing": "review;dur=1650.4, generations;desc=\"1\", worker_roundtrip;dur=1651, worker_queue;dur=0, server;dur=1651.1",
+      "reply": {
+        "japanese": "いいですね！お疲れさまでした。",
+        "romaji": "Ii desu ne! Otsukaresama deshita.",
+        "french": "Bien joué ! Merci pour ton effort."
+      },
+      "coaching": "C’est juste. Tu as retrouvé la construction sans modèle. On reverra ce point plus tard.",
+      "correction": null,
+      "review": {
+        "id": "skill:origin",
+        "outcome": "correct"
+      }
+    },
+    {
+      "id": "review-fragment-not-shown",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 2101,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 480,
+      "timing": "review;dur=2097.4, generations;desc=\"1\", worker_roundtrip;dur=2097.8, worker_queue;dur=0.8, server;dur=2098",
+      "reply": {
+        "japanese": "フランスから来ました。",
+        "romaji": "Furansu kara kimashita.",
+        "french": "Je viens de France."
+      },
+      "coaching": "On reprend ce point. Pour dire d’où tu viens, utilise kara après le pays ou la ville. Écoute ce modèle, puis réessaie.",
+      "correction": null,
+      "review": {
+        "id": "skill:origin",
+        "outcome": "not_shown"
+      }
+    }
+  ]
+}

@@ -1,0 +1,284 @@
+{
+  "date": "2026-10-28T08:50:37.170Z",
+  "fixture": "Synthetic VOICEVOX audio, no human or phone test",
+  "readyMs": 3642,
+  "rounds": 3,
+  "results": [
+    {
+      "id": "origin-fragment",
+      "round": 0,
+      "firstInference": true,
+      "status": 200,
+      "requestMs": 5609,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 518,
+      "timing": "correction;dur=1220.7, generations;dur=2, dialogue_translation;dur=4350.8, worker_roundtrip;dur=5581, server;dur=5582.5",
+      "reply": {
+        "japanese": "フランスからですか？とてもいい国ですね。あなたの出身地はどの都市ですか？",
+        "romaji": "furansu karadesuka ？ totemoii kuni desune. anatano shusshinchi hadono toshi desuka ？",
+        "french": "Vous êtes de France ? C’est un très beau pays. Quelle est votre ville d’origine ?"
+      },
+      "coaching": "On peut dire « mon pays » ou « ma ville ». Ici, on demande la ville d'origine. Réponds par exemple « Paris » ou « Lyon ».",
+      "correction": null
+    },
+    {
+      "id": "cafe-change",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 4435,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 374,
+      "timing": "correction;dur=1084.8, generations;dur=2, dialogue_translation;dur=3345.9, worker_roundtrip;dur=4431.6, server;dur=4431.9",
+      "reply": {
+        "japanese": "お茶ですね。ホットですか、アイスですか？",
+        "romaji": "o cha desune. hotto desuka, aisu desuka ？",
+        "french": "Du thé, c'est bien. Veux-tu du thé chaud ou froid ?"
+      },
+      "coaching": "Pour dire que tu veux du thé, on peut dire \"お茶をください\". Maintenant, dis si tu veux du thé chaud ou froid.",
+      "correction": null
+    },
+    {
+      "id": "origin-error",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 2381,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 586,
+      "timing": "correction;dur=2375.9, generations;dur=1, worker_roundtrip;dur=2377.3, server;dur=2378.1",
+      "reply": {
+        "japanese": "私はフランスから来ました。 もう一度、言ってみましょう。",
+        "romaji": "watashi wa furansu kara kima shita. Mō ichido, itte mimashō.",
+        "french": "Je viens de France. Réessaie cette phrase."
+      },
+      "coaching": "Utilise kara pour indiquer l'origine, pas wo.",
+      "correction": {
+        "original": "私はフランスを来ました。",
+        "corrected": "私はフランスから来ました。",
+        "romaji": "watashi wa furansu kara kima shita.",
+        "french": "Je viens de France.",
+        "explanation": "Utilise kara pour indiquer l'origine, pas wo."
+      }
+    },
+    {
+      "id": "repeat",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 4,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 154,
+      "timing": "worker_roundtrip;dur=0.7, server;dur=0.9",
+      "reply": {
+        "japanese": "どこから来ましたか？",
+        "romaji": "dokokara kima shitaka ？",
+        "french": ""
+      },
+      "coaching": null,
+      "correction": null
+    },
+    {
+      "id": "oral-origin",
+      "round": 0,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 7599,
+      "bodyTransferParseMs": 1,
+      "responseBytes": 268163,
+      "timing": "decode;dur=99.8, whisper;dur=314, worker_roundtrip;dur=4589.2, asr;dur=415.6, correction;dur=1075.8, generations;dur=2, dialogue_translation;dur=3096.6, teaching;dur=4174.3, tts_ja;dur=2483.5, server;dur=7593",
+      "transcript": "私はフランスから来ました。",
+      "reply": {
+        "japanese": "フランスからですか！じゃあ、どの街からですか？",
+        "romaji": "furansukaradesuka,jaa,dono machikaradesuka？",
+        "french": "Vous venez de France ! Alors, quelle ville ?"
+      },
+      "coaching": "Pour dire 'de quelle ville' en français, on utilise la structure 'de + ville'. Par exemple, 'Je viens de Paris.'",
+      "correction": null
+    },
+    {
+      "id": "origin-fragment",
+      "round": 1,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 5955,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 591,
+      "timing": "correction;dur=1280, generations;dur=2, dialogue_translation;dur=4670.9, worker_roundtrip;dur=5951.8, server;dur=5952",
+      "reply": {
+        "japanese": "フランスからですか？とてもいい国ですね。じゃあ、あなたの出身地はフランスのどの都市ですか？",
+        "romaji": "furansu karadesuka ？ totemoii kuni desune. jaa, anatano shusshinchi wa furansu nodono toshi desuka ？",
+        "french": "Vous venez de la France ? C'est un très beau pays. Alors, quelle est votre ville d'origine en France ?"
+      },
+      "coaching": "On utilise \"de\" pour dire d'où on vient. Pour demander la ville d'origine, on peut dire : \"D'où viens-tu ?\" ou \"Quelle est ta ville d'origine ?\"",
+      "correction": null
+    },
+    {
+      "id": "cafe-change",
+      "round": 1,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 3980,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 330,
+      "timing": "correction;dur=1035, generations;dur=2, dialogue_translation;dur=2942.6, worker_roundtrip;dur=3978.4, server;dur=3978.5",
+      "reply": {
+        "japanese": "お茶ですね。ホットですか、アイスですか？",
+        "romaji": "o cha desune. hotto desuka, aisu desuka ？",
+        "french": "Du thé, c'est bien. Veux-tu du thé chaud ou froid ?"
+      },
+      "coaching": "Tu as changé ta commande. Maintenant, dis si tu veux le thé chaud ou froid.",
+      "correction": null
+    },
+    {
+      "id": "origin-error",
+      "round": 1,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 2316,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 586,
+      "timing": "correction;dur=2313.4, generations;dur=1, worker_roundtrip;dur=2313.9, server;dur=2314.1",
+      "reply": {
+        "japanese": "私はフランスから来ました。 もう一度、言ってみましょう。",
+        "romaji": "watashi wa furansu kara kima shita. Mō ichido, itte mimashō.",
+        "french": "Je viens de France. Réessaie cette phrase."
+      },
+      "coaching": "Utilise kara pour indiquer l'origine, pas wo.",
+      "correction": {
+        "original": "私はフランスを来ました。",
+        "corrected": "私はフランスから来ました。",
+        "romaji": "watashi wa furansu kara kima shita.",
+        "french": "Je viens de France.",
+        "explanation": "Utilise kara pour indiquer l'origine, pas wo."
+      }
+    },
+    {
+      "id": "repeat",
+      "round": 1,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 2,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 154,
+      "timing": "worker_roundtrip;dur=0.3, server;dur=0.4",
+      "reply": {
+        "japanese": "どこから来ましたか？",
+        "romaji": "dokokara kima shitaka ？",
+        "french": ""
+      },
+      "coaching": null,
+      "correction": null
+    },
+    {
+      "id": "oral-origin",
+      "round": 1,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 6164,
+      "bodyTransferParseMs": 1,
+      "responseBytes": 613856,
+      "timing": "decode;dur=20, whisper;dur=104.8, worker_roundtrip;dur=4078.7, asr;dur=126, correction;dur=1083.4, generations;dur=2, dialogue_translation;dur=2868.6, teaching;dur=3953.1, tts_ja;dur=0, tts_fr;dur=2078.7, server;dur=6158.5",
+      "transcript": "私はフランスから来ました。",
+      "reply": {
+        "japanese": "フランスからですか！じゃあ、どの街からですか？",
+        "romaji": "furansukaradesuka,jaa,dono machikaradesuka？",
+        "french": "Vous venez de France ! Alors, quelle ville vient-vous de ?"
+      },
+      "coaching": "On demande maintenant la ville d'origine. Tu peux répondre par exemple : \"Je viens de Paris.\"",
+      "correction": null
+    },
+    {
+      "id": "origin-fragment",
+      "round": 2,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 5090,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 397,
+      "timing": "correction;dur=1523.2, generations;dur=2, dialogue_translation;dur=3564.1, worker_roundtrip;dur=5088.1, server;dur=5088.3",
+      "reply": {
+        "japanese": "フランスからですか？とてもいい国ですね。",
+        "romaji": "furansu karadesuka ？ totemoii kuni desune.",
+        "french": "Vous venez de la France ? C'est un très beau pays."
+      },
+      "coaching": "On continue avec la même question, mais cette fois, on s'intéresse à la ville. Tu peux répondre par exemple avec Paris, Lyon, Marseille, etc.",
+      "correction": null
+    },
+    {
+      "id": "cafe-change",
+      "round": 2,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 4750,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 330,
+      "timing": "correction;dur=1187.8, generations;dur=2, dialogue_translation;dur=3560.3, worker_roundtrip;dur=4748.7, server;dur=4748.8",
+      "reply": {
+        "japanese": "お茶ですね。ホットですか、アイスですか？",
+        "romaji": "o cha desune. hotto desuka, aisu desuka ？",
+        "french": "Du thé, c'est bien. Veux-tu du thé chaud ou froid ?"
+      },
+      "coaching": "Tu as changé ta commande. Maintenant, dis si tu veux du thé chaud ou froid.",
+      "correction": null
+    },
+    {
+      "id": "origin-error",
+      "round": 2,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 2244,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 586,
+      "timing": "correction;dur=2241.8, generations;dur=1, worker_roundtrip;dur=2242.4, server;dur=2242.5",
+      "reply": {
+        "japanese": "私はフランスから来ました。 もう一度、言ってみましょう。",
+        "romaji": "watashi wa furansu kara kima shita. Mō ichido, itte mimashō.",
+        "french": "Je viens de France. Réessaie cette phrase."
+      },
+      "coaching": "Utilise kara pour indiquer l'origine, pas wo.",
+      "correction": {
+        "original": "私はフランスを来ました。",
+        "corrected": "私はフランスから来ました。",
+        "romaji": "watashi wa furansu kara kima shita.",
+        "french": "Je viens de France.",
+        "explanation": "Utilise kara pour indiquer l'origine, pas wo."
+      }
+    },
+    {
+      "id": "repeat",
+      "round": 2,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 3,
+      "bodyTransferParseMs": 0,
+      "responseBytes": 154,
+      "timing": "worker_roundtrip;dur=0.3, server;dur=0.3",
+      "reply": {
+        "japanese": "どこから来ましたか？",
+        "romaji": "dokokara kima shitaka ？",
+        "french": ""
+      },
+      "coaching": null,
+      "correction": null
+    },
+    {
+      "id": "oral-origin",
+      "round": 2,
+      "firstInference": false,
+      "status": 200,
+      "requestMs": 6878,
+      "bodyTransferParseMs": 1,
+      "responseBytes": 693756,
+      "timing": "decode;dur=19.6, whisper;dur=106.5, worker_roundtrip;dur=4253.5, asr;dur=127.2, correction;dur=1062.9, generations;dur=2, dialogue_translation;dur=3062.7, teaching;dur=4126.4, tts_ja;dur=0, tts_fr;dur=2617.7, server;dur=6871.9",
+      "transcript": "私はフランスから来ました。",
+      "reply": {
+        "japanese": "フランスからですか！じゃあ、どの街からですか？",
+        "romaji": "furansukaradesuka,jaa,dono machikaradesuka？",
+        "french": "Vous venez de France ! Alors, quelle ville vient-vous de ?"
+      },
+      "coaching": "Pour dire le nom de la ville d'origine, on utilise la même structure que pour le pays. Par exemple : \"Je viens de Paris.\"",
+      "correction": null
+    }
+  ]
+}

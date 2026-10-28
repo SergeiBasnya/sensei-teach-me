@@ -320,6 +320,7 @@ export function recordLearningTurn(
     attempts = [...memory.attempts];
   const correction = event.tutor.correction;
   const review = event.tutor.review;
+  const independent = event.independent && !event.tutor.assisted;
   if (event.reviewId && review?.id === event.reviewId) {
     items = items.map((item) => {
       if (item.id !== event.reviewId) return item;
@@ -332,8 +333,7 @@ export function recordLearningTurn(
         item.lastCreditDay !== day &&
         (!item.lastModelAt ||
           now.getTime() - Date.parse(item.lastModelAt) >= DAY);
-      const recalled =
-        review.outcome === "correct" && event.independent && eligible;
+      const recalled = review.outcome === "correct" && independent && eligible;
       if (review.outcome === "correct" && !recalled)
         return {
           ...item,
@@ -344,7 +344,7 @@ export function recordLearningTurn(
           ).toISOString(),
         };
       const outcome: ReviewOutcome =
-        review.outcome === "correct" && event.independent
+        review.outcome === "correct" && independent
           ? "correct"
           : review.outcome === "error"
             ? "error"
@@ -357,7 +357,7 @@ export function recordLearningTurn(
           itemId: item.id,
           at: event.at,
           outcome,
-          independent: event.independent,
+          independent,
           credited: recalled,
         },
       ].slice(-100);

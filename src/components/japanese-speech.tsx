@@ -23,6 +23,7 @@ import {
   type SpeechEnergy,
 } from "../lib/speech-energy";
 import { selectJapaneseVoice } from "../lib/voice-selection";
+import { playbackOralMetrics } from "../lib/oral-metrics";
 
 type SpeechService = {
   speakJapanese: (text: string) => Promise<boolean>;
@@ -110,8 +111,10 @@ export function JapaneseSpeechProvider({
       "playbackStatusUpdate",
       (status) => {
         if (!alive.current || !playbackArmed.current) return;
-        if (status.playing && !status.isBuffering && !status.didJustFinish)
+        if (status.playing && !status.isBuffering && !status.didJustFinish) {
           playbackStarted.current = true;
+          playbackOralMetrics();
+        }
         setAudioPlaying(
           !!status.playing &&
             !status.isBuffering &&
@@ -229,7 +232,10 @@ export function JapaneseSpeechProvider({
           const audio = new Audio(uri);
           webAudio.current = audio;
           audio.onplaying = () => {
-            if (isCurrent()) setAudioPlaying(true);
+            if (isCurrent()) {
+              playbackOralMetrics();
+              setAudioPlaying(true);
+            }
           };
           audio.onended = () => finish(true);
           audio.onerror = () => {
@@ -315,6 +321,7 @@ export function JapaneseSpeechProvider({
             pitch: 1,
             onStart: () => {
               if (isCurrent()) {
+                playbackOralMetrics();
                 fallbackStart.current = Date.now();
                 setAudioPlaying(true);
               }
