@@ -1,0 +1,110 @@
+{
+  "scope": "Recognized fictional text. No capture, ASR, network, Android playback or human observation.",
+  "pairedInputHashesEqual": true,
+  "byProfile": {
+    "structured": {
+      "before": {
+        "attempted": 20,
+        "complete": 20,
+        "paths": {
+          "generated": 17,
+          "correction": 1,
+          "practice": 2
+        },
+        "missingFrench": 0,
+        "firstWavMedianMs": 4661.4,
+        "doneMedianMs": 4981.3,
+        "cleanupMedianMs": 4982.6,
+        "holdAfterIdealLastWavMaxMs": 0
+      },
+      "after": {
+        "attempted": 20,
+        "complete": 20,
+        "paths": {
+          "controlled": 14,
+          "correction": 1,
+          "shared-response": 1,
+          "practice": 2,
+          "generated": 2
+        },
+        "missingFrench": 0,
+        "firstWavMedianMs": 1710.0,
+        "doneMedianMs": 2010.5,
+        "cleanupMedianMs": 2011.5,
+        "holdAfterIdealLastWavMaxMs": 0
+      },
+      "pairedMedianFirstGainMs": 2586.1,
+      "commonGenerated": {
+        "n": 2,
+        "beforeFirstMedianMs": 4893.8,
+        "afterFirstMedianMs": 3624.5
+      },
+      "sameCorrectionObjects": true
+    },
+    "ja-first": {
+      "before": {
+        "attempted": 20,
+        "complete": 20,
+        "paths": {
+          "generated": 17,
+          "correction": 1,
+          "practice": 2
+        },
+        "missingFrench": 0,
+        "firstWavMedianMs": 3742.3,
+        "doneMedianMs": 4405.1,
+        "cleanupMedianMs": 5092.9,
+        "holdAfterIdealLastWavMaxMs": 0
+      },
+      "after": {
+        "attempted": 20,
+        "complete": 20,
+        "paths": {
+          "controlled": 14,
+          "correction": 1,
+          "shared-response": 1,
+          "practice": 2,
+          "generated": 2
+        },
+        "missingFrench": 0,
+        "firstWavMedianMs": 1748.3,
+        "doneMedianMs": 1827.6,
+        "cleanupMedianMs": 1828.8,
+        "holdAfterIdealLastWavMaxMs": 0
+      },
+      "pairedMedianFirstGainMs": 1907.8,
+      "commonGenerated": {
+        "n": 2,
+        "beforeFirstMedianMs": 3828.9,
+        "afterFirstMedianMs": 2696.4
+      },
+      "sameCorrectionObjects": true
+    }
+  },
+  "qualification": {
+    "paired-after": {
+      "attempted": 40,
+      "complete": 40,
+      "frenchPresent": 40,
+      "sourceSnapshotSha256": "bba986c19c1278e0115c7ec12e81fc7b18be46e5b54cd799ed5177aa7d1d2cac",
+      "sourcesChanged": [],
+      "maxIdealHoldAfterLastWaveMs": 0
+    },
+    "new-chains-after": {
+      "attempted": 24,
+      "complete": 24,
+      "frenchPresent": 24,
+      "sourceSnapshotSha256": "bba986c19c1278e0115c7ec12e81fc7b18be46e5b54cd799ed5177aa7d1d2cac",
+      "sourcesChanged": [],
+      "maxIdealHoldAfterLastWaveMs": 0
+    },
+    "chains-after": {
+      "attempted": 32,
+      "complete": 32,
+      "frenchPresent": 32,
+      "sourceSnapshotSha256": "bba986c19c1278e0115c7ec12e81fc7b18be46e5b54cd799ed5177aa7d1d2cac",
+      "sourcesChanged": [],
+      "maxIdealHoldAfterLastWaveMs": 0
+    }
+  }
+}

@@ -12,6 +12,8 @@ La [séance de validation humaine](docs/HUMAN-VOICE-SESSION.md) prépare vingt p
 
 Le [lot de continuité du dialogue](docs/VOICE-DIALOGUE-RESULTS.md) compare les trois contrats sur vingt entrées à plusieurs tours et quatre chaînes générées. Il protège le conseil primaire et libère la reprise d’écoute de l’attente française. **Décision : à retravailler pour la qualité des formulations et traductions ; aucun changement du mode par défaut.**
 
+Le [lot de stabilisation linguistique](docs/STABILIZATION-RESULTS.md) corrige les formulations et aides sensibles avec un chemin hybride. **GO pour un essai humain expérimental de 5 à 10 minutes, NO-GO production.** Les nouvelles fautes vocales ne sont plus mémorisées automatiquement ; le laboratoire reste hors progression et le classique disponible.
+
 ## Essayer tout de suite
 
 ```sh

@@ -29,7 +29,10 @@ def run_worker(requests, outputs):
 
     def generated(*_, **options):
         calls.append({'stream': False, **options})
-        return next(pending)
+        value = next(pending)
+        if options['prompt'].endswith('{"japanese":') and value.startswith('{"japanese":'):
+            value = value[len('{"japanese":'):]
+        return value
 
     def streamed(*_, **options):
         calls.append({'stream': True, **options})
@@ -67,7 +70,9 @@ def run_worker(requests, outputs):
 
 
 def turn(profile=None, **extra):
-    value = {'id': 1, 'kind': 'turn', 'scenario': 'meet', 'text': 'フランスです。',
+    # Keep contract/stream tests on a generative path, outside the authored
+    # introduction planner; its real dispatch has a separate integration test.
+    value = {'id': 1, 'kind': 'turn', 'scenario': 'free', 'text': 'フランスです。',
              'history': [{'role': 'assistant', 'content': 'どこから来ましたか？'}]}
     if profile is not None:
         value.update(labStreaming=True, labGeneration=profile)
@@ -142,6 +147,17 @@ class LabContractTests(unittest.TestCase):
 
 
 class LabDispatchTests(unittest.TestCase):
+    def test_natural_temperature_fragment_uses_same_checked_reply_for_classic_and_lab(self):
+        for profile in (None, 'structured', 'ja-first'):
+            history = [{'role': 'user', 'content': '紅茶を二つください。'},
+                       {'role': 'assistant', 'content': 'ホットですか、アイスですか？'}]
+            messages, calls, _ = run_worker([turn(profile, scenario='cafe', text='アイスで。', history=history)], [])
+            result = messages[0]['result']
+            self.assertIsNone(result['correction'])
+            self.assertEqual(result['reply']['japanese'], 'アイスの紅茶二つですね。')
+            self.assertEqual(result['reply']['french'], '2 thés noirs glacés, d’accord.')
+            self.assertEqual(calls, [])
+
     def test_ja_first_still_finishes_feedback_before_short_dialogue(self):
         messages, calls, prompts = run_worker([turn('ja-first')], [
             '{"correction":null}', '{"japanese":"どの町から来ましたか？"}',
@@ -149,7 +165,8 @@ class LabDispatchTests(unittest.TestCase):
         result = messages[0]['result']
         self.assertIsNone(result['correction'])
         self.assertEqual(result['reply']['japanese'], 'どの町から来ましたか？')
-        self.assertEqual(result['reply']['french'], '')
+        # An exact authored translation is safe to return with the primary reply.
+        self.assertEqual(result['reply']['french'], 'De quelle ville viens-tu ?')
         self.assertEqual([call['max_tokens'] for call in calls], [240, 96])
         self.assertEqual([call['stream'] for call in calls], [False, True])
         self.assertTrue(calls[1]['prompt'].endswith('{"japanese":'))
@@ -228,10 +245,10 @@ class LabDispatchTests(unittest.TestCase):
 
     def test_secondary_is_separate_and_cannot_rewrite_already_returned_japanese(self):
         request = {'id': 2, 'kind': 'lab_details', 'labStreaming': True,
-                   'japanese': 'どの町から来ましたか？', 'history': []}
-        messages, calls, prompts = run_worker([request], ['{"french":"De quelle ville viens-tu ?"}'])
+                   'japanese': 'どんな音楽が好きですか？', 'history': []}
+        messages, calls, prompts = run_worker([request], ['{"french":"Quel genre de musique aimes-tu ?"}'])
         self.assertEqual(set(messages[0]['result']), {'french', 'coaching'})
-        self.assertEqual(messages[0]['result']['french'], 'De quelle ville viens-tu ?')
+        self.assertEqual(messages[0]['result']['french'], 'Quel genre de musique aimes-tu ?')
         self.assertEqual(calls[0]['max_tokens'], 140)
         self.assertIn('secondary', messages[0]['metrics'])
         self.assertIn('immutable Japanese', prompts[0][0]['content'])

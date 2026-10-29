@@ -28,6 +28,17 @@ test("les neuf leçons ont une introduction et les demandes d’aide ne sont pas
   });
   assert.equal(assistanceIntent("私はフランスから来ました。"), null);
   assert.equal(assistanceIntent("日本語が好きです。"), null);
+  assert.deepEqual(assistanceIntent("Comment je demande l’addition ?"), {
+    kind: "answer",
+    meaning: "L’addition, s’il te plaît.",
+  });
+  assert.deepEqual(
+    assistanceIntent("Tu peux répéter la question, s’il te plaît ?"),
+    {
+      kind: "question",
+      action: "repeat",
+    },
+  );
   const tutor = tutorReplySchema.parse(tutorFromHelp(help));
   assert.equal(tutor.correction, null);
   assert.equal(tutor.reply.japanese, help.answer.japanese);

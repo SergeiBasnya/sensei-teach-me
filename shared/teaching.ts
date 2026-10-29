@@ -36,6 +36,8 @@ export function assistanceIntent(
   | { kind: "question"; action: "repeat" | "translate" | "explain" }
   | null {
   const normalized = text.toLowerCase().replace(/[’']/g, " ");
+  if (/comment\s+(?:(?:je|on)\s+)?demande.*l\s+addition/.test(normalized))
+    return { kind: "answer", meaning: "L’addition, s’il te plaît." };
   // Translate an intended answer before matching requests about the question.
   const meaning = text
     .match(
@@ -52,7 +54,7 @@ export function assistanceIntent(
   if (meaning && !refersToQuestion) return { kind: "answer", meaning };
   if (refersToQuestion) return { kind: "question", action: "translate" };
   if (
-    /répète|repete|encore une fois|plus lentement|もう一度|もういちど|ゆっくり/.test(
+    /répète|répéter|repete|repeter|encore une fois|plus lentement|もう一度|もういちど|ゆっくり/.test(
       normalized,
     )
   )

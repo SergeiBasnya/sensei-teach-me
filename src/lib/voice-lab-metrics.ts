@@ -31,6 +31,8 @@ const SERVER_KEYS = new Set([
   "dialogue_japanese",
   "dialogue_compact",
   "lab_validation",
+  "controlled_dialogue",
+  "controlled_question",
   "postprocess",
   "secondary",
   "secondary_total",

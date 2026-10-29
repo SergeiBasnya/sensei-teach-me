@@ -1,0 +1,5106 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-29T10:58:49.801Z",
+  "status": "complete",
+  "sourceSnapshot": {
+    "files": [
+      {
+        "path": "package-lock.json",
+        "sha256": "0cc80ed9fb46bc298d59faacbc5c0142170b90c8bb29fb27095f68275153e97e"
+      },
+      {
+        "path": "package.json",
+        "sha256": "0960d465472b387608b608c7280664a0bfc45bde560891feb58184cda280083f"
+      },
+      {
+        "path": "scripts/benchmark-voice-dialogue.ts",
+        "sha256": "4004ecd42652a7d8ca6dd592c24f6a0359c9ee2078b639baf8e825ae985a8f44"
+      },
+      {
+        "path": "scripts/dialogue-cases.ts",
+        "sha256": "88470d6e71f9acd53a66bcc414297fb2f8f95a6e8f701ab5508007d491b11d39"
+      },
+      {
+        "path": "scripts/stabilization-cases.ts",
+        "sha256": "4ff34e3f865f8fafa6d4e9db0e2b366e8be33a062eb98ea4053f4640dc09f46d"
+      },
+      {
+        "path": "server/app.ts",
+        "sha256": "159c6d07609305387f9269f4e72a6f8dd1283f5ec30d2135aa7a8a45a368df57"
+      },
+      {
+        "path": "server/beginner_dialogue.py",
+        "sha256": "16b3d271b0bf4a7154fb8eff08831659c4214abdf6319b6bb99f4de26d4f568a"
+      },
+      {
+        "path": "server/conversation_context.py",
+        "sha256": "61005ae94079d22d30646c221f916746b6f25d2770a5af88ffc8d4648999943c"
+      },
+      {
+        "path": "server/conversation_feedback.py",
+        "sha256": "7d87453ff4bca2d953418b3916a35e71d95ec9d42f937c20a6c8499818d93b64"
+      },
+      {
+        "path": "server/conversation_worker.py",
+        "sha256": "084e4e34ac15dc25293bcddc4f990d06876b0a8a190fb6dc1339321e001fe489"
+      },
+      {
+        "path": "server/french_speech.py",
+        "sha256": "4cda38117a5b4ebc1e458f17e5bce8640a96b626f43ee4c15d66ac079fddc774"
+      },
+      {
+        "path": "server/index.ts",
+        "sha256": "b25d35ca15eaf02e59891d5f6cc172260e08637f1c3680b3b0aa01cb65d612bc"
+      },
+      {
+        "path": "server/lab_conversation.py",
+        "sha256": "6438683c65a27cdc8673e69098cd5c44f7a65c369caf7e9b302565c72eed43b0"
+      },
+      {
+        "path": "server/lab_generation.py",
+        "sha256": "7d53a0a73eac7d99070c6a2f06b4e5a1a66fc80503e9a6b320b4f00238756a98"
+      },
+      {
+        "path": "server/lab_worker_inbox.py",
+        "sha256": "c3d02e76c650773072aee9cf5920db1e5efe706fbc8a1e0815670fab6a0b015c"
+      },
+      {
+        "path": "server/linguistic_support.py",
+        "sha256": "0336665b9e378e00912e9ddf847abd49465f827986448e2f07927c3cc3f7a9c4"
+      },
+      {
+        "path": "server/llm_stream_trace.py",
+        "sha256": "42642f88ce8a6341dc92352bfea46c2e922d04cf72a9c551df4dac45c493841d"
+      },
+      {
+        "path": "server/local-speech.ts",
+        "sha256": "fabba1b7b2ef83428de3c320108b535ce4aae94eee2a67a1feda74f21b8ec597"
+      },
+      {
+        "path": "server/local-tutor.ts",
+        "sha256": "4de17db46e2c729d5bc492a75c0e06b371de7eb9a89e1f9d64f9c7ddcd1c4c6d"
+      },
+      {
+        "path": "server/pedagogic_romaji.py",
+        "sha256": "03da9ae0fa17dd1e60a5cf9863b1fce4cc1e36a98efaaccb43b3e04ae03df2dd"
+      },
+      {
+        "path": "server/timing.ts",
+        "sha256": "01e013bbca568c999b76cb624f0c87651221c2126e2a4e7ce8edfb6de431ca8d"
+      },
+      {
+        "path": "server/voice-lab-asr.ts",
+        "sha256": "ce167decda1e6c5aedbb9cf0630c4a825a7aef1aa1f0e25f4cbc2f679fac6043"
+      },
+      {
+        "path": "server/voice-lab-audio.ts",
+        "sha256": "3e7bd813b36bfdf41068aab8c501a791027506fd410e520f5147844841117d5f"
+      },
+      {
+        "path": "server/voice-lab-response.ts",
+        "sha256": "0864f090018cb6f580eb988a5426390ee2eedad9bbcb3fdb2708b06a39ae178c"
+      },
+      {
+        "path": "server/voice-lab-samples.ts",
+        "sha256": "7510063285565c55ae302bbbc4afc28227b87c1145496a9986cc772e7e80291c"
+      },
+      {
+        "path": "server/voice-lab.ts",
+        "sha256": "bc84416126d5d3fafa6cf39e1e141a2172c91d9155f25be7e5a3bd876384660d"
+      },
+      {
+        "path": "server/voice_lab_worker.py",
+        "sha256": "dcc83c9640b2c0150e45cad7a8d142a5aafb548d3924c563d5ab6843ac70c3e6"
+      },
+      {
+        "path": "server/voice_worker.py",
+        "sha256": "34bad116a147ee0f4c108801cb073ca3018a7c6148b6a082b56d69c64e8e825c"
+      },
+      {
+        "path": "shared/contracts.ts",
+        "sha256": "b2e61f45b10f57232ab8c3d31d296d0385a37223ba2216935a5d8dd4d4cec9c6"
+      },
+      {
+        "path": "shared/conversation-curriculum.ts",
+        "sha256": "10ab533fa7a6be2a48a590b5650fe7e3aae8276f6199c0cfb6826a18965e8d90"
+      },
+      {
+        "path": "shared/language.ts",
+        "sha256": "809a29c008c818b1fb45147af084b39f4af9bcf85a0932da4d5a8b5083aa6b4d"
+      },
+      {
+        "path": "shared/learner-guidance.ts",
+        "sha256": "4dfc689eaf43679562fde0c23f5f5cdcc59d5ba7cbced27659298972e2051614"
+      },
+      {
+        "path": "shared/learning-memory.ts",
+        "sha256": "110ad5f384f1139ca642fe7828c77dd243bffd615cb8861b188ba96bcf74ecc8"
+      },
+      {
+        "path": "shared/learning-plan.ts",
+        "sha256": "44d188625b7b30875aebce8abe4f438447221f7165dcb71cbfaf70c57d9924f4"
+      },
+      {
+        "path": "shared/review-prompt.ts",
+        "sha256": "b556a592dffaf90ef251deaaf1f1eec8f64e77ee529300309903eaa7559b4332"
+      },
+      {
+        "path": "shared/teaching.ts",
+        "sha256": "9035f5526162e80f837cbb2c9c23f07d0e627a5fa002fbaa5ac243b4e9bcad4e"
+      },
+      {
+        "path": "shared/tutor-feedback.ts",
+        "sha256": "e9c7e12acbad797763a0833fefd3c3eb3464a897e1bedfbc5da747b18b0a2875"
+      },
+      {
+        "path": "shared/voice-lab.ts",
+        "sha256": "13ed15d0cb85a19069de6bb37ad37d4c762ae0e7960b5fcf29b66372af4662fa"
+      },
+      {
+        "path": "src/data/lessons.ts",
+        "sha256": "83545831da9f5a9da096c47767e7302561796348c30a88180e19afcd7fe88a2b"
+      }
+    ],
+    "sha256": "bba986c19c1278e0115c7ec12e81fc7b18be46e5b54cd799ed5177aa7d1d2cac"
+  },
+  "runtime": {
+    "node": "v24.20.0",
+    "platform": "darwin",
+    "arch": "arm64",
+    "python": {
+      "python": "3.12.14",
+      "packages": {
+        "mlx": "0.32.4",
+        "mlx-lm": "0.32.2",
+        "mlx-whisper": "0.4.3",
+        "numpy": "2.5.4",
+        "pyopenjtalk": null,
+        "voicevox-core": "0.17.1"
+      }
+    },
+    "models": [
+      {
+        "name": "chat-qwen3-14b",
+        "manifests": [
+          {
+            "file": "config.json",
+            "sha256": "a54ec18ffe24f3c909e9556471dc156ed9b3b61b872008831c7cba9d4768b4a5"
+          },
+          {
+            "file": "tokenizer_config.json",
+            "sha256": "253153d0738ceb4c668d2eff957714dd2bea0b56de772a9fdccd96cbf517e6a0"
+          }
+        ],
+        "weightHash": "not-measured"
+      },
+      {
+        "name": "whisper",
+        "manifests": [
+          {
+            "file": "config.json",
+            "sha256": "e8f58e638208af66d5d5d67801259dc7a12d199e971967a9f9d33a8e3635668e"
+          }
+        ],
+        "weightHash": "not-measured"
+      }
+    ]
+  },
+  "audioCache": false,
+  "plan": {
+    "suite": "original",
+    "cases": [
+      "meet-facts",
+      "cafe-change",
+      "station-service",
+      "repair-and-repeat",
+      "help-and-preferences"
+    ],
+    "profiles": [
+      "structured",
+      "ja-first"
+    ],
+    "modes": [
+      "rollout"
+    ],
+    "pairedResponses": 0,
+    "rolloutResponses": 32
+  },
+  "data": "Authored public fictional conversations; no human voice, ASR or personal reference.",
+  "definitions": {
+    "paired": "Identical authored history and learner text for every compared profile; hashes permit direct verification.",
+    "rollout": "Same scripted learner lines but each profile appends its own emitted tutor. Contexts diverge. A scripted line may not answer that profile's actual preceding question; inspect the full chain.",
+    "firstJapaneseAudioEmittedMs": "Recognized authored text to first complete validated WAV, excluding capture, ASR, transport and playback.",
+    "responseDoneMs": "Observed server permission to finish response delivery; client also waits for its audio queue.",
+    "respondReturnedMs": "Return of the response function; does not imply secondary work has settled.",
+    "allObservedWorkSettledMs": "Return plus observed real details callbacks settled and their microtask metrics published. Not a GPU-idle measurement.",
+    "estimatedListeningGateMs": "Ideal sequential WAV playback from arrival times, gated by response_done; no network, decode, Android player or human observation.",
+    "estimatedHoldAfterLastWaveMs": "Positive response_done minus ideal last WAV end. Secondary delay risk estimate, not actual microphone latency.",
+    "checks": "Mechanical expectations and lexical warning patterns; no automatic Japanese, translation or conversational correctness verdict."
+  },
+  "corpus": [
+    {
+      "id": "meet-facts",
+      "scenario": "meet",
+      "rollout": true,
+      "serviceFacts": [],
+      "initialHistory": [
+        {
+          "role": "assistant",
+          "content": "お名前は？"
+        }
+      ],
+      "turns": [
+        {
+          "id": "name",
+          "text": "えっと…アレックスです。",
+          "referenceAssistant": "アレックスさん、こんにちは。どこから来ましたか？",
+          "tags": [
+            "greeting",
+            "transcribed-hesitation",
+            "fictional-name"
+          ],
+          "correction": "none",
+          "checkGreetingFollowup": true,
+          "manualChecks": [
+            "Accepter le prénom avec hésitation et poursuivre après la salutation.",
+            "Ne pas inventer une origine, un niveau ou une faute de prononciation."
+          ]
+        },
+        {
+          "id": "country",
+          "text": "ベルギーです。",
+          "referenceAssistant": "ベルギーのどの町から来ましたか？",
+          "tags": [
+            "short-answer",
+            "country-fact"
+          ],
+          "correction": "none",
+          "manualChecks": [
+            "Accepter le fragment ; garder la Belgique et ne pas redemander le pays."
+          ]
+        },
+        {
+          "id": "city",
+          "text": "ブリュッセルから来ました。",
+          "referenceAssistant": "ブリュッセルですね。日本語は好きですか？",
+          "tags": [
+            "city-fact",
+            "complete-sentence"
+          ],
+          "correction": "none",
+          "manualChecks": [
+            "Conserver Bruxelles et le prénom sans transformer une information donnée.",
+            "Une relance courte doit être cohérente avec une nouvelle connaissance."
+          ]
+        },
+        {
+          "id": "unexpected-question",
+          "text": "モチさんもベルギーから来ましたか？",
+          "referenceAssistant": "私はAIです。日本語で何を話したいですか？",
+          "tags": [
+            "unexpected-question",
+            "assistant-identity"
+          ],
+          "correction": "none",
+          "manualChecks": [
+            "Répondre à la question avant de relancer, sans biographie humaine inventée pour Mochi.",
+            "La réponse ne doit pas attribuer à l’élève les origines de Mochi."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cafe-change",
+      "scenario": "cafe",
+      "rollout": true,
+      "serviceFacts": [
+        "Fiction de test uniquement : le thé coûte 350 yens."
+      ],
+      "initialHistory": [
+        {
+          "role": "assistant",
+          "content": "練習のカフェです。お茶は三百五十円です。何にしますか？"
+        }
+      ],
+      "turns": [
+        {
+          "id": "first-order",
+          "text": "コーヒーを一つください。",
+          "referenceAssistant": "コーヒーを一つですね。ホットですか、アイスですか？",
+          "tags": [
+            "order",
+            "quantity"
+          ],
+          "correction": "none",
+          "manualChecks": [
+            "Mochi prend la commande : elle ne commande pas elle-même au client.",
+            "Conserver un café, sans demander au client le prix de la boisson."
+          ]
+        },
+        {
+          "id": "replace-order",
+          "text": "やっぱり、コーヒーじゃなくて、お茶を一つください。",
+          "referenceAssistant": "お茶を一つですね。ホットですか、アイスですか？",
+          "tags": [
+            "changed-order",
+            "negated-old-choice"
+          ],
+          "correction": "none",
+          "manualChecks": [
+            "Remplacer le café par un thé et conserver la quantité un.",
+            "La négation du café ne devient ni préférence positive ni faute persistante."
+          ]
+        },
+        {
+          "id": "temperature-fragment",
+          "text": "ホットで。",
+          "referenceAssistant": "温かいお茶を一つですね。ほかに何かいりますか？",
+          "tags": [
+            "short-answer",
+            "temperature",
+            "retained-order"
+          ],
+          "correction": "none",
+          "manualChecks": [
+            "Rattacher chaud à la nouvelle commande de thé, pas à l’ancien café.",
+            "Ne pas corriger le fragment naturel en imposant une formule plus longue."
+          ]
+        },
+        {
+          "id": "known-price",
+          "text": "このお茶はいくらですか？",
+          "referenceAssistant": "三百五十円です。ほかに何かいりますか？",
+          "tags": [
+            "unexpected-question",
+            "known-service-fact",
+            "translation-number"
+          ],
+          "correction": "none",
+          "expectedPriceYen": 350,
+          "manualChecks": [
+            "Répondre au prix déjà donné, sans demander au client de le fournir.",
+            "La traduction doit conserver 350 yens ; ne pas inventer un nouveau tarif."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "station-service",
+      "scenario": "station",
+      "rollout": true,
+      "serviceFacts": [
+        "Fiction de test uniquement : le train pour Kyoto part de la voie 3.",
+        "Aucune gare, date ni information de voyage réelle n’est évaluée."
+      ],
+      "initialHistory": [
+        {
+          "role": "assistant",
+          "content": "練習の駅です。京都行きは三番線です。どちらまでですか？"
+        }
+      ],
+      "turns": [
+        {
+          "id": "destination",
+          "text": "京都までお願いします。",
+          "referenceAssistant": "京都までですね。片道ですか、往復ですか？",
+          "tags": [
+            "destination",
+            "service-role"
+          ],
+          "correction": "none",
+          "manualChecks": [
+            "Mochi aide le voyageur ; elle ne lui demande pas de connaître le quai.",
+            "Conserver Kyoto et demander seulement une information que le client doit fournir."
+          ]
+        },
+        {
+          "id": "one-way",
+          "text": "片道です。",
+          "referenceAssistant": "片道ですね。何枚いりますか？",
+          "tags": [
+            "short-answer",
+            "ticket-choice"
+          ],
+          "correction": "none",
+          "manualChecks": [
+            "Conserver l’aller simple et Kyoto sans inventer horaire, tarif ou besoin de retour."
+          ]
+        },
+        {
+          "id": "two-tickets",
+          "text": "二枚です。",
+          "referenceAssistant": "京都まで片道で二枚ですね。ほかに何かありますか？",
+          "tags": [
+            "short-answer",
+            "quantity",
+            "retained-destination"
+          ],
+          "correction": "none",
+          "manualChecks": [
+            "Rattacher deux aux billets aller simple pour Kyoto, sans modifier le nombre."
+          ]
+        },
+        {
+          "id": "known-platform",
+          "text": "どのホームですか？",
+          "referenceAssistant": "三番線です。ほかに何かありますか？",
+          "tags": [
+            "unexpected-question",
+            "known-service-fact",
+            "translation-number"
+          ],
+          "correction": "none",
+          "manualChecks": [
+            "Répondre voie 3 à partir de la fiction déjà donnée ; ne pas renvoyer la question au voyageur.",
+            "Ne pas présenter ce quai comme une information de voyage actuelle."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repair-and-repeat",
+      "scenario": "meet",
+      "rollout": true,
+      "serviceFacts": [],
+      "initialHistory": [
+        {
+          "role": "assistant",
+          "content": "どこから来ましたか？"
+        }
+      ],
+      "turns": [
+        {
+          "id": "particle-error",
+          "text": "私はベルギーを来ました。",
+          "referenceAssistant": "Pour dire d’où tu viens, utilise kara après le pays. 私はベルギーから来ました。",
+          "tags": [
+            "deliberate-particle-error",
+            "correction-required"
+          ],
+          "correction": "required",
+          "correctedContains": "ベルギーから来ました",
+          "manualChecks": [
+            "Corriger o en kara sans changer la Belgique, le sujet ou le temps.",
+            "Conserver une explication courte et ne rien déduire sur la prononciation."
+          ]
+        },
+        {
+          "id": "successful-repair",
+          "text": "私はベルギーから来ました。",
+          "referenceAssistant": "ベルギーのどの町から来ましたか？",
+          "tags": [
+            "repair",
+            "no-repeat-correction"
+          ],
+          "correction": "none",
+          "manualChecks": [
+            "Accepter la réparation et poursuivre sans refaire la même correction.",
+            "Ne pas déclarer une maîtrise ou un rappel espacé réussi après cette répétition."
+          ]
+        },
+        {
+          "id": "repeat-help",
+          "text": "Tu peux répéter la question, s’il te plaît ?",
+          "referenceAssistant": "ベルギーのどの町から来ましたか？",
+          "tags": [
+            "french-help",
+            "repeat-intent"
+          ],
+          "correction": "none",
+          "manualChecks": [
+            "Répéter la question réellement posée dans cet historique, sans changer de sujet.",
+            "La demande d’aide ne produit ni faute fictive ni succès autonome mémorisé."
+          ]
+        },
+        {
+          "id": "city-fragment",
+          "text": "ブリュッセルです。",
+          "referenceAssistant": "ブリュッセルですね。日本語は好きですか？",
+          "tags": [
+            "short-answer",
+            "city-fact",
+            "continuity-after-help"
+          ],
+          "correction": "none",
+          "manualChecks": [
+            "Accepter Bruxelles comme réponse courte à la question répétée et continuer naturellement."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "help-and-preferences",
+      "scenario": "free",
+      "rollout": false,
+      "serviceFacts": [],
+      "initialHistory": [
+        {
+          "role": "assistant",
+          "content": "何が好きですか？"
+        }
+      ],
+      "turns": [
+        {
+          "id": "ask-for-help",
+          "text": "Je ne sais pas. Aide-moi à répondre.",
+          "referenceAssistant": "Tu peux dire ce que tu aimes avec ga suki desu. 日本語が好きです。",
+          "tags": [
+            "french-help",
+            "unknown-answer"
+          ],
+          "correction": "none",
+          "manualChecks": [
+            "Donner un modèle utilisable pour la question actuelle, sans inventer les goûts de l’élève comme un fait.",
+            "Distinguer une proposition assistée d’une réponse personnelle déjà donnée."
+          ]
+        },
+        {
+          "id": "assisted-response",
+          "text": "日本語が好きです。",
+          "referenceAssistant": "日本語が好きなんですね。どんな飲み物が好きですか？",
+          "tags": [
+            "assisted-repetition",
+            "acceptable-answer"
+          ],
+          "correction": "none",
+          "manualChecks": [
+            "Accepter la phrase sans crédit de rappel autonome ou affirmation de maîtrise.",
+            "Ne pas répéter automatiquement l’exemple comme s’il s’agissait d’une nouvelle correction."
+          ]
+        },
+        {
+          "id": "self-correction",
+          "text": "えっと…コーヒー…じゃなくて、お茶が好きです。",
+          "referenceAssistant": "お茶が好きなんですね。温かいお茶は好きですか？",
+          "tags": [
+            "transcribed-hesitation",
+            "self-correction",
+            "negated-old-choice"
+          ],
+          "correction": "none",
+          "manualChecks": [
+            "Retenir le thé, sans corriger le faux départ abandonné ni supprimer l’autocorrection."
+          ]
+        },
+        {
+          "id": "negative-intention",
+          "text": "Comment on dit : je n’aime pas le café ?",
+          "referenceAssistant": "Pour dire que tu n’aimes pas le café : コーヒーは好きではありません。",
+          "tags": [
+            "french-help",
+            "unexpected-question",
+            "translation-negation"
+          ],
+          "correction": "none",
+          "manualChecks": [
+            "Exprimer la négation demandée, sans transformer le modèle en goût personnel déjà affirmé.",
+            "Vérifier la même polarité et le même café dans le japonais et sa traduction française."
+          ]
+        }
+      ]
+    }
+  ],
+  "warmups": [
+    {
+      "mode": "paired",
+      "dialogue": "cafe-change",
+      "turn": "first-order",
+      "turnIndex": 0,
+      "profile": "structured",
+      "input": {
+        "scenario": "cafe",
+        "text": "コーヒーを一つください。",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習のカフェです。お茶は三百五十円です。何にしますか？"
+          }
+        ]
+      },
+      "inputSha256": "a73c7cf1467f7852a1a9fba186231c4aa7ad977ca48b8220991e6aab5cb86fc0",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 2720.3,
+      "responseDoneMs": 3678.3,
+      "respondReturnedMs": 3678.3,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 3679.5,
+      "totalJapaneseWaveMs": 4053.4,
+      "estimatedLastWaveEndMs": 6773.7,
+      "estimatedListeningGateMs": 6773.7,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "コーヒー一つですね。ホットですか、アイスですか？",
+          "romaji": "Kōhī hitotsu desu ne. Hotto desu ka, aisu desu ka?",
+          "french": "Un café, d’accord. Chaud ou glacé ?"
+        },
+        "coaching": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».",
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "コーヒー一つですね。ホットですか、アイスですか？",
+              "romaji": "Kōhī hitotsu desu ne. Hotto desu ka, aisu desu ka?",
+              "french": "Un café, d’accord. Chaud ou glacé ?"
+            },
+            "coaching": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1212.8
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 75820,
+          "durationMs": 1578.7,
+          "elapsedMs": 2720.3
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 118828,
+          "durationMs": 2474.7,
+          "elapsedMs": 3677.8
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1192.1,
+            "generations": 1,
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 1209.6,
+            "worker_queue": 1.6,
+            "teaching": 1210.8809579999997,
+            "postprocess": 0.5141670000002705,
+            "tts_first": 1507.233875,
+            "first_audio_emit": 2719.055166,
+            "tts_all": 2465.0255829999996,
+            "playback_estimate": 4053.333333333334,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 3678.2
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 3678.3
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        },
+        {
+          "id": "cafe-role-request",
+          "status": "pass",
+          "kind": "lexical-signal",
+          "detail": "Candidate role inversion: Mochi may be ordering from the learner; quoted examples need human review."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "paired",
+      "dialogue": "cafe-change",
+      "turn": "first-order",
+      "turnIndex": 0,
+      "profile": "ja-first",
+      "input": {
+        "scenario": "cafe",
+        "text": "コーヒーを一つください。",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習のカフェです。お茶は三百五十円です。何にしますか？"
+          }
+        ]
+      },
+      "inputSha256": "a73c7cf1467f7852a1a9fba186231c4aa7ad977ca48b8220991e6aab5cb86fc0",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 1901.4,
+      "responseDoneMs": 2908.8,
+      "respondReturnedMs": 2908.8,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 2908.8,
+      "totalJapaneseWaveMs": 4053.4,
+      "estimatedLastWaveEndMs": 5954.8,
+      "estimatedListeningGateMs": 5954.8,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "コーヒー一つですね。ホットですか、アイスですか？",
+          "romaji": "Kōhī hitotsu desu ne. Hotto desu ka, aisu desu ka?",
+          "french": "Un café, d’accord. Chaud ou glacé ?"
+        },
+        "coaching": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».",
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "コーヒー一つですね。ホットですか、アイスですか？",
+              "romaji": "Kōhī hitotsu desu ne. Hotto desu ka, aisu desu ka?",
+              "french": "Un café, d’accord. Chaud ou glacé ?"
+            },
+            "coaching": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1262.2
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 75820,
+          "durationMs": 1578.7,
+          "elapsedMs": 1901.4
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 118828,
+          "durationMs": 2474.7,
+          "elapsedMs": 2908.7
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1260.7,
+            "generations": 1,
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 1261.4,
+            "worker_queue": 0.4,
+            "teaching": 1261.817750000001,
+            "postprocess": 0.2725829999999405,
+            "tts_first": 639.1602920000005,
+            "first_audio_emit": 1901.3040840000003,
+            "tts_all": 1646.5388340000009,
+            "playback_estimate": 4053.333333333334,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 2908.8
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 2908.8
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        },
+        {
+          "id": "cafe-role-request",
+          "status": "pass",
+          "kind": "lexical-signal",
+          "detail": "Candidate role inversion: Mochi may be ordering from the learner; quoted examples need human review."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    }
+  ],
+  "rows": [
+    {
+      "mode": "rollout",
+      "dialogue": "meet-facts",
+      "turn": "name",
+      "turnIndex": 0,
+      "profile": "structured",
+      "input": {
+        "scenario": "meet",
+        "text": "えっと…アレックスです。",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "お名前は？"
+          }
+        ]
+      },
+      "inputSha256": "4cb3b977bcc2880bfca095a754e18c5947ab8b3b76fb67afbcdff2927717f532",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 1824.5,
+      "responseDoneMs": 2454.1,
+      "respondReturnedMs": 2454.1,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 2455.3,
+      "totalJapaneseWaveMs": 2720,
+      "estimatedLastWaveEndMs": 4544.5,
+      "estimatedListeningGateMs": 4544.5,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "はじめまして。どこから来ましたか？",
+          "romaji": "Hajimemashite. Doko kara kimashita ka?",
+          "french": "Enchantée. D’où viens-tu ?"
+        },
+        "coaching": "Je te demande d’où tu viens. Tu peux dire « [pays] kara kimashita ».",
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "はじめまして。どこから来ましたか？",
+              "romaji": "Hajimemashite. Doko kara kimashita ka?",
+              "french": "Enchantée. D’où viens-tu ?"
+            },
+            "coaching": "Je te demande d’où tu viens. Tu peux dire « [pays] kara kimashita ».",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1338.3
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 52780,
+          "durationMs": 1098.7,
+          "elapsedMs": 1824.5
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 77868,
+          "durationMs": 1621.3,
+          "elapsedMs": 2454.1
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1335.9,
+            "generations": 1,
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 1337.8,
+            "worker_queue": 0.8,
+            "teaching": 1337.9410830000015,
+            "postprocess": 0.318874999999025,
+            "tts_first": 486.1414590000004,
+            "first_audio_emit": 1824.4403750000001,
+            "tts_all": 1115.7522919999992,
+            "playback_estimate": 2720,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 2454.1
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 2454.1
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        },
+        {
+          "id": "greeting-without-explicit-followup",
+          "status": "pass",
+          "kind": "lexical-signal",
+          "detail": "A greeting with no explicit question can leave the beginner without a turn."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "meet-facts",
+      "turn": "name",
+      "turnIndex": 0,
+      "profile": "ja-first",
+      "input": {
+        "scenario": "meet",
+        "text": "えっと…アレックスです。",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "お名前は？"
+          }
+        ]
+      },
+      "inputSha256": "4cb3b977bcc2880bfca095a754e18c5947ab8b3b76fb67afbcdff2927717f532",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 1748.6,
+      "responseDoneMs": 2367.3,
+      "respondReturnedMs": 2367.3,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 2368.5,
+      "totalJapaneseWaveMs": 2720,
+      "estimatedLastWaveEndMs": 4468.6,
+      "estimatedListeningGateMs": 4468.6,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "はじめまして。どこから来ましたか？",
+          "romaji": "Hajimemashite. Doko kara kimashita ka?",
+          "french": "Enchantée. D’où viens-tu ?"
+        },
+        "coaching": "Je te demande d’où tu viens. Tu peux dire « [pays] kara kimashita ».",
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "はじめまして。どこから来ましたか？",
+              "romaji": "Hajimemashite. Doko kara kimashita ka?",
+              "french": "Enchantée. D’où viens-tu ?"
+            },
+            "coaching": "Je te demande d’où tu viens. Tu peux dire « [pays] kara kimashita ».",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1289.3
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 52780,
+          "durationMs": 1098.7,
+          "elapsedMs": 1748.6
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 77868,
+          "durationMs": 1621.3,
+          "elapsedMs": 2367.3
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1288.3,
+            "generations": 1,
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 1288.9,
+            "worker_queue": 0,
+            "teaching": 1289.0049579999995,
+            "postprocess": 0.2547080000003916,
+            "tts_first": 459.22708299999977,
+            "first_audio_emit": 1748.511457999999,
+            "tts_all": 1077.9854999999989,
+            "playback_estimate": 2720,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 2367.3
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 2367.3
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        },
+        {
+          "id": "greeting-without-explicit-followup",
+          "status": "pass",
+          "kind": "lexical-signal",
+          "detail": "A greeting with no explicit question can leave the beginner without a turn."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "meet-facts",
+      "turn": "country",
+      "turnIndex": 1,
+      "profile": "ja-first",
+      "input": {
+        "scenario": "meet",
+        "text": "ベルギーです。",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "お名前は？"
+          },
+          {
+            "role": "user",
+            "content": "えっと…アレックスです。"
+          },
+          {
+            "role": "assistant",
+            "content": "Je te demande d’où tu viens. Tu peux dire « [pays] kara kimashita ».\nはじめまして。どこから来ましたか？"
+          }
+        ]
+      },
+      "inputSha256": "020e97ac5b44c0f714e614b99ea511f34d6bc3e54d3f6ea7ed30573a3360f331",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 1919.2,
+      "responseDoneMs": 1919.3,
+      "respondReturnedMs": 1919.3,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 1920.6,
+      "totalJapaneseWaveMs": 1738.7,
+      "estimatedLastWaveEndMs": 3657.9,
+      "estimatedListeningGateMs": 3657.9,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "どこに住んでいますか？",
+          "romaji": "Doko ni sunde imasu ka?",
+          "french": "Où habites-tu ?"
+        },
+        "coaching": "Je te demande où tu habites. Tu peux dire « [ville] ni sunde imasu ».",
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "どこに住んでいますか？",
+              "romaji": "Doko ni sunde imasu ka?",
+              "french": "Où habites-tu ?"
+            },
+            "coaching": "Je te demande où tu habites. Tu peux dire « [ville] ni sunde imasu ».",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1227.8
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 83500,
+          "durationMs": 1738.7,
+          "elapsedMs": 1919.2
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1226.1,
+            "generations": 1,
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 1227.3,
+            "worker_queue": 0.3,
+            "teaching": 1227.4281250000004,
+            "postprocess": 0.3009590000001481,
+            "tts_first": 691.355333999998,
+            "first_audio_emit": 1919.1177080000016,
+            "tts_all": 691.4350419999992,
+            "playback_estimate": 1738.6666666666665,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 1919.3
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 1919.3
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "meet-facts",
+      "turn": "country",
+      "turnIndex": 1,
+      "profile": "structured",
+      "input": {
+        "scenario": "meet",
+        "text": "ベルギーです。",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "お名前は？"
+          },
+          {
+            "role": "user",
+            "content": "えっと…アレックスです。"
+          },
+          {
+            "role": "assistant",
+            "content": "Je te demande d’où tu viens. Tu peux dire « [pays] kara kimashita ».\nはじめまして。どこから来ましたか？"
+          }
+        ]
+      },
+      "inputSha256": "020e97ac5b44c0f714e614b99ea511f34d6bc3e54d3f6ea7ed30573a3360f331",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 1898.3,
+      "responseDoneMs": 1898.4,
+      "respondReturnedMs": 1898.4,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 1899.5,
+      "totalJapaneseWaveMs": 1738.7,
+      "estimatedLastWaveEndMs": 3637,
+      "estimatedListeningGateMs": 3637,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "どこに住んでいますか？",
+          "romaji": "Doko ni sunde imasu ka?",
+          "french": "Où habites-tu ?"
+        },
+        "coaching": "Je te demande où tu habites. Tu peux dire « [ville] ni sunde imasu ».",
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "どこに住んでいますか？",
+              "romaji": "Doko ni sunde imasu ka?",
+              "french": "Où habites-tu ?"
+            },
+            "coaching": "Je te demande où tu habites. Tu peux dire « [ville] ni sunde imasu ».",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1228.6
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 83500,
+          "durationMs": 1738.7,
+          "elapsedMs": 1898.3
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1227.3,
+            "generations": 1,
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 1228.1,
+            "worker_queue": 0.1,
+            "teaching": 1228.1712079999998,
+            "postprocess": 0.32595800000126474,
+            "tts_first": 669.6647090000006,
+            "first_audio_emit": 1898.197957999997,
+            "tts_all": 669.7362499999981,
+            "playback_estimate": 1738.6666666666665,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 1898.4
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 1898.4
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "meet-facts",
+      "turn": "city",
+      "turnIndex": 2,
+      "profile": "structured",
+      "input": {
+        "scenario": "meet",
+        "text": "ブリュッセルから来ました。",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "お名前は？"
+          },
+          {
+            "role": "user",
+            "content": "えっと…アレックスです。"
+          },
+          {
+            "role": "assistant",
+            "content": "Je te demande d’où tu viens. Tu peux dire « [pays] kara kimashita ».\nはじめまして。どこから来ましたか？"
+          },
+          {
+            "role": "user",
+            "content": "ベルギーです。"
+          },
+          {
+            "role": "assistant",
+            "content": "Je te demande où tu habites. Tu peux dire « [ville] ni sunde imasu ».\nどこに住んでいますか？"
+          }
+        ]
+      },
+      "inputSha256": "3db0ffc7b2a8708c4671eb8e7ab4da4db047d26608b06d8b3655791beb2f4358",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 810.5,
+      "responseDoneMs": 810.6,
+      "respondReturnedMs": 810.6,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 811.8,
+      "totalJapaneseWaveMs": 1738.7,
+      "estimatedLastWaveEndMs": 2549.2,
+      "estimatedListeningGateMs": 2549.2,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "どこに住んでいますか？",
+          "romaji": "Doko ni sunde imasu ka?",
+          "french": "Où habites-tu ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "どこに住んでいますか？",
+              "romaji": "Doko ni sunde imasu ka?",
+              "french": "Où habites-tu ?"
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 0.9
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 83500,
+          "durationMs": 1738.7,
+          "elapsedMs": 810.5
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 0.6,
+            "worker_queue": 0.6,
+            "teaching": 0.6645419999986188,
+            "postprocess": 0.23591599999781465,
+            "tts_first": 809.4717079999973,
+            "first_audio_emit": 810.4044590000012,
+            "tts_all": 809.5887919999986,
+            "playback_estimate": 1738.6666666666665,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 810.6
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 810.6
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "meet-facts",
+      "turn": "city",
+      "turnIndex": 2,
+      "profile": "ja-first",
+      "input": {
+        "scenario": "meet",
+        "text": "ブリュッセルから来ました。",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "お名前は？"
+          },
+          {
+            "role": "user",
+            "content": "えっと…アレックスです。"
+          },
+          {
+            "role": "assistant",
+            "content": "Je te demande d’où tu viens. Tu peux dire « [pays] kara kimashita ».\nはじめまして。どこから来ましたか？"
+          },
+          {
+            "role": "user",
+            "content": "ベルギーです。"
+          },
+          {
+            "role": "assistant",
+            "content": "Je te demande où tu habites. Tu peux dire « [ville] ni sunde imasu ».\nどこに住んでいますか？"
+          }
+        ]
+      },
+      "inputSha256": "3db0ffc7b2a8708c4671eb8e7ab4da4db047d26608b06d8b3655791beb2f4358",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 757.6,
+      "responseDoneMs": 757.6,
+      "respondReturnedMs": 757.6,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 758.8,
+      "totalJapaneseWaveMs": 1738.7,
+      "estimatedLastWaveEndMs": 2496.3,
+      "estimatedListeningGateMs": 2496.3,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "どこに住んでいますか？",
+          "romaji": "Doko ni sunde imasu ka?",
+          "french": "Où habites-tu ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "どこに住んでいますか？",
+              "romaji": "Doko ni sunde imasu ka?",
+              "french": "Où habites-tu ?"
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 83500,
+          "durationMs": 1738.7,
+          "elapsedMs": 757.6
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 0.5,
+            "worker_queue": 0.5,
+            "teaching": 0.5957089999974414,
+            "postprocess": 0.31300000000192085,
+            "tts_first": 756.5582920000015,
+            "first_audio_emit": 757.4927919999973,
+            "tts_all": 756.6340000000018,
+            "playback_estimate": 1738.6666666666665,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 757.6
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 757.6
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "meet-facts",
+      "turn": "unexpected-question",
+      "turnIndex": 3,
+      "profile": "ja-first",
+      "input": {
+        "scenario": "meet",
+        "text": "モチさんもベルギーから来ましたか？",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "お名前は？"
+          },
+          {
+            "role": "user",
+            "content": "えっと…アレックスです。"
+          },
+          {
+            "role": "assistant",
+            "content": "Je te demande d’où tu viens. Tu peux dire « [pays] kara kimashita ».\nはじめまして。どこから来ましたか？"
+          },
+          {
+            "role": "user",
+            "content": "ベルギーです。"
+          },
+          {
+            "role": "assistant",
+            "content": "Je te demande où tu habites. Tu peux dire « [ville] ni sunde imasu ».\nどこに住んでいますか？"
+          },
+          {
+            "role": "user",
+            "content": "ブリュッセルから来ました。"
+          },
+          {
+            "role": "assistant",
+            "content": "どこに住んでいますか？"
+          }
+        ]
+      },
+      "inputSha256": "5a7bb422ef4228b6efaf951911e0c97580bf395428c0811fe915fde24089a05e",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 1966,
+      "responseDoneMs": 2595.5,
+      "respondReturnedMs": 2595.5,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 2596.6,
+      "totalJapaneseWaveMs": 3136,
+      "estimatedLastWaveEndMs": 5102,
+      "estimatedListeningGateMs": 5102,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "私はAIです。日本語を話しましょう。",
+          "romaji": "Watashi wa AI desu. Nihongo o hanashimashō.",
+          "french": "Je suis une IA. Parlons japonais."
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "私はAIです。日本語を話しましょう。",
+              "romaji": "Watashi wa AI desu. Nihongo o hanashimashō.",
+              "french": "Je suis une IA. Parlons japonais."
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1391.6
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 70188,
+          "durationMs": 1461.3,
+          "elapsedMs": 1966
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 80428,
+          "durationMs": 1674.7,
+          "elapsedMs": 2595.4
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1388.7,
+            "generations": 1,
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 1391,
+            "worker_queue": 1,
+            "teaching": 1391.1332919999986,
+            "postprocess": 0.4139579999973648,
+            "tts_first": 574.2625000000007,
+            "first_audio_emit": 1965.8651250000003,
+            "tts_all": 1203.7512080000015,
+            "playback_estimate": 3136,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 2595.5
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 2595.5
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        },
+        {
+          "id": "personal-origin-without-ai",
+          "status": "pass",
+          "kind": "lexical-signal",
+          "detail": "In this identity question, Mochi claims an origin without identifying as AI; a targeted biography warning, not a universal identity test."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "meet-facts",
+      "turn": "unexpected-question",
+      "turnIndex": 3,
+      "profile": "structured",
+      "input": {
+        "scenario": "meet",
+        "text": "モチさんもベルギーから来ましたか？",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "お名前は？"
+          },
+          {
+            "role": "user",
+            "content": "えっと…アレックスです。"
+          },
+          {
+            "role": "assistant",
+            "content": "Je te demande d’où tu viens. Tu peux dire « [pays] kara kimashita ».\nはじめまして。どこから来ましたか？"
+          },
+          {
+            "role": "user",
+            "content": "ベルギーです。"
+          },
+          {
+            "role": "assistant",
+            "content": "Je te demande où tu habites. Tu peux dire « [ville] ni sunde imasu ».\nどこに住んでいますか？"
+          },
+          {
+            "role": "user",
+            "content": "ブリュッセルから来ました。"
+          },
+          {
+            "role": "assistant",
+            "content": "どこに住んでいますか？"
+          }
+        ]
+      },
+      "inputSha256": "5a7bb422ef4228b6efaf951911e0c97580bf395428c0811fe915fde24089a05e",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 1968.6,
+      "responseDoneMs": 2598.8,
+      "respondReturnedMs": 2598.8,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 2599.4,
+      "totalJapaneseWaveMs": 3136,
+      "estimatedLastWaveEndMs": 5104.6,
+      "estimatedListeningGateMs": 5104.6,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "私はAIです。日本語を話しましょう。",
+          "romaji": "Watashi wa AI desu. Nihongo o hanashimashō.",
+          "french": "Je suis une IA. Parlons japonais."
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "私はAIです。日本語を話しましょう。",
+              "romaji": "Watashi wa AI desu. Nihongo o hanashimashō.",
+              "french": "Je suis une IA. Parlons japonais."
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1393.9
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 70188,
+          "durationMs": 1461.3,
+          "elapsedMs": 1968.6
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 80428,
+          "durationMs": 1674.7,
+          "elapsedMs": 2598.7
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1392.6,
+            "generations": 1,
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 1393.4,
+            "worker_queue": 0.4,
+            "teaching": 1393.4803750000028,
+            "postprocess": 0.32754100000238395,
+            "tts_first": 574.5655000000006,
+            "first_audio_emit": 1968.4668330000022,
+            "tts_all": 1204.786208999998,
+            "playback_estimate": 3136,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 2598.8
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 2598.8
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        },
+        {
+          "id": "personal-origin-without-ai",
+          "status": "pass",
+          "kind": "lexical-signal",
+          "detail": "In this identity question, Mochi claims an origin without identifying as AI; a targeted biography warning, not a universal identity test."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "cafe-change",
+      "turn": "first-order",
+      "turnIndex": 0,
+      "profile": "ja-first",
+      "input": {
+        "scenario": "cafe",
+        "text": "コーヒーを一つください。",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習のカフェです。お茶は三百五十円です。何にしますか？"
+          }
+        ]
+      },
+      "inputSha256": "a73c7cf1467f7852a1a9fba186231c4aa7ad977ca48b8220991e6aab5cb86fc0",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 1956.3,
+      "responseDoneMs": 2867.5,
+      "respondReturnedMs": 2867.5,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 2867.8,
+      "totalJapaneseWaveMs": 4053.4,
+      "estimatedLastWaveEndMs": 6009.7,
+      "estimatedListeningGateMs": 6009.7,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "コーヒー一つですね。ホットですか、アイスですか？",
+          "romaji": "Kōhī hitotsu desu ne. Hotto desu ka, aisu desu ka?",
+          "french": "Un café, d’accord. Chaud ou glacé ?"
+        },
+        "coaching": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».",
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "コーヒー一つですね。ホットですか、アイスですか？",
+              "romaji": "Kōhī hitotsu desu ne. Hotto desu ka, aisu desu ka?",
+              "french": "Un café, d’accord. Chaud ou glacé ?"
+            },
+            "coaching": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1305.7
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 75820,
+          "durationMs": 1578.7,
+          "elapsedMs": 1956.3
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 118828,
+          "durationMs": 2474.7,
+          "elapsedMs": 2867.4
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1304.7,
+            "generations": 1,
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 1305.3,
+            "worker_queue": 0.3,
+            "teaching": 1305.4305000000022,
+            "postprocess": 0.25979199999710545,
+            "tts_first": 650.5723340000004,
+            "first_audio_emit": 1956.2855000000018,
+            "tts_all": 1561.6911670000009,
+            "playback_estimate": 4053.333333333334,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 2867.5
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 2867.5
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        },
+        {
+          "id": "cafe-role-request",
+          "status": "pass",
+          "kind": "lexical-signal",
+          "detail": "Candidate role inversion: Mochi may be ordering from the learner; quoted examples need human review."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "cafe-change",
+      "turn": "first-order",
+      "turnIndex": 0,
+      "profile": "structured",
+      "input": {
+        "scenario": "cafe",
+        "text": "コーヒーを一つください。",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習のカフェです。お茶は三百五十円です。何にしますか？"
+          }
+        ]
+      },
+      "inputSha256": "a73c7cf1467f7852a1a9fba186231c4aa7ad977ca48b8220991e6aab5cb86fc0",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 1913.6,
+      "responseDoneMs": 2796.2,
+      "respondReturnedMs": 2796.2,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 2797.3,
+      "totalJapaneseWaveMs": 4053.4,
+      "estimatedLastWaveEndMs": 5967,
+      "estimatedListeningGateMs": 5967,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "コーヒー一つですね。ホットですか、アイスですか？",
+          "romaji": "Kōhī hitotsu desu ne. Hotto desu ka, aisu desu ka?",
+          "french": "Un café, d’accord. Chaud ou glacé ?"
+        },
+        "coaching": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».",
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "コーヒー一つですね。ホットですか、アイスですか？",
+              "romaji": "Kōhī hitotsu desu ne. Hotto desu ka, aisu desu ka?",
+              "french": "Un café, d’accord. Chaud ou glacé ?"
+            },
+            "coaching": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1284.3
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 75820,
+          "durationMs": 1578.7,
+          "elapsedMs": 1913.6
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 118828,
+          "durationMs": 2474.7,
+          "elapsedMs": 2796.1
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1283.1,
+            "generations": 1,
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 1283.9,
+            "worker_queue": 0.9,
+            "teaching": 1283.9540420000012,
+            "postprocess": 0.2669999999998254,
+            "tts_first": 629.2921659999993,
+            "first_audio_emit": 1913.5315420000006,
+            "tts_all": 1511.8639580000017,
+            "playback_estimate": 4053.333333333334,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 2796.2
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 2796.2
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        },
+        {
+          "id": "cafe-role-request",
+          "status": "pass",
+          "kind": "lexical-signal",
+          "detail": "Candidate role inversion: Mochi may be ordering from the learner; quoted examples need human review."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "cafe-change",
+      "turn": "replace-order",
+      "turnIndex": 1,
+      "profile": "structured",
+      "input": {
+        "scenario": "cafe",
+        "text": "やっぱり、コーヒーじゃなくて、お茶を一つください。",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習のカフェです。お茶は三百五十円です。何にしますか？"
+          },
+          {
+            "role": "user",
+            "content": "コーヒーを一つください。"
+          },
+          {
+            "role": "assistant",
+            "content": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».\nコーヒー一つですね。ホットですか、アイスですか？"
+          }
+        ]
+      },
+      "inputSha256": "edb1bbe688a9561d2a1b301befc33f3d4c9034b978056987de0300d250459fbf",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 1968.6,
+      "responseDoneMs": 2941.7,
+      "respondReturnedMs": 2941.7,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 2942.9,
+      "totalJapaneseWaveMs": 3818.7,
+      "estimatedLastWaveEndMs": 5787.3,
+      "estimatedListeningGateMs": 5787.3,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "お茶一つですね。ホットですか、アイスですか？",
+          "romaji": "Ocha hitotsu desu ne. Hotto desu ka, aisu desu ka?",
+          "french": "Un thé, d’accord. Chaud ou glacé ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "お茶一つですね。ホットですか、アイスですか？",
+              "romaji": "Ocha hitotsu desu ne. Hotto desu ka, aisu desu ka?",
+              "french": "Un thé, d’accord. Chaud ou glacé ?"
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1403.4
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 64556,
+          "durationMs": 1344,
+          "elapsedMs": 1968.6
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 118828,
+          "durationMs": 2474.7,
+          "elapsedMs": 2941.7
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1400.9,
+            "generations": 1,
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 1402.9,
+            "worker_queue": 0.9,
+            "teaching": 1402.965250000001,
+            "postprocess": 0.4344999999993888,
+            "tts_first": 565.1412500000006,
+            "first_audio_emit": 1968.5604580000036,
+            "tts_all": 1538.2384579999998,
+            "playback_estimate": 3818.666666666667,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 2941.7
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 2941.7
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        },
+        {
+          "id": "cafe-role-request",
+          "status": "pass",
+          "kind": "lexical-signal",
+          "detail": "Candidate role inversion: Mochi may be ordering from the learner; quoted examples need human review."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "cafe-change",
+      "turn": "replace-order",
+      "turnIndex": 1,
+      "profile": "ja-first",
+      "input": {
+        "scenario": "cafe",
+        "text": "やっぱり、コーヒーじゃなくて、お茶を一つください。",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習のカフェです。お茶は三百五十円です。何にしますか？"
+          },
+          {
+            "role": "user",
+            "content": "コーヒーを一つください。"
+          },
+          {
+            "role": "assistant",
+            "content": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».\nコーヒー一つですね。ホットですか、アイスですか？"
+          }
+        ]
+      },
+      "inputSha256": "edb1bbe688a9561d2a1b301befc33f3d4c9034b978056987de0300d250459fbf",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 1927.4,
+      "responseDoneMs": 2803.6,
+      "respondReturnedMs": 2803.6,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 2804.8,
+      "totalJapaneseWaveMs": 3818.7,
+      "estimatedLastWaveEndMs": 5746.1,
+      "estimatedListeningGateMs": 5746.1,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "お茶一つですね。ホットですか、アイスですか？",
+          "romaji": "Ocha hitotsu desu ne. Hotto desu ka, aisu desu ka?",
+          "french": "Un thé, d’accord. Chaud ou glacé ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "お茶一つですね。ホットですか、アイスですか？",
+              "romaji": "Ocha hitotsu desu ne. Hotto desu ka, aisu desu ka?",
+              "french": "Un thé, d’accord. Chaud ou glacé ?"
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1402.2
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 64556,
+          "durationMs": 1344,
+          "elapsedMs": 1927.4
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 118828,
+          "durationMs": 2474.7,
+          "elapsedMs": 2803.6
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1401,
+            "generations": 1,
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 1401.8,
+            "worker_queue": 0.8,
+            "teaching": 1401.9439999999959,
+            "postprocess": 0.2547080000003916,
+            "tts_first": 525.1143749999974,
+            "first_audio_emit": 1927.3283749999973,
+            "tts_all": 1401.336374999999,
+            "playback_estimate": 3818.666666666667,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 2803.6
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 2803.6
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        },
+        {
+          "id": "cafe-role-request",
+          "status": "pass",
+          "kind": "lexical-signal",
+          "detail": "Candidate role inversion: Mochi may be ordering from the learner; quoted examples need human review."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "cafe-change",
+      "turn": "temperature-fragment",
+      "turnIndex": 2,
+      "profile": "ja-first",
+      "input": {
+        "scenario": "cafe",
+        "text": "ホットで。",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習のカフェです。お茶は三百五十円です。何にしますか？"
+          },
+          {
+            "role": "user",
+            "content": "コーヒーを一つください。"
+          },
+          {
+            "role": "assistant",
+            "content": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».\nコーヒー一つですね。ホットですか、アイスですか？"
+          },
+          {
+            "role": "user",
+            "content": "やっぱり、コーヒーじゃなくて、お茶を一つください。"
+          },
+          {
+            "role": "assistant",
+            "content": "お茶一つですね。ホットですか、アイスですか？"
+          }
+        ]
+      },
+      "inputSha256": "57df80317daffd41d157484ff0ecb3887c81f3b109f72c60afb16ce3fb7348d7",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 667.7,
+      "responseDoneMs": 667.8,
+      "respondReturnedMs": 667.8,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 669,
+      "totalJapaneseWaveMs": 1802.7,
+      "estimatedLastWaveEndMs": 2470.4,
+      "estimatedListeningGateMs": 2470.4,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "ホットのお茶一つですね。",
+          "romaji": "Hotto no ocha hitotsu desu ne.",
+          "french": "Un thé chaud, d’accord."
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "ホットのお茶一つですね。",
+              "romaji": "Hotto no ocha hitotsu desu ne.",
+              "french": "Un thé chaud, d’accord."
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1.5
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 86572,
+          "durationMs": 1802.7,
+          "elapsedMs": 667.7
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 1.2,
+            "worker_queue": 0.2,
+            "teaching": 1.2412079999994603,
+            "postprocess": 0.20749999999679858,
+            "tts_first": 666.215916000001,
+            "first_audio_emit": 667.6778330000016,
+            "tts_all": 666.2587080000012,
+            "playback_estimate": 1802.6666666666667,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 667.8
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 667.8
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        },
+        {
+          "id": "cafe-role-request",
+          "status": "pass",
+          "kind": "lexical-signal",
+          "detail": "Candidate role inversion: Mochi may be ordering from the learner; quoted examples need human review."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "cafe-change",
+      "turn": "temperature-fragment",
+      "turnIndex": 2,
+      "profile": "structured",
+      "input": {
+        "scenario": "cafe",
+        "text": "ホットで。",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習のカフェです。お茶は三百五十円です。何にしますか？"
+          },
+          {
+            "role": "user",
+            "content": "コーヒーを一つください。"
+          },
+          {
+            "role": "assistant",
+            "content": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».\nコーヒー一つですね。ホットですか、アイスですか？"
+          },
+          {
+            "role": "user",
+            "content": "やっぱり、コーヒーじゃなくて、お茶を一つください。"
+          },
+          {
+            "role": "assistant",
+            "content": "お茶一つですね。ホットですか、アイスですか？"
+          }
+        ]
+      },
+      "inputSha256": "57df80317daffd41d157484ff0ecb3887c81f3b109f72c60afb16ce3fb7348d7",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 665.7,
+      "responseDoneMs": 665.7,
+      "respondReturnedMs": 665.7,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 666.9,
+      "totalJapaneseWaveMs": 1802.7,
+      "estimatedLastWaveEndMs": 2468.4,
+      "estimatedListeningGateMs": 2468.4,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "ホットのお茶一つですね。",
+          "romaji": "Hotto no ocha hitotsu desu ne.",
+          "french": "Un thé chaud, d’accord."
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "ホットのお茶一つですね。",
+              "romaji": "Hotto no ocha hitotsu desu ne.",
+              "french": "Un thé chaud, d’accord."
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 0.8
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 86572,
+          "durationMs": 1802.7,
+          "elapsedMs": 665.7
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 0.5,
+            "worker_queue": 0.5,
+            "teaching": 0.5767909999995027,
+            "postprocess": 0.18483299999934388,
+            "tts_first": 664.8875000000044,
+            "first_audio_emit": 665.6607079999958,
+            "tts_all": 664.9241670000047,
+            "playback_estimate": 1802.6666666666667,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 665.7
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 665.7
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        },
+        {
+          "id": "cafe-role-request",
+          "status": "pass",
+          "kind": "lexical-signal",
+          "detail": "Candidate role inversion: Mochi may be ordering from the learner; quoted examples need human review."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "cafe-change",
+      "turn": "known-price",
+      "turnIndex": 3,
+      "profile": "structured",
+      "input": {
+        "scenario": "cafe",
+        "text": "このお茶はいくらですか？",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習のカフェです。お茶は三百五十円です。何にしますか？"
+          },
+          {
+            "role": "user",
+            "content": "コーヒーを一つください。"
+          },
+          {
+            "role": "assistant",
+            "content": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».\nコーヒー一つですね。ホットですか、アイスですか？"
+          },
+          {
+            "role": "user",
+            "content": "やっぱり、コーヒーじゃなくて、お茶を一つください。"
+          },
+          {
+            "role": "assistant",
+            "content": "お茶一つですね。ホットですか、アイスですか？"
+          },
+          {
+            "role": "user",
+            "content": "ホットで。"
+          },
+          {
+            "role": "assistant",
+            "content": "ホットのお茶一つですね。"
+          }
+        ]
+      },
+      "inputSha256": "68e7015d315b5021a408c4ea012a81da759d7a5603827a19b9b2909ba6f19d48",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 1989.5,
+      "responseDoneMs": 1989.5,
+      "respondReturnedMs": 1989.5,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 1990.7,
+      "totalJapaneseWaveMs": 1642.7,
+      "estimatedLastWaveEndMs": 3632.2,
+      "estimatedListeningGateMs": 3632.2,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "350円です。",
+          "romaji": "Sanbyaku gojū en desu.",
+          "french": "C’est 350 yens."
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "350円です。",
+              "romaji": "Sanbyaku gojū en desu.",
+              "french": "C’est 350 yens."
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1375.4
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 78892,
+          "durationMs": 1642.7,
+          "elapsedMs": 1989.5
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1373.9,
+            "generations": 1,
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 1375.1,
+            "worker_queue": 0.1,
+            "teaching": 1375.164417,
+            "postprocess": 0.20933299999887822,
+            "tts_first": 614.0609169999952,
+            "first_audio_emit": 1989.4495840000018,
+            "tts_all": 614.1059999999998,
+            "playback_estimate": 1642.6666666666667,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 1989.5
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 1989.5
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        },
+        {
+          "id": "cafe-role-request",
+          "status": "pass",
+          "kind": "lexical-signal",
+          "detail": "Candidate role inversion: Mochi may be ordering from the learner; quoted examples need human review."
+        },
+        {
+          "id": "known-price",
+          "status": "pass",
+          "kind": "lexical-signal",
+          "detail": "Compare the reply with the fictional price already supplied; absence can also mean the question was not answered."
+        },
+        {
+          "id": "price-translation",
+          "status": "pass",
+          "kind": "lexical-signal",
+          "detail": "Inspect the French rendering and scope of the expected fictional price; the signal is not semantic validation."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "cafe-change",
+      "turn": "known-price",
+      "turnIndex": 3,
+      "profile": "ja-first",
+      "input": {
+        "scenario": "cafe",
+        "text": "このお茶はいくらですか？",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習のカフェです。お茶は三百五十円です。何にしますか？"
+          },
+          {
+            "role": "user",
+            "content": "コーヒーを一つください。"
+          },
+          {
+            "role": "assistant",
+            "content": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».\nコーヒー一つですね。ホットですか、アイスですか？"
+          },
+          {
+            "role": "user",
+            "content": "やっぱり、コーヒーじゃなくて、お茶を一つください。"
+          },
+          {
+            "role": "assistant",
+            "content": "お茶一つですね。ホットですか、アイスですか？"
+          },
+          {
+            "role": "user",
+            "content": "ホットで。"
+          },
+          {
+            "role": "assistant",
+            "content": "ホットのお茶一つですね。"
+          }
+        ]
+      },
+      "inputSha256": "68e7015d315b5021a408c4ea012a81da759d7a5603827a19b9b2909ba6f19d48",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 1884.3,
+      "responseDoneMs": 1884.4,
+      "respondReturnedMs": 1884.4,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 1885.5,
+      "totalJapaneseWaveMs": 1642.7,
+      "estimatedLastWaveEndMs": 3527,
+      "estimatedListeningGateMs": 3527,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "350円です。",
+          "romaji": "Sanbyaku gojū en desu.",
+          "french": "C’est 350 yens."
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "350円です。",
+              "romaji": "Sanbyaku gojū en desu.",
+              "french": "C’est 350 yens."
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1226.2
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 78892,
+          "durationMs": 1642.7,
+          "elapsedMs": 1884.3
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1224.7,
+            "generations": 1,
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 1225.6,
+            "worker_queue": 0.6,
+            "teaching": 1225.695458000002,
+            "postprocess": 0.45987500000046566,
+            "tts_first": 657.9358340000035,
+            "first_audio_emit": 1884.1107499999998,
+            "tts_all": 658.1491670000032,
+            "playback_estimate": 1642.6666666666667,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 1884.4
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 1884.4
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        },
+        {
+          "id": "cafe-role-request",
+          "status": "pass",
+          "kind": "lexical-signal",
+          "detail": "Candidate role inversion: Mochi may be ordering from the learner; quoted examples need human review."
+        },
+        {
+          "id": "known-price",
+          "status": "pass",
+          "kind": "lexical-signal",
+          "detail": "Compare the reply with the fictional price already supplied; absence can also mean the question was not answered."
+        },
+        {
+          "id": "price-translation",
+          "status": "pass",
+          "kind": "lexical-signal",
+          "detail": "Inspect the French rendering and scope of the expected fictional price; the signal is not semantic validation."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "station-service",
+      "turn": "destination",
+      "turnIndex": 0,
+      "profile": "structured",
+      "input": {
+        "scenario": "station",
+        "text": "京都までお願いします。",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習の駅です。京都行きは三番線です。どちらまでですか？"
+          }
+        ]
+      },
+      "inputSha256": "413d719aa8ba5358ecb9147c8f8cdb0bcdecb44a6f4a378b5a3da09e4bacaa95",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 1669.7,
+      "responseDoneMs": 2699.8,
+      "respondReturnedMs": 2699.8,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 2700,
+      "totalJapaneseWaveMs": 4064,
+      "estimatedLastWaveEndMs": 5733.7,
+      "estimatedListeningGateMs": 5733.7,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "京都までですね。片道ですか、往復ですか？",
+          "romaji": "Kyōto made desu ne. Katamichi desu ka, ōfuku desu ka?",
+          "french": "Pour Kyoto, d’accord. Aller simple ou aller-retour ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "京都までですね。片道ですか、往復ですか？",
+              "romaji": "Kyōto made desu ne. Katamichi desu ka, ōfuku desu ka?",
+              "french": "Pour Kyoto, d’accord. Aller simple ou aller-retour ?"
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1138.6
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 63532,
+          "durationMs": 1322.7,
+          "elapsedMs": 1669.7
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 131628,
+          "durationMs": 2741.3,
+          "elapsedMs": 2699.7
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1136.2,
+            "generations": 1,
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 1138.2,
+            "worker_queue": 0.2,
+            "teaching": 1138.3165420000005,
+            "postprocess": 0.27012500000273576,
+            "tts_first": 531.0328329999975,
+            "first_audio_emit": 1669.6397079999952,
+            "tts_all": 1561.1080829999992,
+            "playback_estimate": 4064,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 2699.8
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 2699.8
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        },
+        {
+          "id": "station-role-question",
+          "status": "pass",
+          "kind": "lexical-signal",
+          "detail": "Candidate role inversion: Mochi may be asking the passenger for platform information."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "station-service",
+      "turn": "destination",
+      "turnIndex": 0,
+      "profile": "ja-first",
+      "input": {
+        "scenario": "station",
+        "text": "京都までお願いします。",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習の駅です。京都行きは三番線です。どちらまでですか？"
+          }
+        ]
+      },
+      "inputSha256": "413d719aa8ba5358ecb9147c8f8cdb0bcdecb44a6f4a378b5a3da09e4bacaa95",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 1822.7,
+      "responseDoneMs": 2794.5,
+      "respondReturnedMs": 2794.5,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 2795.7,
+      "totalJapaneseWaveMs": 4064,
+      "estimatedLastWaveEndMs": 5886.7,
+      "estimatedListeningGateMs": 5886.7,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "京都までですね。片道ですか、往復ですか？",
+          "romaji": "Kyōto made desu ne. Katamichi desu ka, ōfuku desu ka?",
+          "french": "Pour Kyoto, d’accord. Aller simple ou aller-retour ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "京都までですね。片道ですか、往復ですか？",
+              "romaji": "Kyōto made desu ne. Katamichi desu ka, ōfuku desu ka?",
+              "french": "Pour Kyoto, d’accord. Aller simple ou aller-retour ?"
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1289.8
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 63532,
+          "durationMs": 1322.7,
+          "elapsedMs": 1822.7
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 131628,
+          "durationMs": 2741.3,
+          "elapsedMs": 2794.4
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1288.9,
+            "generations": 1,
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 1289.5,
+            "worker_queue": 0.5,
+            "teaching": 1289.582792000001,
+            "postprocess": 0.2078750000000582,
+            "tts_first": 532.8285830000023,
+            "first_audio_emit": 1822.6340830000045,
+            "tts_all": 1504.639750000002,
+            "playback_estimate": 4064,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 2794.5
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 2794.5
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        },
+        {
+          "id": "station-role-question",
+          "status": "pass",
+          "kind": "lexical-signal",
+          "detail": "Candidate role inversion: Mochi may be asking the passenger for platform information."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "station-service",
+      "turn": "one-way",
+      "turnIndex": 1,
+      "profile": "ja-first",
+      "input": {
+        "scenario": "station",
+        "text": "片道です。",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習の駅です。京都行きは三番線です。どちらまでですか？"
+          },
+          {
+            "role": "user",
+            "content": "京都までお願いします。"
+          },
+          {
+            "role": "assistant",
+            "content": "京都までですね。片道ですか、往復ですか？"
+          }
+        ]
+      },
+      "inputSha256": "5a4ac8fa870cc6cf62b6d522733095cf2b0bf564dcd272866f5fe87c569c6cf9",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 1855.5,
+      "responseDoneMs": 2519.3,
+      "respondReturnedMs": 2519.3,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 2520.7,
+      "totalJapaneseWaveMs": 3050.7,
+      "estimatedLastWaveEndMs": 4906.2,
+      "estimatedListeningGateMs": 4906.2,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "片道ですね。切符は何枚ですか？",
+          "romaji": "Katamichi desu ne. Kippu wa nanmai desu ka?",
+          "french": "Un aller simple, d’accord. Combien de billets veux-tu ?"
+        },
+        "coaching": "Kippu veut dire billet ; nanmai demande combien de billets. Tu peux répondre « ni-mai desu » pour deux.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "片道ですね。切符は何枚ですか？",
+              "romaji": "Katamichi desu ne. Kippu wa nanmai desu ka?",
+              "french": "Un aller simple, d’accord. Combien de billets veux-tu ?"
+            },
+            "coaching": "Kippu veut dire billet ; nanmai demande combien de billets. Tu peux répondre « ni-mai desu » pour deux.",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1366.9
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 59948,
+          "durationMs": 1248,
+          "elapsedMs": 1855.5
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 86572,
+          "durationMs": 1802.7,
+          "elapsedMs": 2519.3
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1365.4,
+            "generations": 1,
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 1366.5,
+            "worker_queue": 0.5,
+            "teaching": 1366.579792000004,
+            "postprocess": 0.24270899999828544,
+            "tts_first": 488.5907919999954,
+            "first_audio_emit": 1855.4305840000015,
+            "tts_all": 1152.448749999996,
+            "playback_estimate": 3050.666666666667,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 2519.3
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 2519.3
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        },
+        {
+          "id": "station-role-question",
+          "status": "pass",
+          "kind": "lexical-signal",
+          "detail": "Candidate role inversion: Mochi may be asking the passenger for platform information."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "station-service",
+      "turn": "one-way",
+      "turnIndex": 1,
+      "profile": "structured",
+      "input": {
+        "scenario": "station",
+        "text": "片道です。",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習の駅です。京都行きは三番線です。どちらまでですか？"
+          },
+          {
+            "role": "user",
+            "content": "京都までお願いします。"
+          },
+          {
+            "role": "assistant",
+            "content": "京都までですね。片道ですか、往復ですか？"
+          }
+        ]
+      },
+      "inputSha256": "5a4ac8fa870cc6cf62b6d522733095cf2b0bf564dcd272866f5fe87c569c6cf9",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 1716.7,
+      "responseDoneMs": 2426.9,
+      "respondReturnedMs": 2426.9,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 2428.1,
+      "totalJapaneseWaveMs": 3050.7,
+      "estimatedLastWaveEndMs": 4767.4,
+      "estimatedListeningGateMs": 4767.4,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "片道ですね。切符は何枚ですか？",
+          "romaji": "Katamichi desu ne. Kippu wa nanmai desu ka?",
+          "french": "Un aller simple, d’accord. Combien de billets veux-tu ?"
+        },
+        "coaching": "Kippu veut dire billet ; nanmai demande combien de billets. Tu peux répondre « ni-mai desu » pour deux.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "片道ですね。切符は何枚ですか？",
+              "romaji": "Katamichi desu ne. Kippu wa nanmai desu ka?",
+              "french": "Un aller simple, d’accord. Combien de billets veux-tu ?"
+            },
+            "coaching": "Kippu veut dire billet ; nanmai demande combien de billets. Tu peux répondre « ni-mai desu » pour deux.",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1204.9
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 59948,
+          "durationMs": 1248,
+          "elapsedMs": 1716.7
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 86572,
+          "durationMs": 1802.7,
+          "elapsedMs": 2426.9
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1203.9,
+            "generations": 1,
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 1204.6,
+            "worker_queue": 0.6,
+            "teaching": 1204.6415409999972,
+            "postprocess": 0.22358400000666734,
+            "tts_first": 511.7715840000019,
+            "first_audio_emit": 1716.6526249999952,
+            "tts_all": 1222.00475,
+            "playback_estimate": 3050.666666666667,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 2426.9
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 2426.9
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        },
+        {
+          "id": "station-role-question",
+          "status": "pass",
+          "kind": "lexical-signal",
+          "detail": "Candidate role inversion: Mochi may be asking the passenger for platform information."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "station-service",
+      "turn": "two-tickets",
+      "turnIndex": 2,
+      "profile": "structured",
+      "input": {
+        "scenario": "station",
+        "text": "二枚です。",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習の駅です。京都行きは三番線です。どちらまでですか？"
+          },
+          {
+            "role": "user",
+            "content": "京都までお願いします。"
+          },
+          {
+            "role": "assistant",
+            "content": "京都までですね。片道ですか、往復ですか？"
+          },
+          {
+            "role": "user",
+            "content": "片道です。"
+          },
+          {
+            "role": "assistant",
+            "content": "Kippu veut dire billet ; nanmai demande combien de billets. Tu peux répondre « ni-mai desu » pour deux.\n片道ですね。切符は何枚ですか？"
+          }
+        ]
+      },
+      "inputSha256": "c8860a8fb1a2b748b300fd2ea6cfd014f385c27c12cb1e5901075e27e52225db",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 1009.2,
+      "responseDoneMs": 1009.3,
+      "respondReturnedMs": 1009.3,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 1010.5,
+      "totalJapaneseWaveMs": 2794.7,
+      "estimatedLastWaveEndMs": 3803.9,
+      "estimatedListeningGateMs": 3803.9,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "京都まで、片道で二枚ですね。",
+          "romaji": "Kyōto made, katamichi de nimai desu ne.",
+          "french": "2 billets aller simple pour Kyoto, d’accord."
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "京都まで、片道で二枚ですね。",
+              "romaji": "Kyōto made, katamichi de nimai desu ne.",
+              "french": "2 billets aller simple pour Kyoto, d’accord."
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1.5
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 134188,
+          "durationMs": 2794.7,
+          "elapsedMs": 1009.2
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 1.2,
+            "worker_queue": 0.2,
+            "teaching": 1.2539590000014869,
+            "postprocess": 0.2264999999970314,
+            "tts_first": 1007.6466250000012,
+            "first_audio_emit": 1009.1402919999964,
+            "tts_all": 1007.7146670000002,
+            "playback_estimate": 2794.6666666666665,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 1009.3
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 1009.3
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        },
+        {
+          "id": "station-role-question",
+          "status": "pass",
+          "kind": "lexical-signal",
+          "detail": "Candidate role inversion: Mochi may be asking the passenger for platform information."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "station-service",
+      "turn": "two-tickets",
+      "turnIndex": 2,
+      "profile": "ja-first",
+      "input": {
+        "scenario": "station",
+        "text": "二枚です。",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習の駅です。京都行きは三番線です。どちらまでですか？"
+          },
+          {
+            "role": "user",
+            "content": "京都までお願いします。"
+          },
+          {
+            "role": "assistant",
+            "content": "京都までですね。片道ですか、往復ですか？"
+          },
+          {
+            "role": "user",
+            "content": "片道です。"
+          },
+          {
+            "role": "assistant",
+            "content": "Kippu veut dire billet ; nanmai demande combien de billets. Tu peux répondre « ni-mai desu » pour deux.\n片道ですね。切符は何枚ですか？"
+          }
+        ]
+      },
+      "inputSha256": "c8860a8fb1a2b748b300fd2ea6cfd014f385c27c12cb1e5901075e27e52225db",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 1018.9,
+      "responseDoneMs": 1019,
+      "respondReturnedMs": 1019,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 1020.2,
+      "totalJapaneseWaveMs": 2794.7,
+      "estimatedLastWaveEndMs": 3813.6,
+      "estimatedListeningGateMs": 3813.6,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "京都まで、片道で二枚ですね。",
+          "romaji": "Kyōto made, katamichi de nimai desu ne.",
+          "french": "2 billets aller simple pour Kyoto, d’accord."
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "京都まで、片道で二枚ですね。",
+              "romaji": "Kyōto made, katamichi de nimai desu ne.",
+              "french": "2 billets aller simple pour Kyoto, d’accord."
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 0.7
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 134188,
+          "durationMs": 2794.7,
+          "elapsedMs": 1018.9
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 0.5,
+            "worker_queue": 0.5,
+            "teaching": 0.5329159999964759,
+            "postprocess": 0.1673330000048736,
+            "tts_first": 1018.1425000000017,
+            "first_audio_emit": 1018.8534579999978,
+            "tts_all": 1018.2099159999998,
+            "playback_estimate": 2794.6666666666665,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 1019
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 1019
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        },
+        {
+          "id": "station-role-question",
+          "status": "pass",
+          "kind": "lexical-signal",
+          "detail": "Candidate role inversion: Mochi may be asking the passenger for platform information."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "station-service",
+      "turn": "known-platform",
+      "turnIndex": 3,
+      "profile": "ja-first",
+      "input": {
+        "scenario": "station",
+        "text": "どのホームですか？",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習の駅です。京都行きは三番線です。どちらまでですか？"
+          },
+          {
+            "role": "user",
+            "content": "京都までお願いします。"
+          },
+          {
+            "role": "assistant",
+            "content": "京都までですね。片道ですか、往復ですか？"
+          },
+          {
+            "role": "user",
+            "content": "片道です。"
+          },
+          {
+            "role": "assistant",
+            "content": "Kippu veut dire billet ; nanmai demande combien de billets. Tu peux répondre « ni-mai desu » pour deux.\n片道ですね。切符は何枚ですか？"
+          },
+          {
+            "role": "user",
+            "content": "二枚です。"
+          },
+          {
+            "role": "assistant",
+            "content": "京都まで、片道で二枚ですね。"
+          }
+        ]
+      },
+      "inputSha256": "fccb71efa5ff5726e35e33acd0bdd1da142d5d3373864f04a4eb6595d11b854d",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 499.7,
+      "responseDoneMs": 499.8,
+      "respondReturnedMs": 499.8,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 501,
+      "totalJapaneseWaveMs": 1269.3,
+      "estimatedLastWaveEndMs": 1769,
+      "estimatedListeningGateMs": 1769,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "3番線です。",
+          "romaji": "Sanbansen desu.",
+          "french": "C’est la voie 3."
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "3番線です。",
+              "romaji": "Sanbansen desu.",
+              "french": "C’est la voie 3."
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1.2
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 60972,
+          "durationMs": 1269.3,
+          "elapsedMs": 499.7
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 0.9,
+            "worker_queue": 0,
+            "teaching": 0.9652080000014394,
+            "postprocess": 0.19104199999856064,
+            "tts_first": 498.52008300000307,
+            "first_audio_emit": 499.68770799999766,
+            "tts_all": 498.5490409999984,
+            "playback_estimate": 1269.3333333333335,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 499.8
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 499.8
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        },
+        {
+          "id": "station-role-question",
+          "status": "pass",
+          "kind": "lexical-signal",
+          "detail": "Candidate role inversion: Mochi may be asking the passenger for platform information."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "station-service",
+      "turn": "known-platform",
+      "turnIndex": 3,
+      "profile": "structured",
+      "input": {
+        "scenario": "station",
+        "text": "どのホームですか？",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習の駅です。京都行きは三番線です。どちらまでですか？"
+          },
+          {
+            "role": "user",
+            "content": "京都までお願いします。"
+          },
+          {
+            "role": "assistant",
+            "content": "京都までですね。片道ですか、往復ですか？"
+          },
+          {
+            "role": "user",
+            "content": "片道です。"
+          },
+          {
+            "role": "assistant",
+            "content": "Kippu veut dire billet ; nanmai demande combien de billets. Tu peux répondre « ni-mai desu » pour deux.\n片道ですね。切符は何枚ですか？"
+          },
+          {
+            "role": "user",
+            "content": "二枚です。"
+          },
+          {
+            "role": "assistant",
+            "content": "京都まで、片道で二枚ですね。"
+          }
+        ]
+      },
+      "inputSha256": "fccb71efa5ff5726e35e33acd0bdd1da142d5d3373864f04a4eb6595d11b854d",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 570.2,
+      "responseDoneMs": 570.2,
+      "respondReturnedMs": 570.2,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 571.4,
+      "totalJapaneseWaveMs": 1269.3,
+      "estimatedLastWaveEndMs": 1839.5,
+      "estimatedListeningGateMs": 1839.5,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "3番線です。",
+          "romaji": "Sanbansen desu.",
+          "french": "C’est la voie 3."
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "3番線です。",
+              "romaji": "Sanbansen desu.",
+              "french": "C’est la voie 3."
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 0.8
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 60972,
+          "durationMs": 1269.3,
+          "elapsedMs": 570.2
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 0.5,
+            "worker_queue": 0.5,
+            "teaching": 0.5512910000034026,
+            "postprocess": 0.19095799999922747,
+            "tts_first": 569.1893330000021,
+            "first_audio_emit": 569.9442500000005,
+            "tts_all": 569.4284170000028,
+            "playback_estimate": 1269.3333333333335,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 570.2
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 570.2
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        },
+        {
+          "id": "station-role-question",
+          "status": "pass",
+          "kind": "lexical-signal",
+          "detail": "Candidate role inversion: Mochi may be asking the passenger for platform information."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "repair-and-repeat",
+      "turn": "particle-error",
+      "turnIndex": 0,
+      "profile": "ja-first",
+      "input": {
+        "scenario": "meet",
+        "text": "私はベルギーを来ました。",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          }
+        ]
+      },
+      "inputSha256": "7a4885044165849dbfd54caff359f801f38beb5954a8a7adcc8d481b9b2a0253",
+      "status": "complete",
+      "path": "correction",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 3388,
+      "responseDoneMs": 4196.5,
+      "respondReturnedMs": 4196.5,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 4197.7,
+      "totalJapaneseWaveMs": 4309.3,
+      "estimatedLastWaveEndMs": 7697.3,
+      "estimatedListeningGateMs": 7697.3,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "私はベルギーから来ました。 もう一度、言ってみましょう。",
+          "romaji": "Watashi wa berugī kara kimashita. Mōichido, itte mimashō.",
+          "french": "Je viens de Belgique. Réessaie cette phrase."
+        },
+        "coaching": "Pour dire d’où tu viens, utilise kara après le pays ou la ville.",
+        "practice": true,
+        "correction": {
+          "original": "私はベルギーを来ました。",
+          "corrected": "私はベルギーから来ました。",
+          "romaji": "Watashi wa berugī kara kimashita.",
+          "french": "Je viens de Belgique.",
+          "explanation": "Pour dire d’où tu viens, utilise kara après le pays ou la ville."
+        },
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "私はベルギーから来ました。 もう一度、言ってみましょう。",
+              "romaji": "Watashi wa berugī kara kimashita. Mōichido, itte mimashō.",
+              "french": "Je viens de Belgique. Réessaie cette phrase."
+            },
+            "coaching": "Pour dire d’où tu viens, utilise kara après le pays ou la ville.",
+            "practice": true,
+            "correction": {
+              "original": "私はベルギーを来ました。",
+              "corrected": "私はベルギーから来ました。",
+              "romaji": "Watashi wa berugī kara kimashita.",
+              "french": "Je viens de Belgique.",
+              "explanation": "Pour dire d’où tu viens, utilise kara après le pays ou la ville."
+            },
+            "vocabulary": []
+          },
+          "elapsedMs": 2647.4
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 97836,
+          "durationMs": 2037.3,
+          "elapsedMs": 3388
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 109100,
+          "durationMs": 2272,
+          "elapsedMs": 4196.4
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 2553.1,
+            "generations": 1,
+            "worker_roundtrip": 2574.4,
+            "worker_queue": 0.4,
+            "teaching": 2574.7818750000006,
+            "postprocess": 72.56179200000042,
+            "tts_first": 740.372292,
+            "first_audio_emit": 3387.7736250000016,
+            "tts_all": 1549.033292,
+            "playback_estimate": 4309.333333333333,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 4196.5
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 4196.5
+        }
+      ],
+      "checks": [
+        {
+          "id": "expected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "Authored clear particle error should receive a correction; inspect its meaning."
+        },
+        {
+          "id": "corrected-construction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "Expected retained country and kara construction in the correction."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "repair-and-repeat",
+      "turn": "particle-error",
+      "turnIndex": 0,
+      "profile": "structured",
+      "input": {
+        "scenario": "meet",
+        "text": "私はベルギーを来ました。",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          }
+        ]
+      },
+      "inputSha256": "7a4885044165849dbfd54caff359f801f38beb5954a8a7adcc8d481b9b2a0253",
+      "status": "complete",
+      "path": "correction",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 3272,
+      "responseDoneMs": 4069.1,
+      "respondReturnedMs": 4069.1,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 4070.2,
+      "totalJapaneseWaveMs": 4309.3,
+      "estimatedLastWaveEndMs": 7581.3,
+      "estimatedListeningGateMs": 7581.3,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "私はベルギーから来ました。 もう一度、言ってみましょう。",
+          "romaji": "Watashi wa berugī kara kimashita. Mōichido, itte mimashō.",
+          "french": "Je viens de Belgique. Réessaie cette phrase."
+        },
+        "coaching": "Pour dire d’où tu viens, utilise kara après le pays ou la ville.",
+        "practice": true,
+        "correction": {
+          "original": "私はベルギーを来ました。",
+          "corrected": "私はベルギーから来ました。",
+          "romaji": "Watashi wa berugī kara kimashita.",
+          "french": "Je viens de Belgique.",
+          "explanation": "Pour dire d’où tu viens, utilise kara après le pays ou la ville."
+        },
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "私はベルギーから来ました。 もう一度、言ってみましょう。",
+              "romaji": "Watashi wa berugī kara kimashita. Mōichido, itte mimashō.",
+              "french": "Je viens de Belgique. Réessaie cette phrase."
+            },
+            "coaching": "Pour dire d’où tu viens, utilise kara après le pays ou la ville.",
+            "practice": true,
+            "correction": {
+              "original": "私はベルギーを来ました。",
+              "corrected": "私はベルギーから来ました。",
+              "romaji": "Watashi wa berugī kara kimashita.",
+              "french": "Je viens de Belgique.",
+              "explanation": "Pour dire d’où tu viens, utilise kara après le pays ou la ville."
+            },
+            "vocabulary": []
+          },
+          "elapsedMs": 2537.1
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 97836,
+          "durationMs": 2037.3,
+          "elapsedMs": 3272
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 109100,
+          "durationMs": 2272,
+          "elapsedMs": 4069
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 2536.1,
+            "generations": 1,
+            "worker_roundtrip": 2536.7,
+            "worker_queue": 0.7,
+            "teaching": 2536.8287920000002,
+            "postprocess": 0.21195799999986775,
+            "tts_first": 734.6726659999986,
+            "first_audio_emit": 3271.756374999997,
+            "tts_all": 1531.9233749999985,
+            "playback_estimate": 4309.333333333333,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 4069.1
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 4069.1
+        }
+      ],
+      "checks": [
+        {
+          "id": "expected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "Authored clear particle error should receive a correction; inspect its meaning."
+        },
+        {
+          "id": "corrected-construction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "Expected retained country and kara construction in the correction."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "repair-and-repeat",
+      "turn": "successful-repair",
+      "turnIndex": 1,
+      "profile": "structured",
+      "input": {
+        "scenario": "meet",
+        "text": "私はベルギーから来ました。",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          },
+          {
+            "role": "user",
+            "content": "私はベルギーを来ました。"
+          },
+          {
+            "role": "assistant",
+            "content": "Pour dire d’où tu viens, utilise kara après le pays ou la ville.\n私はベルギーから来ました。 もう一度、言ってみましょう。"
+          }
+        ]
+      },
+      "inputSha256": "0fc97b96affbc12c6ebca376743113e943a92a34d2ac5722e091c3f5c484fbf8",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 626.2,
+      "responseDoneMs": 626.3,
+      "respondReturnedMs": 626.3,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 627.4,
+      "totalJapaneseWaveMs": 1738.7,
+      "estimatedLastWaveEndMs": 2364.9,
+      "estimatedListeningGateMs": 2364.9,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "どこに住んでいますか？",
+          "romaji": "Doko ni sunde imasu ka?",
+          "french": "Où habites-tu ?"
+        },
+        "coaching": "Je te demande où tu habites. Tu peux dire « [ville] ni sunde imasu ».",
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "どこに住んでいますか？",
+              "romaji": "Doko ni sunde imasu ka?",
+              "french": "Où habites-tu ?"
+            },
+            "coaching": "Je te demande où tu habites. Tu peux dire « [ville] ni sunde imasu ».",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 0.6
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 83500,
+          "durationMs": 1738.7,
+          "elapsedMs": 626.2
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 0.4,
+            "worker_queue": 0.4,
+            "teaching": 0.4335830000054557,
+            "postprocess": 0.15616700000100536,
+            "tts_first": 625.3822080000027,
+            "first_audio_emit": 625.9840420000037,
+            "tts_all": 625.6238330000051,
+            "playback_estimate": 1738.6666666666665,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 626.3
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 626.3
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "repair-and-repeat",
+      "turn": "successful-repair",
+      "turnIndex": 1,
+      "profile": "ja-first",
+      "input": {
+        "scenario": "meet",
+        "text": "私はベルギーから来ました。",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          },
+          {
+            "role": "user",
+            "content": "私はベルギーを来ました。"
+          },
+          {
+            "role": "assistant",
+            "content": "Pour dire d’où tu viens, utilise kara après le pays ou la ville.\n私はベルギーから来ました。 もう一度、言ってみましょう。"
+          }
+        ]
+      },
+      "inputSha256": "0fc97b96affbc12c6ebca376743113e943a92a34d2ac5722e091c3f5c484fbf8",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 632.6,
+      "responseDoneMs": 632.6,
+      "respondReturnedMs": 632.6,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 633.9,
+      "totalJapaneseWaveMs": 1738.7,
+      "estimatedLastWaveEndMs": 2371.3,
+      "estimatedListeningGateMs": 2371.3,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "どこに住んでいますか？",
+          "romaji": "Doko ni sunde imasu ka?",
+          "french": "Où habites-tu ?"
+        },
+        "coaching": "Je te demande où tu habites. Tu peux dire « [ville] ni sunde imasu ».",
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "どこに住んでいますか？",
+              "romaji": "Doko ni sunde imasu ka?",
+              "french": "Où habites-tu ?"
+            },
+            "coaching": "Je te demande où tu habites. Tu peux dire « [ville] ni sunde imasu ».",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 0.6
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 83500,
+          "durationMs": 1738.7,
+          "elapsedMs": 632.6
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 0.4,
+            "worker_queue": 0.4,
+            "teaching": 0.4560829999973066,
+            "postprocess": 0.15366699999867706,
+            "tts_first": 631.9018340000039,
+            "first_audio_emit": 632.5230410000004,
+            "tts_all": 631.9418750000041,
+            "playback_estimate": 1738.6666666666665,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 632.6
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 632.6
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "repair-and-repeat",
+      "turn": "repeat-help",
+      "turnIndex": 2,
+      "profile": "ja-first",
+      "input": {
+        "scenario": "meet",
+        "text": "Tu peux répéter la question, s’il te plaît ?",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          },
+          {
+            "role": "user",
+            "content": "私はベルギーを来ました。"
+          },
+          {
+            "role": "assistant",
+            "content": "Pour dire d’où tu viens, utilise kara après le pays ou la ville.\n私はベルギーから来ました。 もう一度、言ってみましょう。"
+          },
+          {
+            "role": "user",
+            "content": "私はベルギーから来ました。"
+          },
+          {
+            "role": "assistant",
+            "content": "Je te demande où tu habites. Tu peux dire « [ville] ni sunde imasu ».\nどこに住んでいますか？"
+          }
+        ]
+      },
+      "inputSha256": "0b8c8d532c53456a945c33f62199cac00712223d6acb5ed2cf6fafec1f3670b7",
+      "status": "complete",
+      "path": "shared-response",
+      "providerTurnCalls": 0,
+      "firstJapaneseAudioEmittedMs": 623.7,
+      "responseDoneMs": 623.8,
+      "respondReturnedMs": 623.8,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 625,
+      "totalJapaneseWaveMs": 1738.7,
+      "estimatedLastWaveEndMs": 2362.4,
+      "estimatedListeningGateMs": 2362.4,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "どこに住んでいますか？",
+          "romaji": "Doko ni sunde imasu ka?",
+          "french": "Où habites-tu ?"
+        },
+        "coaching": null,
+        "assisted": false,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "どこに住んでいますか？",
+              "romaji": "Doko ni sunde imasu ka?",
+              "french": "Où habites-tu ?"
+            },
+            "coaching": null,
+            "assisted": false,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 0.6
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 83500,
+          "durationMs": 1738.7,
+          "elapsedMs": 623.7
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "worker_roundtrip": 0.3,
+            "worker_queue": 0.3,
+            "teaching": 0.4032919999954174,
+            "postprocess": 0.18162500000471482,
+            "tts_first": 623.0909170000014,
+            "first_audio_emit": 623.6955420000013,
+            "tts_all": 623.1310000000012,
+            "playback_estimate": 1738.6666666666665,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 623.8
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 623.8
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "repair-and-repeat",
+      "turn": "repeat-help",
+      "turnIndex": 2,
+      "profile": "structured",
+      "input": {
+        "scenario": "meet",
+        "text": "Tu peux répéter la question, s’il te plaît ?",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          },
+          {
+            "role": "user",
+            "content": "私はベルギーを来ました。"
+          },
+          {
+            "role": "assistant",
+            "content": "Pour dire d’où tu viens, utilise kara après le pays ou la ville.\n私はベルギーから来ました。 もう一度、言ってみましょう。"
+          },
+          {
+            "role": "user",
+            "content": "私はベルギーから来ました。"
+          },
+          {
+            "role": "assistant",
+            "content": "Je te demande où tu habites. Tu peux dire « [ville] ni sunde imasu ».\nどこに住んでいますか？"
+          }
+        ]
+      },
+      "inputSha256": "0b8c8d532c53456a945c33f62199cac00712223d6acb5ed2cf6fafec1f3670b7",
+      "status": "complete",
+      "path": "shared-response",
+      "providerTurnCalls": 0,
+      "firstJapaneseAudioEmittedMs": 616.9,
+      "responseDoneMs": 616.9,
+      "respondReturnedMs": 616.9,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 618.1,
+      "totalJapaneseWaveMs": 1738.7,
+      "estimatedLastWaveEndMs": 2355.6,
+      "estimatedListeningGateMs": 2355.6,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "どこに住んでいますか？",
+          "romaji": "Doko ni sunde imasu ka?",
+          "french": "Où habites-tu ?"
+        },
+        "coaching": null,
+        "assisted": false,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "どこに住んでいますか？",
+              "romaji": "Doko ni sunde imasu ka?",
+              "french": "Où habites-tu ?"
+            },
+            "coaching": null,
+            "assisted": false,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 0.5
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 83500,
+          "durationMs": 1738.7,
+          "elapsedMs": 616.9
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "worker_roundtrip": 0.3,
+            "worker_queue": 0.3,
+            "teaching": 0.3000409999949625,
+            "postprocess": 0.17162499998812564,
+            "tts_first": 616.3641249999928,
+            "first_audio_emit": 616.8487909999967,
+            "tts_all": 616.395583000005,
+            "playback_estimate": 1738.6666666666665,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 616.9
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 616.9
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "repair-and-repeat",
+      "turn": "city-fragment",
+      "turnIndex": 3,
+      "profile": "structured",
+      "input": {
+        "scenario": "meet",
+        "text": "ブリュッセルです。",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          },
+          {
+            "role": "user",
+            "content": "私はベルギーを来ました。"
+          },
+          {
+            "role": "assistant",
+            "content": "Pour dire d’où tu viens, utilise kara après le pays ou la ville.\n私はベルギーから来ました。 もう一度、言ってみましょう。"
+          },
+          {
+            "role": "user",
+            "content": "私はベルギーから来ました。"
+          },
+          {
+            "role": "assistant",
+            "content": "Je te demande où tu habites. Tu peux dire « [ville] ni sunde imasu ».\nどこに住んでいますか？"
+          },
+          {
+            "role": "user",
+            "content": "Tu peux répéter la question, s’il te plaît ?"
+          },
+          {
+            "role": "assistant",
+            "content": "どこに住んでいますか？"
+          }
+        ]
+      },
+      "inputSha256": "044f121d5ce876ec6c6e4f24c93a1da6db8de256d9430fcc0a0cb81f2102b096",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 1983.7,
+      "responseDoneMs": 1983.8,
+      "respondReturnedMs": 1983.8,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 1985,
+      "totalJapaneseWaveMs": 1749.3,
+      "estimatedLastWaveEndMs": 3733,
+      "estimatedListeningGateMs": 3733,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "日本語は好きですか？",
+          "romaji": "Nihongo wa suki desu ka?",
+          "french": "Tu aimes le japonais ?"
+        },
+        "coaching": "Nihongo veut dire japonais ; suki veut dire aimer. Tu peux répondre « hai » ou « iie ».",
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "日本語は好きですか？",
+              "romaji": "Nihongo wa suki desu ka?",
+              "french": "Tu aimes le japonais ?"
+            },
+            "coaching": "Nihongo veut dire japonais ; suki veut dire aimer. Tu peux répondre « hai » ou « iie ».",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1346.6
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 84012,
+          "durationMs": 1749.3,
+          "elapsedMs": 1983.7
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1345.2,
+            "generations": 1,
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 1346.3,
+            "worker_queue": 0.3,
+            "teaching": 1346.3302079999994,
+            "postprocess": 0.21533300000010058,
+            "tts_first": 637.1274999999878,
+            "first_audio_emit": 1983.6942500000005,
+            "tts_all": 637.1641669999954,
+            "playback_estimate": 1749.3333333333335,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 1983.8
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 1983.8
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    },
+    {
+      "mode": "rollout",
+      "dialogue": "repair-and-repeat",
+      "turn": "city-fragment",
+      "turnIndex": 3,
+      "profile": "ja-first",
+      "input": {
+        "scenario": "meet",
+        "text": "ブリュッセルです。",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          },
+          {
+            "role": "user",
+            "content": "私はベルギーを来ました。"
+          },
+          {
+            "role": "assistant",
+            "content": "Pour dire d’où tu viens, utilise kara après le pays ou la ville.\n私はベルギーから来ました。 もう一度、言ってみましょう。"
+          },
+          {
+            "role": "user",
+            "content": "私はベルギーから来ました。"
+          },
+          {
+            "role": "assistant",
+            "content": "Je te demande où tu habites. Tu peux dire « [ville] ni sunde imasu ».\nどこに住んでいますか？"
+          },
+          {
+            "role": "user",
+            "content": "Tu peux répéter la question, s’il te plaît ?"
+          },
+          {
+            "role": "assistant",
+            "content": "どこに住んでいますか？"
+          }
+        ]
+      },
+      "inputSha256": "044f121d5ce876ec6c6e4f24c93a1da6db8de256d9430fcc0a0cb81f2102b096",
+      "status": "complete",
+      "path": "controlled",
+      "providerTurnCalls": 1,
+      "firstJapaneseAudioEmittedMs": 1827.8,
+      "responseDoneMs": 1827.9,
+      "respondReturnedMs": 1827.9,
+      "secondaryCallbacks": [],
+      "allObservedWorkSettledMs": 1829,
+      "totalJapaneseWaveMs": 1749.3,
+      "estimatedLastWaveEndMs": 3577.1,
+      "estimatedListeningGateMs": 3577.1,
+      "estimatedHoldAfterLastWaveMs": 0,
+      "finalTutor": {
+        "reply": {
+          "japanese": "日本語は好きですか？",
+          "romaji": "Nihongo wa suki desu ka?",
+          "french": "Tu aimes le japonais ?"
+        },
+        "coaching": "Nihongo veut dire japonais ; suki veut dire aimer. Tu peux répondre « hai » ou « iie ».",
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "日本語は好きですか？",
+              "romaji": "Nihongo wa suki desu ka?",
+              "french": "Tu aimes le japonais ?"
+            },
+            "coaching": "Nihongo veut dire japonais ; suki veut dire aimer. Tu peux répondre « hai » ou « iie ».",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1204.1
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 84012,
+          "durationMs": 1749.3,
+          "elapsedMs": 1827.8
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1203.2,
+            "generations": 1,
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 1203.9,
+            "worker_queue": 0,
+            "teaching": 1203.916333000001,
+            "postprocess": 0.2034999999887077,
+            "tts_first": 623.635832999993,
+            "first_audio_emit": 1827.7705419999984,
+            "tts_all": 623.6713329999911,
+            "playback_estimate": 1749.3333333333335,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 1827.8
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 1827.9
+        }
+      ],
+      "checks": [
+        {
+          "id": "unexpected-correction",
+          "status": "pass",
+          "kind": "mechanical",
+          "detail": "The fixture is intended to be acceptable, repaired or a help request; any correction needs review."
+        }
+      ],
+      "humanLinguisticReview": "pending"
+    }
+  ],
+  "summary": {
+    "rollout": {
+      "structured": {
+        "attempted": 16,
+        "completed": 16,
+        "failed": 0,
+        "historiesResumedAfterFailure": 0,
+        "primaryComparisonPath": "generated",
+        "byPath": {
+          "generated": {
+            "attempted": 0,
+            "completed": 0,
+            "failed": 0,
+            "firstJapaneseAudioEmitted": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "responseDone": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "allObservedWorkSettled": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "estimatedHoldAfterLastWave": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "missingFrench": 0,
+            "secondaryCancelled": 0,
+            "secondaryRejected": 0,
+            "checkCounts": {}
+          },
+          "controlled": {
+            "attempted": 14,
+            "completed": 14,
+            "failed": 0,
+            "firstJapaneseAudioEmitted": {
+              "n": 14,
+              "medianMs": 1770.6,
+              "minMs": 570.2,
+              "maxMs": 1989.5
+            },
+            "responseDone": {
+              "n": 14,
+              "medianMs": 1986.7,
+              "minMs": 570.2,
+              "maxMs": 2941.7
+            },
+            "allObservedWorkSettled": {
+              "n": 14,
+              "medianMs": 1987.9,
+              "minMs": 571.4,
+              "maxMs": 2942.9
+            },
+            "estimatedHoldAfterLastWave": {
+              "n": 14,
+              "medianMs": 0,
+              "minMs": 0,
+              "maxMs": 0
+            },
+            "missingFrench": 0,
+            "secondaryCancelled": 0,
+            "secondaryRejected": 0,
+            "checkCounts": {
+              "unexpected-correction": {
+                "examined": 14,
+                "flags": 0,
+                "kind": "mechanical"
+              },
+              "greeting-without-explicit-followup": {
+                "examined": 1,
+                "flags": 0,
+                "kind": "lexical-signal"
+              },
+              "personal-origin-without-ai": {
+                "examined": 1,
+                "flags": 0,
+                "kind": "lexical-signal"
+              },
+              "cafe-role-request": {
+                "examined": 4,
+                "flags": 0,
+                "kind": "lexical-signal"
+              },
+              "known-price": {
+                "examined": 1,
+                "flags": 0,
+                "kind": "lexical-signal"
+              },
+              "price-translation": {
+                "examined": 1,
+                "flags": 0,
+                "kind": "lexical-signal"
+              },
+              "station-role-question": {
+                "examined": 4,
+                "flags": 0,
+                "kind": "lexical-signal"
+              }
+            }
+          },
+          "correction": {
+            "attempted": 1,
+            "completed": 1,
+            "failed": 0,
+            "firstJapaneseAudioEmitted": {
+              "n": 1,
+              "medianMs": 3272,
+              "minMs": 3272,
+              "maxMs": 3272
+            },
+            "responseDone": {
+              "n": 1,
+              "medianMs": 4069.1,
+              "minMs": 4069.1,
+              "maxMs": 4069.1
+            },
+            "allObservedWorkSettled": {
+              "n": 1,
+              "medianMs": 4070.2,
+              "minMs": 4070.2,
+              "maxMs": 4070.2
+            },
+            "estimatedHoldAfterLastWave": {
+              "n": 1,
+              "medianMs": 0,
+              "minMs": 0,
+              "maxMs": 0
+            },
+            "missingFrench": 0,
+            "secondaryCancelled": 0,
+            "secondaryRejected": 0,
+            "checkCounts": {
+              "expected-correction": {
+                "examined": 1,
+                "flags": 0,
+                "kind": "mechanical"
+              },
+              "corrected-construction": {
+                "examined": 1,
+                "flags": 0,
+                "kind": "mechanical"
+              }
+            }
+          },
+          "assisted": {
+            "attempted": 0,
+            "completed": 0,
+            "failed": 0,
+            "firstJapaneseAudioEmitted": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "responseDone": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "allObservedWorkSettled": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "estimatedHoldAfterLastWave": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "missingFrench": 0,
+            "secondaryCancelled": 0,
+            "secondaryRejected": 0,
+            "checkCounts": {}
+          },
+          "practice": {
+            "attempted": 0,
+            "completed": 0,
+            "failed": 0,
+            "firstJapaneseAudioEmitted": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "responseDone": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "allObservedWorkSettled": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "estimatedHoldAfterLastWave": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "missingFrench": 0,
+            "secondaryCancelled": 0,
+            "secondaryRejected": 0,
+            "checkCounts": {}
+          },
+          "shared-response": {
+            "attempted": 1,
+            "completed": 1,
+            "failed": 0,
+            "firstJapaneseAudioEmitted": {
+              "n": 1,
+              "medianMs": 616.9,
+              "minMs": 616.9,
+              "maxMs": 616.9
+            },
+            "responseDone": {
+              "n": 1,
+              "medianMs": 616.9,
+              "minMs": 616.9,
+              "maxMs": 616.9
+            },
+            "allObservedWorkSettled": {
+              "n": 1,
+              "medianMs": 618.1,
+              "minMs": 618.1,
+              "maxMs": 618.1
+            },
+            "estimatedHoldAfterLastWave": {
+              "n": 1,
+              "medianMs": 0,
+              "minMs": 0,
+              "maxMs": 0
+            },
+            "missingFrench": 0,
+            "secondaryCancelled": 0,
+            "secondaryRejected": 0,
+            "checkCounts": {
+              "unexpected-correction": {
+                "examined": 1,
+                "flags": 0,
+                "kind": "mechanical"
+              }
+            }
+          },
+          "no-tutor": {
+            "attempted": 0,
+            "completed": 0,
+            "failed": 0,
+            "firstJapaneseAudioEmitted": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "responseDone": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "allObservedWorkSettled": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "estimatedHoldAfterLastWave": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "missingFrench": 0,
+            "secondaryCancelled": 0,
+            "secondaryRejected": 0,
+            "checkCounts": {}
+          }
+        },
+        "humanLinguisticReview": "pending"
+      },
+      "ja-first": {
+        "attempted": 16,
+        "completed": 16,
+        "failed": 0,
+        "historiesResumedAfterFailure": 0,
+        "primaryComparisonPath": "generated",
+        "byPath": {
+          "generated": {
+            "attempted": 0,
+            "completed": 0,
+            "failed": 0,
+            "firstJapaneseAudioEmitted": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "responseDone": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "allObservedWorkSettled": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "estimatedHoldAfterLastWave": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "missingFrench": 0,
+            "secondaryCancelled": 0,
+            "secondaryRejected": 0,
+            "checkCounts": {}
+          },
+          "controlled": {
+            "attempted": 14,
+            "completed": 14,
+            "failed": 0,
+            "firstJapaneseAudioEmitted": {
+              "n": 14,
+              "medianMs": 1825.3,
+              "minMs": 499.7,
+              "maxMs": 1966
+            },
+            "responseDone": {
+              "n": 14,
+              "medianMs": 1901.9,
+              "minMs": 499.8,
+              "maxMs": 2867.5
+            },
+            "allObservedWorkSettled": {
+              "n": 14,
+              "medianMs": 1903.1,
+              "minMs": 501,
+              "maxMs": 2867.8
+            },
+            "estimatedHoldAfterLastWave": {
+              "n": 14,
+              "medianMs": 0,
+              "minMs": 0,
+              "maxMs": 0
+            },
+            "missingFrench": 0,
+            "secondaryCancelled": 0,
+            "secondaryRejected": 0,
+            "checkCounts": {
+              "unexpected-correction": {
+                "examined": 14,
+                "flags": 0,
+                "kind": "mechanical"
+              },
+              "greeting-without-explicit-followup": {
+                "examined": 1,
+                "flags": 0,
+                "kind": "lexical-signal"
+              },
+              "personal-origin-without-ai": {
+                "examined": 1,
+                "flags": 0,
+                "kind": "lexical-signal"
+              },
+              "cafe-role-request": {
+                "examined": 4,
+                "flags": 0,
+                "kind": "lexical-signal"
+              },
+              "known-price": {
+                "examined": 1,
+                "flags": 0,
+                "kind": "lexical-signal"
+              },
+              "price-translation": {
+                "examined": 1,
+                "flags": 0,
+                "kind": "lexical-signal"
+              },
+              "station-role-question": {
+                "examined": 4,
+                "flags": 0,
+                "kind": "lexical-signal"
+              }
+            }
+          },
+          "correction": {
+            "attempted": 1,
+            "completed": 1,
+            "failed": 0,
+            "firstJapaneseAudioEmitted": {
+              "n": 1,
+              "medianMs": 3388,
+              "minMs": 3388,
+              "maxMs": 3388
+            },
+            "responseDone": {
+              "n": 1,
+              "medianMs": 4196.5,
+              "minMs": 4196.5,
+              "maxMs": 4196.5
+            },
+            "allObservedWorkSettled": {
+              "n": 1,
+              "medianMs": 4197.7,
+              "minMs": 4197.7,
+              "maxMs": 4197.7
+            },
+            "estimatedHoldAfterLastWave": {
+              "n": 1,
+              "medianMs": 0,
+              "minMs": 0,
+              "maxMs": 0
+            },
+            "missingFrench": 0,
+            "secondaryCancelled": 0,
+            "secondaryRejected": 0,
+            "checkCounts": {
+              "expected-correction": {
+                "examined": 1,
+                "flags": 0,
+                "kind": "mechanical"
+              },
+              "corrected-construction": {
+                "examined": 1,
+                "flags": 0,
+                "kind": "mechanical"
+              }
+            }
+          },
+          "assisted": {
+            "attempted": 0,
+            "completed": 0,
+            "failed": 0,
+            "firstJapaneseAudioEmitted": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "responseDone": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "allObservedWorkSettled": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "estimatedHoldAfterLastWave": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "missingFrench": 0,
+            "secondaryCancelled": 0,
+            "secondaryRejected": 0,
+            "checkCounts": {}
+          },
+          "practice": {
+            "attempted": 0,
+            "completed": 0,
+            "failed": 0,
+            "firstJapaneseAudioEmitted": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "responseDone": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "allObservedWorkSettled": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "estimatedHoldAfterLastWave": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "missingFrench": 0,
+            "secondaryCancelled": 0,
+            "secondaryRejected": 0,
+            "checkCounts": {}
+          },
+          "shared-response": {
+            "attempted": 1,
+            "completed": 1,
+            "failed": 0,
+            "firstJapaneseAudioEmitted": {
+              "n": 1,
+              "medianMs": 623.7,
+              "minMs": 623.7,
+              "maxMs": 623.7
+            },
+            "responseDone": {
+              "n": 1,
+              "medianMs": 623.8,
+              "minMs": 623.8,
+              "maxMs": 623.8
+            },
+            "allObservedWorkSettled": {
+              "n": 1,
+              "medianMs": 625,
+              "minMs": 625,
+              "maxMs": 625
+            },
+            "estimatedHoldAfterLastWave": {
+              "n": 1,
+              "medianMs": 0,
+              "minMs": 0,
+              "maxMs": 0
+            },
+            "missingFrench": 0,
+            "secondaryCancelled": 0,
+            "secondaryRejected": 0,
+            "checkCounts": {
+              "unexpected-correction": {
+                "examined": 1,
+                "flags": 0,
+                "kind": "mechanical"
+              }
+            }
+          },
+          "no-tutor": {
+            "attempted": 0,
+            "completed": 0,
+            "failed": 0,
+            "firstJapaneseAudioEmitted": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "responseDone": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "allObservedWorkSettled": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "estimatedHoldAfterLastWave": {
+              "n": 0,
+              "medianMs": null,
+              "minMs": null,
+              "maxMs": null
+            },
+            "missingFrench": 0,
+            "secondaryCancelled": 0,
+            "secondaryRejected": 0,
+            "checkCounts": {}
+          }
+        },
+        "humanLinguisticReview": "pending"
+      }
+    }
+  },
+  "humanLinguisticReview": "pending",
+  "humanVoiceValidation": "postponed",
+  "productionSelection": "unchanged",
+  "resources": {
+    "nodeRssBytes": 119209984,
+    "workerRss": "not-measured",
+    "gpuMemory": "not-measured",
+    "energy": "not-measured"
+  }
+}

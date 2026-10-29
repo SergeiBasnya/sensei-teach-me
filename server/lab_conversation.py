@@ -1,4 +1,4 @@
-"""Small lab-only conversation constraints, not a linguistic quality score.
+"""Small local conversation constraints, not a linguistic quality score.
 
 The ledger is ephemeral, omits uncertain assertions, and keeps learner choices
 separate from quoted service information. It never creates a learning event.
@@ -19,8 +19,8 @@ ROLE_RULES = {
 _QUESTION = re.compile(r"[?？]|(?:です|ます|でした|ました|でしょう|よろしい)か[。！!]?\s*$")
 _SHORT = re.compile(r"(?:はい|いいえ|うん|そうです|そうですね|大丈夫です)[。.!！\s]*$")
 _NEGATIVE = re.compile(r"ません|じゃない|ではない|ではありません|じゃありません|要りません|いりません|いらない|要らない|不要|違います|違う")
-_FILLER = re.compile(r"^(?:(?:あの|えっと|ええと|えーと|うーん|その)[、,\s…。.]*|私は|わたしは)")
-_CHANGE = re.compile(r"じゃなくて|ではなくて|ではなく|やっぱり|いや[、,]|plut[oô]t|finalement", re.I)
+_FILLER = re.compile(r"^(?:(?:あの|えっと|ええと|えーと|うーん|その)[、,\s…。.]*|あ[、,]|私は|わたしは)")
+_CHANGE = re.compile(r"じゃなくて|ではなくて|ではなく|やっぱり|(?:いや|いえ)[、,]|plut[oô]t|finalement", re.I)
 _HELP = re.compile(r"(?:je ne (?:sais|comprends) pas|aide.moi|comment (?:dire|r[eé]pondre)|r[eé]p[eè]te|もう一度|わかりません|分かりません|どう言|教えて)", re.I)
 _EXAMPLE = re.compile(r"例えば|たとえば|例[:：]|\bexemple\b|tu peux dire|essaie de dire|[「『«]", re.I)
 _CLOSE = re.compile(r"(?:さようなら|またね|また明日|今日はここまで|ありがとう|au revoir|[àa] bient[oô]t|on arr[eê]te|\bstop\b)", re.I)
@@ -68,6 +68,7 @@ def lab_dialogue_state(request):
         raise ValueError("invalid_lab_scenario")
     facts, service_values = {}, {"assistant": set(), "user": set()}
     last_question = ""
+    unsupported_order = False
     for message in [*request.get("history", [])[-16:], {"role": "user", "content": request["text"]}]:
         text = _normalized(message["content"])
         # A question/negation is not a confirmed service value. These are only
@@ -86,19 +87,23 @@ def lab_dialogue_state(request):
         if message["role"] != "user" or _QUESTION.search(text):
             continue
         slot = _question_slot(last_question)
+        answered_question = last_question
+        last_question = ""  # A later fragment must not answer a consumed question.
         if _NEGATIVE.search(text) or _CHANGE.search(text):
             for field, value in list(facts.items()):
-                if value in text:
+                negated = any(value in clause and _NEGATIVE.search(clause)
+                              for clause in re.split(r"[。、]|" + _CHANGE.pattern, text))
+                if negated or (_CHANGE.search(text) and value in text):
                     facts.pop(field, None)
                     if field == "drink":
                         facts.pop("quantity", None)
                         facts.pop("temperature", None)
         if re.fullmatch(r"(?:いいえ|違います)[。！!\s]*", text):
             for field, value in list(facts.items()):
-                if value in last_question:
+                if value in answered_question:
                     facts.pop(field, None)
         plain = _FILLER.sub("", text).strip().rstrip("。.!！")
-        plain = re.split(r"。|じゃなくて|ではなくて|ではなく|やっぱり|いや、|いや,", plain)[-1].strip(" 、,…")
+        plain = re.split(r"。|じゃなくて|ではなくて|ではなく|やっぱり|(?:いや|いえ)[、,]", plain)[-1].strip(" 、,…")
         if not _NEGATIVE.search(plain) and not _HELP.search(plain) and not _EXAMPLE.search(text):
             if slot in ("name", "from_place", "from_city", "home_city", "destination"):
                 short = _short_value(plain)
@@ -107,7 +112,7 @@ def lab_dialogue_state(request):
             name = re.fullmatch(r"(?:私の)?名前は(.{1,35}?)です[。！!]?", plain)
             origin = re.fullmatch(r"(.{1,35}?)から来ました[。！!]?", plain)
             home = re.fullmatch(r"(.{1,35}?)に住んでいます[。！!]?", plain)
-            destination = re.fullmatch(r"(.{1,35}?)(?:まで(?:お願いします|です)?|[へに]行きます)[。！!]?", plain)
+            destination = re.match(r"([^、。]{1,35}?)(?:まで(?:お願いします|です)?|[へに]行きます)(?=[、。]|$)", plain)
             if name:
                 facts["name"] = name[1]
             if origin:
@@ -117,34 +122,51 @@ def lab_dialogue_state(request):
             if destination and scenario == "station":
                 facts["destination"] = destination[1]
         if scenario == "cafe":
+            clauses = re.split(r"[。、]|じゃなくて|ではなくて|ではなく|やっぱり|(?:いや|いえ)[、,]", text)
+            addition = re.search(r"もう(?:" + QUANTITY + r")|追加|(?:" + DRINK.pattern + r")も", text)
+            multiple = any(len(DRINK.findall(clause)) > 1 for clause in clauses)
+            if addition or multiple:
+                unsupported_order = True
+            if unsupported_order:
+                for field in ('drink', 'quantity', 'temperature'):
+                    facts.pop(field, None)
+                continue  # A single slot cannot describe an additive/multiple order.
             for value in DRINK.findall(text):
                 if re.search(re.escape(value) + r"(?:は)?(?:じゃなくて|ではなくて|ではなく|は?要りません|は?いりません|は?いらない|は?不要)", text):
                     if facts.get("drink") == value:
                         facts.pop("drink")
                         facts.pop("quantity", None)
                         facts.pop("temperature", None)
-            for clause in re.split(r"[。、]|じゃなくて|ではなくて|ではなく|やっぱり|いや、", text):
+            for clause in re.split(r"[。、]|じゃなくて|ではなくて|ではなく|やっぱり|(?:いや|いえ)[、,]", text):
                 clause = _FILLER.sub("", clause).strip()
                 if not clause or _NEGATIVE.search(clause) or _EXAMPLE.search(text):
                     continue
                 drinks = DRINK.findall(clause)
                 request_word = re.search(r"ください|お願いします|にします|ですね", clause)
+                repaired_order = (_CHANGE.search(text) and re.search(r"ください|お願いします", text)
+                                  and re.fullmatch(r"(?:" + DRINK.pattern + r")を" + QUANTITY, clause))
                 exact_drink = re.fullmatch(r"(?:" + DRINK.pattern + r")(?:で|です)?", clause)
-                if drinks and (request_word or exact_drink) and not re.search(re.escape(drinks[-1]) + r"(?:じゃなくて|ではなくて|ではなく)", text[text.find(clause):]):
+                if drinks and (request_word or exact_drink or repaired_order) and not re.search(re.escape(drinks[-1]) + r"(?:じゃなくて|ではなくて|ではなく)", text[text.find(clause):]):
                     if facts.get("drink") != drinks[-1]:
                         facts.pop("quantity", None)
                         facts.pop("temperature", None)
                     facts["drink"] = drinks[-1]
                 quantity = re.findall(QUANTITY, clause)
-                if quantity and (request_word or re.fullmatch(QUANTITY + r"(?:です|で)?", clause)):
+                if quantity and (request_word or re.fullmatch(QUANTITY + r"(?:です|で|でお願いします)?", clause)):
                     facts["quantity"] = quantity[-1]
                 temperature = re.fullmatch(r"(ホット|アイス)(?:で|です|でお願いします)?", clause)
                 if temperature:
                     facts["temperature"] = temperature[1]
         if scenario == "station":
-            choice = re.fullmatch(r"(片道|往復)(?:で|です|を(?:" + NUMERAL + r")枚ください|でお願いします)?[。！!]?", text)
-            if choice and not _EXAMPLE.search(text):
-                facts["ticket_choice"] = choice[1]
+            for clause in re.split(r"[。、]|じゃなくて|ではなくて|ではなく|やっぱり|(?:いや|いえ)[、,]", text):
+                if _NEGATIVE.search(clause) or _EXAMPLE.search(text):
+                    continue
+                choice = re.search(r"(片道|往復)(?=で|です|を|$)", clause)
+                if choice:
+                    facts["ticket_choice"] = choice[1]
+                quantity = re.search(r"(" + NUMERAL + r"枚)(?:です|で|お願いします|ください|$)", clause)
+                if quantity:
+                    facts["ticket_quantity"] = quantity[1]
     current = _normalized(request["text"])
     if _HELP.search(current):
         intent = "help_or_repeat"
@@ -159,6 +181,7 @@ def lab_dialogue_state(request):
     else:
         intent = "continue_from_answer"
     return {"learner_asserted": facts,
+            "unsupported_order": unsupported_order,
             "quoted_service_values": {role: sorted(values) for role, values in service_values.items() if values},
             "intent": intent}
 
@@ -174,6 +197,8 @@ def lab_dialogue_guidance(request):
 def validate_lab_conversation(japanese, request):
     """Reject a few certain defects; do not label other output correct Japanese."""
     state = lab_dialogue_state(request)
+    if re.search(r'お持ちにな|お買い上げ|お買い求め|お求めにな|来ているわけ|いらっしゃいます|いらっしゃる|でございます', japanese):
+        raise ValueError('beginner_elaborate_register')
     quoted_help = (state["intent"] == "help_or_repeat" and
                    re.search(r"[「『].+[」』].{0,5}(?:と言|と聞|と答)", japanese))
     personal_question = _PERSONAL_TARGET.search(request["text"]) and _BIOGRAPHY_TOPIC.search(request["text"])
@@ -205,6 +230,18 @@ def validate_lab_conversation(japanese, request):
         confirmed = re.search(r"(" + DRINK.pattern + r")(?:を(?:" + QUANTITY + r"))?(?:ですね|でよろしいですか)", japanese)
         if confirmed and confirmed[1] != drink:
             raise ValueError("lab_changes_confirmed_drink")
+    if not quoted_help:
+        from pedagogic_romaji import number_value
+        if request['scenario'] == 'station':
+            quantity = state['learner_asserted'].get('ticket_quantity')
+            if quantity:
+                expected = number_value(quantity[:-1])
+                if any(number_value(value) != expected for value in re.findall('(' + NUMERAL + ')枚', japanese)):
+                    raise ValueError('lab_changes_ticket_quantity')
+            destination = state['learner_asserted'].get('destination')
+            mentioned = re.findall(r'(京都|大阪|東京|奈良|横浜)(?=まで|行き)', japanese)
+            if destination and any(place != destination for place in mentioned):
+                raise ValueError('lab_changes_destination')
     if not quoted_help and request["scenario"] in ("station", "cafe"):
         asserted = []
         for sentence in re.split(r"[。！？?!]", japanese):

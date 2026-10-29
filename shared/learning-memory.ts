@@ -310,11 +310,19 @@ export type LearningTurn = {
   tutor: TutorReply;
   reviewId?: string;
   independent: boolean;
+  inputSource?: "voice" | "text";
 };
 export function recordLearningTurn(
   memory: LearningMemory,
   event: LearningTurn,
 ): LearningMemory {
+  // Even confident ASR can change a particle or negate a choice. Keep oral
+  // feedback in the session, but do not persist an unverified spoken mistake.
+  if (
+    event.inputSource === "voice" &&
+    (event.tutor.correction || event.tutor.review?.outcome === "error")
+  )
+    return memory;
   if (memory.seenEvents.includes(event.id)) return memory;
   let items = [...memory.items],
     attempts = [...memory.attempts];

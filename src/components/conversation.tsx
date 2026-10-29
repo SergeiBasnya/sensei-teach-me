@@ -115,7 +115,10 @@ export function Conversation({
       (scene.lessonId ? `skill:${lessonSkills[scene.lessonId]}` : undefined);
     if (id) onExposeReview(id);
   };
-  const remember = (tutor: TutorReply) =>
+  const remember = (
+    tutor: TutorReply,
+    inputSource: NonNullable<LearningTurn["inputSource"]> = "text",
+  ) =>
     onLearning({
       id: `${memorySession}:${++eventCounter.current}`,
       sessionId: memorySession,
@@ -123,6 +126,7 @@ export function Conversation({
       scenario: scene.id,
       lessonId: scene.lessonId,
       tutor,
+      inputSource,
       reviewId: scene.review?.id,
       independent: !reviewAssisted.current,
     });
@@ -184,7 +188,7 @@ export function Conversation({
         .join("\n"),
     })),
     onReply(result) {
-      remember(result.tutor);
+      remember(result.tutor, "voice");
       if (result.tutor.practice || result.tutor.assisted) exposeCurrentPoint();
       if (scene.review) {
         if (result.tutor.review?.outcome === "correct") {

@@ -108,6 +108,15 @@ class LabConversationStateTests(unittest.TestCase):
 
 
 class LabConversationGuardTests(unittest.TestCase):
+    def test_common_polite_greetings_are_not_rejected_as_elaborate_register(self):
+        for reply in ('ありがとうございます。また話しましょう。',
+                      'おはようございます。お名前は何ですか？',
+                      'いらっしゃいませ。何にしますか？'):
+            self.assertEqual(validate_lab_conversation(reply, request('ありがとう。')), reply)
+        for reply in ('何枚お持ちになりますか？', 'お茶でございます。'):
+            with self.assertRaisesRegex(ValueError, 'elaborate_register'):
+                validate_lab_conversation(reply, request('はい。'))
+
     def test_personal_question_cannot_give_mochi_an_invented_human_biography(self):
         data = request('モチさんもベルギーから来ましたか？', history=[user('ベルギーから来ました。')])
         replies = ['いいえ、私はベルギーから来ていません。日本から来ました。',

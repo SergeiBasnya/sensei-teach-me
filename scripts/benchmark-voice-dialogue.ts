@@ -41,6 +41,7 @@ import {
   type DialogueInput,
   type DialogueHistory,
 } from "./dialogue-cases";
+import { stabilizationCases } from "./stabilization-cases";
 
 export const DIALOGUE_PROFILES: readonly LabGeneration[] = [
   "structured",
@@ -72,6 +73,7 @@ type Trial = {
   status: "complete" | "failed";
   path:
     | "generated"
+    | "controlled"
     | "correction"
     | "assisted"
     | "practice"
@@ -290,8 +292,16 @@ export function inspectDialogueReply(
       add(
         "price-translation",
         !french.normalize("NFKC").includes(String(turn.expectedPriceYen)) &&
-          !/trois\s+cent\s+cinquante/i.test(french),
-        "Inspect the French rendering of the known 350-yen price.",
+          !new RegExp(
+            (
+              {
+                350: "trois\\s+cent\\s+cinquante",
+                400: "quatre\\s+cents?",
+              } as Record<number, string>
+            )[turn.expectedPriceYen] || "(?!)",
+            "i",
+          ).test(french),
+        "Inspect the French rendering and scope of the expected fictional price; the signal is not semantic validation.",
       );
   }
   const jpNegative =
@@ -354,6 +364,7 @@ export function privateDialogueOutput(path: string) {
 function sources() {
   const files = [
     "scripts/dialogue-cases.ts",
+    "scripts/stabilization-cases.ts",
     "scripts/benchmark-voice-dialogue.ts",
     "package.json",
     "package-lock.json",
@@ -559,7 +570,17 @@ async function runTrial(
     row.estimatedListeningGateMs = gate.listeningGateMs;
     row.estimatedHoldAfterLastWaveMs = gate.holdAfterLastWaveMs;
     row.checks = inspectDialogueReply(dialogue, turn, row.finalTutor);
-    row.path = dialogueResponsePath(row.finalTutor, row.providerTurnCalls);
+    const controlled = row.events.some(
+      (event) =>
+        event.type === "metrics" &&
+        (event.metrics as Record<string, number> | undefined)
+          ?.controlled_dialogue === 1,
+    );
+    row.path = dialogueResponsePath(
+      row.finalTutor,
+      row.providerTurnCalls,
+      controlled,
+    );
   }
   return row;
 }
@@ -567,11 +588,13 @@ async function runTrial(
 export function dialogueResponsePath(
   tutor: TutorReply | null,
   providerTurnCalls: number,
+  controlled = false,
 ): Trial["path"] {
   if (!tutor) return "no-tutor";
   if (tutor.correction) return "correction";
   if (tutor.assisted) return "assisted";
   if (tutor.practice) return "practice";
+  if (controlled) return "controlled";
   return providerTurnCalls ? "generated" : "shared-response";
 }
 
@@ -639,6 +662,7 @@ function profileSummary(rows: Trial[], mode: Mode, profile: LabGeneration) {
       (
         [
           "generated",
+          "controlled",
           "correction",
           "assisted",
           "practice",
@@ -652,6 +676,12 @@ function profileSummary(rows: Trial[], mode: Mode, profile: LabGeneration) {
 }
 
 export function dialoguePlan(args: string[]) {
+  const suite =
+    args.find((value) => value.startsWith("--suite="))?.split("=")[1] ||
+    "original";
+  if (!["original", "stabilization"].includes(suite))
+    throw new Error("invalid_suite");
+  const corpus = suite === "stabilization" ? stabilizationCases : dialogueCases;
   const profilesArg = args
     .find((value) => value.startsWith("--profiles="))
     ?.split("=")[1];
@@ -671,12 +701,12 @@ export function dialoguePlan(args: string[]) {
   if (
     names &&
     (!names.length ||
-      names.some((name) => !dialogueCases.some((item) => item.id === name)))
+      names.some((name) => !corpus.some((item) => item.id === name)))
   )
     throw new Error("invalid_cases");
   const cases = names
-    ? dialogueCases.filter((item) => names.includes(item.id))
-    : dialogueCases;
+    ? corpus.filter((item) => names.includes(item.id))
+    : corpus;
   if (args.includes("--paired-only") && args.includes("--rollout-only"))
     throw new Error("choose_one_mode");
   const modes: Mode[] = args.includes("--paired-only")
@@ -697,6 +727,7 @@ export function dialoguePlan(args: string[]) {
     : 0;
   if (!paired && !rollouts) throw new Error("empty_plan");
   return {
+    suite,
     cases,
     profiles,
     modes,
@@ -706,7 +737,7 @@ export function dialoguePlan(args: string[]) {
 }
 
 function selfCheck() {
-  for (const item of dialogueCases)
+  for (const item of [...dialogueCases, ...stabilizationCases])
     for (const [index] of item.turns.entries())
       turnRequestSchema.parse(pairedDialogueInput(item, index));
   const plan = dialoguePlan([]);
@@ -795,6 +826,7 @@ async function main() {
           runtime: versions,
           audioCache: false,
           plan: {
+            suite: plan.suite,
             cases: plan.cases.map((item) => item.id),
             profiles: plan.profiles,
             modes: plan.modes,

@@ -237,6 +237,7 @@ test("une sortie publique ou existante est refusée sans écrire ni effacer de d
 
 test("les aides communes rapides et les corrections ne rejoignent pas le groupe de génération", () => {
   assert.equal(dialogueResponsePath(baseTutor, 1), "generated");
+  assert.equal(dialogueResponsePath(baseTutor, 1, true), "controlled");
   assert.equal(dialogueResponsePath(baseTutor, 0), "shared-response");
   assert.equal(
     dialogueResponsePath({ ...baseTutor, assisted: true, practice: true }, 1),
@@ -257,6 +258,35 @@ test("les aides communes rapides et les corrections ne rejoignent pas le groupe 
   assert.equal(
     dialogueResponsePath({ ...baseTutor, correction, assisted: true }, 1),
     "correction",
+  );
+});
+
+test("le corpus inédit est borné et un montant français différent ne passe pas pour 400 yens", () => {
+  const plan = dialoguePlan([
+    "--suite=stabilization",
+    "--rollout-only",
+    "--profiles=structured,ja-first",
+  ]);
+  assert.equal(plan.cases.length, 3);
+  assert.equal(plan.rolloutResponses, 24);
+  assert.equal(plan.pairedResponses, 0);
+  assert.throws(() => dialoguePlan(["--suite=inconnue"]));
+  const item = plan.cases.find((value) => value.id === "restaurant-tea-count")!;
+  const checks = inspectDialogueReply(item, item.turns[3]!, {
+    ...baseTutor,
+    reply: {
+      ...baseTutor.reply,
+      japanese: "一つ四百円です。",
+      french: "Trois cent cinquante yens.",
+    },
+  });
+  assert.equal(
+    checks.find((value) => value.id === "known-price")?.status,
+    "pass",
+  );
+  assert.equal(
+    checks.find((value) => value.id === "price-translation")?.status,
+    "flag",
   );
 });
 
