@@ -11,6 +11,7 @@
     "server": "node --env-file-if-exists=.env --import tsx server/index.ts",
     "local": "node --import tsx scripts/start-local.ts",
     "local:lan": "node --import tsx scripts/start-local.ts --lan",
+    "local:lab": "node --import tsx scripts/start-local.ts --lan --voice-lab",
     "oral:check": "node --import tsx scripts/check-local-conversation.ts",
     "design:check": "python3 .studio/design_guard.py --root .",
     "typecheck": "tsc --noEmit",
@@ -46,12 +47,14 @@
     "react-native-svg": "15.16.0",
     "react-native-web": "^0.21.4",
     "react-native-webview": "14.0.1",
+    "ws": "8.22.0",
     "zod": "^4.6.7"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
     "@types/node": "^24.0.0",
     "@types/react": "~19.3.0",
+    "@types/ws": "8.18.1",
     "esbuild": "0.28.2",
     "prettier": "^3.9.10",
     "tsx": "^4.20.0",

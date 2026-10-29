@@ -1,0 +1,88 @@
+{
+  "status": "synthetic-only",
+  "humanRecognition": "pending-corpus",
+  "humanAndroid": "pending",
+  "microphoneMeasured": false,
+  "playbackMeasured": false,
+  "scope": "Six distinct synthetic fixtures, second pass, audio cache disabled, manual finish at end of synthetic samples",
+  "classicDefinition": "Japanese WAV accessible after HTTP JSON JA+FR received",
+  "laboratoryDefinition": "First validated Japanese WAV segment received via WS after finish",
+  "classicMeanMs": 4866.2,
+  "laboratoryMeanMs": 4542.2,
+  "classicMedianMs": 4700.0,
+  "laboratoryMedianMs": 4730.5,
+  "firstPartialDuringCaptureCount": 11,
+  "laboratoryTurns": 12,
+  "rows": [
+    {
+      "id": "identity",
+      "classicJapaneseAvailableMs": 5887,
+      "laboratoryJapaneseAvailableMs": 3795,
+      "partialsBeforeFinish": 1,
+      "sameTranscript": false,
+      "classicTranscript": "私はオーギュストです。",
+      "laboratoryTranscript": "私はオーギュストです",
+      "sameTranscriptIgnoringPunctuation": true
+    },
+    {
+      "id": "origin",
+      "classicJapaneseAvailableMs": 4490,
+      "laboratoryJapaneseAvailableMs": 4822,
+      "partialsBeforeFinish": 1,
+      "sameTranscript": false,
+      "classicTranscript": "フランスから来ました。",
+      "laboratoryTranscript": "フランスから来ました",
+      "sameTranscriptIgnoringPunctuation": true
+    },
+    {
+      "id": "likes",
+      "classicJapaneseAvailableMs": 5052,
+      "laboratoryJapaneseAvailableMs": 4943,
+      "partialsBeforeFinish": 1,
+      "sameTranscript": false,
+      "classicTranscript": "はい。日本語が好きです。",
+      "laboratoryTranscript": "はい、日本語が好きです",
+      "sameTranscriptIgnoringPunctuation": true
+    },
+    {
+      "id": "order",
+      "classicJapaneseAvailableMs": 4368,
+      "laboratoryJapaneseAvailableMs": 4679,
+      "partialsBeforeFinish": 1,
+      "sameTranscript": false,
+      "classicTranscript": "コーヒーを一つください。",
+      "laboratoryTranscript": "コーヒーを一つください",
+      "sameTranscriptIgnoringPunctuation": true
+    },
+    {
+      "id": "temperature",
+      "classicJapaneseAvailableMs": 4698,
+      "laboratoryJapaneseAvailableMs": 4232,
+      "partialsBeforeFinish": 1,
+      "sameTranscript": false,
+      "classicTranscript": "ホットでお願いします。",
+      "laboratoryTranscript": "ホットでお願いします",
+      "sameTranscriptIgnoringPunctuation": true
+    },
+    {
+      "id": "destination",
+      "classicJapaneseAvailableMs": 4702,
+      "laboratoryJapaneseAvailableMs": 4782,
+      "partialsBeforeFinish": 1,
+      "sameTranscript": false,
+      "classicTranscript": "京都までお願いします。",
+      "laboratoryTranscript": "京都までお願いします",
+      "sameTranscriptIgnoringPunctuation": true
+    }
+  ],
+  "conclusion": "No median availability improvement demonstrated in this sample; no sub-three-second human claim. Audio reception is not actual playback.",
+  "warmLaboratoryMedianStagesMs": {
+    "correction": 1230.8,
+    "dialogue_translation": 2567.1,
+    "first_token": 781.5,
+    "japanese_field_complete": 1177.4,
+    "json_gate_wait": 1337.1,
+    "teaching": 3799.9,
+    "tts_first": 805.5
+  }
+}

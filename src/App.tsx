@@ -15,6 +15,7 @@ import { Conversation, type SessionResult } from "./components/conversation";
 import { Mochi } from "./components/art";
 import { colors, Txt } from "./components/ui";
 import { Settings } from "./components/settings";
+import { VoiceLab } from "./components/voice-lab";
 import { Home } from "./screens/home";
 import { JapaneseSpeechProvider } from "./components/japanese-speech";
 import {
@@ -36,6 +37,7 @@ function Sensei() {
   const { progress, setProgress, loaded, storageError } = useProgress();
   const [session, setSession] = useState<Scene | null>(null);
   const [settings, setSettings] = useState(false);
+  const [voiceLab, setVoiceLab] = useState(false);
   const {
     connection,
     saved,
@@ -47,7 +49,7 @@ function Sensei() {
   } = useConnection();
   const readingRefresh = useRef("");
   useEffect(() => {
-    if (!loaded || !connection || session) return;
+    if (!loaded || !connection || session || voiceLab) return;
     const texts = storedReadingTexts(progress);
     const signature = JSON.stringify([connection.url, texts]);
     if (signature === readingRefresh.current || !texts.length) return;
@@ -73,6 +75,7 @@ function Sensei() {
     loaded,
     connection,
     session,
+    voiceLab,
     progress.words,
     progress.learning.items,
     setProgress,
@@ -161,7 +164,12 @@ function Sensei() {
         style={{ flex: 1, backgroundColor: "#FFF" }}
         edges={["top", "bottom"]}
       >
-        {session ? (
+        {voiceLab ? (
+          <VoiceLab
+            connection={connection}
+            onClose={() => setVoiceLab(false)}
+          />
+        ) : session ? (
           <Conversation
             key={session.review?.id || session.lessonId || session.id}
             scene={session}
@@ -227,6 +235,11 @@ function Sensei() {
                 reconnect={reconnect}
                 setConnection={setConnection}
                 onClose={() => setSettings(false)}
+                onOpenVoiceLab={() => {
+                  setSettings(false);
+                  setSession(null);
+                  setVoiceLab(true);
+                }}
               />
             </SafeAreaView>
           </View>

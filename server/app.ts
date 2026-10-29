@@ -28,6 +28,7 @@ import {
 } from "../shared/learning-memory";
 import { reviewPrompt } from "../shared/review-prompt";
 import { assistanceIntent, tutorFromHelp } from "../shared/teaching";
+import type { VoiceLab } from "./voice-lab";
 
 export interface TutorProvider {
   romanize?: (texts: string[]) => Promise<string[]>;
@@ -50,7 +51,7 @@ export interface TutorProvider {
     input: typeof helpRequestSchema._output,
   ) => Promise<typeof helpResponseSchema._output>;
 }
-async function teachTurn(
+export async function teachTurn(
   provider: TutorProvider,
   input: typeof turnRequestSchema._output,
 ) {
@@ -252,6 +253,7 @@ export function createApp({
   mode = "unavailable",
   isReady = () => !!provider,
   localPreview = false,
+  voiceLab,
   origins = ["http://localhost:8081", "http://127.0.0.1:8081"],
 }: {
   token?: string;
@@ -260,6 +262,7 @@ export function createApp({
   mode?: "local" | "openai" | "unavailable";
   isReady?: () => boolean;
   localPreview?: boolean;
+  voiceLab?: Pick<VoiceLab, "issueTicket">;
   origins?: string[];
 }) {
   const app = express();
@@ -415,6 +418,16 @@ export function createApp({
       return json(body);
     };
     timingContext.run(timings, next);
+  });
+  app.post("/api/voice-lab/session", (_req, res) => {
+    const ticket = voiceLab?.issueTicket();
+    if (!ticket) {
+      res.status(503).json({
+        error: "Le laboratoire vocal est désactivé, occupé ou en préparation.",
+      });
+      return;
+    }
+    res.json(ticket);
   });
   app.post("/api/speech", async (req, res) => {
     const parsed = speechRequestSchema.safeParse(req.body);

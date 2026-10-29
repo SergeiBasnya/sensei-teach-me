@@ -15,6 +15,7 @@ import { addTiming, timingContext, type Timings } from "./timing";
 export type LocalTutor = TutorProvider & {
   ready: () => boolean;
   close: () => void;
+  labTurn: TutorProvider["turn"];
 };
 const responseSchema = z.object({
   id: z.number(),
@@ -168,6 +169,20 @@ export function createLocalTutor(): LocalTutor | undefined {
     });
   };
   start();
+  const turn = async (
+    input: Parameters<TutorProvider["turn"]>[0],
+    labStreaming = false,
+  ) =>
+    tutorReplySchema.parse(
+      await call({
+        kind: "turn",
+        ...input,
+        ...(labStreaming ? { labStreaming: true } : {}),
+        objective: getLesson(input.lessonId)?.focus,
+        learnerGuidance: learnerGuidance(input.learner),
+        conversationGuidance: conversationGuidance(input.scenario),
+      }),
+    );
   return {
     ready: () => ready,
     async romanize(texts) {
@@ -176,17 +191,8 @@ export function createLocalTutor(): LocalTutor | undefined {
         .length(texts.length)
         .parse(await call({ kind: "readings", texts }));
     },
-    async turn(input) {
-      return tutorReplySchema.parse(
-        await call({
-          kind: "turn",
-          ...input,
-          objective: getLesson(input.lessonId)?.focus,
-          learnerGuidance: learnerGuidance(input.learner),
-          conversationGuidance: conversationGuidance(input.scenario),
-        }),
-      );
-    },
+    turn: (input) => turn(input),
+    labTurn: (input) => turn(input, true),
     async transcribe(input) {
       return z
         .string()

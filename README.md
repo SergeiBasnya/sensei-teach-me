@@ -6,6 +6,8 @@ L’avatar manga B est animé avec Mesh Avatar : mouvements du visage et des che
 
 Le [lot 2](docs/LOT-2.md) harmonise le rōmaji, protège certaines corrections et améliore les aides et la continuité du dialogue. Le [parcours Android de 15 minutes](docs/ANDROID-15-MINUTES.md) permet de partager un bilan technique sans conversation personnelle. **Essai humain Android et revue linguistique spécialisée : en attente.** [Textes et corpus avant/après](docs/lot2-copy-before-after.md).
 
+Le [laboratoire vocal](docs/VOICE-LAB.md) ajoute un prototype PCM/WebSocket séparé, activé côté Mac avec `npm run local:lab`. Le vocal classique reste le mode habituel. Les [premières mesures synthétiques](docs/VOICE-LAB-RESULTS.md) ne démontrent pas de gain médian de disponibilité audio ; la [comparaison de reconnaissance humaine](docs/VOICE-LAB-HUMAN-CORPUS.md) reste à effectuer avant tout remplacement.
+
 ## Essayer tout de suite
 
 ```sh

@@ -1,0 +1,22 @@
+{
+  "observedAt": "2026-10-29T07:21:42.622032+00:00",
+  "simulation": "Public synthetic WAV only, real local models, Web Audio and HTMLAudio onplaying; no human microphone",
+  "humanAndroid": "pending",
+  "simulationCounts": {
+    "starts": 4,
+    "stops": 4,
+    "active": 0,
+    "playing": 5,
+    "overlap": 0,
+    "finals": 2,
+    "done": 2,
+    "partials": 6
+  },
+  "pauseFooter": {
+    "x": 22,
+    "y": 780,
+    "width": 346,
+    "height": 48
+  },
+  "savedSamples": false
+}

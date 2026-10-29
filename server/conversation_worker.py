@@ -63,7 +63,8 @@ def main():
         from pedagogic_romaji import PedagogicRomanizer
         from mlx_whisper.transcribe import ModelHolder
         import mlx.core as mx
-        from mlx_lm import load, generate
+        from mlx_lm import load, generate, stream_generate
+        from llm_stream_trace import collect_stream
         from mlx_lm.sample_utils import make_sampler
         model, tokenizer = load(str(LOCAL / "models/chat-qwen3-14b"))
         ModelHolder.get_model(str(LOCAL / "models/whisper"), mx.float16)
@@ -71,9 +72,13 @@ def main():
     romanize = romanizer
     print(json.dumps({"ready": True}), flush=True)
     metrics = {}
+    lab_streaming = False
     def infer(phase, *args, **kwargs):
         started = time.monotonic()
         try:
+            if lab_streaming and phase == "dialogue_translation":
+                stream_options = {key: value for key, value in kwargs.items() if key != "verbose"}
+                return collect_stream(stream_generate(*args, **stream_options), metrics)
             return generate(*args, **kwargs)
         finally:
             metrics[phase] = round(metrics.get(phase, 0) + (time.monotonic() - started) * 1000, 1)
@@ -84,6 +89,7 @@ def main():
             request = json.loads(line)
             started = time.monotonic()
             metrics = {}
+            lab_streaming = request.get("labStreaming") is True
             with redirect_stdout(sys.stderr):
                 if request["kind"] == "readings":
                     texts = request.get("texts")

@@ -1,0 +1,100 @@
+{
+  "states": [
+    {
+      "name": "small",
+      "width": 320,
+      "height": 568,
+      "overflow": false,
+      "button": {
+        "x": 22,
+        "y": 504,
+        "width": 276,
+        "height": 48
+      },
+      "font": {
+        "family": "Arial",
+        "decoration": "none"
+      }
+    },
+    {
+      "name": "phone",
+      "width": 390,
+      "height": 844,
+      "overflow": false,
+      "button": {
+        "x": 22,
+        "y": 780,
+        "width": 346,
+        "height": 48
+      },
+      "font": {
+        "family": "Arial",
+        "decoration": "none"
+      }
+    },
+    {
+      "name": "landscape",
+      "width": 844,
+      "height": 390,
+      "overflow": false,
+      "button": {
+        "x": 22,
+        "y": 326,
+        "width": 800,
+        "height": 48
+      },
+      "font": {
+        "family": "Arial",
+        "decoration": "none"
+      }
+    },
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900,
+      "overflow": false,
+      "button": {
+        "x": 22,
+        "y": 836,
+        "width": 1396,
+        "height": 48
+      },
+      "font": {
+        "family": "Arial",
+        "decoration": "none"
+      }
+    }
+  ],
+  "focus": {
+    "outline": "rgb(115, 80, 198) solid 3px",
+    "decoration": "none"
+  },
+  "hover": {
+    "font": "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+    "decoration": "none"
+  },
+  "keepSample": false,
+  "scrolledControls": {
+    "states": [
+      {
+        "name": "small-controls",
+        "width": 320,
+        "height": 568,
+        "overflow": false
+      },
+      {
+        "name": "landscape-controls",
+        "width": 844,
+        "height": 390,
+        "overflow": false
+      }
+    ],
+    "french": "Tu viens de France, d'accord. De quelle ville viens-tu ?",
+    "nonBreakingPunctuation": true,
+    "font": "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif"
+  },
+  "console": [
+    "favicon.ico 404",
+    "password field outside form browser advisory"
+  ]
+}

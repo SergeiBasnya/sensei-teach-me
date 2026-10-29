@@ -8,7 +8,11 @@ import {
   type ReactNode,
 } from "react";
 import { Platform } from "react-native";
-import { setAudioModeAsync, useAudioPlayer } from "expo-audio";
+import {
+  createAudioPlayer,
+  setAudioModeAsync,
+  useAudioPlayer,
+} from "expo-audio";
 import { File, Paths } from "expo-file-system";
 import * as Speech from "expo-speech";
 import { Asset } from "expo-asset";
@@ -23,6 +27,7 @@ import {
   type SpeechEnergy,
 } from "../lib/speech-energy";
 import { selectJapaneseVoice } from "../lib/voice-selection";
+import { onceCurrentPlayback } from "../lib/voice-lab-playback";
 import {
   playbackOralMetrics,
   captureOralMetrics,
@@ -35,7 +40,10 @@ import {
 type SpeechService = {
   speakJapanese: (text: string) => Promise<boolean>;
   speakFrench: (text: string) => Promise<boolean>;
-  playJapaneseAudio: (audio: string) => Promise<boolean>;
+  playJapaneseAudio: (
+    audio: string,
+    onPlaying?: () => void,
+  ) => Promise<boolean>;
   stopJapanese: () => Promise<void>;
   isSpeaking: boolean;
   isAudioPlaying: boolean;
@@ -57,6 +65,10 @@ export function JapaneseSpeechProvider({
 }) {
   const player = useAudioPlayer(null, { updateInterval: 80 });
   const webAudio = useRef<HTMLAudioElement | null>(null);
+  const observedPlayer = useRef<ReturnType<typeof createAudioPlayer> | null>(
+    null,
+  );
+  const observedSubscription = useRef<{ remove: () => void } | null>(null);
   const [isSpeaking, setSpeaking] = useState(false);
   const [isAudioPlaying, setAudioPlaying] = useState(false);
   const [mouthLevel, setMouthLevel] = useState(0);
@@ -81,6 +93,18 @@ export function JapaneseSpeechProvider({
     if (file.current?.exists) file.current.delete();
     file.current = null;
   }, []);
+  const cleanupObserved = useCallback(() => {
+    const old = observedPlayer.current;
+    observedPlayer.current = null;
+    observedSubscription.current?.remove();
+    observedSubscription.current = null;
+    if (old) {
+      try {
+        old.pause();
+        old.remove();
+      } catch {}
+    }
+  }, []);
   const stopJapanese = useCallback(async () => {
     const stoppingSequence = ++sequence.current;
     playbackArmed.current = false;
@@ -97,6 +121,7 @@ export function JapaneseSpeechProvider({
       setVoiceLevel(0);
     }
     if (alive.current) player.pause();
+    cleanupObserved();
     if (webAudio.current) {
       webAudio.current.onended = null;
       webAudio.current.onerror = null;
@@ -115,7 +140,7 @@ export function JapaneseSpeechProvider({
     }
     if (alive.current && sequence.current === stoppingSequence)
       setSpeaking(false);
-  }, [player, cleanupFile]);
+  }, [player, cleanupFile, cleanupObserved]);
   useEffect(() => {
     const subscription = player.addListener(
       "playbackStatusUpdate",
@@ -166,7 +191,9 @@ export function JapaneseSpeechProvider({
         energy.current
           ? voiceLevelAt(
               energy.current,
-              webAudio.current?.currentTime ?? player.currentTime,
+              webAudio.current?.currentTime ??
+                observedPlayer.current?.currentTime ??
+                player.currentTime,
             )
           : [0.3, 0.7, 0.3, 0, 1, 0.3, 0][
               Math.floor((Date.now() - fallbackStart.current) / 140) % 7
@@ -176,7 +203,9 @@ export function JapaneseSpeechProvider({
         energy.current
           ? mouthLevelAt(
               energy.current,
-              webAudio.current?.currentTime ?? player.currentTime,
+              webAudio.current?.currentTime ??
+                observedPlayer.current?.currentTime ??
+                player.currentTime,
             )
           : [1, 2, 1, 0, 3, 1, 0][
               Math.floor((Date.now() - fallbackStart.current) / 140) % 7
@@ -195,6 +224,7 @@ export function JapaneseSpeechProvider({
       request.current?.abort();
       clearTimeout(playbackTimer.current);
       void Speech.stop().catch(() => undefined);
+      cleanupObserved();
       cleanupFile();
       if (webAudio.current) {
         webAudio.current.onended = null;
@@ -208,12 +238,13 @@ export function JapaneseSpeechProvider({
       completion.current?.(false);
       completion.current = null;
     };
-  }, [cleanupFile]);
+  }, [cleanupFile, cleanupObserved]);
   const speakJapanese = useCallback(
     async (
       text: string,
       suppliedAudio?: string,
       language: "ja" | "fr" = "ja",
+      onPlaying?: () => void,
     ): Promise<boolean> => {
       const metricToken = captureOralMetrics();
       const trialToken = captureOralTrial();
@@ -235,8 +266,15 @@ export function JapaneseSpeechProvider({
         completion.current = resolve;
       });
       let waitingForFrench = false;
+      const notifyPlaying = onceCurrentPlayback(isCurrent, () => {
+        playbackOralMetrics(undefined, metricToken);
+        onPlaying?.();
+      });
       const finish = (played: boolean) => {
         if (!isCurrent()) return;
+        clearTimeout(playbackTimer.current);
+        cleanupObserved();
+        if (onPlaying) cleanupFile();
         setSpeaking(false);
         setAudioPlaying(false);
         setMouthLevel(0);
@@ -257,7 +295,7 @@ export function JapaneseSpeechProvider({
           webAudio.current = audio;
           audio.onplaying = () => {
             if (isCurrent()) {
-              playbackOralMetrics(undefined, metricToken);
+              notifyPlaying();
               setAudioPlaying(true);
             }
           };
@@ -275,6 +313,34 @@ export function JapaneseSpeechProvider({
               );
             finish(false);
           });
+        } else if (onPlaying) {
+          // An observed lab segment owns a native player id, so an old source's
+          // queued status cannot be mistaken for this segment's first playing.
+          const local = createAudioPlayer(source, { updateInterval: 40 });
+          observedPlayer.current = local;
+          let started = false;
+          observedSubscription.current = local.addListener(
+            "playbackStatusUpdate",
+            (status) => {
+              if (!isCurrent() || observedPlayer.current !== local) return;
+              const playing =
+                !!status.playing &&
+                !status.isBuffering &&
+                !status.didJustFinish &&
+                !status.error;
+              if (playing) {
+                started = true;
+                notifyPlaying();
+              }
+              setAudioPlaying(playing);
+              if (status.error) {
+                reportPlaybackError();
+                setError("La lecture audio a échoué. Réessaie.");
+                finish(false);
+              } else if (status.didJustFinish && started) finish(true);
+            },
+          );
+          local.play();
         } else {
           playbackMetric.current = metricToken;
           playbackTrial.current = trialToken;
@@ -351,7 +417,7 @@ export function JapaneseSpeechProvider({
             pitch: 1,
             onStart: () => {
               if (isCurrent()) {
-                playbackOralMetrics(undefined, metricToken);
+                notifyPlaying();
                 fallbackStart.current = Date.now();
                 setAudioPlaying(true);
               }
@@ -376,6 +442,7 @@ export function JapaneseSpeechProvider({
           if (isCurrent()) {
             reportPlaybackError();
             player.pause();
+            observedPlayer.current?.pause();
             webAudio.current?.pause();
             finish(false);
             setError(
@@ -398,10 +465,11 @@ export function JapaneseSpeechProvider({
       }
       return ended;
     },
-    [connection, player, stopJapanese, cleanupFile],
+    [connection, player, stopJapanese, cleanupFile, cleanupObserved],
   );
   const playJapaneseAudio = useCallback(
-    (audio: string) => speakJapanese("", audio),
+    (audio: string, onPlaying?: () => void) =>
+      speakJapanese("", audio, "ja", onPlaying),
     [speakJapanese],
   );
   const speakFrench = useCallback(

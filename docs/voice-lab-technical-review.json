@@ -1,0 +1,75 @@
+{
+  "doctrineDigest": "sha256:6bce44c544352f9be96834eed71b8076c685b35085ef25317cba8ea847d1a1f5",
+  "review": {
+    "schemaVersion": "prisma-technical-review.v1",
+    "id": "sensei-voice-lab-prototype",
+    "missionId": "sensei-japanese-oral-mvp",
+    "decisionId": "keep-classic-default-until-human-comparison",
+    "artifact": {
+      "root": "../build/web",
+      "digest": "sha256:5aecda20720f67bade258cea894f57ab1ac0138da54a51655498a65834336248"
+    },
+    "observedAt": "2026-10-29T07:21:42.622669+00:00",
+    "gates": [
+      {
+        "id": "doctrine:no-colored-side-stripes",
+        "passed": true,
+        "evidence": "Réglages et laboratoire réellement observés à 320×568,390×844,844×390 et1440×900. Aucun liseré coloré latéral ou décoratif supérieur ; footer blanc sans bordure après rejet de la ligne colors.line par le guard, suppression sans allowance/baseline. Séparateurs de groupes des réglages : traits neutres structuraux existants. Focus violet complet fonctionnel. Captures evidence/voice-lab/settings-390.png, lab-small-controls.png, lab-landscape-controls.png, lab-focus.png. Guard local clear."
+      },
+      {
+        "id": "doctrine:no-card-title-hover-underlines",
+        "passed": true,
+        "evidence": "Titre Laboratoire vocal survolé à1440×900 sans soulignement : textDecoration none. Focus clavier visible sur Démarrer l’essai : contour solid3px rgb115,80,198. Captures evidence/voice-lab/lab-hover.png et lab-focus.png ; ui-observations.json. Aucun nouveau titre de carte cliquable."
+      },
+      {
+        "id": "doctrine:no-bricolage-grotesque",
+        "passed": true,
+        "evidence": "Famille calculée du titre et textes : system-ui,-apple-system,system-ui,Segoe UI,sans-serif ; conteneur button natif web Arial. Aucun import de police ajouté. Relevés ui-observations.json et captures lab-small.png, lab-focus.png et result-390.png. Aucun Bricolage Grotesque appliqué dans la zone observée. Les familles Android physiques restent non observées."
+      },
+      {
+        "id": "doctrine:no-peripheral-filler-copy",
+        "passed": true,
+        "evidence": "Les textes Prototype isolé, partiel à vérifier et Extraits uniquement pour comparer expliquent les limites et la conservation volontaire au voisinage immédiat des options ou du résultat. Le retour de copie est rattaché au contrôle concerné. Aucun slogan ni signature périphérique ajouté. Captures evidence/voice-lab/lab-phone.png, lab-small-controls.png et result-390.png. Comparatif complet des textes remplacés : voice-lab-copy-before-after.md."
+      },
+      {
+        "id": "doctrine:no-sage-or-olive",
+        "passed": true,
+        "evidence": "Rendu clair et préférence sombre390×844 inspectés : fond blanc, gris, violet de marque et switches turquoise existants. Aucune variante sauge/olive ajoutée ; préférence sombre conserve le thème clair du produit. Captures evidence/voice-lab/lab-dark.png, lab-phone.png, settings-390.png et result-390.png."
+      },
+      {
+        "id": "doctrine:one-clear-cta-per-section",
+        "passed": true,
+        "evidence": "Réglages : une action Ouvrir le laboratoire dans son groupe propre. Laboratoire : une action principale fixe Démarrer/Mettre en pause/Reprendre selon état ; Terminer ma phrase est un contrôle fonctionnel de capture, Copier les mesures une commande de diagnostic. Options et écoute de l’explication sont fonctionnelles, sans sollicitation promotionnelle. Actions48px, focus visible. Captures settings-390.png, lab-focus.png, continuous-390.png et paused-390.png."
+      },
+      {
+        "id": "doctrine:responsive-text-clearance",
+        "passed": true,
+        "evidence": "Rendu réel observé aux quatre formats ; aucun débordement horizontal mesuré. À320px les options reviennent à la ligne avec22px de marge ; en844×390 elles restent accessibles par défilement, footer fixe et labels lisibles. Questions/rōmaji/français complets après défilement à390px, ponctuation française attachée par espace insécable, sans point d’interrogation seul. Masquage vertical normal du ScrollView distingué de troncature. Captures lab-small-controls.png, lab-landscape-controls.png et result-390.png ; ui-observations.json. Clavier/taille système Android non observés."
+      },
+      {
+        "id": "doctrine:section-composition-and-rhythm",
+        "passed": true,
+        "evidence": "Écran expérimental organisé par en-tête, avatar et statut, situation/langue, options, résultat puis commandes fixes. Les préférences sont distinctes de la lecture, avec hiérarchie de taille et espaces. Réglages : nouvelle entrée entre mesures et crédit vocal. Pas d’alternance décorative de fonds. Captures settings-390.png, lab-phone.png, lab-desktop.png et result-390.png. Avatar et direction artistique conservés."
+      },
+      {
+        "id": "technical:pcm-and-cancellation",
+        "passed": true,
+        "evidence": "114testsTypeScript/49Python, types/format et exportsweb/Android/iOS passent. Ticketsusageunique,CORS,ordrePCM,limites,incertitude etaucunaudioavantvalidation couverts. Revue indépendante a reproduit puis retesté les corrections de reprise150ms, génération de question initiale et hésitations ponctuées. Source d’onplaying capturée, natif observé avecplayerdistinct. WAV temporaire libéré après lecture observée. Aucun essai Android physique."
+      },
+      {
+        "id": "technical:measured-scope",
+        "passed": true,
+        "evidence": "24tours synthétiques comparés sans cache : pas de gain médian démontré(4700ms classique,4730.5mslab pour disponibilitéJP, pasoreille). Browser final réel :2tours,4captures arrêtées,5playing,0chevauchementmicrovoix,2pauses etbilan numérique sans contenu. Conservation extraits désactivée. humanValidation pending, barge-infalse. Evidence benchmark-synthetic.json, comparison.json, browser-trial.json et browser-lifecycle.json."
+      }
+    ],
+    "findings": [
+      {
+        "id": "android-and-language-pending",
+        "severity": "minor",
+        "observation": "Prototype isolé : précision sur vraie voix, lecteur natif et expérience Android de plusieurs minutes non validés. La disponibilité audio médiane ne démontre pas un gain dans le corpus synthétique.",
+        "recommendation": "Conserver le mode classique ; collecter les extraits consentis et comparer les références humaines avant migration ou barge-in."
+      }
+    ],
+    "summary": "Contrôle du nouvel écran de laboratoire et de son entrée dans les réglages. Export précis observé, essais synthétiques distingués des données humaines absentes. Aucun avis artistique automatique : pending-human. Publication du prototype autorisée par la mission, sans remplacement du classique ni nouvelle CI générale. OFA révision10, guard et CI spécialisée conservés."
+  }
+}

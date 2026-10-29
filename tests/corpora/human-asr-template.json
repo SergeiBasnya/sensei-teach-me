@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "captureType": "human",
+  "consentToLocalEvaluation": false,
+  "humanValidated": false,
+  "instructions": "Template only. Copy outside Git or into .local/voice-lab. Record voluntarily, listen, write what was actually said, then validate each reference and the manifest. Never copy an ASR hypothesis into reference without checking the recording.",
+  "cases": [
+    {
+      "id": "ja-short-01",
+      "kind": "speech",
+      "language": "ja",
+      "tags": ["android", "short", "quiet-room"],
+      "audio": "samples/ja-short-01.wav",
+      "reference": "",
+      "humanValidated": false,
+      "speechBounds": null
+    },
+    {
+      "id": "ja-hesitation-01",
+      "kind": "speech",
+      "language": "ja",
+      "tags": ["android", "hesitation", "boundary"],
+      "audio": "samples/ja-hesitation-01.wav",
+      "reference": "",
+      "humanValidated": false,
+      "speechBounds": null
+    },
+    {
+      "id": "ja-self-correction-01",
+      "kind": "speech",
+      "language": "ja",
+      "tags": ["android", "self-correction", "particle-error"],
+      "audio": "samples/ja-self-correction-01.wav",
+      "reference": "",
+      "humanValidated": false,
+      "speechBounds": null
+    },
+    {
+      "id": "fr-help-01",
+      "kind": "speech",
+      "language": "fr",
+      "tags": ["android", "help-request"],
+      "audio": "samples/fr-help-01.wav",
+      "reference": "",
+      "humanValidated": false,
+      "speechBounds": null
+    },
+    {
+      "id": "mixed-noise-01",
+      "kind": "speech",
+      "language": "mixed",
+      "tags": ["android", "ambient-noise", "code-switch"],
+      "audio": "samples/mixed-noise-01.wav",
+      "reference": "",
+      "humanValidated": false,
+      "speechBounds": null
+    },
+    {
+      "id": "silence-01",
+      "kind": "silence",
+      "language": "none",
+      "tags": ["android", "silence"],
+      "audio": "samples/silence-01.wav",
+      "reference": "",
+      "humanValidated": false,
+      "speechBounds": null
+    }
+  ]
+}

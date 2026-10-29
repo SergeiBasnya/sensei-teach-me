@@ -36,6 +36,7 @@ export function Settings({
   reconnect,
   setConnection,
   onClose,
+  onOpenVoiceLab,
 }: {
   progress: Progress;
   setProgress: React.Dispatch<React.SetStateAction<Progress>>;
@@ -47,6 +48,7 @@ export function Settings({
   reconnect: () => Promise<boolean>;
   setConnection: (value: Connection | null) => void;
   onClose: () => void;
+  onOpenVoiceLab: () => void;
 }) {
   const [url, setUrl] = useState(
     connection?.url || savedConnection?.url || suggestedUrl,
@@ -252,6 +254,14 @@ export function Settings({
               {trialMessage}
             </Txt>
           )}
+        </View>
+        <View style={{ height: 1, backgroundColor: colors.line }} />
+        <View style={{ gap: 12 }}>
+          <SectionTitle
+            title="Laboratoire vocal"
+            detail="Prototype séparé, sans modifier ta progression."
+          />
+          <Button onPress={onOpenVoiceLab}>Ouvrir le laboratoire vocal</Button>
         </View>
         <View style={{ height: 1, backgroundColor: colors.line }} />
         <Txt style={{ color: colors.muted, fontSize: 11, lineHeight: 18 }}>
