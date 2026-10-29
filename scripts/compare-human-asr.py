@@ -28,6 +28,10 @@ PROFILES = {
     "small-auto-no-prompt": {"language": None, "initial_prompt": None},
     "small-ja-no-prompt": {"language": "ja", "initial_prompt": None},
 }
+HUMAN_ANNOTATION_FIELDS = (
+    "intentError", "pedagogicalError", "normalizedSpokenError",
+    "cutoffObserved", "unjustifiedRepeat",
+)
 
 
 class ComparisonError(ValueError):
@@ -196,7 +200,7 @@ def validate_observations(payload, cases: list[dict]) -> list[dict]:
                 raise ComparisonError("invalid-measurement")
         annotation = item.get("humanAnnotation")
         if annotation is not None:
-            if not isinstance(annotation, dict) or annotation.get("humanValidated") is not True or any(annotation.get(field) is not None and type(annotation[field]) is not bool for field in ("intentError", "pedagogicalError")):
+            if not isinstance(annotation, dict) or annotation.get("humanValidated") is not True or any(annotation.get(field) is not None and type(annotation[field]) is not bool for field in HUMAN_ANNOTATION_FIELDS):
                 raise ComparisonError("invalid-human-annotation")
         rows.append(item)
     return rows
@@ -218,7 +222,7 @@ def build_report(cases: list[dict], rows: list[dict], origin: str) -> dict:
                     "emptyReferenceInsertionChars": sum(value["emptyReferenceInsertionChars"] for value in values),
                 }
         annotations = {}
-        for field in ("intentError", "pedagogicalError"):
+        for field in HUMAN_ANNOTATION_FIELDS:
             reviewed = [row["humanAnnotation"][field] for row in observations if isinstance(row.get("humanAnnotation"), dict) and row["humanAnnotation"].get("humanValidated") is True and type(row["humanAnnotation"].get(field)) is bool]
             annotations[field] = {"reviewed": len(reviewed), "errors": sum(reviewed), "rate": sum(reviewed) / len(reviewed) if reviewed else None, "pending": len(observations) - len(reviewed)}
         latency = [row["asrMs"] for row in observations if row.get("asrMs") is not None]
@@ -238,7 +242,7 @@ def build_report(cases: list[dict], rows: list[dict], origin: str) -> dict:
         "profileConfiguration": {name: {"language": options["language"], "initialPrompt": "bilingual" if options["initial_prompt"] else "none", "temperature": 0, "conditionOnPreviousText": False} for name, options in PROFILES.items()},
         "profiles": summaries,
         "cases": [{"id": item["id"], "language": item["language"], "kind": item.get("kind", "speech"), "tags": item.get("tags", []), "audio": item["audioDiagnostics"]} for item in cases],
-        "limits": ["CER is textual, not pronunciation or grammar assessment.", "No automatic intent or teaching-quality verdict.", "candidateText is the segment-filtered text; uncertain candidates trigger repetition in production.", "The lab decodes silence too; productionGateWouldSkip describes the production precheck.", "RSS is process lifetime high-water, not GPU memory or per-profile allocation.", "ASR wall time is not end-of-speech to first audible response.", "Compare paired case coverage and languages before interpreting aggregate CER."],
+        "limits": ["CER is textual, not pronunciation or grammar assessment.", "No automatic intent or teaching-quality verdict.", "Normalized spoken errors, observed cutoffs and unjustified repeats are separate nullable human annotations, never inferred from CER or waveform energy.", "A cutoff requires an operator observation; the captured WAV alone cannot prove a missing syllable.", "Each human field uses its own reviewed denominator; missing or inapplicable observations stay null.", "candidateText is the segment-filtered text; uncertain candidates trigger repetition in production.", "The lab decodes silence too; productionGateWouldSkip describes the production precheck.", "RSS is process lifetime high-water, not GPU memory or per-profile allocation.", "ASR wall time is not end-of-speech to first audible response.", "Compare paired case coverage and languages before interpreting aggregate CER."],
     }
 
 

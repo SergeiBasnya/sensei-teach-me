@@ -8,6 +8,8 @@ Le [lot 2](docs/LOT-2.md) harmonise le rōmaji, protège certaines corrections e
 
 Le [laboratoire vocal](docs/VOICE-LAB.md) ajoute un prototype PCM/WebSocket séparé, activé côté Mac avec `npm run local:lab`. Le vocal classique reste le mode habituel. Les [premières mesures synthétiques](docs/VOICE-LAB-RESULTS.md) ne démontrent pas de gain médian de disponibilité audio ; la [comparaison de reconnaissance humaine](docs/VOICE-LAB-HUMAN-CORPUS.md) reste à effectuer avant tout remplacement.
 
+La [séance de validation humaine](docs/HUMAN-VOICE-SESSION.md) prépare vingt prises privées et une relecture verbatim avant l’examen des hypothèses Whisper. Les prises Android sont reportées par l’utilisateur : aucun résultat sur sa voix n’est encore disponible. Le [protocole de génération](docs/VOICE-GENERATION-METHOD.md) compare trois contrats isolés et une charge Whisper/Qwen contrôlée ; le [diagnostic associé](docs/VOICE-GENERATION-RESULTS.md) sépare ces mesures synthétiques de l’expérience humaine encore attendue.
+
 ## Essayer tout de suite
 
 ```sh

@@ -1,6 +1,6 @@
 import { createApp, createProvider } from "./app";
 import { createLocalSpeech } from "./local-speech";
-import { createLocalTutor } from "./local-tutor";
+import { createLocalTutor, type LabGeneration } from "./local-tutor";
 import { createVoiceLab } from "./voice-lab";
 import { createVoiceLabAsr } from "./voice-lab-asr";
 import { createVoiceLabResponse } from "./voice-lab-response";
@@ -27,13 +27,25 @@ const labAsr =
   process.env.SENSEI_VOICE_LAB === "1" && local && speech
     ? createVoiceLabAsr()
     : undefined;
+const labGeneration: LabGeneration =
+  process.env.SENSEI_LAB_GENERATION === "ja-first"
+    ? "ja-first"
+    : process.env.SENSEI_LAB_GENERATION === "compact"
+      ? "compact"
+      : "structured";
 const voiceLab =
   labAsr && local && speech
     ? createVoiceLab({
         transcribe: labAsr.transcribe,
         respond: createVoiceLabResponse(
-          { ...local, turn: local.labTurn },
+          { ...local, turn: (input) => local.labTurn(input, labGeneration) },
           speech,
+          labGeneration === "ja-first"
+            ? {
+                details: ({ japanese, history }) =>
+                  local.labDetails({ japanese, history }),
+              }
+            : {},
         ),
         ready: () => local.ready(),
         retainSample: createVoiceLabSampleStore(),

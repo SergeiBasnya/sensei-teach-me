@@ -1,0 +1,5147 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-29T08:43:56.295Z",
+  "status": "complete",
+  "scope": "contention",
+  "rounds": 2,
+  "contentionProfiles": [
+    "structured"
+  ],
+  "sourceSnapshot": {
+    "files": [
+      {
+        "path": "scripts/benchmark-voice-generation.ts",
+        "sha256": "3b36e1a537450f476fb4bc1d925cd31013df41f3a9f44f5dd6458307e044c007"
+      },
+      {
+        "path": "package.json",
+        "sha256": "0960d465472b387608b608c7280664a0bfc45bde560891feb58184cda280083f"
+      },
+      {
+        "path": "package-lock.json",
+        "sha256": "0cc80ed9fb46bc298d59faacbc5c0142170b90c8bb29fb27095f68275153e97e"
+      },
+      {
+        "path": "server/app.ts",
+        "sha256": "159c6d07609305387f9269f4e72a6f8dd1283f5ec30d2135aa7a8a45a368df57"
+      },
+      {
+        "path": "server/local-tutor.ts",
+        "sha256": "d5e73244ed1bc662b4c7afb2cb9ab09013ac70659296eafb0f1d69067cd76561"
+      },
+      {
+        "path": "server/conversation_worker.py",
+        "sha256": "313c1d575130efb6c165bd4450aa3455cc0c1a725c0d4ec02add7999cb3e0be9"
+      },
+      {
+        "path": "server/conversation_feedback.py",
+        "sha256": "510c6891d0c5a977ac88820e17d3640a4d710d3d653fbc5569af4461f2eddaae"
+      },
+      {
+        "path": "server/pedagogic_romaji.py",
+        "sha256": "03da9ae0fa17dd1e60a5cf9863b1fce4cc1e36a98efaaccb43b3e04ae03df2dd"
+      },
+      {
+        "path": "server/linguistic_support.py",
+        "sha256": "ad96c34319b932e6e88fe9b81b3e512efeb87df1160c98b8bc9c5f7aae4e3ce9"
+      },
+      {
+        "path": "server/conversation_context.py",
+        "sha256": "61005ae94079d22d30646c221f916746b6f25d2770a5af88ffc8d4648999943c"
+      },
+      {
+        "path": "server/lab_generation.py",
+        "sha256": "97dead4709969569f0b9228f9f3b779578501783c8fd0346efbf8596fc6a0fce"
+      },
+      {
+        "path": "server/llm_stream_trace.py",
+        "sha256": "42642f88ce8a6341dc92352bfea46c2e922d04cf72a9c551df4dac45c493841d"
+      },
+      {
+        "path": "server/local-speech.ts",
+        "sha256": "fabba1b7b2ef83428de3c320108b535ce4aae94eee2a67a1feda74f21b8ec597"
+      },
+      {
+        "path": "server/voice_worker.py",
+        "sha256": "34bad116a147ee0f4c108801cb073ca3018a7c6148b6a082b56d69c64e8e825c"
+      },
+      {
+        "path": "server/voice-lab-asr.ts",
+        "sha256": "ce167decda1e6c5aedbb9cf0630c4a825a7aef1aa1f0e25f4cbc2f679fac6043"
+      },
+      {
+        "path": "server/voice_lab_worker.py",
+        "sha256": "dcc83c9640b2c0150e45cad7a8d142a5aafb548d3924c563d5ab6843ac70c3e6"
+      },
+      {
+        "path": "server/voice-lab-response.ts",
+        "sha256": "221da2d7b68704bec9dffbc6cc4cfd7f38c1e43606d1d589feb54d7cb705c3c3"
+      },
+      {
+        "path": "server/voice-lab.ts",
+        "sha256": "996a929a108cbb550a8020843ffb8da65e606bcc1a83359b0b41dcd61d58d14c"
+      },
+      {
+        "path": "shared/voice-lab.ts",
+        "sha256": "13ed15d0cb85a19069de6bb37ad37d4c762ae0e7960b5fcf29b66372af4662fa"
+      }
+    ],
+    "missing": [],
+    "sha256": "6d886279e2b73b13ae4790ca87ed15ce10824e370a21880c9103aca7d03502a5"
+  },
+  "runtime": {
+    "node": "v24.20.0",
+    "platform": "darwin",
+    "arch": "arm64",
+    "python": {
+      "python": "3.12.14",
+      "packages": {
+        "mlx": "0.32.4",
+        "mlx-lm": "0.32.2",
+        "mlx-whisper": "0.4.3",
+        "numpy": "2.5.4",
+        "imageio-ffmpeg": "0.6.0",
+        "pyopenjtalk": null,
+        "voicevox-core": "0.17.1"
+      }
+    },
+    "models": [
+      {
+        "id": "qwen",
+        "manifests": [
+          {
+            "file": "config.json",
+            "sha256": "a54ec18ffe24f3c909e9556471dc156ed9b3b61b872008831c7cba9d4768b4a5"
+          },
+          {
+            "file": "tokenizer_config.json",
+            "sha256": "253153d0738ceb4c668d2eff957714dd2bea0b56de772a9fdccd96cbf517e6a0"
+          }
+        ],
+        "weightHash": "not-measured"
+      },
+      {
+        "id": "whisper-tutor",
+        "manifests": [
+          {
+            "file": "config.json",
+            "sha256": "e8f58e638208af66d5d5d67801259dc7a12d199e971967a9f9d33a8e3635668e"
+          }
+        ],
+        "weightHash": "not-measured"
+      },
+      {
+        "id": "whisper-load",
+        "manifests": [
+          {
+            "file": "config.json",
+            "sha256": "e8f58e638208af66d5d5d67801259dc7a12d199e971967a9f9d33a8e3635668e"
+          }
+        ],
+        "weightHash": "not-measured"
+      }
+    ]
+  },
+  "readyMs": 3534,
+  "data": "Six public synthetic VOICEVOX fixtures and their authored Japanese; no human voice or reference.",
+  "audioCache": false,
+  "definitions": {
+    "firstJapaneseAudioEmittedMs": "From an already recognized authored text entering the response function until its first complete validated Japanese WAV is emitted; not transport, playback, VAD tail or human end of speech.",
+    "generationOnlyMs": "Wall time of labTurn, including grammatical check and selected complete output contract; no TTS or secondary request.",
+    "overlapMs": "Intersection of ASR and Qwen request wall-time windows; not a measurement of simultaneous GPU kernels.",
+    "contention": "Controlled two-process workload; normal single-client lab currently serializes ASR and respond. This does not establish that the stress occurs in production."
+  },
+  "resources": {
+    "nodeRssBytes": 103563264,
+    "childProcessRss": "not-measured",
+    "gpuMemory": "not-measured",
+    "energy": "not-measured"
+  },
+  "fixtures": [
+    {
+      "id": "identity",
+      "scenario": "meet",
+      "lessonId": "meet-name",
+      "question": "お名前は？",
+      "text": "私はオーギュストです。",
+      "file": "cb0412a327921b1a150b.wav",
+      "audioMs": 1664,
+      "pcmSha256": "a67cd4c206e0ea55d1f789834cd4a2b06fa803a629d8808b89e4aba52ab1ccf6"
+    },
+    {
+      "id": "origin",
+      "scenario": "meet",
+      "lessonId": "meet-origin",
+      "question": "どこから来ましたか？",
+      "text": "フランスから来ました。",
+      "file": "109e155eca21856c868a.wav",
+      "audioMs": 1557.375,
+      "pcmSha256": "d4730ef839d6a28ee1baecb403cc35073f71d0b94f7c30e5f79ced1ee13e84cf"
+    },
+    {
+      "id": "likes",
+      "scenario": "meet",
+      "lessonId": "meet-likes",
+      "question": "日本語は好きですか？",
+      "text": "はい、日本語が好きです。",
+      "file": "cdbbfef81b23fcb88885.wav",
+      "audioMs": 2122.6875,
+      "pcmSha256": "57e3da6cc718234202c7b0aa8079c5dd727eb9c5e6c047802b76f11c9229fb75"
+    },
+    {
+      "id": "order",
+      "scenario": "cafe",
+      "lessonId": "cafe-order",
+      "question": "何にしますか？",
+      "text": "コーヒーを一つください。",
+      "file": "fc48f4733aae10f420d6.wav",
+      "audioMs": 1749.375,
+      "pcmSha256": "4992a4d72cf7699a11dd4200b9b67c8f2a6f2dc26b1ac42e834ea72cb6a762ba"
+    },
+    {
+      "id": "temperature",
+      "scenario": "cafe",
+      "lessonId": "cafe-choice",
+      "question": "ホットですか、アイスですか？",
+      "text": "ホットでお願いします。",
+      "file": "a39332e0aafc35578065.wav",
+      "audioMs": 1632,
+      "pcmSha256": "fb11fbd29fdf8dd5aea8a34f5d57a117ec38788234b4ad2962207f48ea09f2b8"
+    },
+    {
+      "id": "destination",
+      "scenario": "station",
+      "lessonId": "station-destination",
+      "question": "どちらまでですか？",
+      "text": "京都までお願いします。",
+      "file": "2d738f422a192c578a24.wav",
+      "audioMs": 1770.6875,
+      "pcmSha256": "16c5da83ef927763875e57bf91aa45b7c62015970370682d1e06cf44b43938dd"
+    }
+  ],
+  "warmups": [
+    {
+      "kind": "qwen-and-japanese-tts",
+      "ms": 4645.4
+    },
+    {
+      "kind": "separate-asr",
+      "ms": 3146.9
+    }
+  ],
+  "contractResults": [],
+  "contentionResults": [
+    {
+      "id": "origin",
+      "round": 0,
+      "profile": "structured",
+      "cadenceMs": null,
+      "condition": "qwen-only",
+      "status": "complete",
+      "generationOnlyMs": 3569.4,
+      "qwenWindow": {
+        "startMs": 0,
+        "endMs": 3569.4
+      },
+      "metrics": {
+        "correction": 1278.5,
+        "generations": 2,
+        "stream_complete": 2290,
+        "first_token": 755,
+        "japanese_field_complete": 1114.5,
+        "json_gate_wait": 1175.5,
+        "dialogue_translation": 2290,
+        "worker_roundtrip": 3569.3,
+        "worker_queue": 0.3
+      },
+      "tutor": {
+        "reply": {
+          "japanese": "どの町から来ましたか？",
+          "romaji": "Dono machi kara kimashita ka?",
+          "french": "De quelle ville viens-tu ?"
+        },
+        "coaching": "Machi veut dire ville. Tu peux dire « [ville] kara kimashita ».",
+        "correction": null,
+        "vocabulary": []
+      },
+      "asrRequestWindows": [],
+      "asrOnlyMatchedWindows": [],
+      "asrRequestCount": 0,
+      "asrOverlappingRequests": 0,
+      "requestOverlapMs": 0,
+      "requestOverlapFraction": 0,
+      "asrWithQwen": {
+        "samples": 0,
+        "meanMs": null,
+        "medianMs": null,
+        "minMs": null,
+        "maxMs": null
+      },
+      "asrWithoutQwen": {
+        "samples": 0,
+        "meanMs": null,
+        "medianMs": null,
+        "minMs": null,
+        "maxMs": null
+      },
+      "loadMaxReached": false,
+      "loadLimits": {
+        "calls": 40,
+        "ms": 20000
+      },
+      "pendingAsrAtCellEnd": 0
+    },
+    {
+      "id": "origin",
+      "round": 0,
+      "profile": "structured",
+      "cadenceMs": 1000,
+      "condition": "asr-cadenced-during-qwen",
+      "status": "complete",
+      "generationOnlyMs": 3491.7,
+      "qwenWindow": {
+        "startMs": 0,
+        "endMs": 3491.7
+      },
+      "metrics": {
+        "correction": 1136.1,
+        "generations": 2,
+        "stream_complete": 2354.8,
+        "first_token": 779.6,
+        "japanese_field_complete": 1179.8,
+        "json_gate_wait": 1175,
+        "dialogue_translation": 2354.8,
+        "worker_roundtrip": 3491.6,
+        "worker_queue": 0.6
+      },
+      "tutor": {
+        "reply": {
+          "japanese": "どの町から来ましたか？",
+          "romaji": "Dono machi kara kimashita ka?",
+          "french": "De quelle ville viens-tu ?"
+        },
+        "coaching": "Machi veut dire ville. Tu peux dire « [ville] kara kimashita ».",
+        "correction": null,
+        "vocabulary": []
+      },
+      "asrRequestWindows": [
+        {
+          "startMs": 0,
+          "endMs": 612.2,
+          "roundtripMs": 612.2,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.857,
+            "asr": 610.696
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 1000.5,
+          "endMs": 1433.6,
+          "roundtripMs": 433,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.429,
+            "asr": 431.928
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 2000.8,
+          "endMs": 2280,
+          "roundtripMs": 279.2,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.406,
+            "asr": 277.973
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 3001.2,
+          "endMs": 3262.3,
+          "roundtripMs": 261.2,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.725,
+            "asr": 259.592
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        }
+      ],
+      "asrOnlyMatchedWindows": [
+        {
+          "startMs": 3491.9,
+          "endMs": 3583.6,
+          "roundtripMs": 91.7,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.453,
+            "asr": 90.65
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 3583.6,
+          "endMs": 3675,
+          "roundtripMs": 91.4,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.32,
+            "asr": 90.595
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 3675,
+          "endMs": 3765.5,
+          "roundtripMs": 90.6,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.345,
+            "asr": 89.67
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 3765.6,
+          "endMs": 3857.6,
+          "roundtripMs": 92.1,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.358,
+            "asr": 91.187
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        }
+      ],
+      "asrRequestCount": 4,
+      "asrOverlappingRequests": 4,
+      "requestOverlapMs": 1585.6,
+      "requestOverlapFraction": 0.454,
+      "asrWithQwen": {
+        "samples": 4,
+        "meanMs": 396.4,
+        "medianMs": 356.1,
+        "minMs": 261.2,
+        "maxMs": 612.2
+      },
+      "asrWithoutQwen": {
+        "samples": 4,
+        "meanMs": 91.4,
+        "medianMs": 91.6,
+        "minMs": 90.6,
+        "maxMs": 92.1
+      },
+      "loadMaxReached": false,
+      "loadLimits": {
+        "calls": 40,
+        "ms": 20000
+      },
+      "pendingAsrAtCellEnd": 0
+    },
+    {
+      "id": "origin",
+      "round": 0,
+      "profile": "structured",
+      "cadenceMs": 0,
+      "condition": "asr-continuous-stress-during-qwen",
+      "status": "complete",
+      "generationOnlyMs": 4169.5,
+      "qwenWindow": {
+        "startMs": 0,
+        "endMs": 4169.6
+      },
+      "metrics": {
+        "correction": 1255,
+        "generations": 2,
+        "stream_complete": 2913.7,
+        "first_token": 890.4,
+        "japanese_field_complete": 1353.7,
+        "json_gate_wait": 1559.9,
+        "dialogue_translation": 2913.7,
+        "worker_roundtrip": 4169.5,
+        "worker_queue": 0.5
+      },
+      "tutor": {
+        "reply": {
+          "japanese": "どの町から来ましたか？",
+          "romaji": "Dono machi kara kimashita ka?",
+          "french": "De quelle ville viens-tu ?"
+        },
+        "coaching": "Machi veut dire ville. Tu peux dire « [ville] kara kimashita ».",
+        "correction": null,
+        "vocabulary": []
+      },
+      "asrRequestWindows": [
+        {
+          "startMs": 0,
+          "endMs": 616.6,
+          "roundtripMs": 616.6,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.636,
+            "asr": 615.237
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 616.6,
+          "endMs": 1067.3,
+          "roundtripMs": 450.7,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.361,
+            "asr": 449.656
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 1067.3,
+          "endMs": 1457.3,
+          "roundtripMs": 390,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.434,
+            "asr": 389.04
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 1457.3,
+          "endMs": 2075.7,
+          "roundtripMs": 618.4,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.341,
+            "asr": 617.383
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 2075.7,
+          "endMs": 2357.7,
+          "roundtripMs": 282,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.424,
+            "asr": 280.839
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 2357.7,
+          "endMs": 2638.5,
+          "roundtripMs": 280.9,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.41,
+            "asr": 279.72
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 2638.6,
+          "endMs": 2925,
+          "roundtripMs": 286.4,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.388,
+            "asr": 285.378
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 2925,
+          "endMs": 3189.3,
+          "roundtripMs": 264.3,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.395,
+            "asr": 263.235
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 3189.3,
+          "endMs": 3456.4,
+          "roundtripMs": 267.2,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.376,
+            "asr": 266.025
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 3456.4,
+          "endMs": 3707.9,
+          "roundtripMs": 251.5,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.509,
+            "asr": 250.18
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 3707.9,
+          "endMs": 3974.7,
+          "roundtripMs": 266.7,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.385,
+            "asr": 265.644
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 3974.7,
+          "endMs": 4190,
+          "roundtripMs": 215.3,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.399,
+            "asr": 214.38
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        }
+      ],
+      "asrOnlyMatchedWindows": [
+        {
+          "startMs": 4190,
+          "endMs": 4283.9,
+          "roundtripMs": 93.9,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.337,
+            "asr": 93.06
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 4283.9,
+          "endMs": 4377.3,
+          "roundtripMs": 93.4,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.352,
+            "asr": 92.548
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 4377.3,
+          "endMs": 4470.2,
+          "roundtripMs": 92.9,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.335,
+            "asr": 92.168
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 4470.2,
+          "endMs": 4563.3,
+          "roundtripMs": 93.1,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.33,
+            "asr": 92.299
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 4563.3,
+          "endMs": 4655,
+          "roundtripMs": 91.7,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.323,
+            "asr": 90.892
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 4655,
+          "endMs": 4746.3,
+          "roundtripMs": 91.3,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.39,
+            "asr": 90.444
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 4746.3,
+          "endMs": 4839.2,
+          "roundtripMs": 92.9,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.331,
+            "asr": 92.096
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 4839.2,
+          "endMs": 4931.5,
+          "roundtripMs": 92.3,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.333,
+            "asr": 91.51
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 4931.5,
+          "endMs": 5027.8,
+          "roundtripMs": 96.2,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.317,
+            "asr": 95.491
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 5027.8,
+          "endMs": 5120.3,
+          "roundtripMs": 92.5,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.321,
+            "asr": 91.714
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 5120.3,
+          "endMs": 5212.7,
+          "roundtripMs": 92.5,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.376,
+            "asr": 91.583
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 5212.7,
+          "endMs": 5305.7,
+          "roundtripMs": 92.9,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.438,
+            "asr": 92.027
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        }
+      ],
+      "asrRequestCount": 12,
+      "asrOverlappingRequests": 12,
+      "requestOverlapMs": 4169.4,
+      "requestOverlapFraction": 1,
+      "asrWithQwen": {
+        "samples": 12,
+        "meanMs": 349.2,
+        "medianMs": 281.5,
+        "minMs": 215.3,
+        "maxMs": 618.4
+      },
+      "asrWithoutQwen": {
+        "samples": 12,
+        "meanMs": 93,
+        "medianMs": 92.9,
+        "minMs": 91.3,
+        "maxMs": 96.2
+      },
+      "loadMaxReached": false,
+      "loadLimits": {
+        "calls": 40,
+        "ms": 20000
+      },
+      "pendingAsrAtCellEnd": 0
+    },
+    {
+      "id": "order",
+      "round": 0,
+      "profile": "structured",
+      "cadenceMs": 1000,
+      "condition": "asr-cadenced-during-qwen",
+      "status": "complete",
+      "generationOnlyMs": 3396.8,
+      "qwenWindow": {
+        "startMs": 0,
+        "endMs": 3396.8
+      },
+      "metrics": {
+        "correction": 1193.5,
+        "generations": 2,
+        "stream_complete": 2197.1,
+        "first_token": 830,
+        "japanese_field_complete": 1380.5,
+        "json_gate_wait": 816.6,
+        "dialogue_translation": 2197.2,
+        "worker_roundtrip": 3396.7,
+        "worker_queue": 0.7
+      },
+      "tutor": {
+        "reply": {
+          "japanese": "お支払いは現金ですか、カードですか？",
+          "romaji": "Oshiharai wa genkin desu ka, kādo desu ka?",
+          "french": "Voulez-vous payer en espèces ou par carte ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "asrRequestWindows": [
+        {
+          "startMs": 0,
+          "endMs": 692.2,
+          "roundtripMs": 692.2,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.576,
+            "asr": 691.108
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 1000.2,
+          "endMs": 1420.7,
+          "roundtripMs": 420.6,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.485,
+            "asr": 419.433
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 2000.9,
+          "endMs": 2300.4,
+          "roundtripMs": 299.5,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.489,
+            "asr": 298.268
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 3001.5,
+          "endMs": 3292,
+          "roundtripMs": 290.5,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.466,
+            "asr": 289.225
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        }
+      ],
+      "asrOnlyMatchedWindows": [
+        {
+          "startMs": 3396.9,
+          "endMs": 3495.2,
+          "roundtripMs": 98.3,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.402,
+            "asr": 97.433
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 3495.2,
+          "endMs": 3596.5,
+          "roundtripMs": 101.3,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.378,
+            "asr": 100.374
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 3596.5,
+          "endMs": 3697.4,
+          "roundtripMs": 101,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.445,
+            "asr": 100.007
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 3697.5,
+          "endMs": 3802.1,
+          "roundtripMs": 104.7,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.58,
+            "asr": 102.946
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        }
+      ],
+      "asrRequestCount": 4,
+      "asrOverlappingRequests": 4,
+      "requestOverlapMs": 1702.7,
+      "requestOverlapFraction": 0.501,
+      "asrWithQwen": {
+        "samples": 4,
+        "meanMs": 425.7,
+        "medianMs": 360.1,
+        "minMs": 290.5,
+        "maxMs": 692.2
+      },
+      "asrWithoutQwen": {
+        "samples": 4,
+        "meanMs": 101.3,
+        "medianMs": 101.2,
+        "minMs": 98.3,
+        "maxMs": 104.7
+      },
+      "loadMaxReached": false,
+      "loadLimits": {
+        "calls": 40,
+        "ms": 20000
+      },
+      "pendingAsrAtCellEnd": 0
+    },
+    {
+      "id": "order",
+      "round": 0,
+      "profile": "structured",
+      "cadenceMs": 0,
+      "condition": "asr-continuous-stress-during-qwen",
+      "status": "complete",
+      "generationOnlyMs": 3882.7,
+      "qwenWindow": {
+        "startMs": 0,
+        "endMs": 3882.7
+      },
+      "metrics": {
+        "correction": 1280.5,
+        "generations": 2,
+        "stream_complete": 2601.2,
+        "first_token": 930,
+        "japanese_field_complete": 1569.6,
+        "json_gate_wait": 1031.6,
+        "dialogue_translation": 2601.2,
+        "worker_roundtrip": 3882.6,
+        "worker_queue": 0.6
+      },
+      "tutor": {
+        "reply": {
+          "japanese": "お支払いは現金ですか、カードですか？",
+          "romaji": "Oshiharai wa genkin desu ka, kādo desu ka?",
+          "french": "Voulez-vous payer en espèces ou par carte ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "asrRequestWindows": [
+        {
+          "startMs": 0,
+          "endMs": 642.2,
+          "roundtripMs": 642.2,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.508,
+            "asr": 640.576
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 642.2,
+          "endMs": 1086.3,
+          "roundtripMs": 444.1,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.375,
+            "asr": 443.223
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 1086.3,
+          "endMs": 1468.2,
+          "roundtripMs": 381.9,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.423,
+            "asr": 380.823
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 1468.2,
+          "endMs": 2091.7,
+          "roundtripMs": 623.5,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.764,
+            "asr": 622.21
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 2091.7,
+          "endMs": 2401.1,
+          "roundtripMs": 309.4,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.387,
+            "asr": 308.462
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 2401.1,
+          "endMs": 2674.8,
+          "roundtripMs": 273.7,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.415,
+            "asr": 272.7
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 2674.8,
+          "endMs": 2959.1,
+          "roundtripMs": 284.2,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.475,
+            "asr": 282.574
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 2959.1,
+          "endMs": 3246,
+          "roundtripMs": 286.9,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.451,
+            "asr": 285.312
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 3246,
+          "endMs": 3530.8,
+          "roundtripMs": 284.9,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.465,
+            "asr": 283.635
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 3530.8,
+          "endMs": 3819.9,
+          "roundtripMs": 289.1,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.551,
+            "asr": 287.863
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 3819.9,
+          "endMs": 3953.6,
+          "roundtripMs": 133.7,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.447,
+            "asr": 132.524
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        }
+      ],
+      "asrOnlyMatchedWindows": [
+        {
+          "startMs": 3953.6,
+          "endMs": 4053.6,
+          "roundtripMs": 100.1,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.397,
+            "asr": 99.209
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 4053.7,
+          "endMs": 4151.9,
+          "roundtripMs": 98.2,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.461,
+            "asr": 97.193
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 4151.9,
+          "endMs": 4248.7,
+          "roundtripMs": 96.9,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.501,
+            "asr": 95.615
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 4248.7,
+          "endMs": 4346.8,
+          "roundtripMs": 98.1,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.415,
+            "asr": 97.228
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 4346.8,
+          "endMs": 4445.5,
+          "roundtripMs": 98.7,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.383,
+            "asr": 97.905
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 4445.5,
+          "endMs": 4542.5,
+          "roundtripMs": 97,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.39,
+            "asr": 96.198
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 4542.5,
+          "endMs": 4638.7,
+          "roundtripMs": 96.2,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.464,
+            "asr": 95.146
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 4638.7,
+          "endMs": 4735.6,
+          "roundtripMs": 96.9,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.402,
+            "asr": 96.035
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 4735.6,
+          "endMs": 4832,
+          "roundtripMs": 96.4,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.419,
+            "asr": 95.622
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 4832.1,
+          "endMs": 4927.6,
+          "roundtripMs": 95.5,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.38,
+            "asr": 94.631
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 4927.6,
+          "endMs": 5022.3,
+          "roundtripMs": 94.7,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.381,
+            "asr": 93.965
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        }
+      ],
+      "asrRequestCount": 11,
+      "asrOverlappingRequests": 11,
+      "requestOverlapMs": 3882.7,
+      "requestOverlapFraction": 1,
+      "asrWithQwen": {
+        "samples": 11,
+        "meanMs": 359.4,
+        "medianMs": 289.1,
+        "minMs": 133.7,
+        "maxMs": 642.2
+      },
+      "asrWithoutQwen": {
+        "samples": 11,
+        "meanMs": 97.2,
+        "medianMs": 96.9,
+        "minMs": 94.7,
+        "maxMs": 100.1
+      },
+      "loadMaxReached": false,
+      "loadLimits": {
+        "calls": 40,
+        "ms": 20000
+      },
+      "pendingAsrAtCellEnd": 0
+    },
+    {
+      "id": "order",
+      "round": 0,
+      "profile": "structured",
+      "cadenceMs": null,
+      "condition": "qwen-only",
+      "status": "complete",
+      "generationOnlyMs": 3089.3,
+      "qwenWindow": {
+        "startMs": 0,
+        "endMs": 3089.3
+      },
+      "metrics": {
+        "correction": 1083.7,
+        "generations": 2,
+        "stream_complete": 2004.8,
+        "first_token": 829.9,
+        "japanese_field_complete": 1297,
+        "json_gate_wait": 707.8,
+        "dialogue_translation": 2004.9,
+        "worker_roundtrip": 3089.2,
+        "worker_queue": 0.2
+      },
+      "tutor": {
+        "reply": {
+          "japanese": "お支払いは現金ですか、カードですか？",
+          "romaji": "Oshiharai wa genkin desu ka, kādo desu ka?",
+          "french": "Voulez-vous payer en espèces ou par carte ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "asrRequestWindows": [],
+      "asrOnlyMatchedWindows": [],
+      "asrRequestCount": 0,
+      "asrOverlappingRequests": 0,
+      "requestOverlapMs": 0,
+      "requestOverlapFraction": 0,
+      "asrWithQwen": {
+        "samples": 0,
+        "meanMs": null,
+        "medianMs": null,
+        "minMs": null,
+        "maxMs": null
+      },
+      "asrWithoutQwen": {
+        "samples": 0,
+        "meanMs": null,
+        "medianMs": null,
+        "minMs": null,
+        "maxMs": null
+      },
+      "loadMaxReached": false,
+      "loadLimits": {
+        "calls": 40,
+        "ms": 20000
+      },
+      "pendingAsrAtCellEnd": 0
+    },
+    {
+      "id": "destination",
+      "round": 0,
+      "profile": "structured",
+      "cadenceMs": 0,
+      "condition": "asr-continuous-stress-during-qwen",
+      "status": "complete",
+      "generationOnlyMs": 4892.3,
+      "qwenWindow": {
+        "startMs": 0,
+        "endMs": 4892.3
+      },
+      "metrics": {
+        "correction": 1319,
+        "generations": 2,
+        "stream_complete": 3564.1,
+        "first_token": 944.3,
+        "japanese_field_complete": 1447.3,
+        "json_gate_wait": 2116.8,
+        "dialogue_translation": 3564.1,
+        "worker_roundtrip": 4892.2,
+        "worker_queue": 0.2
+      },
+      "tutor": {
+        "reply": {
+          "japanese": "京都行きのホームはどちらですか？",
+          "romaji": "Kyōtoiki no hōmu wa dochira desu ka?",
+          "french": "Le quai pour Kyoto, c’est lequel ?"
+        },
+        "coaching": "Le quai pour Kyoto, c’est lequel ? Essaie une réponse courte. Dis « je ne sais pas » si tu veux un exemple.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "asrRequestWindows": [
+        {
+          "startMs": 0,
+          "endMs": 570.8,
+          "roundtripMs": 570.8,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.657,
+            "asr": 569.664
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 570.8,
+          "endMs": 1048.5,
+          "roundtripMs": 477.7,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.436,
+            "asr": 476.667
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 1048.5,
+          "endMs": 1282.6,
+          "roundtripMs": 234.1,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.41,
+            "asr": 232.917
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 1282.6,
+          "endMs": 1765.1,
+          "roundtripMs": 482.5,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.43,
+            "asr": 481.569
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 1765.1,
+          "endMs": 2254,
+          "roundtripMs": 489,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.358,
+            "asr": 488.065
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 2254.1,
+          "endMs": 2511.3,
+          "roundtripMs": 257.3,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.419,
+            "asr": 256.059
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 2511.3,
+          "endMs": 2755.2,
+          "roundtripMs": 243.8,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.528,
+            "asr": 242.704
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 2755.2,
+          "endMs": 2995.4,
+          "roundtripMs": 240.2,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.455,
+            "asr": 239.071
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 2995.4,
+          "endMs": 3216.6,
+          "roundtripMs": 221.2,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.614,
+            "asr": 219.702
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 3216.6,
+          "endMs": 3453.1,
+          "roundtripMs": 236.5,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.547,
+            "asr": 235.286
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 3453.1,
+          "endMs": 3684.2,
+          "roundtripMs": 231.1,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.483,
+            "asr": 229.923
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 3684.2,
+          "endMs": 3907.9,
+          "roundtripMs": 223.7,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.508,
+            "asr": 222.597
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 3907.9,
+          "endMs": 4143.9,
+          "roundtripMs": 236,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.4,
+            "asr": 234.928
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 4143.9,
+          "endMs": 4379,
+          "roundtripMs": 235.1,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.435,
+            "asr": 234.044
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 4379,
+          "endMs": 4626,
+          "roundtripMs": 247,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.471,
+            "asr": 245.955
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 4626.1,
+          "endMs": 4866.2,
+          "roundtripMs": 240.2,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.401,
+            "asr": 239.042
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 4866.2,
+          "endMs": 4958.5,
+          "roundtripMs": 92.3,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.427,
+            "asr": 91.405
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        }
+      ],
+      "asrOnlyMatchedWindows": [
+        {
+          "startMs": 4958.5,
+          "endMs": 5042.6,
+          "roundtripMs": 84,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.383,
+            "asr": 83.103
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 5042.6,
+          "endMs": 5126.5,
+          "roundtripMs": 84,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.437,
+            "asr": 83.054
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 5126.6,
+          "endMs": 5210.1,
+          "roundtripMs": 83.6,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.47,
+            "asr": 82.63
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 5210.1,
+          "endMs": 5293.2,
+          "roundtripMs": 83,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.345,
+            "asr": 82.177
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 5293.2,
+          "endMs": 5376.5,
+          "roundtripMs": 83.4,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.351,
+            "asr": 82.51
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 5376.5,
+          "endMs": 5462,
+          "roundtripMs": 85.5,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.376,
+            "asr": 84.689
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 5462,
+          "endMs": 5547.4,
+          "roundtripMs": 85.4,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.398,
+            "asr": 84.354
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 5547.4,
+          "endMs": 5632.9,
+          "roundtripMs": 85.5,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.397,
+            "asr": 84.639
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 5633,
+          "endMs": 5717.7,
+          "roundtripMs": 84.8,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.382,
+            "asr": 83.968
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 5717.7,
+          "endMs": 5800.9,
+          "roundtripMs": 83.2,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.355,
+            "asr": 82.297
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 5800.9,
+          "endMs": 5884.9,
+          "roundtripMs": 84,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.411,
+            "asr": 83.145
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 5884.9,
+          "endMs": 5967.8,
+          "roundtripMs": 82.9,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.454,
+            "asr": 82.029
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 5967.8,
+          "endMs": 6051.5,
+          "roundtripMs": 83.7,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.345,
+            "asr": 82.878
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 6051.5,
+          "endMs": 6134,
+          "roundtripMs": 82.4,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.35,
+            "asr": 81.681
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 6134,
+          "endMs": 6218.5,
+          "roundtripMs": 84.5,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.368,
+            "asr": 83.757
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 6218.5,
+          "endMs": 6303.1,
+          "roundtripMs": 84.6,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.387,
+            "asr": 83.648
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 6303.1,
+          "endMs": 6388.4,
+          "roundtripMs": 85.3,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.389,
+            "asr": 84.46
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        }
+      ],
+      "asrRequestCount": 17,
+      "asrOverlappingRequests": 17,
+      "requestOverlapMs": 4892.1,
+      "requestOverlapFraction": 1,
+      "asrWithQwen": {
+        "samples": 17,
+        "meanMs": 291.7,
+        "medianMs": 240.2,
+        "minMs": 92.3,
+        "maxMs": 570.8
+      },
+      "asrWithoutQwen": {
+        "samples": 17,
+        "meanMs": 84.1,
+        "medianMs": 84,
+        "minMs": 82.4,
+        "maxMs": 85.5
+      },
+      "loadMaxReached": false,
+      "loadLimits": {
+        "calls": 40,
+        "ms": 20000
+      },
+      "pendingAsrAtCellEnd": 0
+    },
+    {
+      "id": "destination",
+      "round": 0,
+      "profile": "structured",
+      "cadenceMs": null,
+      "condition": "qwen-only",
+      "status": "complete",
+      "generationOnlyMs": 3986.6,
+      "qwenWindow": {
+        "startMs": 0,
+        "endMs": 3986.6
+      },
+      "metrics": {
+        "correction": 1271.1,
+        "generations": 2,
+        "stream_complete": 2714.6,
+        "first_token": 821.9,
+        "japanese_field_complete": 1183.9,
+        "json_gate_wait": 1530.7,
+        "dialogue_translation": 2714.6,
+        "worker_roundtrip": 3986.5,
+        "worker_queue": 0.5
+      },
+      "tutor": {
+        "reply": {
+          "japanese": "京都行きのホームはどちらですか？",
+          "romaji": "Kyōtoiki no hōmu wa dochira desu ka?",
+          "french": "Le quai pour Kyoto, c’est lequel ?"
+        },
+        "coaching": "Le quai pour Kyoto, c’est lequel ? Essaie une réponse courte. Dis « je ne sais pas » si tu veux un exemple.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "asrRequestWindows": [],
+      "asrOnlyMatchedWindows": [],
+      "asrRequestCount": 0,
+      "asrOverlappingRequests": 0,
+      "requestOverlapMs": 0,
+      "requestOverlapFraction": 0,
+      "asrWithQwen": {
+        "samples": 0,
+        "meanMs": null,
+        "medianMs": null,
+        "minMs": null,
+        "maxMs": null
+      },
+      "asrWithoutQwen": {
+        "samples": 0,
+        "meanMs": null,
+        "medianMs": null,
+        "minMs": null,
+        "maxMs": null
+      },
+      "loadMaxReached": false,
+      "loadLimits": {
+        "calls": 40,
+        "ms": 20000
+      },
+      "pendingAsrAtCellEnd": 0
+    },
+    {
+      "id": "destination",
+      "round": 0,
+      "profile": "structured",
+      "cadenceMs": 1000,
+      "condition": "asr-cadenced-during-qwen",
+      "status": "complete",
+      "generationOnlyMs": 4155.5,
+      "qwenWindow": {
+        "startMs": 0,
+        "endMs": 4155.5
+      },
+      "metrics": {
+        "correction": 1262.3,
+        "generations": 2,
+        "stream_complete": 2892.5,
+        "first_token": 860.9,
+        "japanese_field_complete": 1258.3,
+        "json_gate_wait": 1634.1,
+        "dialogue_translation": 2892.5,
+        "worker_roundtrip": 4155.4,
+        "worker_queue": 0.4
+      },
+      "tutor": {
+        "reply": {
+          "japanese": "京都行きのホームはどちらですか？",
+          "romaji": "Kyōtoiki no hōmu wa dochira desu ka?",
+          "french": "Le quai pour Kyoto, c’est lequel ?"
+        },
+        "coaching": "Le quai pour Kyoto, c’est lequel ? Essaie une réponse courte. Dis « je ne sais pas » si tu veux un exemple.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "asrRequestWindows": [
+        {
+          "startMs": 0,
+          "endMs": 612.4,
+          "roundtripMs": 612.4,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.696,
+            "asr": 611.131
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 999.8,
+          "endMs": 1255.2,
+          "roundtripMs": 255.4,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.459,
+            "asr": 254.096
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 2000.4,
+          "endMs": 2274.6,
+          "roundtripMs": 274.3,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.406,
+            "asr": 273.302
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 3000.1,
+          "endMs": 3235.8,
+          "roundtripMs": 235.7,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.449,
+            "asr": 234.563
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 4001,
+          "endMs": 4176.6,
+          "roundtripMs": 175.6,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.44,
+            "asr": 174.497
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        }
+      ],
+      "asrOnlyMatchedWindows": [
+        {
+          "startMs": 4176.6,
+          "endMs": 4259.8,
+          "roundtripMs": 83.2,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.36,
+            "asr": 82.44
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 4259.8,
+          "endMs": 4342.3,
+          "roundtripMs": 82.5,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.376,
+            "asr": 81.701
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 4342.3,
+          "endMs": 4425.4,
+          "roundtripMs": 83.1,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.362,
+            "asr": 82.255
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 4425.4,
+          "endMs": 4507.5,
+          "roundtripMs": 82.1,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.358,
+            "asr": 81.351
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 4507.5,
+          "endMs": 4589.7,
+          "roundtripMs": 82.2,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.332,
+            "asr": 81.508
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        }
+      ],
+      "asrRequestCount": 5,
+      "asrOverlappingRequests": 5,
+      "requestOverlapMs": 1532.2,
+      "requestOverlapFraction": 0.369,
+      "asrWithQwen": {
+        "samples": 5,
+        "meanMs": 310.7,
+        "medianMs": 255.4,
+        "minMs": 175.6,
+        "maxMs": 612.4
+      },
+      "asrWithoutQwen": {
+        "samples": 5,
+        "meanMs": 82.6,
+        "medianMs": 82.5,
+        "minMs": 82.1,
+        "maxMs": 83.2
+      },
+      "loadMaxReached": false,
+      "loadLimits": {
+        "calls": 40,
+        "ms": 20000
+      },
+      "pendingAsrAtCellEnd": 0
+    },
+    {
+      "id": "origin",
+      "round": 1,
+      "profile": "structured",
+      "cadenceMs": null,
+      "condition": "qwen-only",
+      "status": "complete",
+      "generationOnlyMs": 3419.8,
+      "qwenWindow": {
+        "startMs": 0,
+        "endMs": 3419.8
+      },
+      "metrics": {
+        "correction": 1100,
+        "generations": 2,
+        "stream_complete": 2319,
+        "first_token": 816.8,
+        "japanese_field_complete": 1150.5,
+        "json_gate_wait": 1168.5,
+        "dialogue_translation": 2319,
+        "worker_roundtrip": 3419.7,
+        "worker_queue": 0.7
+      },
+      "tutor": {
+        "reply": {
+          "japanese": "どの町から来ましたか？",
+          "romaji": "Dono machi kara kimashita ka?",
+          "french": "De quelle ville viens-tu ?"
+        },
+        "coaching": "Machi veut dire ville. Tu peux dire « [ville] kara kimashita ».",
+        "correction": null,
+        "vocabulary": []
+      },
+      "asrRequestWindows": [],
+      "asrOnlyMatchedWindows": [],
+      "asrRequestCount": 0,
+      "asrOverlappingRequests": 0,
+      "requestOverlapMs": 0,
+      "requestOverlapFraction": 0,
+      "asrWithQwen": {
+        "samples": 0,
+        "meanMs": null,
+        "medianMs": null,
+        "minMs": null,
+        "maxMs": null
+      },
+      "asrWithoutQwen": {
+        "samples": 0,
+        "meanMs": null,
+        "medianMs": null,
+        "minMs": null,
+        "maxMs": null
+      },
+      "loadMaxReached": false,
+      "loadLimits": {
+        "calls": 40,
+        "ms": 20000
+      },
+      "pendingAsrAtCellEnd": 0
+    },
+    {
+      "id": "origin",
+      "round": 1,
+      "profile": "structured",
+      "cadenceMs": 0,
+      "condition": "asr-continuous-stress-during-qwen",
+      "status": "complete",
+      "generationOnlyMs": 4181.7,
+      "qwenWindow": {
+        "startMs": 0,
+        "endMs": 4181.7
+      },
+      "metrics": {
+        "correction": 1307.8,
+        "generations": 2,
+        "stream_complete": 2872.6,
+        "first_token": 938.6,
+        "japanese_field_complete": 1375.6,
+        "json_gate_wait": 1497,
+        "dialogue_translation": 2872.6,
+        "worker_roundtrip": 4181.5,
+        "worker_queue": 0.5
+      },
+      "tutor": {
+        "reply": {
+          "japanese": "どの町から来ましたか？",
+          "romaji": "Dono machi kara kimashita ka?",
+          "french": "De quelle ville viens-tu ?"
+        },
+        "coaching": "Machi veut dire ville. Tu peux dire « [ville] kara kimashita ».",
+        "correction": null,
+        "vocabulary": []
+      },
+      "asrRequestWindows": [
+        {
+          "startMs": 0,
+          "endMs": 673,
+          "roundtripMs": 673,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.6,
+            "asr": 671.337
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 673,
+          "endMs": 1121,
+          "roundtripMs": 448,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.326,
+            "asr": 447.168
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 1121,
+          "endMs": 1499,
+          "roundtripMs": 378,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.497,
+            "asr": 376.89
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 1499,
+          "endMs": 2121.9,
+          "roundtripMs": 622.9,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.526,
+            "asr": 621.81
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 2121.9,
+          "endMs": 2428.6,
+          "roundtripMs": 306.7,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.337,
+            "asr": 305.631
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 2428.6,
+          "endMs": 2730,
+          "roundtripMs": 301.4,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.4,
+            "asr": 300.456
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 2730.1,
+          "endMs": 3020.1,
+          "roundtripMs": 290.1,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.375,
+            "asr": 289.124
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 3020.2,
+          "endMs": 3280.4,
+          "roundtripMs": 260.3,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.381,
+            "asr": 259.2
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 3280.4,
+          "endMs": 3541.5,
+          "roundtripMs": 261.1,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.37,
+            "asr": 260.228
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 3541.5,
+          "endMs": 3815.8,
+          "roundtripMs": 274.3,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.37,
+            "asr": 273.366
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 3815.8,
+          "endMs": 4114.6,
+          "roundtripMs": 298.8,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.351,
+            "asr": 297.851
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 4114.6,
+          "endMs": 4249.3,
+          "roundtripMs": 134.7,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.385,
+            "asr": 133.726
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        }
+      ],
+      "asrOnlyMatchedWindows": [
+        {
+          "startMs": 4249.3,
+          "endMs": 4340.1,
+          "roundtripMs": 90.8,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.437,
+            "asr": 89.915
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 4340.1,
+          "endMs": 4430.1,
+          "roundtripMs": 90,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.312,
+            "asr": 89.328
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 4430.1,
+          "endMs": 4520.8,
+          "roundtripMs": 90.7,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.321,
+            "asr": 89.873
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 4520.9,
+          "endMs": 4610.8,
+          "roundtripMs": 90,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.316,
+            "asr": 89.288
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 4610.9,
+          "endMs": 4701.6,
+          "roundtripMs": 90.7,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.319,
+            "asr": 90.01
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 4701.6,
+          "endMs": 4791.8,
+          "roundtripMs": 90.2,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.317,
+            "asr": 89.417
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 4791.8,
+          "endMs": 4882.5,
+          "roundtripMs": 90.7,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.32,
+            "asr": 89.98
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 4882.5,
+          "endMs": 4972.1,
+          "roundtripMs": 89.6,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.308,
+            "asr": 88.892
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 4972.1,
+          "endMs": 5062,
+          "roundtripMs": 89.9,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.309,
+            "asr": 89.223
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 5062,
+          "endMs": 5153.1,
+          "roundtripMs": 91.1,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.315,
+            "asr": 90.324
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 5153.1,
+          "endMs": 5243.5,
+          "roundtripMs": 90.4,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.337,
+            "asr": 89.696
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 5243.6,
+          "endMs": 5333.1,
+          "roundtripMs": 89.5,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.31,
+            "asr": 88.882
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        }
+      ],
+      "asrRequestCount": 12,
+      "asrOverlappingRequests": 12,
+      "requestOverlapMs": 4181.5,
+      "requestOverlapFraction": 1,
+      "asrWithQwen": {
+        "samples": 12,
+        "meanMs": 354.1,
+        "medianMs": 300.1,
+        "minMs": 134.7,
+        "maxMs": 673
+      },
+      "asrWithoutQwen": {
+        "samples": 12,
+        "meanMs": 90.3,
+        "medianMs": 90.3,
+        "minMs": 89.5,
+        "maxMs": 91.1
+      },
+      "loadMaxReached": false,
+      "loadLimits": {
+        "calls": 40,
+        "ms": 20000
+      },
+      "pendingAsrAtCellEnd": 0
+    },
+    {
+      "id": "origin",
+      "round": 1,
+      "profile": "structured",
+      "cadenceMs": 1000,
+      "condition": "asr-cadenced-during-qwen",
+      "status": "complete",
+      "generationOnlyMs": 3653,
+      "qwenWindow": {
+        "startMs": 0,
+        "endMs": 3653
+      },
+      "metrics": {
+        "correction": 1233.2,
+        "generations": 2,
+        "stream_complete": 2419,
+        "first_token": 852.2,
+        "japanese_field_complete": 1245.1,
+        "json_gate_wait": 1174,
+        "dialogue_translation": 2419.1,
+        "worker_roundtrip": 3652.9,
+        "worker_queue": 0
+      },
+      "tutor": {
+        "reply": {
+          "japanese": "どの町から来ましたか？",
+          "romaji": "Dono machi kara kimashita ka?",
+          "french": "De quelle ville viens-tu ?"
+        },
+        "coaching": "Machi veut dire ville. Tu peux dire « [ville] kara kimashita ».",
+        "correction": null,
+        "vocabulary": []
+      },
+      "asrRequestWindows": [
+        {
+          "startMs": 0,
+          "endMs": 620.7,
+          "roundtripMs": 620.7,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.675,
+            "asr": 619.505
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 1000.8,
+          "endMs": 1352.6,
+          "roundtripMs": 351.8,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.426,
+            "asr": 350.78
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 2001.7,
+          "endMs": 2302.9,
+          "roundtripMs": 301.1,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.64,
+            "asr": 299.732
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 3002,
+          "endMs": 3268,
+          "roundtripMs": 266,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.427,
+            "asr": 264.938
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        }
+      ],
+      "asrOnlyMatchedWindows": [
+        {
+          "startMs": 3653.1,
+          "endMs": 3744.5,
+          "roundtripMs": 91.5,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.412,
+            "asr": 90.528
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 3744.5,
+          "endMs": 3834.5,
+          "roundtripMs": 89.9,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.338,
+            "asr": 89.225
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 3834.5,
+          "endMs": 3925.4,
+          "roundtripMs": 90.9,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.303,
+            "asr": 90.266
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        },
+        {
+          "startMs": 3925.4,
+          "endMs": 4016,
+          "roundtripMs": 90.6,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.316,
+            "asr": 89.819
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        }
+      ],
+      "asrRequestCount": 4,
+      "asrOverlappingRequests": 4,
+      "requestOverlapMs": 1539.7,
+      "requestOverlapFraction": 0.421,
+      "asrWithQwen": {
+        "samples": 4,
+        "meanMs": 384.9,
+        "medianMs": 326.5,
+        "minMs": 266,
+        "maxMs": 620.7
+      },
+      "asrWithoutQwen": {
+        "samples": 4,
+        "meanMs": 90.7,
+        "medianMs": 90.8,
+        "minMs": 89.9,
+        "maxMs": 91.5
+      },
+      "loadMaxReached": false,
+      "loadLimits": {
+        "calls": 40,
+        "ms": 20000
+      },
+      "pendingAsrAtCellEnd": 0
+    },
+    {
+      "id": "order",
+      "round": 1,
+      "profile": "structured",
+      "cadenceMs": 1000,
+      "condition": "asr-cadenced-during-qwen",
+      "status": "complete",
+      "generationOnlyMs": 3365.4,
+      "qwenWindow": {
+        "startMs": 0,
+        "endMs": 3365.4
+      },
+      "metrics": {
+        "correction": 1223.6,
+        "generations": 2,
+        "stream_complete": 2141.2,
+        "first_token": 863.9,
+        "japanese_field_complete": 1363.9,
+        "json_gate_wait": 777.3,
+        "dialogue_translation": 2141.2,
+        "worker_roundtrip": 3365.4,
+        "worker_queue": 0.4
+      },
+      "tutor": {
+        "reply": {
+          "japanese": "お支払いは現金ですか、カードですか？",
+          "romaji": "Oshiharai wa genkin desu ka, kādo desu ka?",
+          "french": "Voulez-vous payer en espèces ou par carte ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "asrRequestWindows": [
+        {
+          "startMs": 0,
+          "endMs": 674.5,
+          "roundtripMs": 674.5,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.632,
+            "asr": 673.3
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 1000.6,
+          "endMs": 1357,
+          "roundtripMs": 356.4,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.453,
+            "asr": 355.414
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 2001.1,
+          "endMs": 2291.7,
+          "roundtripMs": 290.6,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.397,
+            "asr": 289.464
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 3001.8,
+          "endMs": 3288.2,
+          "roundtripMs": 286.4,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.444,
+            "asr": 285.292
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        }
+      ],
+      "asrOnlyMatchedWindows": [
+        {
+          "startMs": 3365.5,
+          "endMs": 3459.1,
+          "roundtripMs": 93.6,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.385,
+            "asr": 92.76
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 3459.1,
+          "endMs": 3552.2,
+          "roundtripMs": 93.1,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.375,
+            "asr": 92.216
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 3552.2,
+          "endMs": 3644.8,
+          "roundtripMs": 92.6,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.359,
+            "asr": 91.811
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 3644.8,
+          "endMs": 3737.7,
+          "roundtripMs": 92.9,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.366,
+            "asr": 92.11
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        }
+      ],
+      "asrRequestCount": 4,
+      "asrOverlappingRequests": 4,
+      "requestOverlapMs": 1607.9,
+      "requestOverlapFraction": 0.478,
+      "asrWithQwen": {
+        "samples": 4,
+        "meanMs": 402,
+        "medianMs": 323.5,
+        "minMs": 286.4,
+        "maxMs": 674.5
+      },
+      "asrWithoutQwen": {
+        "samples": 4,
+        "meanMs": 93.1,
+        "medianMs": 93,
+        "minMs": 92.6,
+        "maxMs": 93.6
+      },
+      "loadMaxReached": false,
+      "loadLimits": {
+        "calls": 40,
+        "ms": 20000
+      },
+      "pendingAsrAtCellEnd": 0
+    },
+    {
+      "id": "order",
+      "round": 1,
+      "profile": "structured",
+      "cadenceMs": null,
+      "condition": "qwen-only",
+      "status": "complete",
+      "generationOnlyMs": 3091.4,
+      "qwenWindow": {
+        "startMs": 0,
+        "endMs": 3091.4
+      },
+      "metrics": {
+        "correction": 1074.1,
+        "generations": 2,
+        "stream_complete": 2016.6,
+        "first_token": 821.2,
+        "japanese_field_complete": 1278.9,
+        "json_gate_wait": 737.8,
+        "dialogue_translation": 2016.7,
+        "worker_roundtrip": 3091.3,
+        "worker_queue": 0.3
+      },
+      "tutor": {
+        "reply": {
+          "japanese": "お支払いは現金ですか、カードですか？",
+          "romaji": "Oshiharai wa genkin desu ka, kādo desu ka?",
+          "french": "Voulez-vous payer en espèces ou par carte ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "asrRequestWindows": [],
+      "asrOnlyMatchedWindows": [],
+      "asrRequestCount": 0,
+      "asrOverlappingRequests": 0,
+      "requestOverlapMs": 0,
+      "requestOverlapFraction": 0,
+      "asrWithQwen": {
+        "samples": 0,
+        "meanMs": null,
+        "medianMs": null,
+        "minMs": null,
+        "maxMs": null
+      },
+      "asrWithoutQwen": {
+        "samples": 0,
+        "meanMs": null,
+        "medianMs": null,
+        "minMs": null,
+        "maxMs": null
+      },
+      "loadMaxReached": false,
+      "loadLimits": {
+        "calls": 40,
+        "ms": 20000
+      },
+      "pendingAsrAtCellEnd": 0
+    },
+    {
+      "id": "order",
+      "round": 1,
+      "profile": "structured",
+      "cadenceMs": 0,
+      "condition": "asr-continuous-stress-during-qwen",
+      "status": "complete",
+      "generationOnlyMs": 3793.5,
+      "qwenWindow": {
+        "startMs": 0,
+        "endMs": 3793.5
+      },
+      "metrics": {
+        "correction": 1293.1,
+        "generations": 2,
+        "stream_complete": 2499.6,
+        "first_token": 946.7,
+        "japanese_field_complete": 1552.1,
+        "json_gate_wait": 947.6,
+        "dialogue_translation": 2499.6,
+        "worker_roundtrip": 3793.4,
+        "worker_queue": 0.4
+      },
+      "tutor": {
+        "reply": {
+          "japanese": "お支払いは現金ですか、カードですか？",
+          "romaji": "Oshiharai wa genkin desu ka, kādo desu ka?",
+          "french": "Voulez-vous payer en espèces ou par carte ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "asrRequestWindows": [
+        {
+          "startMs": 0,
+          "endMs": 713.2,
+          "roundtripMs": 713.2,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.616,
+            "asr": 711.919
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 713.2,
+          "endMs": 1121.5,
+          "roundtripMs": 408.3,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.549,
+            "asr": 407.137
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 1121.5,
+          "endMs": 1463.6,
+          "roundtripMs": 342.1,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.423,
+            "asr": 341.132
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 1463.6,
+          "endMs": 2105.5,
+          "roundtripMs": 641.9,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.558,
+            "asr": 640.823
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 2105.5,
+          "endMs": 2407,
+          "roundtripMs": 301.6,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.376,
+            "asr": 300.456
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 2407,
+          "endMs": 2692,
+          "roundtripMs": 285,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.463,
+            "asr": 283.914
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 2692,
+          "endMs": 2986.1,
+          "roundtripMs": 294.1,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.403,
+            "asr": 293.175
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 2986.1,
+          "endMs": 3277,
+          "roundtripMs": 290.9,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.383,
+            "asr": 289.763
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 3277,
+          "endMs": 3557.4,
+          "roundtripMs": 280.3,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.455,
+            "asr": 279.307
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 3557.4,
+          "endMs": 3799.7,
+          "roundtripMs": 242.4,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.394,
+            "asr": 241.628
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        }
+      ],
+      "asrOnlyMatchedWindows": [
+        {
+          "startMs": 3799.7,
+          "endMs": 3892.8,
+          "roundtripMs": 93,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.343,
+            "asr": 92.169
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 3892.8,
+          "endMs": 3985.2,
+          "roundtripMs": 92.4,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.348,
+            "asr": 91.666
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 3985.2,
+          "endMs": 4077.9,
+          "roundtripMs": 92.7,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.356,
+            "asr": 91.991
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 4077.9,
+          "endMs": 4172.2,
+          "roundtripMs": 94.3,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.359,
+            "asr": 93.382
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 4172.2,
+          "endMs": 4270.5,
+          "roundtripMs": 98.3,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.393,
+            "asr": 97.436
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 4270.5,
+          "endMs": 4366.9,
+          "roundtripMs": 96.5,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.389,
+            "asr": 95.63
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 4366.9,
+          "endMs": 4466.9,
+          "roundtripMs": 100,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.374,
+            "asr": 99.032
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 4466.9,
+          "endMs": 4567.2,
+          "roundtripMs": 100.3,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.421,
+            "asr": 99.366
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 4567.2,
+          "endMs": 4679.7,
+          "roundtripMs": 112.5,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.384,
+            "asr": 111.651
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 4679.7,
+          "endMs": 4776.1,
+          "roundtripMs": 96.3,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.392,
+            "asr": 95.389
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        }
+      ],
+      "asrRequestCount": 10,
+      "asrOverlappingRequests": 10,
+      "requestOverlapMs": 3793.5,
+      "requestOverlapFraction": 1,
+      "asrWithQwen": {
+        "samples": 10,
+        "meanMs": 380,
+        "medianMs": 297.9,
+        "minMs": 242.4,
+        "maxMs": 713.2
+      },
+      "asrWithoutQwen": {
+        "samples": 10,
+        "meanMs": 97.6,
+        "medianMs": 96.4,
+        "minMs": 92.4,
+        "maxMs": 112.5
+      },
+      "loadMaxReached": false,
+      "loadLimits": {
+        "calls": 40,
+        "ms": 20000
+      },
+      "pendingAsrAtCellEnd": 0
+    },
+    {
+      "id": "destination",
+      "round": 1,
+      "profile": "structured",
+      "cadenceMs": 0,
+      "condition": "asr-continuous-stress-during-qwen",
+      "status": "complete",
+      "generationOnlyMs": 4868.8,
+      "qwenWindow": {
+        "startMs": 0,
+        "endMs": 4868.8
+      },
+      "metrics": {
+        "correction": 1296,
+        "generations": 2,
+        "stream_complete": 3572.1,
+        "first_token": 925.4,
+        "japanese_field_complete": 1459.8,
+        "json_gate_wait": 2112.3,
+        "dialogue_translation": 3572.1,
+        "worker_roundtrip": 4868.7,
+        "worker_queue": 0.7
+      },
+      "tutor": {
+        "reply": {
+          "japanese": "京都行きのホームはどちらですか？",
+          "romaji": "Kyōtoiki no hōmu wa dochira desu ka?",
+          "french": "Le quai pour Kyoto, c’est lequel ?"
+        },
+        "coaching": "Le quai pour Kyoto, c’est lequel ? Essaie une réponse courte. Dis « je ne sais pas » si tu veux un exemple.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "asrRequestWindows": [
+        {
+          "startMs": 0,
+          "endMs": 543.6,
+          "roundtripMs": 543.6,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.749,
+            "asr": 542.301
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 543.6,
+          "endMs": 1017.4,
+          "roundtripMs": 473.7,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.409,
+            "asr": 472.781
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 1017.4,
+          "endMs": 1247.1,
+          "roundtripMs": 229.7,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.377,
+            "asr": 228.76
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 1247.1,
+          "endMs": 1708,
+          "roundtripMs": 460.9,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.396,
+            "asr": 460.041
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 1708,
+          "endMs": 2194.7,
+          "roundtripMs": 486.7,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.375,
+            "asr": 485.793
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 2194.7,
+          "endMs": 2444,
+          "roundtripMs": 249.4,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.415,
+            "asr": 248.038
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 2444,
+          "endMs": 2700.6,
+          "roundtripMs": 256.6,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.611,
+            "asr": 255.236
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 2700.6,
+          "endMs": 2935.3,
+          "roundtripMs": 234.6,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.512,
+            "asr": 233.474
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 2935.3,
+          "endMs": 3173.7,
+          "roundtripMs": 238.4,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.436,
+            "asr": 237.243
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 3173.7,
+          "endMs": 3397.5,
+          "roundtripMs": 223.9,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.401,
+            "asr": 222.879
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 3397.5,
+          "endMs": 3638.6,
+          "roundtripMs": 241,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.461,
+            "asr": 239.97
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 3638.6,
+          "endMs": 3864.9,
+          "roundtripMs": 226.3,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.639,
+            "asr": 225
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 3864.9,
+          "endMs": 4122.3,
+          "roundtripMs": 257.4,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.442,
+            "asr": 256.196
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 4122.3,
+          "endMs": 4366.2,
+          "roundtripMs": 243.9,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.429,
+            "asr": 242.883
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 4366.2,
+          "endMs": 4603.7,
+          "roundtripMs": 237.5,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.421,
+            "asr": 236.548
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 4603.7,
+          "endMs": 4858.7,
+          "roundtripMs": 255,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.388,
+            "asr": 253.878
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 4858.8,
+          "endMs": 4946.5,
+          "roundtripMs": 87.7,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.402,
+            "asr": 86.895
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        }
+      ],
+      "asrOnlyMatchedWindows": [
+        {
+          "startMs": 4946.5,
+          "endMs": 5028.6,
+          "roundtripMs": 82.1,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.345,
+            "asr": 81.34
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 5028.6,
+          "endMs": 5111.6,
+          "roundtripMs": 83,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.37,
+            "asr": 82.243
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 5111.6,
+          "endMs": 5193.6,
+          "roundtripMs": 82,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.351,
+            "asr": 81.232
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 5193.6,
+          "endMs": 5276.7,
+          "roundtripMs": 83.1,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.345,
+            "asr": 82.266
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 5276.7,
+          "endMs": 5359.4,
+          "roundtripMs": 82.7,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.364,
+            "asr": 81.937
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 5359.4,
+          "endMs": 5441.1,
+          "roundtripMs": 81.7,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.346,
+            "asr": 80.986
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 5441.1,
+          "endMs": 5523.3,
+          "roundtripMs": 82.2,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.404,
+            "asr": 81.476
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 5523.3,
+          "endMs": 5605.4,
+          "roundtripMs": 82.1,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.359,
+            "asr": 81.224
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 5605.4,
+          "endMs": 5687.7,
+          "roundtripMs": 82.3,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.371,
+            "asr": 81.576
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 5687.7,
+          "endMs": 5769.8,
+          "roundtripMs": 82.1,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.343,
+            "asr": 81.378
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 5769.8,
+          "endMs": 5852.7,
+          "roundtripMs": 82.8,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.358,
+            "asr": 81.924
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 5852.7,
+          "endMs": 5935.2,
+          "roundtripMs": 82.5,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.439,
+            "asr": 81.695
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 5935.2,
+          "endMs": 6017,
+          "roundtripMs": 81.8,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.36,
+            "asr": 81.015
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 6017,
+          "endMs": 6099.9,
+          "roundtripMs": 82.9,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.342,
+            "asr": 82.08
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 6099.9,
+          "endMs": 6181.7,
+          "roundtripMs": 81.9,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.35,
+            "asr": 81.124
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 6181.7,
+          "endMs": 6262.8,
+          "roundtripMs": 81.1,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.35,
+            "asr": 80.35
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 6262.8,
+          "endMs": 6345.1,
+          "roundtripMs": 82.3,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.364,
+            "asr": 81.471
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        }
+      ],
+      "asrRequestCount": 17,
+      "asrOverlappingRequests": 17,
+      "requestOverlapMs": 4868.7,
+      "requestOverlapFraction": 1,
+      "asrWithQwen": {
+        "samples": 17,
+        "meanMs": 291,
+        "medianMs": 243.9,
+        "minMs": 87.7,
+        "maxMs": 543.6
+      },
+      "asrWithoutQwen": {
+        "samples": 17,
+        "meanMs": 82.3,
+        "medianMs": 82.2,
+        "minMs": 81.1,
+        "maxMs": 83.1
+      },
+      "loadMaxReached": false,
+      "loadLimits": {
+        "calls": 40,
+        "ms": 20000
+      },
+      "pendingAsrAtCellEnd": 0
+    },
+    {
+      "id": "destination",
+      "round": 1,
+      "profile": "structured",
+      "cadenceMs": 1000,
+      "condition": "asr-cadenced-during-qwen",
+      "status": "complete",
+      "generationOnlyMs": 4122,
+      "qwenWindow": {
+        "startMs": 0,
+        "endMs": 4122
+      },
+      "metrics": {
+        "correction": 1309.9,
+        "generations": 2,
+        "stream_complete": 2811.4,
+        "first_token": 829.2,
+        "japanese_field_complete": 1219.3,
+        "json_gate_wait": 1592.2,
+        "dialogue_translation": 2811.5,
+        "worker_roundtrip": 4122,
+        "worker_queue": 0
+      },
+      "tutor": {
+        "reply": {
+          "japanese": "京都行きのホームはどちらですか？",
+          "romaji": "Kyōtoiki no hōmu wa dochira desu ka?",
+          "french": "Le quai pour Kyoto, c’est lequel ?"
+        },
+        "coaching": "Le quai pour Kyoto, c’est lequel ? Essaie une réponse courte. Dis « je ne sais pas » si tu veux un exemple.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "asrRequestWindows": [
+        {
+          "startMs": 0,
+          "endMs": 83.5,
+          "roundtripMs": 83.5,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.667,
+            "asr": 82.393
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 1000.6,
+          "endMs": 1245.8,
+          "roundtripMs": 245.2,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.51,
+            "asr": 243.995
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 2000.1,
+          "endMs": 2282.2,
+          "roundtripMs": 282,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.385,
+            "asr": 281.092
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 3000.2,
+          "endMs": 3254.8,
+          "roundtripMs": 254.6,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.441,
+            "asr": 253.563
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 4000.8,
+          "endMs": 4153.6,
+          "roundtripMs": 152.8,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.453,
+            "asr": 151.853
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        }
+      ],
+      "asrOnlyMatchedWindows": [
+        {
+          "startMs": 4153.7,
+          "endMs": 4235.6,
+          "roundtripMs": 81.9,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.341,
+            "asr": 81.174
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 4235.6,
+          "endMs": 4318.4,
+          "roundtripMs": 82.9,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.36,
+            "asr": 82.109
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 4318.5,
+          "endMs": 4400.7,
+          "roundtripMs": 82.3,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.371,
+            "asr": 81.481
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 4400.7,
+          "endMs": 4483.2,
+          "roundtripMs": 82.5,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.339,
+            "asr": 81.664
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 4483.2,
+          "endMs": 4564.9,
+          "roundtripMs": 81.7,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.337,
+            "asr": 81.029
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        }
+      ],
+      "asrRequestCount": 5,
+      "asrOverlappingRequests": 5,
+      "requestOverlapMs": 986.6,
+      "requestOverlapFraction": 0.239,
+      "asrWithQwen": {
+        "samples": 5,
+        "meanMs": 203.6,
+        "medianMs": 245.2,
+        "minMs": 83.5,
+        "maxMs": 282
+      },
+      "asrWithoutQwen": {
+        "samples": 5,
+        "meanMs": 82.3,
+        "medianMs": 82.3,
+        "minMs": 81.7,
+        "maxMs": 82.9
+      },
+      "loadMaxReached": false,
+      "loadLimits": {
+        "calls": 40,
+        "ms": 20000
+      },
+      "pendingAsrAtCellEnd": 0
+    },
+    {
+      "id": "destination",
+      "round": 1,
+      "profile": "structured",
+      "cadenceMs": null,
+      "condition": "qwen-only",
+      "status": "complete",
+      "generationOnlyMs": 3740.3,
+      "qwenWindow": {
+        "startMs": 0,
+        "endMs": 3740.3
+      },
+      "metrics": {
+        "correction": 1064.9,
+        "generations": 2,
+        "stream_complete": 2674.8,
+        "first_token": 796.7,
+        "japanese_field_complete": 1164.8,
+        "json_gate_wait": 1510,
+        "dialogue_translation": 2674.8,
+        "worker_roundtrip": 3740.2,
+        "worker_queue": 0.2
+      },
+      "tutor": {
+        "reply": {
+          "japanese": "京都行きのホームはどちらですか？",
+          "romaji": "Kyōtoiki no hōmu wa dochira desu ka?",
+          "french": "Le quai pour Kyoto, c’est lequel ?"
+        },
+        "coaching": "Le quai pour Kyoto, c’est lequel ? Essaie une réponse courte. Dis « je ne sais pas » si tu veux un exemple.",
+        "correction": null,
+        "vocabulary": []
+      },
+      "asrRequestWindows": [],
+      "asrOnlyMatchedWindows": [],
+      "asrRequestCount": 0,
+      "asrOverlappingRequests": 0,
+      "requestOverlapMs": 0,
+      "requestOverlapFraction": 0,
+      "asrWithQwen": {
+        "samples": 0,
+        "meanMs": null,
+        "medianMs": null,
+        "minMs": null,
+        "maxMs": null
+      },
+      "asrWithoutQwen": {
+        "samples": 0,
+        "meanMs": null,
+        "medianMs": null,
+        "minMs": null,
+        "maxMs": null
+      },
+      "loadMaxReached": false,
+      "loadLimits": {
+        "calls": 40,
+        "ms": 20000
+      },
+      "pendingAsrAtCellEnd": 0
+    }
+  ],
+  "summary": {
+    "structured": {
+      "samples": 0,
+      "meanMs": null,
+      "medianMs": null,
+      "minMs": null,
+      "maxMs": null
+    },
+    "compact": {
+      "samples": 0,
+      "meanMs": null,
+      "medianMs": null,
+      "minMs": null,
+      "maxMs": null
+    },
+    "ja-first": {
+      "samples": 0,
+      "meanMs": null,
+      "medianMs": null,
+      "minMs": null,
+      "maxMs": null
+    }
+  },
+  "humanLinguisticReview": "pending",
+  "mechanicalContractChecksOnly": true,
+  "humanRecognition": "pending-corpus",
+  "humanPlayback": "pending",
+  "productionSelection": "unchanged"
+}

@@ -30,6 +30,10 @@ import {
   type VoiceLabIncident,
 } from "../lib/voice-lab-metrics";
 import { scenes, freeScene } from "../data/lessons";
+import {
+  applyVoiceLabDetails,
+  applyPhraseDetails,
+} from "../lib/voice-lab-details";
 import { VoiceLabCapture } from "./voice-lab-capture";
 import { useJapaneseSpeech } from "./japanese-speech";
 import { Mochi } from "./art";
@@ -101,6 +105,7 @@ export function VoiceLab({
   const speechGeneration = useRef(0);
   const lastBuffer = useRef(0);
   const captureStartedAt = useRef(0);
+  const automaticResume = useRef(false);
   const preparingAt = useRef(0);
   const lastSignal = useRef(0);
   const unclear = useRef(0);
@@ -126,7 +131,7 @@ export function VoiceLab({
     keepSample,
   };
   const actions = useRef({
-    begin: () => {},
+    begin: (_automatic?: boolean) => {},
     pause: (_reason?: VoiceLabIncident) => {},
     finish: () => {},
   });
@@ -190,7 +195,7 @@ export function VoiceLab({
       old.close();
     }
   }, []);
-  const begin = () => {
+  const begin = (automatic = false) => {
     if (
       !alive.current ||
       !ready.current ||
@@ -198,6 +203,7 @@ export function VoiceLab({
     )
       return;
     const tag = gate.begin();
+    automaticResume.current = automatic;
     speechGeneration.current++;
     captureKey.current++;
     capturing.current = true;
@@ -234,7 +240,7 @@ export function VoiceLab({
       captureStartedAt.current = performance.now();
       lastBuffer.current = captureStartedAt.current;
       endpoint.current = new VoiceLabEndpoint(captureStartedAt.current);
-      metrics.begin(captureStartedAt.current);
+      metrics.begin(captureStartedAt.current, automaticResume.current);
       setPhase("listening");
     } catch {
       fail(
@@ -480,6 +486,10 @@ export function VoiceLab({
           setTutor(event.tutor);
           setQuestion(event.tutor.reply);
         }
+        if (event.type === "details") {
+          setTutor((previous) => applyVoiceLabDetails(previous, event));
+          setQuestion((previous) => applyPhraseDetails(previous, event));
+        }
         if (event.type === "state" && event.state === "recognizing") {
           capturing.current = false;
           setCapture(null);
@@ -509,6 +519,7 @@ export function VoiceLab({
               const played = await speech.playJapaneseAudio(event.audio, () => {
                 if (gate.current(tag)) metrics.playing();
               });
+              if (gate.current(tag) && played) metrics.playbackEnded();
               if (gate.current(tag) && !played)
                 fail(
                   "La lecture japonaise a été interrompue.",
@@ -521,6 +532,7 @@ export function VoiceLab({
             });
         }
         if (event.type === "response_done") {
+          metrics.responseDone();
           const tag = gate.tag();
           void queue.current.then(() => {
             if (!gate.current(tag)) return;
@@ -531,7 +543,7 @@ export function VoiceLab({
               pause();
               return;
             }
-            if (options.current.continuous) actions.current.begin();
+            if (options.current.continuous) actions.current.begin(true);
             else {
               active.current = false;
               setPhase("paused");

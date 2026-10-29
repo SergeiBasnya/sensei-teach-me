@@ -22,3 +22,13 @@ class StreamTraceTests(unittest.TestCase):
         self.assertEqual(collect_stream([SimpleNamespace(text='{oops')], metrics), '{oops')
         self.assertNotIn('japanese_field_complete', metrics)
         self.assertNotIn('validated', metrics)
+
+    def test_prefilled_field_name_is_preserved_but_never_closes_truncated_output(self):
+        metrics = {}
+        prefix = '{"japanese":'
+        result = collect_stream([SimpleNamespace(text='"こんにちは。"')], metrics, initial_text=prefix)
+        self.assertEqual(result, '{"japanese":"こんにちは。"')
+        self.assertIn('japanese_field_complete', metrics)
+        import json
+        with self.assertRaises(json.JSONDecodeError):
+            json.loads(result)

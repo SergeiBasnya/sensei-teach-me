@@ -1,0 +1,2443 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-29T08:42:06.669Z",
+  "status": "complete",
+  "scope": "contracts",
+  "rounds": 2,
+  "contentionProfiles": [
+    "structured"
+  ],
+  "sourceSnapshot": {
+    "files": [
+      {
+        "path": "scripts/benchmark-voice-generation.ts",
+        "sha256": "3b36e1a537450f476fb4bc1d925cd31013df41f3a9f44f5dd6458307e044c007"
+      },
+      {
+        "path": "package.json",
+        "sha256": "0960d465472b387608b608c7280664a0bfc45bde560891feb58184cda280083f"
+      },
+      {
+        "path": "package-lock.json",
+        "sha256": "0cc80ed9fb46bc298d59faacbc5c0142170b90c8bb29fb27095f68275153e97e"
+      },
+      {
+        "path": "server/app.ts",
+        "sha256": "159c6d07609305387f9269f4e72a6f8dd1283f5ec30d2135aa7a8a45a368df57"
+      },
+      {
+        "path": "server/local-tutor.ts",
+        "sha256": "d5e73244ed1bc662b4c7afb2cb9ab09013ac70659296eafb0f1d69067cd76561"
+      },
+      {
+        "path": "server/conversation_worker.py",
+        "sha256": "313c1d575130efb6c165bd4450aa3455cc0c1a725c0d4ec02add7999cb3e0be9"
+      },
+      {
+        "path": "server/conversation_feedback.py",
+        "sha256": "510c6891d0c5a977ac88820e17d3640a4d710d3d653fbc5569af4461f2eddaae"
+      },
+      {
+        "path": "server/pedagogic_romaji.py",
+        "sha256": "03da9ae0fa17dd1e60a5cf9863b1fce4cc1e36a98efaaccb43b3e04ae03df2dd"
+      },
+      {
+        "path": "server/linguistic_support.py",
+        "sha256": "ad96c34319b932e6e88fe9b81b3e512efeb87df1160c98b8bc9c5f7aae4e3ce9"
+      },
+      {
+        "path": "server/conversation_context.py",
+        "sha256": "61005ae94079d22d30646c221f916746b6f25d2770a5af88ffc8d4648999943c"
+      },
+      {
+        "path": "server/lab_generation.py",
+        "sha256": "97dead4709969569f0b9228f9f3b779578501783c8fd0346efbf8596fc6a0fce"
+      },
+      {
+        "path": "server/llm_stream_trace.py",
+        "sha256": "42642f88ce8a6341dc92352bfea46c2e922d04cf72a9c551df4dac45c493841d"
+      },
+      {
+        "path": "server/local-speech.ts",
+        "sha256": "fabba1b7b2ef83428de3c320108b535ce4aae94eee2a67a1feda74f21b8ec597"
+      },
+      {
+        "path": "server/voice_worker.py",
+        "sha256": "34bad116a147ee0f4c108801cb073ca3018a7c6148b6a082b56d69c64e8e825c"
+      },
+      {
+        "path": "server/voice-lab-asr.ts",
+        "sha256": "ce167decda1e6c5aedbb9cf0630c4a825a7aef1aa1f0e25f4cbc2f679fac6043"
+      },
+      {
+        "path": "server/voice_lab_worker.py",
+        "sha256": "dcc83c9640b2c0150e45cad7a8d142a5aafb548d3924c563d5ab6843ac70c3e6"
+      },
+      {
+        "path": "server/voice-lab-response.ts",
+        "sha256": "221da2d7b68704bec9dffbc6cc4cfd7f38c1e43606d1d589feb54d7cb705c3c3"
+      },
+      {
+        "path": "server/voice-lab.ts",
+        "sha256": "996a929a108cbb550a8020843ffb8da65e606bcc1a83359b0b41dcd61d58d14c"
+      },
+      {
+        "path": "shared/voice-lab.ts",
+        "sha256": "13ed15d0cb85a19069de6bb37ad37d4c762ae0e7960b5fcf29b66372af4662fa"
+      }
+    ],
+    "missing": [],
+    "sha256": "6d886279e2b73b13ae4790ca87ed15ce10824e370a21880c9103aca7d03502a5"
+  },
+  "runtime": {
+    "node": "v24.20.0",
+    "platform": "darwin",
+    "arch": "arm64",
+    "python": {
+      "python": "3.12.14",
+      "packages": {
+        "mlx": "0.32.4",
+        "mlx-lm": "0.32.2",
+        "mlx-whisper": "0.4.3",
+        "numpy": "2.5.4",
+        "imageio-ffmpeg": "0.6.0",
+        "pyopenjtalk": null,
+        "voicevox-core": "0.17.1"
+      }
+    },
+    "models": [
+      {
+        "id": "qwen",
+        "manifests": [
+          {
+            "file": "config.json",
+            "sha256": "a54ec18ffe24f3c909e9556471dc156ed9b3b61b872008831c7cba9d4768b4a5"
+          },
+          {
+            "file": "tokenizer_config.json",
+            "sha256": "253153d0738ceb4c668d2eff957714dd2bea0b56de772a9fdccd96cbf517e6a0"
+          }
+        ],
+        "weightHash": "not-measured"
+      },
+      {
+        "id": "whisper-tutor",
+        "manifests": [
+          {
+            "file": "config.json",
+            "sha256": "e8f58e638208af66d5d5d67801259dc7a12d199e971967a9f9d33a8e3635668e"
+          }
+        ],
+        "weightHash": "not-measured"
+      },
+      {
+        "id": "whisper-load",
+        "manifests": [
+          {
+            "file": "config.json",
+            "sha256": "e8f58e638208af66d5d5d67801259dc7a12d199e971967a9f9d33a8e3635668e"
+          }
+        ],
+        "weightHash": "not-measured"
+      }
+    ]
+  },
+  "readyMs": 3632,
+  "data": "Six public synthetic VOICEVOX fixtures and their authored Japanese; no human voice or reference.",
+  "audioCache": false,
+  "definitions": {
+    "firstJapaneseAudioEmittedMs": "From an already recognized authored text entering the response function until its first complete validated Japanese WAV is emitted; not transport, playback, VAD tail or human end of speech.",
+    "generationOnlyMs": "Wall time of labTurn, including grammatical check and selected complete output contract; no TTS or secondary request.",
+    "overlapMs": "Intersection of ASR and Qwen request wall-time windows; not a measurement of simultaneous GPU kernels.",
+    "contention": "Controlled two-process workload; normal single-client lab currently serializes ASR and respond. This does not establish that the stress occurs in production."
+  },
+  "resources": {
+    "nodeRssBytes": 124862464,
+    "childProcessRss": "not-measured",
+    "gpuMemory": "not-measured",
+    "energy": "not-measured"
+  },
+  "fixtures": [
+    {
+      "id": "identity",
+      "scenario": "meet",
+      "lessonId": "meet-name",
+      "question": "お名前は？",
+      "text": "私はオーギュストです。",
+      "file": "cb0412a327921b1a150b.wav",
+      "audioMs": 1664,
+      "pcmSha256": "a67cd4c206e0ea55d1f789834cd4a2b06fa803a629d8808b89e4aba52ab1ccf6"
+    },
+    {
+      "id": "origin",
+      "scenario": "meet",
+      "lessonId": "meet-origin",
+      "question": "どこから来ましたか？",
+      "text": "フランスから来ました。",
+      "file": "109e155eca21856c868a.wav",
+      "audioMs": 1557.375,
+      "pcmSha256": "d4730ef839d6a28ee1baecb403cc35073f71d0b94f7c30e5f79ced1ee13e84cf"
+    },
+    {
+      "id": "likes",
+      "scenario": "meet",
+      "lessonId": "meet-likes",
+      "question": "日本語は好きですか？",
+      "text": "はい、日本語が好きです。",
+      "file": "cdbbfef81b23fcb88885.wav",
+      "audioMs": 2122.6875,
+      "pcmSha256": "57e3da6cc718234202c7b0aa8079c5dd727eb9c5e6c047802b76f11c9229fb75"
+    },
+    {
+      "id": "order",
+      "scenario": "cafe",
+      "lessonId": "cafe-order",
+      "question": "何にしますか？",
+      "text": "コーヒーを一つください。",
+      "file": "fc48f4733aae10f420d6.wav",
+      "audioMs": 1749.375,
+      "pcmSha256": "4992a4d72cf7699a11dd4200b9b67c8f2a6f2dc26b1ac42e834ea72cb6a762ba"
+    },
+    {
+      "id": "temperature",
+      "scenario": "cafe",
+      "lessonId": "cafe-choice",
+      "question": "ホットですか、アイスですか？",
+      "text": "ホットでお願いします。",
+      "file": "a39332e0aafc35578065.wav",
+      "audioMs": 1632,
+      "pcmSha256": "fb11fbd29fdf8dd5aea8a34f5d57a117ec38788234b4ad2962207f48ea09f2b8"
+    },
+    {
+      "id": "destination",
+      "scenario": "station",
+      "lessonId": "station-destination",
+      "question": "どちらまでですか？",
+      "text": "京都までお願いします。",
+      "file": "2d738f422a192c578a24.wav",
+      "audioMs": 1770.6875,
+      "pcmSha256": "16c5da83ef927763875e57bf91aa45b7c62015970370682d1e06cf44b43938dd"
+    }
+  ],
+  "warmups": [
+    {
+      "kind": "qwen-and-japanese-tts",
+      "ms": 4769.3
+    }
+  ],
+  "contractResults": [
+    {
+      "id": "identity",
+      "round": 0,
+      "profile": "structured",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 5131.3,
+      "responseCompleteMs": 5678.5,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "オーギュストさん、こんにちは！どこから来ましたか？",
+              "romaji": "Ōgyusutosan, konnichiwa! Doko kara kimashita ka?",
+              "french": "Bonjour, Auguste ! D’où viens-tu ?"
+            },
+            "coaching": "Bonjour, Auguste ! D’où viens-tu ? Essaie une réponse courte. Dis « je ne sais pas » si tu veux un exemple.",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 4416
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 106028,
+          "elapsedMs": 5131.3
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 77868,
+          "elapsedMs": 5678.4
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1136,
+            "generations": 2,
+            "stream_complete": 3270.4,
+            "first_token": 759.6,
+            "japanese_field_complete": 1344.8,
+            "json_gate_wait": 1925.6,
+            "dialogue_translation": 3270.4,
+            "worker_roundtrip": 4414.7,
+            "worker_queue": 0.7,
+            "teaching": 4415.2724579999995,
+            "postprocess": 0.5732500000012806,
+            "tts_first": 715.1125419999989,
+            "first_audio_emit": 5131.119957999999,
+            "tts_all": 1262.2841669999998,
+            "secondary_tail_wait": 0.00016700000014679972
+          },
+          "elapsedMs": 5678.4
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 5678.4
+        }
+      ]
+    },
+    {
+      "id": "identity",
+      "round": 0,
+      "profile": "compact",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 3460.9,
+      "responseCompleteMs": 4026.3,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "こんにちは、オーギュスト。どこから来ましたか？",
+              "romaji": "Konnichiwa, ōgyusuto. Doko kara kimashita ka?",
+              "french": "Bonjour, Auguste. D'où viens-tu ?"
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 2809
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 98348,
+          "elapsedMs": 3460.9
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 77868,
+          "elapsedMs": 4026.3
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1199.8,
+            "generations": 2,
+            "stream_complete": 1607.4,
+            "first_token": 519.9,
+            "japanese_field_complete": 1059.1,
+            "json_gate_wait": 548.3,
+            "dialogue_compact": 1607.4,
+            "lab_validation": 0.1,
+            "worker_roundtrip": 2808.5,
+            "worker_queue": 0.5,
+            "teaching": 2808.7821249999997,
+            "postprocess": 0.23300000000017462,
+            "tts_first": 651.7747920000002,
+            "first_audio_emit": 3460.8207090000014,
+            "tts_all": 1217.2463749999988,
+            "secondary_tail_wait": 0.00016699999832781032
+          },
+          "elapsedMs": 4026.3
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 4026.3
+        }
+      ]
+    },
+    {
+      "id": "identity",
+      "round": 0,
+      "profile": "ja-first",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 2861.1,
+      "responseCompleteMs": 3561.8,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "オーギュストさん、こんにちは。",
+              "romaji": "Ōgyusutosan, konnichiwa.",
+              "french": ""
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 2147.3
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 106028,
+          "elapsedMs": 2861.1
+        },
+        {
+          "type": "details",
+          "japanese": "オーギュストさん、こんにちは。",
+          "french": "Auguste, bonjour.",
+          "coaching": null,
+          "elapsedMs": 3561.8
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1194.9,
+            "generations": 2,
+            "stream_complete": 951.1,
+            "first_token": 604,
+            "japanese_field_complete": 911.6,
+            "json_gate_wait": 39.5,
+            "dialogue_japanese": 951.1,
+            "lab_validation": 0,
+            "worker_roundtrip": 2147,
+            "worker_queue": 0,
+            "teaching": 2147.083832999997,
+            "postprocess": 0.21225000000049477,
+            "tts_first": 713.7080829999977,
+            "first_audio_emit": 2861.0299159999995,
+            "tts_all": 714.0629579999986,
+            "secondary_total": 700.666957999998,
+            "secondary": 699.2,
+            "secondary_generations": 1,
+            "secondary_tail_wait": 700.4120829999993
+          },
+          "elapsedMs": 3561.8
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 3561.8
+        }
+      ]
+    },
+    {
+      "id": "origin",
+      "round": 0,
+      "profile": "compact",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 3692,
+      "responseCompleteMs": 3692.1,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "じゃあ、フランスのどの街からですか？",
+              "romaji": "Jā, furansu no dono machi kara desu ka?",
+              "french": "Alors, quelle ville en France es-tu venue ?"
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 2560.2
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 149548,
+          "elapsedMs": 3692
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1025.3,
+            "generations": 2,
+            "stream_complete": 1527.2,
+            "first_token": 522.3,
+            "japanese_field_complete": 979.2,
+            "json_gate_wait": 547.9,
+            "dialogue_compact": 1527.2,
+            "lab_validation": 0,
+            "worker_roundtrip": 2559.8,
+            "worker_queue": 0.8,
+            "teaching": 2559.915541999999,
+            "postprocess": 0.2522499999977299,
+            "tts_first": 1131.760875,
+            "first_audio_emit": 3691.9444589999985,
+            "tts_all": 1131.9130000000005,
+            "secondary_tail_wait": 0.0002080000012938399
+          },
+          "elapsedMs": 3692.1
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 3692.1
+        }
+      ]
+    },
+    {
+      "id": "origin",
+      "round": 0,
+      "profile": "ja-first",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 2842.7,
+      "responseCompleteMs": 3642.1,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "どの町から来ましたか？",
+              "romaji": "Dono machi kara kimashita ka?",
+              "french": ""
+            },
+            "coaching": "Machi veut dire ville. Tu peux dire « [ville] kara kimashita ».",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 2199.5
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 87596,
+          "elapsedMs": 2842.7
+        },
+        {
+          "type": "details",
+          "japanese": "どの町から来ましたか？",
+          "french": "De quelle ville viens-tu ?",
+          "coaching": "Machi veut dire ville. Tu peux dire « [ville] kara kimashita ».",
+          "elapsedMs": 3642
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1283.5,
+            "generations": 2,
+            "stream_complete": 914.9,
+            "first_token": 621,
+            "japanese_field_complete": 873.9,
+            "json_gate_wait": 41,
+            "dialogue_japanese": 914.9,
+            "lab_validation": 0,
+            "worker_roundtrip": 2199.1,
+            "worker_queue": 0.1,
+            "teaching": 2199.256250000002,
+            "postprocess": 0.2327499999992142,
+            "tts_first": 643.091540999998,
+            "first_audio_emit": 2842.606375000003,
+            "tts_all": 643.315458000001,
+            "secondary_total": 799.3644160000003,
+            "secondary": 798.4,
+            "secondary_generations": 1,
+            "secondary_tail_wait": 799.2038329999996
+          },
+          "elapsedMs": 3642.1
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 3642.1
+        }
+      ]
+    },
+    {
+      "id": "origin",
+      "round": 0,
+      "profile": "structured",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 4061.6,
+      "responseCompleteMs": 4061.6,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "どの町から来ましたか？",
+              "romaji": "Dono machi kara kimashita ka?",
+              "french": "De quelle ville viens-tu ?"
+            },
+            "coaching": "Machi veut dire ville. Tu peux dire « [ville] kara kimashita ».",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 3373.1
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 87596,
+          "elapsedMs": 4061.6
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1040.3,
+            "generations": 2,
+            "stream_complete": 2331.9,
+            "first_token": 763.5,
+            "japanese_field_complete": 1130.2,
+            "json_gate_wait": 1201.6,
+            "dialogue_translation": 2331.9,
+            "worker_roundtrip": 3372.8,
+            "worker_queue": 0,
+            "teaching": 3372.8694160000014,
+            "postprocess": 0.1974999999947613,
+            "tts_first": 688.421875,
+            "first_audio_emit": 4061.5070410000044,
+            "tts_all": 688.4696250000052,
+            "secondary_tail_wait": 0.0001249999986612238
+          },
+          "elapsedMs": 4061.6
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 4061.6
+        }
+      ]
+    },
+    {
+      "id": "likes",
+      "round": 0,
+      "profile": "ja-first",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 2702.5,
+      "responseCompleteMs": 3558.6,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "どんなことが好きですか？",
+              "romaji": "Donna koto ga suki desu ka?",
+              "french": ""
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1971.6
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 88620,
+          "elapsedMs": 2702.5
+        },
+        {
+          "type": "details",
+          "japanese": "どんなことが好きですか？",
+          "french": "Qu'est-ce que tu aimes faire ?",
+          "coaching": null,
+          "elapsedMs": 3558.6
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1093,
+            "generations": 2,
+            "stream_complete": 874.3,
+            "first_token": 631.5,
+            "japanese_field_complete": 830.7,
+            "json_gate_wait": 43.6,
+            "dialogue_japanese": 874.3,
+            "lab_validation": 0,
+            "worker_roundtrip": 1971.2,
+            "worker_queue": 0.2,
+            "teaching": 1971.3332080000037,
+            "postprocess": 0.2452499999999418,
+            "tts_first": 730.8805410000059,
+            "first_audio_emit": 2702.486125000003,
+            "tts_all": 731.1096660000039,
+            "secondary_total": 856.0054579999996,
+            "secondary": 854.9,
+            "secondary_generations": 1,
+            "secondary_tail_wait": 855.840750000003
+          },
+          "elapsedMs": 3558.6
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 3558.6
+        }
+      ]
+    },
+    {
+      "id": "likes",
+      "round": 0,
+      "profile": "structured",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 5037.9,
+      "responseCompleteMs": 5038,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "じゃあ、何が好きですか？",
+              "romaji": "Jā, nani ga suki desu ka?",
+              "french": "Alors, qu’est-ce que tu aimes ?"
+            },
+            "coaching": "Alors, qu’est-ce que tu aimes ? Essaie une réponse courte. Dis « je ne sais pas » si tu veux un exemple.",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 4079.3
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 114220,
+          "elapsedMs": 5037.9
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1075.3,
+            "generations": 2,
+            "stream_complete": 3002.4,
+            "first_token": 827.2,
+            "japanese_field_complete": 1257.7,
+            "json_gate_wait": 1744.7,
+            "dialogue_translation": 3002.4,
+            "worker_roundtrip": 4078.9,
+            "worker_queue": 0,
+            "teaching": 4079.026875000003,
+            "postprocess": 0.21562499999708962,
+            "tts_first": 958.6218749999971,
+            "first_audio_emit": 5037.888166000004,
+            "tts_all": 958.6825000000026,
+            "secondary_tail_wait": 0.0001249999986612238
+          },
+          "elapsedMs": 5038
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 5038
+        }
+      ]
+    },
+    {
+      "id": "likes",
+      "round": 0,
+      "profile": "compact",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 3384.3,
+      "responseCompleteMs": 3384.3,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "じゃあ、何が好きですか？",
+              "romaji": "Jā, nani ga suki desu ka?",
+              "french": "Alors, qu'est-ce que tu aimes ?"
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 2500.5
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 114220,
+          "elapsedMs": 3384.3
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1076,
+            "generations": 2,
+            "stream_complete": 1423.4,
+            "first_token": 556.4,
+            "japanese_field_complete": 925.2,
+            "json_gate_wait": 498.3,
+            "dialogue_compact": 1423.5,
+            "lab_validation": 0,
+            "worker_roundtrip": 2500.1,
+            "worker_queue": 0.1,
+            "teaching": 2500.263874999997,
+            "postprocess": 0.21287500000471482,
+            "tts_first": 883.7252920000028,
+            "first_audio_emit": 3384.2284579999978,
+            "tts_all": 883.7829580000034,
+            "secondary_tail_wait": 0.0000830000062705949
+          },
+          "elapsedMs": 3384.3
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 3384.3
+        }
+      ]
+    },
+    {
+      "id": "order",
+      "round": 0,
+      "profile": "structured",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 4460.4,
+      "responseCompleteMs": 4460.4,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "お支払いは現金ですか、カードですか？",
+              "romaji": "Oshiharai wa genkin desu ka, kādo desu ka?",
+              "french": "Voulez-vous payer en espèces ou par carte ?"
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 3098.5
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 163372,
+          "elapsedMs": 4460.4
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1077.4,
+            "generations": 2,
+            "stream_complete": 2016.5,
+            "first_token": 819.1,
+            "japanese_field_complete": 1292.5,
+            "json_gate_wait": 724,
+            "dialogue_translation": 2016.6,
+            "worker_roundtrip": 3098.2,
+            "worker_queue": 0.2,
+            "teaching": 3098.2642909999995,
+            "postprocess": 0.2512090000018361,
+            "tts_first": 1361.7520000000004,
+            "first_audio_emit": 4460.2855409999975,
+            "tts_all": 1361.8375000000015,
+            "secondary_tail_wait": 0.0001249999986612238
+          },
+          "elapsedMs": 4460.4
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 4460.4
+        }
+      ]
+    },
+    {
+      "id": "order",
+      "round": 0,
+      "profile": "compact",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 3682.4,
+      "responseCompleteMs": 3682.4,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "コーヒーを一つ、お願いします。",
+              "romaji": "Kōhī o hitotsu, onegai shimasu.",
+              "french": "Veuillez me donner un café."
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 2702.7
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 122412,
+          "elapsedMs": 3682.4
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1296.9,
+            "generations": 2,
+            "stream_complete": 1397.8,
+            "first_token": 654.3,
+            "japanese_field_complete": 1001.7,
+            "json_gate_wait": 396.1,
+            "dialogue_compact": 1397.8,
+            "lab_validation": 0.1,
+            "worker_roundtrip": 2702.4,
+            "worker_queue": 0.4,
+            "teaching": 2702.495916,
+            "postprocess": 0.23266700000385754,
+            "tts_first": 979.5928749999948,
+            "first_audio_emit": 3682.334916,
+            "tts_all": 979.6574160000018,
+            "secondary_tail_wait": 0.0001249999986612238
+          },
+          "elapsedMs": 3682.4
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 3682.4
+        }
+      ]
+    },
+    {
+      "id": "order",
+      "round": 0,
+      "profile": "ja-first",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 3354.2,
+      "responseCompleteMs": 4212.4,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "コーヒーを一つでよろしいですか？",
+              "romaji": "Kōhī o hitotsu de yoroshii desu ka?",
+              "french": ""
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 2391.2
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 116268,
+          "elapsedMs": 3354.2
+        },
+        {
+          "type": "details",
+          "japanese": "コーヒーを一つでよろしいですか？",
+          "french": "Tu veux un café, c'est bien ça ?",
+          "coaching": null,
+          "elapsedMs": 4212.4
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1137.5,
+            "generations": 2,
+            "stream_complete": 1247.4,
+            "first_token": 882.5,
+            "japanese_field_complete": 1205.4,
+            "json_gate_wait": 42,
+            "dialogue_japanese": 1247.4,
+            "lab_validation": 0,
+            "worker_roundtrip": 2390.8,
+            "worker_queue": 0.8,
+            "teaching": 2390.917207999999,
+            "postprocess": 0.22379199999704724,
+            "tts_first": 963.0275419999962,
+            "first_audio_emit": 3354.1826250000013,
+            "tts_all": 963.2487919999985,
+            "secondary_total": 858.1385000000009,
+            "secondary": 857.5,
+            "secondary_generations": 1,
+            "secondary_tail_wait": 857.9851669999989
+          },
+          "elapsedMs": 4212.4
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 4212.4
+        }
+      ]
+    },
+    {
+      "id": "temperature",
+      "round": 0,
+      "profile": "compact",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 3358.9,
+      "responseCompleteMs": 3358.9,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "サイズはどれにしますか？",
+              "romaji": "Saizu wa dore ni shimasu ka?",
+              "french": "Quelle taille voulez-vous ?"
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 2508.5
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 94252,
+          "elapsedMs": 3358.9
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1103.6,
+            "generations": 2,
+            "stream_complete": 1403,
+            "first_token": 660.1,
+            "japanese_field_complete": 1019.5,
+            "json_gate_wait": 383.5,
+            "dialogue_compact": 1403,
+            "lab_validation": 0,
+            "worker_roundtrip": 2508.3,
+            "worker_queue": 0.3,
+            "teaching": 2508.3455419999955,
+            "postprocess": 0.19270800000231247,
+            "tts_first": 850.3095420000027,
+            "first_audio_emit": 3358.8607919999995,
+            "tts_all": 850.3616669999974,
+            "secondary_tail_wait": 0.00008399999933317304
+          },
+          "elapsedMs": 3358.9
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 3358.9
+        }
+      ]
+    },
+    {
+      "id": "temperature",
+      "round": 0,
+      "profile": "ja-first",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 2930.4,
+      "responseCompleteMs": 3684.6,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "サイズはどれにしますか？",
+              "romaji": "Saizu wa dore ni shimasu ka?",
+              "french": ""
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 2132.4
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 94252,
+          "elapsedMs": 2930.4
+        },
+        {
+          "type": "details",
+          "japanese": "サイズはどれにしますか？",
+          "french": "Quelle taille vas-tu prendre ?",
+          "coaching": null,
+          "elapsedMs": 3684.5
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1111.7,
+            "generations": 2,
+            "stream_complete": 1019.6,
+            "first_token": 737.2,
+            "japanese_field_complete": 979.2,
+            "json_gate_wait": 40.4,
+            "dialogue_japanese": 1019.6,
+            "lab_validation": 0,
+            "worker_roundtrip": 2132,
+            "worker_queue": 0,
+            "teaching": 2132.1034169999984,
+            "postprocess": 0.23250000000552973,
+            "tts_first": 798.0495410000003,
+            "first_audio_emit": 2930.4015,
+            "tts_all": 798.2733329999974,
+            "secondary_total": 754.0743749999965,
+            "secondary": 753.3,
+            "secondary_generations": 1,
+            "secondary_tail_wait": 753.9139579999974
+          },
+          "elapsedMs": 3684.6
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 3684.6
+        }
+      ]
+    },
+    {
+      "id": "temperature",
+      "round": 0,
+      "profile": "structured",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 4410.4,
+      "responseCompleteMs": 4410.4,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "サイズはどれにしますか？",
+              "romaji": "Saizu wa dore ni shimasu ka?",
+              "french": "Quelle taille veux-tu ?"
+            },
+            "coaching": "Quelle taille veux-tu ? Essaie une réponse courte. Dis « je ne sais pas » si tu veux un exemple.",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 3592.3
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 94252,
+          "elapsedMs": 4410.4
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1117.9,
+            "generations": 2,
+            "stream_complete": 2473.5,
+            "first_token": 914.9,
+            "japanese_field_complete": 1265.8,
+            "json_gate_wait": 1207.7,
+            "dialogue_translation": 2473.5,
+            "worker_roundtrip": 3592,
+            "worker_queue": 0,
+            "teaching": 3592.076500000003,
+            "postprocess": 0.2065829999919515,
+            "tts_first": 818.0607500000042,
+            "first_audio_emit": 4410.356292000004,
+            "tts_all": 818.1056669999962,
+            "secondary_tail_wait": 0.00012499999138526618
+          },
+          "elapsedMs": 4410.4
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 4410.4
+        }
+      ]
+    },
+    {
+      "id": "destination",
+      "round": 0,
+      "profile": "ja-first",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 3342,
+      "responseCompleteMs": 4476.7,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "京都行きの電車はどのホームですか？",
+              "romaji": "Kyōtoiki no densha wa dono hōmu desu ka?",
+              "french": ""
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 2192.6
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 130604,
+          "elapsedMs": 3342
+        },
+        {
+          "type": "details",
+          "japanese": "京都行きの電車はどのホームですか？",
+          "french": "Quelle est la voie pour le train en direction de Kyoto ?",
+          "coaching": null,
+          "elapsedMs": 4476.7
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1120.6,
+            "generations": 2,
+            "stream_complete": 1047.6,
+            "first_token": 671.7,
+            "japanese_field_complete": 1008.5,
+            "json_gate_wait": 39.1,
+            "dialogue_japanese": 1047.6,
+            "lab_validation": 0,
+            "worker_roundtrip": 2192.3,
+            "worker_queue": 0.3,
+            "teaching": 2192.3604579999956,
+            "postprocess": 0.2547080000076676,
+            "tts_first": 1149.2949579999986,
+            "first_audio_emit": 3341.925166999994,
+            "tts_all": 1149.579792000004,
+            "secondary_total": 1134.701458999989,
+            "secondary": 1133.8,
+            "secondary_generations": 1,
+            "secondary_tail_wait": 1134.4988750000048
+          },
+          "elapsedMs": 4476.7
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 4476.7
+        }
+      ]
+    },
+    {
+      "id": "destination",
+      "round": 0,
+      "profile": "structured",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 4965,
+      "responseCompleteMs": 4965,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "京都行きのホームはどちらですか？",
+              "romaji": "Kyōtoiki no hōmu wa dochira desu ka?",
+              "french": "Le quai pour Kyoto, c’est lequel ?"
+            },
+            "coaching": "Le quai pour Kyoto, c’est lequel ? Essaie une réponse courte. Dis « je ne sais pas » si tu veux un exemple.",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 3888.6
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 120364,
+          "elapsedMs": 4965
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1113.8,
+            "generations": 2,
+            "stream_complete": 2772.7,
+            "first_token": 834.2,
+            "japanese_field_complete": 1196.7,
+            "json_gate_wait": 1576,
+            "dialogue_translation": 2772.7,
+            "worker_roundtrip": 3887.9,
+            "worker_queue": 0,
+            "teaching": 3888.0812499999884,
+            "postprocess": 0.48816599999554455,
+            "tts_first": 1076.3842500000028,
+            "first_audio_emit": 4964.969375000001,
+            "tts_all": 1076.4401669999934,
+            "secondary_tail_wait": 0.0001250000059371814
+          },
+          "elapsedMs": 4965
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 4965
+        }
+      ]
+    },
+    {
+      "id": "destination",
+      "round": 0,
+      "profile": "compact",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 3809.5,
+      "responseCompleteMs": 3809.5,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "京都行きの電車はどのホームですか？",
+              "romaji": "Kyōtoiki no densha wa dono hōmu desu ka?",
+              "french": "Quelle est la voie pour le train qui va à Kyoto ?"
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 2705.5
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 130604,
+          "elapsedMs": 3809.5
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1108.8,
+            "generations": 2,
+            "stream_complete": 1595.7,
+            "first_token": 581.2,
+            "japanese_field_complete": 1007.4,
+            "json_gate_wait": 588.3,
+            "dialogue_compact": 1595.7,
+            "lab_validation": 0.1,
+            "worker_roundtrip": 2705.2,
+            "worker_queue": 0.2,
+            "teaching": 2705.287750000003,
+            "postprocess": 0.2338750000053551,
+            "tts_first": 1103.8684159999975,
+            "first_audio_emit": 3809.4015409999993,
+            "tts_all": 1103.9373329999944,
+            "secondary_tail_wait": 0.00008399999933317304
+          },
+          "elapsedMs": 3809.5
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 3809.5
+        }
+      ]
+    },
+    {
+      "id": "identity",
+      "round": 1,
+      "profile": "structured",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 5514.2,
+      "responseCompleteMs": 6205.9,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "オーギュストさん、こんにちは！どこから来ましたか？",
+              "romaji": "Ōgyusutosan, konnichiwa! Doko kara kimashita ka?",
+              "french": "Bonjour, Auguste ! D’où viens-tu ?"
+            },
+            "coaching": "Bonjour, Auguste ! D’où viens-tu ? Essaie une réponse courte. Dis « je ne sais pas » si tu veux un exemple.",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 4519.7
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 106028,
+          "elapsedMs": 5514.2
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 77868,
+          "elapsedMs": 6205.9
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1107.4,
+            "generations": 2,
+            "stream_complete": 3411.3,
+            "first_token": 845.8,
+            "japanese_field_complete": 1446.4,
+            "json_gate_wait": 1964.9,
+            "dialogue_translation": 3411.3,
+            "worker_roundtrip": 4519.4,
+            "worker_queue": 0.4,
+            "teaching": 4519.5112910000025,
+            "postprocess": 0.2096250000031432,
+            "tts_first": 994.3843340000021,
+            "first_audio_emit": 5514.120250000007,
+            "tts_all": 1686.1720840000053,
+            "secondary_tail_wait": 0.0000830000062705949
+          },
+          "elapsedMs": 6205.9
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 6205.9
+        }
+      ]
+    },
+    {
+      "id": "identity",
+      "round": 1,
+      "profile": "ja-first",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 3242.7,
+      "responseCompleteMs": 3934,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "オーギュストさん、こんにちは。",
+              "romaji": "Ōgyusutosan, konnichiwa.",
+              "french": ""
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 2319.5
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 106028,
+          "elapsedMs": 3242.7
+        },
+        {
+          "type": "details",
+          "japanese": "オーギュストさん、こんにちは。",
+          "french": "Auguste, bonjour.",
+          "coaching": null,
+          "elapsedMs": 3933.9
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1306.9,
+            "generations": 2,
+            "stream_complete": 1011.7,
+            "first_token": 672.7,
+            "japanese_field_complete": 973,
+            "json_gate_wait": 38.7,
+            "dialogue_japanese": 1011.7,
+            "lab_validation": 0,
+            "worker_roundtrip": 2319.2,
+            "worker_queue": 0.2,
+            "teaching": 2319.297166000004,
+            "postprocess": 0.17808300000615418,
+            "tts_first": 923.1257919999916,
+            "first_audio_emit": 3242.6192909999954,
+            "tts_all": 923.3732500000042,
+            "secondary_total": 691.2240829999937,
+            "secondary": 690.5,
+            "secondary_generations": 1,
+            "secondary_tail_wait": 691.0762919999979
+          },
+          "elapsedMs": 3934
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 3934
+        }
+      ]
+    },
+    {
+      "id": "identity",
+      "round": 1,
+      "profile": "compact",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 3661.3,
+      "responseCompleteMs": 4359,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "こんにちは、オーギュスト。どこから来ましたか？",
+              "romaji": "Konnichiwa, ōgyusuto. Doko kara kimashita ka?",
+              "french": "Bonjour, Auguste. D'où viens-tu ?"
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 2823
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 98348,
+          "elapsedMs": 3661.3
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 77868,
+          "elapsedMs": 4359
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1120,
+            "generations": 2,
+            "stream_complete": 1702.2,
+            "first_token": 584.5,
+            "japanese_field_complete": 1135.8,
+            "json_gate_wait": 566.3,
+            "dialogue_compact": 1702.2,
+            "lab_validation": 0,
+            "worker_roundtrip": 2822.8,
+            "worker_queue": 0.8,
+            "teaching": 2822.839374999996,
+            "postprocess": 0.1895409999997355,
+            "tts_first": 838.1494589999929,
+            "first_audio_emit": 3661.1896669999987,
+            "tts_all": 1535.9281249999913,
+            "secondary_tail_wait": 0.0000830000062705949
+          },
+          "elapsedMs": 4359
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 4359
+        }
+      ]
+    },
+    {
+      "id": "origin",
+      "round": 1,
+      "profile": "compact",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 4104.9,
+      "responseCompleteMs": 4104.9,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "じゃあ、フランスのどの街からですか？",
+              "romaji": "Jā, furansu no dono machi kara desu ka?",
+              "french": "Alors, quelle ville en France es-tu venue ?"
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 2866.5
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 149548,
+          "elapsedMs": 4104.9
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1309.1,
+            "generations": 2,
+            "stream_complete": 1556.4,
+            "first_token": 586.9,
+            "japanese_field_complete": 1021.2,
+            "json_gate_wait": 535.2,
+            "dialogue_compact": 1556.4,
+            "lab_validation": 0.1,
+            "worker_roundtrip": 2866.3,
+            "worker_queue": 0.3,
+            "teaching": 2866.3343749999913,
+            "postprocess": 0.1778339999873424,
+            "tts_first": 1238.2734580000106,
+            "first_audio_emit": 4104.795707999991,
+            "tts_all": 1238.3414160000102,
+            "secondary_tail_wait": 0.00020799999765586108
+          },
+          "elapsedMs": 4104.9
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 4104.9
+        }
+      ]
+    },
+    {
+      "id": "origin",
+      "round": 1,
+      "profile": "structured",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 4487.5,
+      "responseCompleteMs": 4487.5,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "どの町から来ましたか？",
+              "romaji": "Dono machi kara kimashita ka?",
+              "french": "De quelle ville viens-tu ?"
+            },
+            "coaching": "Machi veut dire ville. Tu peux dire « [ville] kara kimashita ».",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 3644.5
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 87596,
+          "elapsedMs": 4487.5
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1290.1,
+            "generations": 2,
+            "stream_complete": 2353.5,
+            "first_token": 858.5,
+            "japanese_field_complete": 1207.2,
+            "json_gate_wait": 1146.2,
+            "dialogue_translation": 2353.5,
+            "worker_roundtrip": 3644.2,
+            "worker_queue": 0.2,
+            "teaching": 3644.321624999997,
+            "postprocess": 0.2112909999996191,
+            "tts_first": 842.8952089999948,
+            "first_audio_emit": 4487.440291999999,
+            "tts_all": 842.9262920000037,
+            "secondary_tail_wait": 0.0000830000062705949
+          },
+          "elapsedMs": 4487.5
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 4487.5
+        }
+      ]
+    },
+    {
+      "id": "origin",
+      "round": 1,
+      "profile": "ja-first",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 3038.4,
+      "responseCompleteMs": 3827.9,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "どの町から来ましたか？",
+              "romaji": "Dono machi kara kimashita ka?",
+              "french": ""
+            },
+            "coaching": "Machi veut dire ville. Tu peux dire « [ville] kara kimashita ».",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 2189.2
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 87596,
+          "elapsedMs": 3038.4
+        },
+        {
+          "type": "details",
+          "japanese": "どの町から来ましたか？",
+          "french": "De quelle ville viens-tu ?",
+          "coaching": "Machi veut dire ville. Tu peux dire « [ville] kara kimashita ».",
+          "elapsedMs": 3827.9
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1156,
+            "generations": 2,
+            "stream_complete": 1032,
+            "first_token": 717.6,
+            "japanese_field_complete": 990.1,
+            "json_gate_wait": 41.9,
+            "dialogue_japanese": 1032,
+            "lab_validation": 0,
+            "worker_roundtrip": 2188.9,
+            "worker_queue": 0,
+            "teaching": 2189.008958999999,
+            "postprocess": 0.20237499999348074,
+            "tts_first": 849.1802909999969,
+            "first_audio_emit": 3038.4040839999943,
+            "tts_all": 849.3879159999924,
+            "secondary_total": 789.4122090000019,
+            "secondary": 788.6,
+            "secondary_generations": 1,
+            "secondary_tail_wait": 789.2493329999998
+          },
+          "elapsedMs": 3827.9
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 3827.9
+        }
+      ]
+    },
+    {
+      "id": "likes",
+      "round": 1,
+      "profile": "ja-first",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 2939.8,
+      "responseCompleteMs": 3734,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "どんなことが好きですか？",
+              "romaji": "Donna koto ga suki desu ka?",
+              "french": ""
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 2141
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 88620,
+          "elapsedMs": 2939.8
+        },
+        {
+          "type": "details",
+          "japanese": "どんなことが好きですか？",
+          "french": "Qu'est-ce que tu aimes faire ?",
+          "coaching": null,
+          "elapsedMs": 3734
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1184.4,
+            "generations": 2,
+            "stream_complete": 955.6,
+            "first_token": 727.4,
+            "japanese_field_complete": 915.8,
+            "json_gate_wait": 39.7,
+            "dialogue_japanese": 955.6,
+            "lab_validation": 0,
+            "worker_roundtrip": 2140.6,
+            "worker_queue": 0.6,
+            "teaching": 2140.711083999995,
+            "postprocess": 0.2433749999909196,
+            "tts_first": 798.7819170000002,
+            "first_audio_emit": 2939.7496249999967,
+            "tts_all": 798.9941249999974,
+            "secondary_total": 794.2174170000071,
+            "secondary": 793.5,
+            "secondary_generations": 1,
+            "secondary_tail_wait": 794.0509159999929
+          },
+          "elapsedMs": 3734
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 3734
+        }
+      ]
+    },
+    {
+      "id": "likes",
+      "round": 1,
+      "profile": "compact",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 3717.7,
+      "responseCompleteMs": 3717.7,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "じゃあ、何が好きですか？",
+              "romaji": "Jā, nani ga suki desu ka?",
+              "french": "Alors, qu'est-ce que tu aimes ?"
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 2661.2
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 114220,
+          "elapsedMs": 3717.7
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1171.6,
+            "generations": 2,
+            "stream_complete": 1488.8,
+            "first_token": 611.3,
+            "japanese_field_complete": 980.6,
+            "json_gate_wait": 508.2,
+            "dialogue_compact": 1488.8,
+            "lab_validation": 0,
+            "worker_roundtrip": 2661,
+            "worker_queue": 0,
+            "teaching": 2661.0453750000015,
+            "postprocess": 0.18370900000445545,
+            "tts_first": 1056.3705420000042,
+            "first_audio_emit": 3717.6108340000064,
+            "tts_all": 1056.4216250000027,
+            "secondary_tail_wait": 0.00016700000560376793
+          },
+          "elapsedMs": 3717.7
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 3717.7
+        }
+      ]
+    },
+    {
+      "id": "likes",
+      "round": 1,
+      "profile": "structured",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 5092.4,
+      "responseCompleteMs": 5092.4,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "じゃあ、何が好きですか？",
+              "romaji": "Jā, nani ga suki desu ka?",
+              "french": "Alors, qu’est-ce que tu aimes ?"
+            },
+            "coaching": "Alors, qu’est-ce que tu aimes ? Essaie une réponse courte. Dis « je ne sais pas » si tu veux un exemple.",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 4081.5
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 114220,
+          "elapsedMs": 5092.4
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1168.4,
+            "generations": 2,
+            "stream_complete": 2912.1,
+            "first_token": 895.5,
+            "japanese_field_complete": 1263.1,
+            "json_gate_wait": 1649,
+            "dialogue_translation": 2912.1,
+            "worker_roundtrip": 4081.2,
+            "worker_queue": 0.2,
+            "teaching": 4081.319166000001,
+            "postprocess": 0.2122499999968568,
+            "tts_first": 1010.7953330000018,
+            "first_audio_emit": 5092.339458000002,
+            "tts_all": 1010.8416250000009,
+            "secondary_tail_wait": 0.00008299999171867967
+          },
+          "elapsedMs": 5092.4
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 5092.4
+        }
+      ]
+    },
+    {
+      "id": "order",
+      "round": 1,
+      "profile": "structured",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 4887.1,
+      "responseCompleteMs": 4887.1,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "お支払いは現金ですか、カードですか？",
+              "romaji": "Oshiharai wa genkin desu ka, kādo desu ka?",
+              "french": "Voulez-vous payer en espèces ou par carte ?"
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 3359
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 163372,
+          "elapsedMs": 4887.1
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1162.8,
+            "generations": 2,
+            "stream_complete": 2194.9,
+            "first_token": 913.6,
+            "japanese_field_complete": 1413.2,
+            "json_gate_wait": 781.7,
+            "dialogue_translation": 2194.9,
+            "worker_roundtrip": 3358.5,
+            "worker_queue": 0.5,
+            "teaching": 3358.5903749999998,
+            "postprocess": 0.3602499999979045,
+            "tts_first": 1527.8459159999911,
+            "first_audio_emit": 4886.808958000009,
+            "tts_all": 1528.1292499999981,
+            "secondary_tail_wait": 0.0001250000059371814
+          },
+          "elapsedMs": 4887.1
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 4887.1
+        }
+      ]
+    },
+    {
+      "id": "order",
+      "round": 1,
+      "profile": "ja-first",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 3548.9,
+      "responseCompleteMs": 4433.1,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "コーヒーを一つでよろしいですか？",
+              "romaji": "Kōhī o hitotsu de yoroshii desu ka?",
+              "french": ""
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 2459.1
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 116268,
+          "elapsedMs": 3548.9
+        },
+        {
+          "type": "details",
+          "japanese": "コーヒーを一つでよろしいですか？",
+          "french": "Tu veux un café, c'est bien ça ?",
+          "coaching": null,
+          "elapsedMs": 4433
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1318.1,
+            "generations": 2,
+            "stream_complete": 1140,
+            "first_token": 785.2,
+            "japanese_field_complete": 1099.8,
+            "json_gate_wait": 40.3,
+            "dialogue_japanese": 1140,
+            "lab_validation": 0,
+            "worker_roundtrip": 2458.8,
+            "worker_queue": 0.8,
+            "teaching": 2458.8794170000037,
+            "postprocess": 0.19937499999650754,
+            "tts_first": 1089.713374999992,
+            "first_audio_emit": 3548.8027920000022,
+            "tts_all": 1089.9647919999989,
+            "secondary_total": 884.161957999997,
+            "secondary": 883.2,
+            "secondary_generations": 1,
+            "secondary_tail_wait": 883.9822499999864
+          },
+          "elapsedMs": 4433
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 4433.1
+        }
+      ]
+    },
+    {
+      "id": "order",
+      "round": 1,
+      "profile": "compact",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 3809,
+      "responseCompleteMs": 3809,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "コーヒーを一つ、お願いします。",
+              "romaji": "Kōhī o hitotsu, onegai shimasu.",
+              "french": "Veuillez me donner un café."
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 2742.2
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 122412,
+          "elapsedMs": 3809
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1216.6,
+            "generations": 2,
+            "stream_complete": 1524.6,
+            "first_token": 779.1,
+            "japanese_field_complete": 1137.5,
+            "json_gate_wait": 387.1,
+            "dialogue_compact": 1524.6,
+            "lab_validation": 0,
+            "worker_roundtrip": 2741.9,
+            "worker_queue": 0,
+            "teaching": 2741.9359159999876,
+            "postprocess": 0.24529200000688434,
+            "tts_first": 1066.7279580000031,
+            "first_audio_emit": 3808.9205409999995,
+            "tts_all": 1066.7739170000132,
+            "secondary_tail_wait": 0.00008399999933317304
+          },
+          "elapsedMs": 3809
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 3809
+        }
+      ]
+    },
+    {
+      "id": "temperature",
+      "round": 1,
+      "profile": "compact",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 3439,
+      "responseCompleteMs": 3439,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "サイズはどれにしますか？",
+              "romaji": "Saizu wa dore ni shimasu ka?",
+              "french": "Quelle taille voulez-vous ?"
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 2626.3
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 94252,
+          "elapsedMs": 3439
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1235.8,
+            "generations": 2,
+            "stream_complete": 1389.3,
+            "first_token": 687.9,
+            "japanese_field_complete": 1017.7,
+            "json_gate_wait": 371.5,
+            "dialogue_compact": 1389.3,
+            "lab_validation": 0,
+            "worker_roundtrip": 2626,
+            "worker_queue": 0,
+            "teaching": 2626.1249580000003,
+            "postprocess": 0.18387500001699664,
+            "tts_first": 812.6244580000057,
+            "first_audio_emit": 3438.9427500000165,
+            "tts_all": 812.6495409999916,
+            "secondary_tail_wait": 0.00020900001982226968
+          },
+          "elapsedMs": 3439
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 3439
+        }
+      ]
+    },
+    {
+      "id": "temperature",
+      "round": 1,
+      "profile": "structured",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 4681.3,
+      "responseCompleteMs": 4681.3,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "サイズはどれにしますか？",
+              "romaji": "Saizu wa dore ni shimasu ka?",
+              "french": "Quelle taille veux-tu ?"
+            },
+            "coaching": "Quelle taille veux-tu ? Essaie une réponse courte. Dis « je ne sais pas » si tu veux un exemple.",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 3799.8
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 94252,
+          "elapsedMs": 4681.3
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1168,
+            "generations": 2,
+            "stream_complete": 2630.4,
+            "first_token": 1031.8,
+            "japanese_field_complete": 1407.8,
+            "json_gate_wait": 1222.6,
+            "dialogue_translation": 2630.4,
+            "worker_roundtrip": 3799.4,
+            "worker_queue": 0.4,
+            "teaching": 3799.5117080000055,
+            "postprocess": 0.2102080000040587,
+            "tts_first": 881.4632920000004,
+            "first_audio_emit": 4681.197541000001,
+            "tts_all": 881.4897499999788,
+            "secondary_tail_wait": 0.00008399999933317304
+          },
+          "elapsedMs": 4681.3
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 4681.3
+        }
+      ]
+    },
+    {
+      "id": "temperature",
+      "round": 1,
+      "profile": "ja-first",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 3200.4,
+      "responseCompleteMs": 4013.1,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "サイズはどれにしますか？",
+              "romaji": "Saizu wa dore ni shimasu ka?",
+              "french": ""
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 2317.6
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 94252,
+          "elapsedMs": 3200.4
+        },
+        {
+          "type": "details",
+          "japanese": "サイズはどれにしますか？",
+          "french": "Quelle taille vas-tu prendre ?",
+          "coaching": null,
+          "elapsedMs": 4013
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1165.6,
+            "generations": 2,
+            "stream_complete": 1150.9,
+            "first_token": 838.5,
+            "japanese_field_complete": 1106.4,
+            "json_gate_wait": 44.5,
+            "dialogue_japanese": 1150.9,
+            "lab_validation": 0,
+            "worker_roundtrip": 2317.3,
+            "worker_queue": 0.3,
+            "teaching": 2317.367249999981,
+            "postprocess": 0.19779200002085418,
+            "tts_first": 882.8437080000003,
+            "first_audio_emit": 3200.420624999999,
+            "tts_all": 883.036666,
+            "secondary_total": 812.5865829999966,
+            "secondary": 811.8,
+            "secondary_generations": 1,
+            "secondary_tail_wait": 812.4280410000065
+          },
+          "elapsedMs": 4013.1
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 4013.1
+        }
+      ]
+    },
+    {
+      "id": "destination",
+      "round": 1,
+      "profile": "ja-first",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 3487.7,
+      "responseCompleteMs": 4650.9,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "京都行きの電車はどのホームですか？",
+              "romaji": "Kyōtoiki no densha wa dono hōmu desu ka?",
+              "french": ""
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 2341.4
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 130604,
+          "elapsedMs": 3487.7
+        },
+        {
+          "type": "details",
+          "japanese": "京都行きの電車はどのホームですか？",
+          "french": "Quelle est la voie pour le train en direction de Kyoto ?",
+          "coaching": null,
+          "elapsedMs": 4650.8
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1222.2,
+            "generations": 2,
+            "stream_complete": 1118,
+            "first_token": 720.9,
+            "japanese_field_complete": 1076.8,
+            "json_gate_wait": 41.2,
+            "dialogue_japanese": 1118.1,
+            "lab_validation": 0,
+            "worker_roundtrip": 2340.9,
+            "worker_queue": 0,
+            "teaching": 2340.9973750000063,
+            "postprocess": 0.3164579999865964,
+            "tts_first": 1146.250457999995,
+            "first_audio_emit": 3487.574500000017,
+            "tts_all": 1146.4790409999841,
+            "secondary_total": 1163.1647499999963,
+            "secondary": 1162.4,
+            "secondary_generations": 1,
+            "secondary_tail_wait": 1162.9953749999986
+          },
+          "elapsedMs": 4650.8
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 4650.8
+        }
+      ]
+    },
+    {
+      "id": "destination",
+      "round": 1,
+      "profile": "compact",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 3919.3,
+      "responseCompleteMs": 3919.3,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "京都行きの電車はどのホームですか？",
+              "romaji": "Kyōtoiki no densha wa dono hōmu desu ka?",
+              "french": "Quelle est la voie pour le train qui va à Kyoto ?"
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 2791
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 130604,
+          "elapsedMs": 3919.3
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1159.7,
+            "generations": 2,
+            "stream_complete": 1630.5,
+            "first_token": 603.8,
+            "japanese_field_complete": 1031.9,
+            "json_gate_wait": 598.6,
+            "dialogue_compact": 1630.5,
+            "lab_validation": 0,
+            "worker_roundtrip": 2790.8,
+            "worker_queue": 0.8,
+            "teaching": 2790.845499999996,
+            "postprocess": 0.18141700001433492,
+            "tts_first": 1128.2397089999868,
+            "first_audio_emit": 3919.2796669999952,
+            "tts_all": 1128.2887920000067,
+            "secondary_tail_wait": 0.00008299999171867967
+          },
+          "elapsedMs": 3919.3
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 3919.3
+        }
+      ]
+    },
+    {
+      "id": "destination",
+      "round": 1,
+      "profile": "structured",
+      "inputSource": "authored-public-fixture",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 4892.2,
+      "responseCompleteMs": 4892.2,
+      "events": [
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "京都行きのホームはどちらですか？",
+              "romaji": "Kyōtoiki no hōmu wa dochira desu ka?",
+              "french": "Le quai pour Kyoto, c’est lequel ?"
+            },
+            "coaching": "Le quai pour Kyoto, c’est lequel ? Essaie une réponse courte. Dis « je ne sais pas » si tu veux un exemple.",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 3862.5
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 120364,
+          "elapsedMs": 4892.2
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1117.5,
+            "generations": 2,
+            "stream_complete": 2744.1,
+            "first_token": 852,
+            "japanese_field_complete": 1224.9,
+            "json_gate_wait": 1519.2,
+            "dialogue_translation": 2744.1,
+            "worker_roundtrip": 3862.2,
+            "worker_queue": 0.2,
+            "teaching": 3862.3207079999847,
+            "postprocess": 0.18041700002504513,
+            "tts_first": 1029.3949999999895,
+            "first_audio_emit": 4891.906541999982,
+            "tts_all": 1029.667665999994,
+            "secondary_tail_wait": 0.00008300002082251012
+          },
+          "elapsedMs": 4892.2
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 4892.2
+        }
+      ]
+    }
+  ],
+  "contentionResults": [],
+  "summary": {
+    "structured": {
+      "samples": 6,
+      "meanMs": 4925.8,
+      "medianMs": 4889.7,
+      "minMs": 4487.5,
+      "maxMs": 5514.2
+    },
+    "compact": {
+      "samples": 6,
+      "meanMs": 3775.2,
+      "medianMs": 3763.4,
+      "minMs": 3439,
+      "maxMs": 4104.9
+    },
+    "ja-first": {
+      "samples": 6,
+      "meanMs": 3243,
+      "medianMs": 3221.6,
+      "minMs": 2939.8,
+      "maxMs": 3548.9
+    }
+  },
+  "humanLinguisticReview": "pending",
+  "mechanicalContractChecksOnly": true,
+  "humanRecognition": "pending-corpus",
+  "humanPlayback": "pending",
+  "productionSelection": "unchanged"
+}

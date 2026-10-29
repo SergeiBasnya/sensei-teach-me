@@ -297,6 +297,26 @@ export function createVoiceLab({
                       if (tutor) throw new Error("duplicate_tutor");
                       tutor = checked;
                     }
+                    if (checked.type === "details") {
+                      if (
+                        !tutor ||
+                        nextAudio === 0 ||
+                        tutor.tutor.correction ||
+                        checked.japanese !== tutor.tutor.reply.japanese
+                      )
+                        throw new Error("invalid_secondary_target");
+                      tutor = {
+                        type: "tutor",
+                        tutor: {
+                          ...tutor.tutor,
+                          reply: {
+                            ...tutor.tutor.reply,
+                            french: checked.french,
+                          },
+                          coaching: checked.coaching,
+                        },
+                      };
+                    }
                     if (checked.type === "response_done") finishResponse();
                     else send({ ...checked, turn: turn.id });
                   },

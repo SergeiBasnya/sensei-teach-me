@@ -14,6 +14,10 @@ const SERVER_KEYS = new Set([
   "chunks",
   "partials",
   "teaching",
+  "correction",
+  "dialogue_translation",
+  "worker_roundtrip",
+  "worker_queue",
   "tts_first",
   "tts_all",
   "first_audio_emit",
@@ -24,6 +28,15 @@ const SERVER_KEYS = new Set([
   "stream_complete",
   "json_gate_wait",
   "sample_save",
+  "dialogue_japanese",
+  "dialogue_compact",
+  "lab_validation",
+  "postprocess",
+  "secondary",
+  "secondary_total",
+  "secondary_tail_wait",
+  "secondary_unavailable",
+  "secondary_generations",
 ]);
 export type VoiceLabIncident =
   | "pause_user"
@@ -36,6 +49,7 @@ export type VoiceLabIncident =
   | "capture_gap";
 type Trace = {
   captureMs?: number;
+  captureWallMs?: number;
   sourceRateHz?: number;
   sourceChannels?: number;
   peak?: number;
@@ -45,6 +59,9 @@ type Trace = {
   finalAfterFinishMs?: number;
   firstJapaneseAfterFinishMs?: number;
   firstJapaneseAfterDetectedVoiceMs?: number;
+  lastJapaneseEndedAfterFinishMs?: number;
+  responseDoneAfterFinishMs?: number;
+  nextCaptureAfterJapaneseEndedMs?: number;
   server?: Record<string, number>;
 };
 export class VoiceLabMetrics {
@@ -55,6 +72,7 @@ export class VoiceLabMetrics {
   private voiceAt: number | null = null;
   private partialSeen = false;
   private playingSeen = false;
+  private lastJapaneseEndedAt: number | null = null;
   private turns: Trace[] = [];
   private counts = {
     turns: 0,
@@ -76,7 +94,12 @@ export class VoiceLabMetrics {
   constructor(now = performance.now()) {
     this.started = now;
   }
-  begin(now = performance.now()) {
+  begin(now = performance.now(), automaticResume = false) {
+    if (automaticResume && this.lastJapaneseEndedAt !== null)
+      this.current.nextCaptureAfterJapaneseEndedMs = Math.max(
+        0,
+        Math.round(now - this.lastJapaneseEndedAt),
+      );
     this.archive();
     this.current = {};
     this.captureAt = now;
@@ -84,6 +107,7 @@ export class VoiceLabMetrics {
     this.voiceAt = null;
     this.partialSeen = false;
     this.playingSeen = false;
+    this.lastJapaneseEndedAt = null;
     this.counts.turns++;
   }
   capture(value: {
@@ -112,7 +136,23 @@ export class VoiceLabMetrics {
   }
   finish(lastVoice: number | null, now = performance.now()) {
     this.finishAt = now;
+    this.current.captureWallMs = Math.max(0, Math.round(now - this.captureAt));
     this.voiceAt = lastVoice;
+  }
+  playbackEnded(now = performance.now()) {
+    if (!this.playingSeen || this.finishAt === null) return;
+    this.lastJapaneseEndedAt = now;
+    this.current.lastJapaneseEndedAfterFinishMs = Math.max(
+      0,
+      Math.round(now - this.finishAt),
+    );
+  }
+  responseDone(now = performance.now()) {
+    if (this.finishAt !== null)
+      this.current.responseDoneAfterFinishMs = Math.max(
+        0,
+        Math.round(now - this.finishAt),
+      );
   }
   partial(now = performance.now()) {
     this.counts.partials++;

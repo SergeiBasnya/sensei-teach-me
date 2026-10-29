@@ -3,9 +3,9 @@ import re
 import time
 
 
-def collect_stream(pieces, metrics, clock=time.monotonic):
+def collect_stream(pieces, metrics, clock=time.monotonic, initial_text=''):
     started = clock()
-    text = ''
+    text = initial_text
     first = None
     japanese = None
     for piece in pieces:

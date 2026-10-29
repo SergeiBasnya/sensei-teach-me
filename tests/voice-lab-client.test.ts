@@ -231,6 +231,31 @@ test("la ponctuation ajoutée par une transcription ne termine pas une hésitati
     assert.equal(endpoint.canFinish(5200), true, text);
   }
 });
+
+test("le délai de reprise ne compte que la réouverture automatique après le dernier segment", () => {
+  const metrics = new VoiceLabMetrics(0);
+  metrics.begin(100);
+  metrics.finish(800, 1000);
+  metrics.playbackEnded(1300); // No observed playback: ignore.
+  metrics.playing(1500);
+  metrics.playbackEnded(2000);
+  metrics.playbackEnded(2400); // Last Japanese segment, not first segment.
+  metrics.responseDone(2300);
+  metrics.begin(2600, true);
+  const turn = metrics.report("android", 2700).turns[0]!;
+  assert.equal(turn.captureWallMs, 900);
+  assert.equal(turn.lastJapaneseEndedAfterFinishMs, 1400);
+  assert.equal(turn.responseDoneAfterFinishMs, 1300);
+  assert.equal(turn.nextCaptureAfterJapaneseEndedMs, 200);
+  metrics.finish(null, 3000);
+  metrics.playing(3200);
+  metrics.playbackEnded(3500);
+  metrics.begin(10000); // Manual pause duration must not become a latency claim.
+  assert.equal(
+    metrics.report("android").turns[1]!.nextCaptureAfterJapaneseEndedMs,
+    undefined,
+  );
+});
 test("l’observateur de lecture est lié à sa source et ne survit pas à une pause", async () => {
   const { onceCurrentPlayback } = await import("../src/lib/voice-lab-playback");
   let generation = 1,

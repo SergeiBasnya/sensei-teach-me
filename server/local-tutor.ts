@@ -12,10 +12,19 @@ import { learnerGuidance } from "../shared/learner-guidance";
 import { conversationGuidance } from "../shared/conversation-curriculum";
 import { addTiming, timingContext, type Timings } from "./timing";
 
+export type LabGeneration = "structured" | "compact" | "ja-first";
+export type LabDetails = { french: string; coaching: string | null };
 export type LocalTutor = TutorProvider & {
   ready: () => boolean;
   close: () => void;
-  labTurn: TutorProvider["turn"];
+  labTurn: (
+    input: Parameters<TutorProvider["turn"]>[0],
+    generation?: LabGeneration,
+  ) => Promise<Awaited<ReturnType<TutorProvider["turn"]>>>;
+  labDetails: (input: {
+    japanese: string;
+    history: Parameters<TutorProvider["turn"]>[0]["history"];
+  }) => Promise<LabDetails>;
 };
 const responseSchema = z.object({
   id: z.number(),
@@ -172,12 +181,16 @@ export function createLocalTutor(): LocalTutor | undefined {
   const turn = async (
     input: Parameters<TutorProvider["turn"]>[0],
     labStreaming = false,
+    labGeneration: LabGeneration = "structured",
   ) =>
     tutorReplySchema.parse(
       await call({
         kind: "turn",
         ...input,
         ...(labStreaming ? { labStreaming: true } : {}),
+        ...(labStreaming && labGeneration !== "structured"
+          ? { labGeneration }
+          : {}),
         objective: getLesson(input.lessonId)?.focus,
         learnerGuidance: learnerGuidance(input.learner),
         conversationGuidance: conversationGuidance(input.scenario),
@@ -192,7 +205,19 @@ export function createLocalTutor(): LocalTutor | undefined {
         .parse(await call({ kind: "readings", texts }));
     },
     turn: (input) => turn(input),
-    labTurn: (input) => turn(input, true),
+    labTurn: (input, generation = "structured") =>
+      turn(input, true, generation),
+    async labDetails(input) {
+      return z
+        .object({
+          french: z.string().trim().min(1).max(500),
+          coaching: z.string().trim().min(1).max(500).nullable(),
+        })
+        .strict()
+        .parse(
+          await call({ kind: "lab_details", labStreaming: true, ...input }),
+        );
+    },
     async transcribe(input) {
       return z
         .string()

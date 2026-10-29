@@ -1,0 +1,75 @@
+{
+  "doctrineDigest": "sha256:6bce44c544352f9be96834eed71b8076c685b35085ef25317cba8ea847d1a1f5",
+  "review": {
+    "schemaVersion": "prisma-technical-review.v1",
+    "id": "sensei-voice-generation-contracts",
+    "missionId": "sensei-human-voice-and-latency",
+    "decisionId": "keep-default-pending-human-voice",
+    "artifact": {
+      "root": "../build/web",
+      "digest": "sha256:8b8dce5a2eb2b0f6086243abf027442a28f153ca48c7212e1da31b45f6aba115"
+    },
+    "observedAt": "2026-10-29T09:01:16.018451+00:00",
+    "gates": [
+      {
+        "id": "doctrine:no-colored-side-stripes",
+        "passed": true,
+        "evidence": "Laboratoire observé en attente et résultat différé à 390×844, 320×568, 844×390 et 1440×900 : aucun liseré coloré sur les côtés ou en haut des groupes. Le contour violet complet du bouton au clavier est fonctionnel. Captures lab-390.png, controls-320.png, landscape.png et focus.png dans evidence/voice-generation/. Guard clear, sans allowance ajoutée."
+      },
+      {
+        "id": "doctrine:no-bricolage-grotesque",
+        "passed": true,
+        "evidence": "Titre survolé, libellés et résultat observés : system-ui/-apple-system/Segoe UI/sans-serif ; boutons web Arial. Le relevé DOM inclut Times hérité dans des conteneurs, sans Bricolage Grotesque parmi les familles calculées. Aucun import ajouté. evidence/voice-generation/ui-observations.json, details-390.png et focus.png. Familles Android physiques non observées."
+      },
+      {
+        "id": "doctrine:no-card-title-hover-underlines",
+        "passed": true,
+        "evidence": "Titre Laboratoire vocal survolé à 1440×900 : textDecorationLine none. Bouton Reprendre l’écoute atteint au clavier : contour solid 3px rgb(115,80,198), visible sur evidence/voice-generation/focus.png. Relevé ui-observations.json ; aucun titre de carte ajouté."
+      },
+      {
+        "id": "doctrine:no-peripheral-filler-copy",
+        "passed": true,
+        "evidence": "Écran existant conservé. Le prototype, les partiels non mémorisés et la conservation privée sont expliqués près du statut et des switches. La traduction différée Je viens de France est rattachée au japonais et au rōmaji. Aucun slogan périphérique ajouté. evidence/voice-generation/lab-390.png et details-390.png ; comparatif voice-generation-copy-before-after.md."
+      },
+      {
+        "id": "doctrine:no-sage-or-olive",
+        "passed": true,
+        "evidence": "Rendu clair puis préférence sombre inspectés à390×844 : blanc, gris, violet de marque et turquoise des switches ; la préférence sombre conserve le thème clair existant. Aucune couleur sauge/olive observée. evidence/voice-generation/dark.png, lab-390.png et focus.png."
+      },
+      {
+        "id": "doctrine:one-clear-cta-per-section",
+        "passed": true,
+        "evidence": "Laboratoire : un bouton principal fixe Démarrer/Reprendre/Mettre en pause selon état ; Terminer ma phrase commande la capture, Copier les mesures est un diagnostic. Situations, langues et switches sont des contrôles fonctionnels. Pas de sollicitation promotionnelle ajoutée. Bouton principal lisible et focus clavier visible. evidence/voice-generation/lab-390.png, controls-320.png et focus.png."
+      },
+      {
+        "id": "doctrine:responsive-text-clearance",
+        "passed": true,
+        "evidence": "À390×844, japonais/rōmaji/français différé visibles. À320×568, les langues se répartissent en lignes et le résultat complet reste accessible par défilement (controls-320.png) ; details-320.png montre le haut de ce même écran. En844×390, le résultat et la commande fixe sont lisibles ; les portions hors ScrollView sont un défilement normal. Aucun débordement horizontal aux quatre formats selon ui-observations.json. Marges latérales22px observées. evidence/voice-generation/details-390.png, controls-320.png, landscape.png, desktop.png. Aucun clavier/taille système Android physique observé."
+      },
+      {
+        "id": "doctrine:section-composition-and-rhythm",
+        "passed": true,
+        "evidence": "Hiérarchie existante conservée : titre, avatar/statut, options, japonais/rōmaji/français puis transcription technique et commandes fixes. La traduction ajoutée apparaît dans le groupe de phrase, sans nouveau panneau ni alternance décorative de fonds. evidence/voice-generation/lab-390.png, details-390.png et desktop.png. Aucune refonte de DA."
+      },
+      {
+        "id": "technical:validated-contract-and-cancellation",
+        "passed": true,
+        "evidence": "125 tests TypeScript,80 Python, types/format et exports web/Android/iOS passent. Contrats complets requis avant audio ; préfixe tronqué refusé ; détails incapables de changer japonais/correction ; pause libère le drain Node et invalide la publication tardive. Inférence Qwen déjà lancée non annulable, limite documentée. Aucun test sur Android physique."
+      },
+      {
+        "id": "technical:measured-and-simulated-scopes",
+        "passed": true,
+        "evidence": "36 réponses synthétiques finales et18 cellules de charge réelles publiées ; versions rejetées/interrompues conservées. Le rendu reçoit un WebSocket entièrement simulé dans la page, un flux PCM artificiel et un WAV public ; aucun micro matériel/audio humain, keepSample false. Les captures ne valident pas une conversation ou un réseau Android. Zéro référence humaine et aucune sélection ASR. Émission WAV distincte du lecteur et de l’oreille ; VOICE-GENERATION-RESULTS.md et evidence/voice-generation/ui-observations.json."
+      }
+    ],
+    "findings": [
+      {
+        "id": "human-validation-pending",
+        "severity": "minor",
+        "observation": "Prises Android reportées par l’utilisateur ; compréhension de sa voix, fidélité ASR et sensation réelle restent inconnues. Des réponses synthétiques inversent le rôle de Mochi dans la gare.",
+        "recommendation": "Conserver le classique et structured par défaut ; comparer les quatre profils Small après références verbatim et observer l’essai Android avant toute promotion."
+      }
+    ],
+    "summary": "Contrôle limité au laboratoire existant recevant des détails de traduction et des métriques. Aucun nouveau style, libellé, avatar ou parcours pédagogique. Artefact exporté exact observé, sources de benchmark inchangées, garde et CI spécialisée conservées. Validation artistique pending-human, distincte du contrôle technique. Aucun accès au navigateur personnel ou pilotage Mac."
+  }
+}

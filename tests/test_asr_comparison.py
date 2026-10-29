@@ -187,6 +187,32 @@ class ComparisonTests(unittest.TestCase):
         with self.assertRaisesRegex(asr.ComparisonError, "duplicate"):
             asr.validate_observations({"schemaVersion": 1, "observations": [row, row]}, cases)
 
+    def test_new_human_annotations_have_separate_nullable_denominators(self):
+        cases = [{"id": "unit", "reference": "フランス", "language": "ja", "audioDiagnostics": {}}]
+        base = {"caseId": "unit", "profile": "small-auto-prompt", "transcript": "フランス", "candidateText": "フランス", "asrMs": 20}
+        rows = [
+            {**base, "repeat": 0, "humanAnnotation": {"humanValidated": True, "normalizedSpokenError": True, "cutoffObserved": None, "unjustifiedRepeat": False}},
+            {**base, "repeat": 1, "humanAnnotation": {"humanValidated": True, "normalizedSpokenError": None, "cutoffObserved": True, "unjustifiedRepeat": None}},
+            {**base, "repeat": 2, "humanAnnotation": None},
+        ]
+        checked = asr.validate_observations({"schemaVersion": 1, "observations": rows}, cases)
+        profile = asr.build_report(cases, checked, "unit-only")["profiles"][base["profile"]]
+        self.assertEqual(profile["cer"]["transcriptNormalized"]["cer"], 0)
+        annotations = profile["humanAnnotations"]
+        self.assertEqual(annotations["normalizedSpokenError"], {"reviewed": 1, "errors": 1, "rate": 1, "pending": 2})
+        self.assertEqual(annotations["cutoffObserved"], {"reviewed": 1, "errors": 1, "rate": 1, "pending": 2})
+        self.assertEqual(annotations["unjustifiedRepeat"], {"reviewed": 1, "errors": 0, "rate": 0, "pending": 2})
+        self.assertEqual(annotations["intentError"]["reviewed"], 0)
+        self.assertIsNone(annotations["pedagogicalError"]["rate"])
+
+    def test_new_human_annotations_reject_non_booleans_without_inferring_from_audio(self):
+        cases = [{"id": "unit"}]
+        row = {"caseId": "unit", "profile": "small-ja-prompt", "transcript": "", "candidateText": "", "humanAnnotation": {"humanValidated": True}}
+        for field in ("normalizedSpokenError", "cutoffObserved", "unjustifiedRepeat"):
+            for invalid in (1, "yes", [], {}):
+                with self.subTest(field=field, invalid=invalid), self.assertRaisesRegex(asr.ComparisonError, "annotation"):
+                    asr.validate_observations({"schemaVersion": 1, "observations": [{**row, "humanAnnotation": {"humanValidated": True, field: invalid}}]}, cases)
+
 
 if __name__ == "__main__":
     unittest.main()

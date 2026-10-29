@@ -13,6 +13,7 @@ import traceback
 from conversation_feedback import FEEDBACK_INSTRUCTIONS, parse_feedback
 from conversation_context import conversation_details
 from linguistic_support import answer_guidance, requested_explanation, correction_explanation, question_guidance, checked_help, safe_conversation_coaching, checked_translation
+from lab_generation import generation_profile, dialogue_instructions, parse_lab_generation, parse_lab_details, details_input, controlled_coaching, LAB_DETAILS_INSTRUCTIONS
 
 ROOT = Path(__file__).resolve().parents[1]
 LOCAL = Path(os.environ.get("SENSEI_LOCAL_ROOT", ROOT / ".local/conversation"))
@@ -75,10 +76,11 @@ def main():
     lab_streaming = False
     def infer(phase, *args, **kwargs):
         started = time.monotonic()
+        output_prefix = kwargs.pop("output_prefix", "")
         try:
-            if lab_streaming and phase == "dialogue_translation":
+            if lab_streaming and phase in ("dialogue_translation", "dialogue_japanese", "dialogue_compact"):
                 stream_options = {key: value for key, value in kwargs.items() if key != "verbose"}
-                return collect_stream(stream_generate(*args, **stream_options), metrics)
+                return collect_stream(stream_generate(*args, **stream_options), metrics, initial_text=output_prefix)
             return generate(*args, **kwargs)
         finally:
             metrics[phase] = round(metrics.get(phase, 0) + (time.monotonic() - started) * 1000, 1)
@@ -123,6 +125,7 @@ def main():
                     if request.get("detailed"):
                         result = {"text": result, "uncertain": uncertain if result else False}
                 elif request["kind"] == "turn":
+                    lab_profile = generation_profile(request)
                     correction = None
                     if re.search(r"[\u3040-\u30ff\u3400-\u9fff]", request["text"]):
                         feedback_prompt = tokenizer.apply_chat_template([
@@ -143,7 +146,8 @@ def main():
                                   "correction": correction, "vocabulary": []}
                     else:
                         scenario = SCENARIOS[request["scenario"]]
-                        messages = [{"role": "system", "content": INSTRUCTIONS + "\nSituation : " + scenario}]
+                        instructions = dialogue_instructions(lab_profile) if lab_profile else INSTRUCTIONS
+                        messages = [{"role": "system", "content": instructions + "\nSituation : " + scenario}]
                         if request.get("objective"):
                             messages[0]["content"] += "\nCurrent beginner practice objective: " + request["objective"] + " Keep your follow-up questions focused on this objective."
                         if request.get("conversationGuidance"):
@@ -156,24 +160,49 @@ def main():
                         messages += request["history"][-12:]
                         messages.append({"role": "user", "content": request["text"]})
                         prompt = tokenizer.apply_chat_template(messages, add_generation_prompt=True, tokenize=False, enable_thinking=False)
-                        generated = infer("dialogue_translation", model, tokenizer, prompt=prompt, max_tokens=220, sampler=make_sampler(temp=0), verbose=False).strip()
-                        teaching = json.loads(generated)
-                        if not isinstance(teaching, dict) or not {"japanese", "coaching"}.issubset(teaching):
-                            raise ValueError("invalid_teaching")
-                        japanese, coaching = teaching["japanese"], teaching["coaching"]
-                        if not isinstance(japanese, str) or (coaching is not None and (not isinstance(coaching, str) or not 1 <= len(coaching.strip()) <= 350)):
-                            raise ValueError("invalid_teaching")
-                        if not japanese or "\ufffd" in japanese or len(japanese) > 300 or not any("\u3040" <= char <= "\u9fff" for char in japanese):
-                            raise ValueError("invalid_japanese")
-                        french = teaching.get("french", "")
-                        if not isinstance(french, str) or "\ufffd" in french or not french.strip() or len(french) > 500:
-                            french = ""
-                            metrics["translation_unavailable"] = 1
-                        french = checked_translation(japanese) or french
-                        coaching = safe_conversation_coaching(japanese, coaching, french, request["history"])
+                        phase, tokens = ({"ja-first": ("dialogue_japanese", 96), "compact": ("dialogue_compact", 160)}
+                                         .get(lab_profile, ("dialogue_translation", 220)))
+                        # Prefill only the field name; the entire generated value
+                        # and closing object still have to pass the strict parser.
+                        prefix = '{"japanese":' if lab_profile == "ja-first" else ""
+                        generated = infer(phase, model, tokenizer, prompt=prompt + prefix, output_prefix=prefix,
+                                          max_tokens=tokens, sampler=make_sampler(temp=0), verbose=False).strip()
+                        if lab_profile:
+                            validation_started = time.monotonic()
+                            teaching = parse_lab_generation(generated, lab_profile)
+                            japanese, french = teaching["japanese"], teaching["french"]
+                            french = checked_translation(japanese) or french
+                            coaching = controlled_coaching(japanese, request["history"])
+                            metrics["lab_validation"] = round((time.monotonic() - validation_started) * 1000, 1)
+                        else:
+                            teaching = json.loads(generated)
+                            if not isinstance(teaching, dict) or not {"japanese", "coaching"}.issubset(teaching):
+                                raise ValueError("invalid_teaching")
+                            japanese, coaching = teaching["japanese"], teaching["coaching"]
+                            if not isinstance(japanese, str) or (coaching is not None and (not isinstance(coaching, str) or not 1 <= len(coaching.strip()) <= 350)):
+                                raise ValueError("invalid_teaching")
+                            if not japanese or "\ufffd" in japanese or len(japanese) > 300 or not any("\u3040" <= char <= "\u9fff" for char in japanese):
+                                raise ValueError("invalid_japanese")
+                            french = teaching.get("french", "")
+                            if not isinstance(french, str) or "\ufffd" in french or not french.strip() or len(french) > 500:
+                                french = ""
+                                metrics["translation_unavailable"] = 1
+                            french = checked_translation(japanese) or french
+                            coaching = safe_conversation_coaching(japanese, coaching, french, request["history"])
                         phrase = {"japanese": japanese, "french": french[:500]}
                         phrase["romaji"] = romanize(japanese)
                         result = {"reply": {key: phrase[key] for key in ("japanese", "romaji", "french")}, "correction": None, "coaching": coaching, "vocabulary": []}
+                elif request["kind"] == "lab_details":
+                    japanese, history = details_input(request)
+                    french = checked_translation(japanese)
+                    if not french:
+                        prompt = tokenizer.apply_chat_template([
+                            {"role": "system", "content": LAB_DETAILS_INSTRUCTIONS},
+                            {"role": "user", "content": json.dumps({"japanese": japanese}, ensure_ascii=False)},
+                        ], add_generation_prompt=True, tokenize=False, enable_thinking=False)
+                        generated = infer("secondary", model, tokenizer, prompt=prompt, max_tokens=140, sampler=make_sampler(temp=0), verbose=False).strip()
+                        french = parse_lab_details(generated)
+                    result = {"french": french, "coaching": controlled_coaching(japanese, history)}
                 elif request["kind"] == "question":
                     # History combines French coaching and Japanese on separate lines.
                     japanese = japanese_question(request["question"])

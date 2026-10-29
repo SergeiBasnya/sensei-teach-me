@@ -605,3 +605,160 @@ test("aucun segment audio ne précède la réponse pédagogique validée", async
     },
   );
 });
+
+test("les détails enrichissent seulement la phrase validée après son premier audio", async () => {
+  const histories: { role: string; content: string }[][] = [];
+  const tutor = {
+    reply: {
+      japanese: "どこから来ましたか？",
+      romaji: "Doko kara kimashita ka?",
+      french: "",
+    },
+    correction: null,
+    vocabulary: [],
+  };
+  await fixture(
+    {
+      respond: async ({ emit, history }) => {
+        histories.push(history);
+        emit({ type: "tutor", tutor });
+        emit({
+          type: "audio",
+          index: 0,
+          audio: "UklGRg".repeat(20),
+          format: "wav",
+        });
+        emit({
+          type: "details",
+          japanese: tutor.reply.japanese,
+          french: "D’où viens-tu ?",
+          coaching: null,
+        });
+        emit({ type: "response_done" });
+      },
+    },
+    async ({ connect }) => {
+      const { socket, events } = await connect();
+      for (const turn of [1, 2]) {
+        command(socket, { type: "start", turn, language: "ja", respond: true });
+        chunk(socket, turn);
+        command(socket, { type: "finish", turn });
+        await until(() =>
+          events.some(
+            (event) => event.type === "response_done" && event.turn === turn,
+          ),
+        );
+      }
+      assert.equal(
+        events.filter((event) => event.type === "details").length,
+        2,
+      );
+      assert.equal(histories[1]?.at(-1)?.content, tutor.reply.japanese);
+    },
+  );
+});
+
+test("le mutex du laboratoire garde aussi les ASR suivants derrière la réponse Qwen", async () => {
+  let asrCalls = 0;
+  let responding = false;
+  let overlap = false;
+  let release!: () => void;
+  await fixture(
+    {
+      transcribe: async () => {
+        asrCalls++;
+        overlap ||= responding;
+        return { text: "フランスです。", uncertain: false, metrics: {} };
+      },
+      respond: async ({ emit }) => {
+        if (asrCalls === 1) {
+          responding = true;
+          await new Promise<void>((resolve) => {
+            release = resolve;
+          });
+          responding = false;
+        }
+        emit({ type: "response_done" });
+      },
+    },
+    async ({ connect }) => {
+      const a = await connect(),
+        b = await connect();
+      command(a.socket, {
+        type: "start",
+        turn: 1,
+        language: "ja",
+        respond: true,
+      });
+      chunk(a.socket);
+      command(a.socket, { type: "finish", turn: 1 });
+      await until(() => responding);
+      command(b.socket, {
+        type: "start",
+        turn: 1,
+        language: "ja",
+        respond: true,
+      });
+      chunk(b.socket);
+      command(b.socket, { type: "finish", turn: 1 });
+      await delay(25);
+      assert.equal(asrCalls, 1);
+      release();
+      await until(() =>
+        b.events.some((event) => event.type === "response_done"),
+      );
+      assert.equal(asrCalls, 2);
+      assert.equal(overlap, false);
+    },
+  );
+});
+
+test("des détails précoces ou visant un autre japonais sont refusés par le transport", async () => {
+  for (const mismatch of [false, true]) {
+    const tutor = {
+      reply: {
+        japanese: "どこから来ましたか？",
+        romaji: "Doko kara kimashita ka?",
+        french: "",
+      },
+      correction: null,
+      vocabulary: [],
+    };
+    await fixture(
+      {
+        respond: async ({ emit }) => {
+          emit({ type: "tutor", tutor });
+          if (mismatch)
+            emit({
+              type: "audio",
+              index: 0,
+              audio: "UklGRg".repeat(20),
+              format: "wav",
+            });
+          emit({
+            type: "details",
+            japanese: mismatch ? "別の文。" : tutor.reply.japanese,
+            french: "Une traduction.",
+            coaching: null,
+          });
+        },
+      },
+      async ({ connect }) => {
+        const { socket, events } = await connect();
+        command(socket, {
+          type: "start",
+          turn: 1,
+          language: "ja",
+          respond: true,
+        });
+        chunk(socket);
+        command(socket, { type: "finish", turn: 1 });
+        await until(() => events.some((event) => event.type === "error"));
+        assert.equal(
+          events.some((event) => event.type === "details"),
+          false,
+        );
+      },
+    );
+  }
+});

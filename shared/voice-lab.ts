@@ -44,6 +44,14 @@ export const voiceLabReplySchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("tutor"), tutor: tutorReplySchema }).strict(),
   z
     .object({
+      type: z.literal("details"),
+      japanese: z.string().min(1).max(300),
+      french: z.string().trim().min(1).max(500),
+      coaching: z.string().trim().min(1).max(500).nullable(),
+    })
+    .strict(),
+  z
+    .object({
       type: z.literal("audio"),
       index: z.number().int().min(0).max(4),
       audio: z.string().min(44).max(1_500_000),
