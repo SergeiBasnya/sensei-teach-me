@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-29T10:05:20.227Z",
+  "status": "complete",
+  "sourceSnapshot": [
+    {
+      "path": "scripts/check-secondary-cancellation.ts",
+      "sha256": "214ca484332b96e28729054eecd79a3077330b0d8d21f8ea4431bc22ec1112cc"
+    },
+    {
+      "path": "server/conversation_worker.py",
+      "sha256": "a53f91ce5668934399e899217d23366ac47753e864d9f778f7fa14f8c031757b"
+    },
+    {
+      "path": "server/local-tutor.ts",
+      "sha256": "4de17db46e2c729d5bc492a75c0e06b371de7eb9a89e1f9d64f9c7ddcd1c4c6d"
+    },
+    {
+      "path": "server/lab_generation.py",
+      "sha256": "f0d2a9e71e4aafa990446aa7ee52f4d40abc6f2821293acde84eb8079e5a9739"
+    },
+    {
+      "path": "server/lab_conversation.py",
+      "sha256": "4ddb6c440299bbc1a86964f8de05eb3a65a573cca0cbeb9cc9d77dfc528fa67b"
+    },
+    {
+      "path": "server/lab_worker_inbox.py",
+      "sha256": "c3d02e76c650773072aee9cf5920db1e5efe706fbc8a1e0815670fab6a0b015c"
+    },
+    {
+      "path": "server/llm_stream_trace.py",
+      "sha256": "42642f88ce8a6341dc92352bfea46c2e922d04cf72a9c551df4dac45c493841d"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "0cc80ed9fb46bc298d59faacbc5c0142170b90c8bb29fb27095f68275153e97e"
+    }
+  ],
+  "rows": [
+    {
+      "round": 0,
+      "delayMs": 0,
+      "controlReadingMs": 2.77691699999923,
+      "foregroundReadingMs": 196.6130839999987,
+      "secondaryStatus": "cancelled",
+      "allSettledMs": 197.9171669999996,
+      "metrics": {
+        "secondary_cancel_ack": 196.3,
+        "secondary": 197.1,
+        "generations": 1,
+        "worker_roundtrip": 197.6,
+        "worker_queue": 0.6
+      },
+      "readingSucceeded": true
+    },
+    {
+      "round": 0,
+      "delayMs": 100,
+      "controlReadingMs": 0.2836250000000291,
+      "foregroundReadingMs": 96.08337500000016,
+      "secondaryStatus": "cancelled",
+      "allSettledMs": 197.44504199999938,
+      "metrics": {
+        "secondary_cancel_ack": 95.8,
+        "secondary": 196.5,
+        "generations": 1,
+        "worker_roundtrip": 197.2,
+        "worker_queue": 0.2
+      },
+      "readingSucceeded": true
+    },
+    {
+      "round": 0,
+      "delayMs": 600,
+      "controlReadingMs": 0.29283399999985704,
+      "foregroundReadingMs": 54.47329200000058,
+      "secondaryStatus": "cancelled",
+      "allSettledMs": 655.9249170000003,
+      "metrics": {
+        "secondary_cancel_ack": 54.2,
+        "secondary": 655,
+        "generations": 1,
+        "worker_roundtrip": 655.5,
+        "worker_queue": 0.5
+      },
+      "readingSucceeded": true
+    },
+    {
+      "round": 1,
+      "delayMs": 600,
+      "controlReadingMs": 0.3440000000009604,
+      "foregroundReadingMs": 66.49704200000087,
+      "secondaryStatus": "cancelled",
+      "allSettledMs": 666.984042,
+      "metrics": {
+        "secondary_cancel_ack": 66.2,
+        "secondary": 666.2,
+        "generations": 1,
+        "worker_roundtrip": 666.8,
+        "worker_queue": 0.8
+      },
+      "readingSucceeded": true
+    },
+    {
+      "round": 1,
+      "delayMs": 100,
+      "controlReadingMs": 0.29500000000007276,
+      "foregroundReadingMs": 98.03170899999895,
+      "secondaryStatus": "cancelled",
+      "allSettledMs": 199.3809999999994,
+      "metrics": {
+        "secondary_cancel_ack": 97.8,
+        "secondary": 198.5,
+        "generations": 1,
+        "worker_roundtrip": 199.1,
+        "worker_queue": 0.1
+      },
+      "readingSucceeded": true
+    },
+    {
+      "round": 1,
+      "delayMs": 0,
+      "controlReadingMs": 0.6700829999990674,
+      "foregroundReadingMs": 219.71891699999833,
+      "secondaryStatus": "cancelled",
+      "allSettledMs": 221.06779199999983,
+      "metrics": {
+        "secondary_cancel_ack": 219.5,
+        "secondary": 220.2,
+        "generations": 1,
+        "worker_roundtrip": 220.8,
+        "worker_queue": 0.8
+      },
+      "readingSucceeded": true
+    }
+  ],
+  "definition": "Foreground readings RPC through the same worker after optional French. Not a microphone, first audio, human observation or global GPU-idle measurement.",
+  "humanValidation": "pending",
+  "productionSelection": "unchanged"
+}

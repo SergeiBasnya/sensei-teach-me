@@ -42,8 +42,8 @@ const voiceLab =
           speech,
           labGeneration === "ja-first"
             ? {
-                details: ({ japanese, history }) =>
-                  local.labDetails({ japanese, history }),
+                details: ({ japanese, history, signal }) =>
+                  local.labDetails({ japanese, history }, signal),
               }
             : {},
         ),

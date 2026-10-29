@@ -284,8 +284,16 @@ export function createVoiceLab({
                   history: inputHistory,
                   signal: turn.controller.signal,
                   emit(event) {
-                    if (!active(turn) || responseDone) return;
+                    if (!active(turn)) return;
                     const checked = voiceLabReplySchema.parse(event);
+                    // Metadata can finish while this turn's validated audio plays.
+                    // A new capture aborts the old turn; audio/tutor cannot reopen it.
+                    if (
+                      responseDone &&
+                      checked.type !== "details" &&
+                      checked.type !== "metrics"
+                    )
+                      return;
                     if (checked.type === "audio" && !tutor)
                       throw new Error("audio_before_validated_tutor");
                     if (
@@ -302,20 +310,21 @@ export function createVoiceLab({
                         !tutor ||
                         nextAudio === 0 ||
                         tutor.tutor.correction ||
+                        checked.coaching !== (tutor.tutor.coaching ?? null) ||
                         checked.japanese !== tutor.tutor.reply.japanese
                       )
                         throw new Error("invalid_secondary_target");
-                      tutor = {
-                        type: "tutor",
-                        tutor: {
-                          ...tutor.tutor,
-                          reply: {
-                            ...tutor.tutor.reply,
-                            french: checked.french,
+                      if (!responseDone)
+                        tutor = {
+                          type: "tutor",
+                          tutor: {
+                            ...tutor.tutor,
+                            reply: {
+                              ...tutor.tutor.reply,
+                              french: checked.french,
+                            },
                           },
-                          coaching: checked.coaching,
-                        },
-                      };
+                        };
                     }
                     if (checked.type === "response_done") finishResponse();
                     else send({ ...checked, turn: turn.id });
@@ -336,6 +345,7 @@ export function createVoiceLab({
                 });
                 turn.chunks = [];
                 complete(turn);
+                turn.controller.abort(); // Optional metadata cannot outlive a failed response.
               }
             } finally {
               if (partial) turn.partialPending = false;

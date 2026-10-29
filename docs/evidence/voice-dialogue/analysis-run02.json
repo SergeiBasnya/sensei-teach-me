@@ -1,0 +1,2270 @@
+{
+  "analyzedAt": "2026-10-29T10:02:10.640432+00:00",
+  "sourceReport": "comparison.json",
+  "sourceReportSha256": "dfe558caf3c1a5bd14f71bc70663882e5efbeb4c685529557a63b410c848dbd1",
+  "benchmarkSourceSha256": "eaf166169bea245ffe16f764bf40c20b844786fda2873903757fb82d13009cd1",
+  "snapshot": {
+    "status": "complete",
+    "rows": 108
+  },
+  "definitions": {
+    "deltaSign": "baseline minus candidate, positive=faster candidate",
+    "pairedSubset": "complete generated path in all3 profiles and same inputSha256",
+    "rollout": "descriptive only; generated histories differ, not paired latency",
+    "cleanup": "observed real secondary callback promise settlement and publication, not GPU-idle",
+    "linguisticReview": "mechanical status/lexical cues do not constitute human linguistic judgment"
+  },
+  "counts": {
+    "paired": {
+      "structured": {
+        "attempted": 20,
+        "complete": 20,
+        "failed": 0,
+        "byPath": {
+          "correction": 1,
+          "generated": 17,
+          "practice": 2
+        },
+        "failedCases": []
+      },
+      "compact": {
+        "attempted": 20,
+        "complete": 20,
+        "failed": 0,
+        "byPath": {
+          "correction": 1,
+          "generated": 17,
+          "practice": 2
+        },
+        "failedCases": []
+      },
+      "ja-first": {
+        "attempted": 20,
+        "complete": 20,
+        "failed": 0,
+        "byPath": {
+          "correction": 1,
+          "generated": 17,
+          "practice": 2
+        },
+        "failedCases": []
+      }
+    },
+    "rollout": {
+      "structured": {
+        "attempted": 16,
+        "complete": 15,
+        "failed": 1,
+        "byPath": {
+          "correction": 3,
+          "generated": 12,
+          "no-tutor": 1
+        },
+        "failedCases": [
+          {
+            "key": [
+              "station-service",
+              "two-tickets"
+            ],
+            "providerTurnCalls": 1,
+            "failure": "inference-or-contract-failed"
+          }
+        ]
+      },
+      "compact": {
+        "attempted": 16,
+        "complete": 15,
+        "failed": 1,
+        "byPath": {
+          "correction": 1,
+          "generated": 14,
+          "no-tutor": 1
+        },
+        "failedCases": [
+          {
+            "key": [
+              "meet-facts",
+              "unexpected-question"
+            ],
+            "providerTurnCalls": 1,
+            "failure": "inference-or-contract-failed"
+          }
+        ]
+      },
+      "ja-first": {
+        "attempted": 16,
+        "complete": 16,
+        "failed": 0,
+        "byPath": {
+          "correction": 1,
+          "generated": 15
+        },
+        "failedCases": []
+      }
+    }
+  },
+  "pairing": {
+    "candidateKeys": 20,
+    "sameInputHashes": 20,
+    "commonGenerated": 17,
+    "excluded": [
+      {
+        "key": [
+          "help-and-preferences",
+          "ask-for-help"
+        ],
+        "paths": {
+          "structured": "practice",
+          "compact": "practice",
+          "ja-first": "practice"
+        },
+        "statuses": {
+          "structured": "complete",
+          "compact": "complete",
+          "ja-first": "complete"
+        }
+      },
+      {
+        "key": [
+          "help-and-preferences",
+          "negative-intention"
+        ],
+        "paths": {
+          "structured": "practice",
+          "compact": "practice",
+          "ja-first": "practice"
+        },
+        "statuses": {
+          "structured": "complete",
+          "compact": "complete",
+          "ja-first": "complete"
+        }
+      },
+      {
+        "key": [
+          "repair-and-repeat",
+          "particle-error"
+        ],
+        "paths": {
+          "structured": "correction",
+          "compact": "correction",
+          "ja-first": "correction"
+        },
+        "statuses": {
+          "structured": "complete",
+          "compact": "complete",
+          "ja-first": "complete"
+        }
+      }
+    ]
+  },
+  "pairedGeneratedMetrics": {
+    "structured": {
+      "firstJapaneseAudioEmittedMs": {
+        "n": 17,
+        "median": 4526.1,
+        "min": 2820.6,
+        "max": 4891.4
+      },
+      "responseDoneMs": {
+        "n": 17,
+        "median": 4882,
+        "min": 2820.6,
+        "max": 6319
+      },
+      "allObservedWorkSettledMs": {
+        "n": 17,
+        "median": 4883.3,
+        "min": 2821.9,
+        "max": 6319.1
+      },
+      "japaneseCharacters": {
+        "n": 17,
+        "median": 20,
+        "min": 11,
+        "max": 30
+      },
+      "japaneseWaveMs": {
+        "n": 17,
+        "median": 3285.3,
+        "min": 1984,
+        "max": 4992
+      },
+      "segments": {
+        "n": 17,
+        "median": 2,
+        "min": 1,
+        "max": 2
+      },
+      "frenchMissing": 0
+    },
+    "compact": {
+      "firstJapaneseAudioEmittedMs": {
+        "n": 17,
+        "median": 4261.9,
+        "min": 3054.8,
+        "max": 4832.1
+      },
+      "responseDoneMs": {
+        "n": 17,
+        "median": 4873.9,
+        "min": 3054.8,
+        "max": 5862.7
+      },
+      "allObservedWorkSettledMs": {
+        "n": 17,
+        "median": 4875.2,
+        "min": 3056.2,
+        "max": 5864
+      },
+      "japaneseCharacters": {
+        "n": 17,
+        "median": 23,
+        "min": 6,
+        "max": 37
+      },
+      "japaneseWaveMs": {
+        "n": 17,
+        "median": 3840,
+        "min": 1269.3,
+        "max": 5674.7
+      },
+      "segments": {
+        "n": 17,
+        "median": 2,
+        "min": 1,
+        "max": 3
+      },
+      "frenchMissing": 0
+    },
+    "ja-first": {
+      "firstJapaneseAudioEmittedMs": {
+        "n": 17,
+        "median": 3538.3,
+        "min": 2564.6,
+        "max": 4309.7
+      },
+      "responseDoneMs": {
+        "n": 17,
+        "median": 4150.3,
+        "min": 2564.8,
+        "max": 5759.1
+      },
+      "allObservedWorkSettledMs": {
+        "n": 17,
+        "median": 4765,
+        "min": 3802.5,
+        "max": 5760.6
+      },
+      "japaneseCharacters": {
+        "n": 17,
+        "median": 20,
+        "min": 6,
+        "max": 37
+      },
+      "japaneseWaveMs": {
+        "n": 17,
+        "median": 3370.7,
+        "min": 1333.3,
+        "max": 5674.7
+      },
+      "segments": {
+        "n": 17,
+        "median": 2,
+        "min": 1,
+        "max": 3
+      },
+      "frenchMissing": 0
+    }
+  },
+  "pairedDeltas": {
+    "compact-vs-structured": {
+      "firstJapaneseAudioEmittedMs": {
+        "delta": {
+          "n": 17,
+          "median": 77.6,
+          "min": -841.7,
+          "max": 986.9
+        },
+        "medianPercent": 1.9,
+        "faster": 11,
+        "equal": 0,
+        "slower": 6,
+        "pairs": [
+          {
+            "key": [
+              "cafe-change",
+              "first-order"
+            ],
+            "baselineMs": 4663.9,
+            "candidateMs": 4198.2,
+            "baselineMinusCandidateMs": 465.7,
+            "percentOfBaseline": 9.99
+          },
+          {
+            "key": [
+              "cafe-change",
+              "known-price"
+            ],
+            "baselineMs": 4778,
+            "candidateMs": 4832.1,
+            "baselineMinusCandidateMs": -54.1,
+            "percentOfBaseline": -1.13
+          },
+          {
+            "key": [
+              "cafe-change",
+              "replace-order"
+            ],
+            "baselineMs": 4225.1,
+            "candidateMs": 4261.9,
+            "baselineMinusCandidateMs": -36.8,
+            "percentOfBaseline": -0.87
+          },
+          {
+            "key": [
+              "cafe-change",
+              "temperature-fragment"
+            ],
+            "baselineMs": 4739.6,
+            "candidateMs": 4559.1,
+            "baselineMinusCandidateMs": 180.5,
+            "percentOfBaseline": 3.81
+          },
+          {
+            "key": [
+              "help-and-preferences",
+              "assisted-response"
+            ],
+            "baselineMs": 4526.1,
+            "candidateMs": 4018.9,
+            "baselineMinusCandidateMs": 507.2,
+            "percentOfBaseline": 11.21
+          },
+          {
+            "key": [
+              "help-and-preferences",
+              "self-correction"
+            ],
+            "baselineMs": 4144.2,
+            "candidateMs": 4352.8,
+            "baselineMinusCandidateMs": -208.6,
+            "percentOfBaseline": -5.03
+          },
+          {
+            "key": [
+              "meet-facts",
+              "city"
+            ],
+            "baselineMs": 4722.4,
+            "candidateMs": 4557.6,
+            "baselineMinusCandidateMs": 164.8,
+            "percentOfBaseline": 3.49
+          },
+          {
+            "key": [
+              "meet-facts",
+              "country"
+            ],
+            "baselineMs": 4157.7,
+            "candidateMs": 4093.3,
+            "baselineMinusCandidateMs": 64.4,
+            "percentOfBaseline": 1.55
+          },
+          {
+            "key": [
+              "meet-facts",
+              "name"
+            ],
+            "baselineMs": 4087,
+            "candidateMs": 4009.4,
+            "baselineMinusCandidateMs": 77.6,
+            "percentOfBaseline": 1.9
+          },
+          {
+            "key": [
+              "meet-facts",
+              "unexpected-question"
+            ],
+            "baselineMs": 4859.2,
+            "candidateMs": 4814.6,
+            "baselineMinusCandidateMs": 44.6,
+            "percentOfBaseline": 0.92
+          },
+          {
+            "key": [
+              "repair-and-repeat",
+              "city-fragment"
+            ],
+            "baselineMs": 4357,
+            "candidateMs": 4731.2,
+            "baselineMinusCandidateMs": -374.2,
+            "percentOfBaseline": -8.59
+          },
+          {
+            "key": [
+              "repair-and-repeat",
+              "repeat-help"
+            ],
+            "baselineMs": 2820.6,
+            "candidateMs": 3054.8,
+            "baselineMinusCandidateMs": -234.2,
+            "percentOfBaseline": -8.3
+          },
+          {
+            "key": [
+              "repair-and-repeat",
+              "successful-repair"
+            ],
+            "baselineMs": 4881.9,
+            "candidateMs": 4482,
+            "baselineMinusCandidateMs": 399.9,
+            "percentOfBaseline": 8.19
+          },
+          {
+            "key": [
+              "station-service",
+              "destination"
+            ],
+            "baselineMs": 4280.8,
+            "candidateMs": 4022.2,
+            "baselineMinusCandidateMs": 258.6,
+            "percentOfBaseline": 6.04
+          },
+          {
+            "key": [
+              "station-service",
+              "known-platform"
+            ],
+            "baselineMs": 4887.1,
+            "candidateMs": 3900.2,
+            "baselineMinusCandidateMs": 986.9,
+            "percentOfBaseline": 20.19
+          },
+          {
+            "key": [
+              "station-service",
+              "one-way"
+            ],
+            "baselineMs": 4891.4,
+            "candidateMs": 4025.3,
+            "baselineMinusCandidateMs": 866.1,
+            "percentOfBaseline": 17.71
+          },
+          {
+            "key": [
+              "station-service",
+              "two-tickets"
+            ],
+            "baselineMs": 3605.9,
+            "candidateMs": 4447.6,
+            "baselineMinusCandidateMs": -841.7,
+            "percentOfBaseline": -23.34
+          }
+        ]
+      },
+      "responseDoneMs": {
+        "delta": {
+          "n": 17,
+          "median": -23.3,
+          "min": -1616.8,
+          "max": 2293.6
+        },
+        "medianPercent": -0.45,
+        "faster": 8,
+        "equal": 0,
+        "slower": 9,
+        "pairs": [
+          {
+            "key": [
+              "cafe-change",
+              "first-order"
+            ],
+            "baselineMs": 4664,
+            "candidateMs": 4873.9,
+            "baselineMinusCandidateMs": -209.9,
+            "percentOfBaseline": -4.5
+          },
+          {
+            "key": [
+              "cafe-change",
+              "known-price"
+            ],
+            "baselineMs": 4778.1,
+            "candidateMs": 5592.6,
+            "baselineMinusCandidateMs": -814.5,
+            "percentOfBaseline": -17.05
+          },
+          {
+            "key": [
+              "cafe-change",
+              "replace-order"
+            ],
+            "baselineMs": 5131.7,
+            "candidateMs": 5155,
+            "baselineMinusCandidateMs": -23.3,
+            "percentOfBaseline": -0.45
+          },
+          {
+            "key": [
+              "cafe-change",
+              "temperature-fragment"
+            ],
+            "baselineMs": 5795.3,
+            "candidateMs": 5862.7,
+            "baselineMinusCandidateMs": -67.4,
+            "percentOfBaseline": -1.16
+          },
+          {
+            "key": [
+              "help-and-preferences",
+              "assisted-response"
+            ],
+            "baselineMs": 4526.2,
+            "candidateMs": 4019,
+            "baselineMinusCandidateMs": 507.2,
+            "percentOfBaseline": 11.21
+          },
+          {
+            "key": [
+              "help-and-preferences",
+              "self-correction"
+            ],
+            "baselineMs": 5012.7,
+            "candidateMs": 5147.1,
+            "baselineMinusCandidateMs": -134.4,
+            "percentOfBaseline": -2.68
+          },
+          {
+            "key": [
+              "meet-facts",
+              "city"
+            ],
+            "baselineMs": 5282.2,
+            "candidateMs": 5134.9,
+            "baselineMinusCandidateMs": 147.3,
+            "percentOfBaseline": 2.79
+          },
+          {
+            "key": [
+              "meet-facts",
+              "country"
+            ],
+            "baselineMs": 4770.3,
+            "candidateMs": 4636.9,
+            "baselineMinusCandidateMs": 133.4,
+            "percentOfBaseline": 2.8
+          },
+          {
+            "key": [
+              "meet-facts",
+              "name"
+            ],
+            "baselineMs": 4688.6,
+            "candidateMs": 4598.8,
+            "baselineMinusCandidateMs": 89.8,
+            "percentOfBaseline": 1.92
+          },
+          {
+            "key": [
+              "meet-facts",
+              "unexpected-question"
+            ],
+            "baselineMs": 4859.2,
+            "candidateMs": 5705.6,
+            "baselineMinusCandidateMs": -846.4,
+            "percentOfBaseline": -17.42
+          },
+          {
+            "key": [
+              "repair-and-repeat",
+              "city-fragment"
+            ],
+            "baselineMs": 4950.6,
+            "candidateMs": 5315.9,
+            "baselineMinusCandidateMs": -365.3,
+            "percentOfBaseline": -7.38
+          },
+          {
+            "key": [
+              "repair-and-repeat",
+              "repeat-help"
+            ],
+            "baselineMs": 2820.6,
+            "candidateMs": 3054.8,
+            "baselineMinusCandidateMs": -234.2,
+            "percentOfBaseline": -8.3
+          },
+          {
+            "key": [
+              "repair-and-repeat",
+              "successful-repair"
+            ],
+            "baselineMs": 4882,
+            "candidateMs": 4482.1,
+            "baselineMinusCandidateMs": 399.9,
+            "percentOfBaseline": 8.19
+          },
+          {
+            "key": [
+              "station-service",
+              "destination"
+            ],
+            "baselineMs": 4965.4,
+            "candidateMs": 4022.2,
+            "baselineMinusCandidateMs": 943.2,
+            "percentOfBaseline": 19.0
+          },
+          {
+            "key": [
+              "station-service",
+              "known-platform"
+            ],
+            "baselineMs": 5776.2,
+            "candidateMs": 3900.2,
+            "baselineMinusCandidateMs": 1876.0,
+            "percentOfBaseline": 32.48
+          },
+          {
+            "key": [
+              "station-service",
+              "one-way"
+            ],
+            "baselineMs": 6319,
+            "candidateMs": 4025.4,
+            "baselineMinusCandidateMs": 2293.6,
+            "percentOfBaseline": 36.3
+          },
+          {
+            "key": [
+              "station-service",
+              "two-tickets"
+            ],
+            "baselineMs": 4080.6,
+            "candidateMs": 5697.4,
+            "baselineMinusCandidateMs": -1616.8,
+            "percentOfBaseline": -39.62
+          }
+        ]
+      },
+      "allObservedWorkSettledMs": {
+        "delta": {
+          "n": 17,
+          "median": -23.3,
+          "min": -1616.6,
+          "max": 2292.4
+        },
+        "medianPercent": -0.45,
+        "faster": 8,
+        "equal": 0,
+        "slower": 9,
+        "pairs": [
+          {
+            "key": [
+              "cafe-change",
+              "first-order"
+            ],
+            "baselineMs": 4665.3,
+            "candidateMs": 4875.2,
+            "baselineMinusCandidateMs": -209.9,
+            "percentOfBaseline": -4.5
+          },
+          {
+            "key": [
+              "cafe-change",
+              "known-price"
+            ],
+            "baselineMs": 4779.6,
+            "candidateMs": 5594,
+            "baselineMinusCandidateMs": -814.4,
+            "percentOfBaseline": -17.04
+          },
+          {
+            "key": [
+              "cafe-change",
+              "replace-order"
+            ],
+            "baselineMs": 5133,
+            "candidateMs": 5156.3,
+            "baselineMinusCandidateMs": -23.3,
+            "percentOfBaseline": -0.45
+          },
+          {
+            "key": [
+              "cafe-change",
+              "temperature-fragment"
+            ],
+            "baselineMs": 5796.6,
+            "candidateMs": 5864,
+            "baselineMinusCandidateMs": -67.4,
+            "percentOfBaseline": -1.16
+          },
+          {
+            "key": [
+              "help-and-preferences",
+              "assisted-response"
+            ],
+            "baselineMs": 4527.5,
+            "candidateMs": 4020.3,
+            "baselineMinusCandidateMs": 507.2,
+            "percentOfBaseline": 11.2
+          },
+          {
+            "key": [
+              "help-and-preferences",
+              "self-correction"
+            ],
+            "baselineMs": 5014,
+            "candidateMs": 5148.3,
+            "baselineMinusCandidateMs": -134.3,
+            "percentOfBaseline": -2.68
+          },
+          {
+            "key": [
+              "meet-facts",
+              "city"
+            ],
+            "baselineMs": 5283.7,
+            "candidateMs": 5136.2,
+            "baselineMinusCandidateMs": 147.5,
+            "percentOfBaseline": 2.79
+          },
+          {
+            "key": [
+              "meet-facts",
+              "country"
+            ],
+            "baselineMs": 4771.6,
+            "candidateMs": 4638.2,
+            "baselineMinusCandidateMs": 133.4,
+            "percentOfBaseline": 2.8
+          },
+          {
+            "key": [
+              "meet-facts",
+              "name"
+            ],
+            "baselineMs": 4689.9,
+            "candidateMs": 4600.1,
+            "baselineMinusCandidateMs": 89.8,
+            "percentOfBaseline": 1.91
+          },
+          {
+            "key": [
+              "meet-facts",
+              "unexpected-question"
+            ],
+            "baselineMs": 4860.5,
+            "candidateMs": 5706.9,
+            "baselineMinusCandidateMs": -846.4,
+            "percentOfBaseline": -17.41
+          },
+          {
+            "key": [
+              "repair-and-repeat",
+              "city-fragment"
+            ],
+            "baselineMs": 4952,
+            "candidateMs": 5317.2,
+            "baselineMinusCandidateMs": -365.2,
+            "percentOfBaseline": -7.37
+          },
+          {
+            "key": [
+              "repair-and-repeat",
+              "repeat-help"
+            ],
+            "baselineMs": 2821.9,
+            "candidateMs": 3056.2,
+            "baselineMinusCandidateMs": -234.3,
+            "percentOfBaseline": -8.3
+          },
+          {
+            "key": [
+              "repair-and-repeat",
+              "successful-repair"
+            ],
+            "baselineMs": 4883.3,
+            "candidateMs": 4483.4,
+            "baselineMinusCandidateMs": 399.9,
+            "percentOfBaseline": 8.19
+          },
+          {
+            "key": [
+              "station-service",
+              "destination"
+            ],
+            "baselineMs": 4966.7,
+            "candidateMs": 4023.5,
+            "baselineMinusCandidateMs": 943.2,
+            "percentOfBaseline": 18.99
+          },
+          {
+            "key": [
+              "station-service",
+              "known-platform"
+            ],
+            "baselineMs": 5777.5,
+            "candidateMs": 3901.5,
+            "baselineMinusCandidateMs": 1876.0,
+            "percentOfBaseline": 32.47
+          },
+          {
+            "key": [
+              "station-service",
+              "one-way"
+            ],
+            "baselineMs": 6319.1,
+            "candidateMs": 4026.7,
+            "baselineMinusCandidateMs": 2292.4,
+            "percentOfBaseline": 36.28
+          },
+          {
+            "key": [
+              "station-service",
+              "two-tickets"
+            ],
+            "baselineMs": 4082.1,
+            "candidateMs": 5698.7,
+            "baselineMinusCandidateMs": -1616.6,
+            "percentOfBaseline": -39.6
+          }
+        ]
+      }
+    },
+    "ja-first-vs-structured": {
+      "firstJapaneseAudioEmittedMs": {
+        "delta": {
+          "n": 17,
+          "median": 818.0,
+          "min": 15.8,
+          "max": 1548.1
+        },
+        "medianPercent": 17.26,
+        "faster": 17,
+        "equal": 0,
+        "slower": 0,
+        "pairs": [
+          {
+            "key": [
+              "cafe-change",
+              "first-order"
+            ],
+            "baselineMs": 4663.9,
+            "candidateMs": 3469.5,
+            "baselineMinusCandidateMs": 1194.4,
+            "percentOfBaseline": 25.61
+          },
+          {
+            "key": [
+              "cafe-change",
+              "known-price"
+            ],
+            "baselineMs": 4778,
+            "candidateMs": 4142.8,
+            "baselineMinusCandidateMs": 635.2,
+            "percentOfBaseline": 13.29
+          },
+          {
+            "key": [
+              "cafe-change",
+              "replace-order"
+            ],
+            "baselineMs": 4225.1,
+            "candidateMs": 3296.8,
+            "baselineMinusCandidateMs": 928.3,
+            "percentOfBaseline": 21.97
+          },
+          {
+            "key": [
+              "cafe-change",
+              "temperature-fragment"
+            ],
+            "baselineMs": 4739.6,
+            "candidateMs": 3921.6,
+            "baselineMinusCandidateMs": 818.0,
+            "percentOfBaseline": 17.26
+          },
+          {
+            "key": [
+              "help-and-preferences",
+              "assisted-response"
+            ],
+            "baselineMs": 4526.1,
+            "candidateMs": 3360.8,
+            "baselineMinusCandidateMs": 1165.3,
+            "percentOfBaseline": 25.75
+          },
+          {
+            "key": [
+              "help-and-preferences",
+              "self-correction"
+            ],
+            "baselineMs": 4144.2,
+            "candidateMs": 4127.4,
+            "baselineMinusCandidateMs": 16.8,
+            "percentOfBaseline": 0.41
+          },
+          {
+            "key": [
+              "meet-facts",
+              "city"
+            ],
+            "baselineMs": 4722.4,
+            "candidateMs": 3393.3,
+            "baselineMinusCandidateMs": 1329.1,
+            "percentOfBaseline": 28.14
+          },
+          {
+            "key": [
+              "meet-facts",
+              "country"
+            ],
+            "baselineMs": 4157.7,
+            "candidateMs": 3137.4,
+            "baselineMinusCandidateMs": 1020.3,
+            "percentOfBaseline": 24.54
+          },
+          {
+            "key": [
+              "meet-facts",
+              "name"
+            ],
+            "baselineMs": 4087,
+            "candidateMs": 3538.3,
+            "baselineMinusCandidateMs": 548.7,
+            "percentOfBaseline": 13.43
+          },
+          {
+            "key": [
+              "meet-facts",
+              "unexpected-question"
+            ],
+            "baselineMs": 4859.2,
+            "candidateMs": 4309.7,
+            "baselineMinusCandidateMs": 549.5,
+            "percentOfBaseline": 11.31
+          },
+          {
+            "key": [
+              "repair-and-repeat",
+              "city-fragment"
+            ],
+            "baselineMs": 4357,
+            "candidateMs": 3527.6,
+            "baselineMinusCandidateMs": 829.4,
+            "percentOfBaseline": 19.04
+          },
+          {
+            "key": [
+              "repair-and-repeat",
+              "repeat-help"
+            ],
+            "baselineMs": 2820.6,
+            "candidateMs": 2564.6,
+            "baselineMinusCandidateMs": 256.0,
+            "percentOfBaseline": 9.08
+          },
+          {
+            "key": [
+              "repair-and-repeat",
+              "successful-repair"
+            ],
+            "baselineMs": 4881.9,
+            "candidateMs": 4073.2,
+            "baselineMinusCandidateMs": 808.7,
+            "percentOfBaseline": 16.57
+          },
+          {
+            "key": [
+              "station-service",
+              "destination"
+            ],
+            "baselineMs": 4280.8,
+            "candidateMs": 4123.4,
+            "baselineMinusCandidateMs": 157.4,
+            "percentOfBaseline": 3.68
+          },
+          {
+            "key": [
+              "station-service",
+              "known-platform"
+            ],
+            "baselineMs": 4887.1,
+            "candidateMs": 3588.6,
+            "baselineMinusCandidateMs": 1298.5,
+            "percentOfBaseline": 26.57
+          },
+          {
+            "key": [
+              "station-service",
+              "one-way"
+            ],
+            "baselineMs": 4891.4,
+            "candidateMs": 3343.3,
+            "baselineMinusCandidateMs": 1548.1,
+            "percentOfBaseline": 31.65
+          },
+          {
+            "key": [
+              "station-service",
+              "two-tickets"
+            ],
+            "baselineMs": 3605.9,
+            "candidateMs": 3590.1,
+            "baselineMinusCandidateMs": 15.8,
+            "percentOfBaseline": 0.44
+          }
+        ]
+      },
+      "responseDoneMs": {
+        "delta": {
+          "n": 17,
+          "median": 538.3,
+          "min": -368.9,
+          "max": 2975.5
+        },
+        "medianPercent": 11.48,
+        "faster": 16,
+        "equal": 0,
+        "slower": 1,
+        "pairs": [
+          {
+            "key": [
+              "cafe-change",
+              "first-order"
+            ],
+            "baselineMs": 4664,
+            "candidateMs": 4370.6,
+            "baselineMinusCandidateMs": 293.4,
+            "percentOfBaseline": 6.29
+          },
+          {
+            "key": [
+              "cafe-change",
+              "known-price"
+            ],
+            "baselineMs": 4778.1,
+            "candidateMs": 4732.3,
+            "baselineMinusCandidateMs": 45.8,
+            "percentOfBaseline": 0.96
+          },
+          {
+            "key": [
+              "cafe-change",
+              "replace-order"
+            ],
+            "baselineMs": 5131.7,
+            "candidateMs": 4250.6,
+            "baselineMinusCandidateMs": 881.1,
+            "percentOfBaseline": 17.17
+          },
+          {
+            "key": [
+              "cafe-change",
+              "temperature-fragment"
+            ],
+            "baselineMs": 5795.3,
+            "candidateMs": 5759.1,
+            "baselineMinusCandidateMs": 36.2,
+            "percentOfBaseline": 0.62
+          },
+          {
+            "key": [
+              "help-and-preferences",
+              "assisted-response"
+            ],
+            "baselineMs": 4526.2,
+            "candidateMs": 4383.3,
+            "baselineMinusCandidateMs": 142.9,
+            "percentOfBaseline": 3.16
+          },
+          {
+            "key": [
+              "help-and-preferences",
+              "self-correction"
+            ],
+            "baselineMs": 5012.7,
+            "candidateMs": 4943.8,
+            "baselineMinusCandidateMs": 68.9,
+            "percentOfBaseline": 1.37
+          },
+          {
+            "key": [
+              "meet-facts",
+              "city"
+            ],
+            "baselineMs": 5282.2,
+            "candidateMs": 3945.2,
+            "baselineMinusCandidateMs": 1337.0,
+            "percentOfBaseline": 25.31
+          },
+          {
+            "key": [
+              "meet-facts",
+              "country"
+            ],
+            "baselineMs": 4770.3,
+            "candidateMs": 3673.2,
+            "baselineMinusCandidateMs": 1097.1,
+            "percentOfBaseline": 23.0
+          },
+          {
+            "key": [
+              "meet-facts",
+              "name"
+            ],
+            "baselineMs": 4688.6,
+            "candidateMs": 4150.3,
+            "baselineMinusCandidateMs": 538.3,
+            "percentOfBaseline": 11.48
+          },
+          {
+            "key": [
+              "meet-facts",
+              "unexpected-question"
+            ],
+            "baselineMs": 4859.2,
+            "candidateMs": 5228.1,
+            "baselineMinusCandidateMs": -368.9,
+            "percentOfBaseline": -7.59
+          },
+          {
+            "key": [
+              "repair-and-repeat",
+              "city-fragment"
+            ],
+            "baselineMs": 4950.6,
+            "candidateMs": 4150.2,
+            "baselineMinusCandidateMs": 800.4,
+            "percentOfBaseline": 16.17
+          },
+          {
+            "key": [
+              "repair-and-repeat",
+              "repeat-help"
+            ],
+            "baselineMs": 2820.6,
+            "candidateMs": 2564.8,
+            "baselineMinusCandidateMs": 255.8,
+            "percentOfBaseline": 9.07
+          },
+          {
+            "key": [
+              "repair-and-repeat",
+              "successful-repair"
+            ],
+            "baselineMs": 4882,
+            "candidateMs": 4073.4,
+            "baselineMinusCandidateMs": 808.6,
+            "percentOfBaseline": 16.56
+          },
+          {
+            "key": [
+              "station-service",
+              "destination"
+            ],
+            "baselineMs": 4965.4,
+            "candidateMs": 4123.6,
+            "baselineMinusCandidateMs": 841.8,
+            "percentOfBaseline": 16.95
+          },
+          {
+            "key": [
+              "station-service",
+              "known-platform"
+            ],
+            "baselineMs": 5776.2,
+            "candidateMs": 4481.9,
+            "baselineMinusCandidateMs": 1294.3,
+            "percentOfBaseline": 22.41
+          },
+          {
+            "key": [
+              "station-service",
+              "one-way"
+            ],
+            "baselineMs": 6319,
+            "candidateMs": 3343.5,
+            "baselineMinusCandidateMs": 2975.5,
+            "percentOfBaseline": 47.09
+          },
+          {
+            "key": [
+              "station-service",
+              "two-tickets"
+            ],
+            "baselineMs": 4080.6,
+            "candidateMs": 4073.4,
+            "baselineMinusCandidateMs": 7.2,
+            "percentOfBaseline": 0.18
+          }
+        ]
+      },
+      "allObservedWorkSettledMs": {
+        "delta": {
+          "n": 17,
+          "median": 1.3,
+          "min": -980.6,
+          "max": 1968.0
+        },
+        "medianPercent": 0.03,
+        "faster": 9,
+        "equal": 0,
+        "slower": 8,
+        "pairs": [
+          {
+            "key": [
+              "cafe-change",
+              "first-order"
+            ],
+            "baselineMs": 4665.3,
+            "candidateMs": 4626.2,
+            "baselineMinusCandidateMs": 39.1,
+            "percentOfBaseline": 0.84
+          },
+          {
+            "key": [
+              "cafe-change",
+              "known-price"
+            ],
+            "baselineMs": 4779.6,
+            "candidateMs": 5487.5,
+            "baselineMinusCandidateMs": -707.9,
+            "percentOfBaseline": -14.81
+          },
+          {
+            "key": [
+              "cafe-change",
+              "replace-order"
+            ],
+            "baselineMs": 5133,
+            "candidateMs": 4516.1,
+            "baselineMinusCandidateMs": 616.9,
+            "percentOfBaseline": 12.02
+          },
+          {
+            "key": [
+              "cafe-change",
+              "temperature-fragment"
+            ],
+            "baselineMs": 5796.6,
+            "candidateMs": 5760.6,
+            "baselineMinusCandidateMs": 36.0,
+            "percentOfBaseline": 0.62
+          },
+          {
+            "key": [
+              "help-and-preferences",
+              "assisted-response"
+            ],
+            "baselineMs": 4527.5,
+            "candidateMs": 4694.1,
+            "baselineMinusCandidateMs": -166.6,
+            "percentOfBaseline": -3.68
+          },
+          {
+            "key": [
+              "help-and-preferences",
+              "self-correction"
+            ],
+            "baselineMs": 5014,
+            "candidateMs": 5636.2,
+            "baselineMinusCandidateMs": -622.2,
+            "percentOfBaseline": -12.41
+          },
+          {
+            "key": [
+              "meet-facts",
+              "city"
+            ],
+            "baselineMs": 5283.7,
+            "candidateMs": 4748.2,
+            "baselineMinusCandidateMs": 535.5,
+            "percentOfBaseline": 10.13
+          },
+          {
+            "key": [
+              "meet-facts",
+              "country"
+            ],
+            "baselineMs": 4771.6,
+            "candidateMs": 4400,
+            "baselineMinusCandidateMs": 371.6,
+            "percentOfBaseline": 7.79
+          },
+          {
+            "key": [
+              "meet-facts",
+              "name"
+            ],
+            "baselineMs": 4689.9,
+            "candidateMs": 4688.6,
+            "baselineMinusCandidateMs": 1.3,
+            "percentOfBaseline": 0.03
+          },
+          {
+            "key": [
+              "meet-facts",
+              "unexpected-question"
+            ],
+            "baselineMs": 4860.5,
+            "candidateMs": 5642.1,
+            "baselineMinusCandidateMs": -781.6,
+            "percentOfBaseline": -16.08
+          },
+          {
+            "key": [
+              "repair-and-repeat",
+              "city-fragment"
+            ],
+            "baselineMs": 4952,
+            "candidateMs": 4765,
+            "baselineMinusCandidateMs": 187,
+            "percentOfBaseline": 3.78
+          },
+          {
+            "key": [
+              "repair-and-repeat",
+              "repeat-help"
+            ],
+            "baselineMs": 2821.9,
+            "candidateMs": 3802.5,
+            "baselineMinusCandidateMs": -980.6,
+            "percentOfBaseline": -34.75
+          },
+          {
+            "key": [
+              "repair-and-repeat",
+              "successful-repair"
+            ],
+            "baselineMs": 4883.3,
+            "candidateMs": 5310.1,
+            "baselineMinusCandidateMs": -426.8,
+            "percentOfBaseline": -8.74
+          },
+          {
+            "key": [
+              "station-service",
+              "destination"
+            ],
+            "baselineMs": 4966.7,
+            "candidateMs": 5124.3,
+            "baselineMinusCandidateMs": -157.6,
+            "percentOfBaseline": -3.17
+          },
+          {
+            "key": [
+              "station-service",
+              "known-platform"
+            ],
+            "baselineMs": 5777.5,
+            "candidateMs": 4982.9,
+            "baselineMinusCandidateMs": 794.6,
+            "percentOfBaseline": 13.75
+          },
+          {
+            "key": [
+              "station-service",
+              "one-way"
+            ],
+            "baselineMs": 6319.1,
+            "candidateMs": 4351.1,
+            "baselineMinusCandidateMs": 1968.0,
+            "percentOfBaseline": 31.14
+          },
+          {
+            "key": [
+              "station-service",
+              "two-tickets"
+            ],
+            "baselineMs": 4082.1,
+            "candidateMs": 4827.1,
+            "baselineMinusCandidateMs": -745.0,
+            "percentOfBaseline": -18.25
+          }
+        ]
+      }
+    },
+    "ja-first-vs-compact": {
+      "firstJapaneseAudioEmittedMs": {
+        "delta": {
+          "n": 17,
+          "median": 658.1,
+          "min": -101.2,
+          "max": 1203.6
+        },
+        "medianPercent": 16.05,
+        "faster": 16,
+        "equal": 0,
+        "slower": 1,
+        "pairs": [
+          {
+            "key": [
+              "cafe-change",
+              "first-order"
+            ],
+            "baselineMs": 4198.2,
+            "candidateMs": 3469.5,
+            "baselineMinusCandidateMs": 728.7,
+            "percentOfBaseline": 17.36
+          },
+          {
+            "key": [
+              "cafe-change",
+              "known-price"
+            ],
+            "baselineMs": 4832.1,
+            "candidateMs": 4142.8,
+            "baselineMinusCandidateMs": 689.3,
+            "percentOfBaseline": 14.27
+          },
+          {
+            "key": [
+              "cafe-change",
+              "replace-order"
+            ],
+            "baselineMs": 4261.9,
+            "candidateMs": 3296.8,
+            "baselineMinusCandidateMs": 965.1,
+            "percentOfBaseline": 22.64
+          },
+          {
+            "key": [
+              "cafe-change",
+              "temperature-fragment"
+            ],
+            "baselineMs": 4559.1,
+            "candidateMs": 3921.6,
+            "baselineMinusCandidateMs": 637.5,
+            "percentOfBaseline": 13.98
+          },
+          {
+            "key": [
+              "help-and-preferences",
+              "assisted-response"
+            ],
+            "baselineMs": 4018.9,
+            "candidateMs": 3360.8,
+            "baselineMinusCandidateMs": 658.1,
+            "percentOfBaseline": 16.38
+          },
+          {
+            "key": [
+              "help-and-preferences",
+              "self-correction"
+            ],
+            "baselineMs": 4352.8,
+            "candidateMs": 4127.4,
+            "baselineMinusCandidateMs": 225.4,
+            "percentOfBaseline": 5.18
+          },
+          {
+            "key": [
+              "meet-facts",
+              "city"
+            ],
+            "baselineMs": 4557.6,
+            "candidateMs": 3393.3,
+            "baselineMinusCandidateMs": 1164.3,
+            "percentOfBaseline": 25.55
+          },
+          {
+            "key": [
+              "meet-facts",
+              "country"
+            ],
+            "baselineMs": 4093.3,
+            "candidateMs": 3137.4,
+            "baselineMinusCandidateMs": 955.9,
+            "percentOfBaseline": 23.35
+          },
+          {
+            "key": [
+              "meet-facts",
+              "name"
+            ],
+            "baselineMs": 4009.4,
+            "candidateMs": 3538.3,
+            "baselineMinusCandidateMs": 471.1,
+            "percentOfBaseline": 11.75
+          },
+          {
+            "key": [
+              "meet-facts",
+              "unexpected-question"
+            ],
+            "baselineMs": 4814.6,
+            "candidateMs": 4309.7,
+            "baselineMinusCandidateMs": 504.9,
+            "percentOfBaseline": 10.49
+          },
+          {
+            "key": [
+              "repair-and-repeat",
+              "city-fragment"
+            ],
+            "baselineMs": 4731.2,
+            "candidateMs": 3527.6,
+            "baselineMinusCandidateMs": 1203.6,
+            "percentOfBaseline": 25.44
+          },
+          {
+            "key": [
+              "repair-and-repeat",
+              "repeat-help"
+            ],
+            "baselineMs": 3054.8,
+            "candidateMs": 2564.6,
+            "baselineMinusCandidateMs": 490.2,
+            "percentOfBaseline": 16.05
+          },
+          {
+            "key": [
+              "repair-and-repeat",
+              "successful-repair"
+            ],
+            "baselineMs": 4482,
+            "candidateMs": 4073.2,
+            "baselineMinusCandidateMs": 408.8,
+            "percentOfBaseline": 9.12
+          },
+          {
+            "key": [
+              "station-service",
+              "destination"
+            ],
+            "baselineMs": 4022.2,
+            "candidateMs": 4123.4,
+            "baselineMinusCandidateMs": -101.2,
+            "percentOfBaseline": -2.52
+          },
+          {
+            "key": [
+              "station-service",
+              "known-platform"
+            ],
+            "baselineMs": 3900.2,
+            "candidateMs": 3588.6,
+            "baselineMinusCandidateMs": 311.6,
+            "percentOfBaseline": 7.99
+          },
+          {
+            "key": [
+              "station-service",
+              "one-way"
+            ],
+            "baselineMs": 4025.3,
+            "candidateMs": 3343.3,
+            "baselineMinusCandidateMs": 682.0,
+            "percentOfBaseline": 16.94
+          },
+          {
+            "key": [
+              "station-service",
+              "two-tickets"
+            ],
+            "baselineMs": 4447.6,
+            "candidateMs": 3590.1,
+            "baselineMinusCandidateMs": 857.5,
+            "percentOfBaseline": 19.28
+          }
+        ]
+      },
+      "responseDoneMs": {
+        "delta": {
+          "n": 17,
+          "median": 490.0,
+          "min": -581.7,
+          "max": 1624.0
+        },
+        "medianPercent": 10.33,
+        "faster": 14,
+        "equal": 0,
+        "slower": 3,
+        "pairs": [
+          {
+            "key": [
+              "cafe-change",
+              "first-order"
+            ],
+            "baselineMs": 4873.9,
+            "candidateMs": 4370.6,
+            "baselineMinusCandidateMs": 503.3,
+            "percentOfBaseline": 10.33
+          },
+          {
+            "key": [
+              "cafe-change",
+              "known-price"
+            ],
+            "baselineMs": 5592.6,
+            "candidateMs": 4732.3,
+            "baselineMinusCandidateMs": 860.3,
+            "percentOfBaseline": 15.38
+          },
+          {
+            "key": [
+              "cafe-change",
+              "replace-order"
+            ],
+            "baselineMs": 5155,
+            "candidateMs": 4250.6,
+            "baselineMinusCandidateMs": 904.4,
+            "percentOfBaseline": 17.54
+          },
+          {
+            "key": [
+              "cafe-change",
+              "temperature-fragment"
+            ],
+            "baselineMs": 5862.7,
+            "candidateMs": 5759.1,
+            "baselineMinusCandidateMs": 103.6,
+            "percentOfBaseline": 1.77
+          },
+          {
+            "key": [
+              "help-and-preferences",
+              "assisted-response"
+            ],
+            "baselineMs": 4019,
+            "candidateMs": 4383.3,
+            "baselineMinusCandidateMs": -364.3,
+            "percentOfBaseline": -9.06
+          },
+          {
+            "key": [
+              "help-and-preferences",
+              "self-correction"
+            ],
+            "baselineMs": 5147.1,
+            "candidateMs": 4943.8,
+            "baselineMinusCandidateMs": 203.3,
+            "percentOfBaseline": 3.95
+          },
+          {
+            "key": [
+              "meet-facts",
+              "city"
+            ],
+            "baselineMs": 5134.9,
+            "candidateMs": 3945.2,
+            "baselineMinusCandidateMs": 1189.7,
+            "percentOfBaseline": 23.17
+          },
+          {
+            "key": [
+              "meet-facts",
+              "country"
+            ],
+            "baselineMs": 4636.9,
+            "candidateMs": 3673.2,
+            "baselineMinusCandidateMs": 963.7,
+            "percentOfBaseline": 20.78
+          },
+          {
+            "key": [
+              "meet-facts",
+              "name"
+            ],
+            "baselineMs": 4598.8,
+            "candidateMs": 4150.3,
+            "baselineMinusCandidateMs": 448.5,
+            "percentOfBaseline": 9.75
+          },
+          {
+            "key": [
+              "meet-facts",
+              "unexpected-question"
+            ],
+            "baselineMs": 5705.6,
+            "candidateMs": 5228.1,
+            "baselineMinusCandidateMs": 477.5,
+            "percentOfBaseline": 8.37
+          },
+          {
+            "key": [
+              "repair-and-repeat",
+              "city-fragment"
+            ],
+            "baselineMs": 5315.9,
+            "candidateMs": 4150.2,
+            "baselineMinusCandidateMs": 1165.7,
+            "percentOfBaseline": 21.93
+          },
+          {
+            "key": [
+              "repair-and-repeat",
+              "repeat-help"
+            ],
+            "baselineMs": 3054.8,
+            "candidateMs": 2564.8,
+            "baselineMinusCandidateMs": 490.0,
+            "percentOfBaseline": 16.04
+          },
+          {
+            "key": [
+              "repair-and-repeat",
+              "successful-repair"
+            ],
+            "baselineMs": 4482.1,
+            "candidateMs": 4073.4,
+            "baselineMinusCandidateMs": 408.7,
+            "percentOfBaseline": 9.12
+          },
+          {
+            "key": [
+              "station-service",
+              "destination"
+            ],
+            "baselineMs": 4022.2,
+            "candidateMs": 4123.6,
+            "baselineMinusCandidateMs": -101.4,
+            "percentOfBaseline": -2.52
+          },
+          {
+            "key": [
+              "station-service",
+              "known-platform"
+            ],
+            "baselineMs": 3900.2,
+            "candidateMs": 4481.9,
+            "baselineMinusCandidateMs": -581.7,
+            "percentOfBaseline": -14.91
+          },
+          {
+            "key": [
+              "station-service",
+              "one-way"
+            ],
+            "baselineMs": 4025.4,
+            "candidateMs": 3343.5,
+            "baselineMinusCandidateMs": 681.9,
+            "percentOfBaseline": 16.94
+          },
+          {
+            "key": [
+              "station-service",
+              "two-tickets"
+            ],
+            "baselineMs": 5697.4,
+            "candidateMs": 4073.4,
+            "baselineMinusCandidateMs": 1624.0,
+            "percentOfBaseline": 28.5
+          }
+        ]
+      },
+      "allObservedWorkSettledMs": {
+        "delta": {
+          "n": 17,
+          "median": 64.8,
+          "min": -1100.8,
+          "max": 871.6
+        },
+        "medianPercent": 1.14,
+        "faster": 9,
+        "equal": 0,
+        "slower": 8,
+        "pairs": [
+          {
+            "key": [
+              "cafe-change",
+              "first-order"
+            ],
+            "baselineMs": 4875.2,
+            "candidateMs": 4626.2,
+            "baselineMinusCandidateMs": 249.0,
+            "percentOfBaseline": 5.11
+          },
+          {
+            "key": [
+              "cafe-change",
+              "known-price"
+            ],
+            "baselineMs": 5594,
+            "candidateMs": 5487.5,
+            "baselineMinusCandidateMs": 106.5,
+            "percentOfBaseline": 1.9
+          },
+          {
+            "key": [
+              "cafe-change",
+              "replace-order"
+            ],
+            "baselineMs": 5156.3,
+            "candidateMs": 4516.1,
+            "baselineMinusCandidateMs": 640.2,
+            "percentOfBaseline": 12.42
+          },
+          {
+            "key": [
+              "cafe-change",
+              "temperature-fragment"
+            ],
+            "baselineMs": 5864,
+            "candidateMs": 5760.6,
+            "baselineMinusCandidateMs": 103.4,
+            "percentOfBaseline": 1.76
+          },
+          {
+            "key": [
+              "help-and-preferences",
+              "assisted-response"
+            ],
+            "baselineMs": 4020.3,
+            "candidateMs": 4694.1,
+            "baselineMinusCandidateMs": -673.8,
+            "percentOfBaseline": -16.76
+          },
+          {
+            "key": [
+              "help-and-preferences",
+              "self-correction"
+            ],
+            "baselineMs": 5148.3,
+            "candidateMs": 5636.2,
+            "baselineMinusCandidateMs": -487.9,
+            "percentOfBaseline": -9.48
+          },
+          {
+            "key": [
+              "meet-facts",
+              "city"
+            ],
+            "baselineMs": 5136.2,
+            "candidateMs": 4748.2,
+            "baselineMinusCandidateMs": 388.0,
+            "percentOfBaseline": 7.55
+          },
+          {
+            "key": [
+              "meet-facts",
+              "country"
+            ],
+            "baselineMs": 4638.2,
+            "candidateMs": 4400,
+            "baselineMinusCandidateMs": 238.2,
+            "percentOfBaseline": 5.14
+          },
+          {
+            "key": [
+              "meet-facts",
+              "name"
+            ],
+            "baselineMs": 4600.1,
+            "candidateMs": 4688.6,
+            "baselineMinusCandidateMs": -88.5,
+            "percentOfBaseline": -1.92
+          },
+          {
+            "key": [
+              "meet-facts",
+              "unexpected-question"
+            ],
+            "baselineMs": 5706.9,
+            "candidateMs": 5642.1,
+            "baselineMinusCandidateMs": 64.8,
+            "percentOfBaseline": 1.14
+          },
+          {
+            "key": [
+              "repair-and-repeat",
+              "city-fragment"
+            ],
+            "baselineMs": 5317.2,
+            "candidateMs": 4765,
+            "baselineMinusCandidateMs": 552.2,
+            "percentOfBaseline": 10.39
+          },
+          {
+            "key": [
+              "repair-and-repeat",
+              "repeat-help"
+            ],
+            "baselineMs": 3056.2,
+            "candidateMs": 3802.5,
+            "baselineMinusCandidateMs": -746.3,
+            "percentOfBaseline": -24.42
+          },
+          {
+            "key": [
+              "repair-and-repeat",
+              "successful-repair"
+            ],
+            "baselineMs": 4483.4,
+            "candidateMs": 5310.1,
+            "baselineMinusCandidateMs": -826.7,
+            "percentOfBaseline": -18.44
+          },
+          {
+            "key": [
+              "station-service",
+              "destination"
+            ],
+            "baselineMs": 4023.5,
+            "candidateMs": 5124.3,
+            "baselineMinusCandidateMs": -1100.8,
+            "percentOfBaseline": -27.36
+          },
+          {
+            "key": [
+              "station-service",
+              "known-platform"
+            ],
+            "baselineMs": 3901.5,
+            "candidateMs": 4982.9,
+            "baselineMinusCandidateMs": -1081.4,
+            "percentOfBaseline": -27.72
+          },
+          {
+            "key": [
+              "station-service",
+              "one-way"
+            ],
+            "baselineMs": 4026.7,
+            "candidateMs": 4351.1,
+            "baselineMinusCandidateMs": -324.4,
+            "percentOfBaseline": -8.06
+          },
+          {
+            "key": [
+              "station-service",
+              "two-tickets"
+            ],
+            "baselineMs": 5698.7,
+            "candidateMs": 4827.1,
+            "baselineMinusCandidateMs": 871.6,
+            "percentOfBaseline": 15.29
+          }
+        ]
+      }
+    }
+  },
+  "rolloutDescriptiveGenerated": {
+    "structured": {
+      "firstJapaneseAudioEmittedMs": {
+        "n": 12,
+        "median": 5771.2,
+        "min": 2821.3,
+        "max": 7388
+      },
+      "responseDoneMs": {
+        "n": 12,
+        "median": 6120.1,
+        "min": 2821.4,
+        "max": 7388
+      },
+      "allObservedWorkSettledMs": {
+        "n": 12,
+        "median": 6120.6,
+        "min": 2822.5,
+        "max": 7389.3
+      },
+      "missingFrench": 0,
+      "secondaryCancelled": 0,
+      "historyRecovery": [
+        {
+          "key": [
+            "station-service",
+            "known-platform"
+          ],
+          "strategy": "unchanged-last-successful-history",
+          "afterFailures": [
+            "two-tickets"
+          ]
+        }
+      ]
+    },
+    "compact": {
+      "firstJapaneseAudioEmittedMs": {
+        "n": 14,
+        "median": 5338.6,
+        "min": 3435,
+        "max": 7097.3
+      },
+      "responseDoneMs": {
+        "n": 14,
+        "median": 5436.4,
+        "min": 3435.1,
+        "max": 9003.7
+      },
+      "allObservedWorkSettledMs": {
+        "n": 14,
+        "median": 5437.6,
+        "min": 3436.3,
+        "max": 9004.9
+      },
+      "missingFrench": 0,
+      "secondaryCancelled": 0,
+      "historyRecovery": []
+    },
+    "ja-first": {
+      "firstJapaneseAudioEmittedMs": {
+        "n": 15,
+        "median": 4714.4,
+        "min": 2987.2,
+        "max": 6158.3
+      },
+      "responseDoneMs": {
+        "n": 15,
+        "median": 4952.7,
+        "min": 2987.4,
+        "max": 8224.6
+      },
+      "allObservedWorkSettledMs": {
+        "n": 15,
+        "median": 6136.3,
+        "min": 4272.6,
+        "max": 8716.8
+      },
+      "missingFrench": 1,
+      "secondaryCancelled": 1,
+      "historyRecovery": []
+    }
+  },
+  "rolloutInputComparison": {
+    "commonKeys": 16,
+    "sameHashes": 5,
+    "sameKeys": [
+      [
+        "cafe-change",
+        "first-order"
+      ],
+      [
+        "meet-facts",
+        "name"
+      ],
+      [
+        "repair-and-repeat",
+        "particle-error"
+      ],
+      [
+        "repair-and-repeat",
+        "successful-repair"
+      ],
+      [
+        "station-service",
+        "destination"
+      ]
+    ]
+  },
+  "jaFirstPrimaryCoachingErasedInRun02": [
+    {
+      "mode": "paired",
+      "key": [
+        "cafe-change",
+        "first-order"
+      ],
+      "initialCoaching": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu »."
+    },
+    {
+      "mode": "paired",
+      "key": [
+        "cafe-change",
+        "replace-order"
+      ],
+      "initialCoaching": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu »."
+    },
+    {
+      "mode": "rollout",
+      "key": [
+        "cafe-change",
+        "first-order"
+      ],
+      "initialCoaching": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu »."
+    },
+    {
+      "mode": "rollout",
+      "key": [
+        "cafe-change",
+        "replace-order"
+      ],
+      "initialCoaching": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu »."
+    }
+  ],
+  "humanVoiceValidation": "postponed",
+  "humanLinguisticReview": "pending",
+  "limitations": [
+    "One bounded run, no independent repetitions or randomized thermal control.",
+    "Same text/history does not guarantee same Japanese length or semantic behavior.",
+    "First WAV emission excludes capture, ASR, network and Android playback.",
+    "Paired generated subset excludes1 correction and2 practice/help cases per profile, reported separately.",
+    "Root plans a Node metadata-coaching preservation fix after this run; these statistics are pre-fix and must not silently stand for that final version."
+  ],
+  "correctionEquality": {
+    "keys": 20,
+    "sameFullObjects": 20,
+    "allNull": 19,
+    "nonNullCases": [
+      {
+        "key": [
+          "repair-and-repeat",
+          "particle-error"
+        ],
+        "sameFullObject": true,
+        "allNull": false,
+        "corrections": {
+          "structured": {
+            "original": "私はベルギーを来ました。",
+            "corrected": "私はベルギーから来ました。",
+            "romaji": "Watashi wa berugī kara kimashita.",
+            "french": "Je viens de Belgique.",
+            "explanation": "Pour dire d’où tu viens, utilise kara après le pays ou la ville."
+          },
+          "compact": {
+            "original": "私はベルギーを来ました。",
+            "corrected": "私はベルギーから来ました。",
+            "romaji": "Watashi wa berugī kara kimashita.",
+            "french": "Je viens de Belgique.",
+            "explanation": "Pour dire d’où tu viens, utilise kara après le pays ou la ville."
+          },
+          "ja-first": {
+            "original": "私はベルギーを来ました。",
+            "corrected": "私はベルギーから来ました。",
+            "romaji": "Watashi wa berugī kara kimashita.",
+            "french": "Je viens de Belgique.",
+            "explanation": "Pour dire d’où tu viens, utilise kara après le pays ou la ville."
+          }
+        }
+      }
+    ],
+    "unequalCases": [],
+    "limitedConclusion": "The single authored clear particle error and 19 null corrections agree in this paired corpus; this does not certify all future corrections."
+  },
+  "responsePathEquality": {
+    "same": 20,
+    "total": 20,
+    "different": []
+  },
+  "frenchAvailability": {
+    "paired": {
+      "structured": {
+        "attempted": 20,
+        "complete": 20,
+        "availableByObservedCleanup": 20,
+        "missing": [],
+        "afterEstimatedListenGate": []
+      },
+      "compact": {
+        "attempted": 20,
+        "complete": 20,
+        "availableByObservedCleanup": 20,
+        "missing": [],
+        "afterEstimatedListenGate": []
+      },
+      "ja-first": {
+        "attempted": 20,
+        "complete": 20,
+        "availableByObservedCleanup": 20,
+        "missing": [],
+        "afterEstimatedListenGate": []
+      }
+    },
+    "rollout": {
+      "structured": {
+        "attempted": 16,
+        "complete": 15,
+        "availableByObservedCleanup": 15,
+        "missing": [],
+        "afterEstimatedListenGate": []
+      },
+      "compact": {
+        "attempted": 16,
+        "complete": 15,
+        "availableByObservedCleanup": 15,
+        "missing": [],
+        "afterEstimatedListenGate": []
+      },
+      "ja-first": {
+        "attempted": 16,
+        "complete": 16,
+        "availableByObservedCleanup": 15,
+        "missing": [
+          [
+            "meet-facts",
+            "unexpected-question"
+          ]
+        ],
+        "afterEstimatedListenGate": []
+      }
+    }
+  },
+  "estimatedListenHolds": {
+    "paired": {
+      "structured": {
+        "complete": 20,
+        "positiveCount": 0,
+        "positive": [],
+        "maxHoldMs": 0
+      },
+      "compact": {
+        "complete": 20,
+        "positiveCount": 0,
+        "positive": [],
+        "maxHoldMs": 0
+      },
+      "ja-first": {
+        "complete": 20,
+        "positiveCount": 0,
+        "positive": [],
+        "maxHoldMs": 0
+      }
+    },
+    "rollout": {
+      "structured": {
+        "complete": 15,
+        "positiveCount": 0,
+        "positive": [],
+        "maxHoldMs": 0
+      },
+      "compact": {
+        "complete": 15,
+        "positiveCount": 0,
+        "positive": [],
+        "maxHoldMs": 0
+      },
+      "ja-first": {
+        "complete": 16,
+        "positiveCount": 0,
+        "positive": [],
+        "maxHoldMs": 0
+      }
+    }
+  },
+  "secondarySettledAfterEstimatedListenGate": {
+    "paired": {
+      "structured": {
+        "count": 0,
+        "positive": []
+      },
+      "compact": {
+        "count": 0,
+        "positive": []
+      },
+      "ja-first": {
+        "count": 0,
+        "positive": []
+      }
+    },
+    "rollout": {
+      "structured": {
+        "count": 0,
+        "positive": []
+      },
+      "compact": {
+        "count": 0,
+        "positive": []
+      },
+      "ja-first": {
+        "count": 0,
+        "positive": []
+      }
+    }
+  },
+  "versionBoundary": {
+    "comparisonRun": "dialogue-final-02.json; complete108, counterbalanced profiles, metadata-coaching erasure still present",
+    "qualificationRun": "dialogue-final-03-ja.json; later JA-only36 after preservation fix; analyze separately, never relabel it as the same counterbalanced run",
+    "currentRun02SourceFingerprint": "eaf166169bea245ffe16f764bf40c20b844786fda2873903757fb82d13009cd1"
+  }
+}

@@ -46,7 +46,7 @@ def run_worker(requests, outputs):
         item.__dict__.update(members)
         return item
 
-    core = module('mlx.core', float16='fake-float16')
+    core = module('mlx.core', float16='fake-float16', synchronize=lambda: None)
     modules = {
         'imageio_ffmpeg': module('imageio_ffmpeg'),
         'numpy': module('numpy'),

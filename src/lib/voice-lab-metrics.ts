@@ -37,6 +37,10 @@ const SERVER_KEYS = new Set([
   "secondary_tail_wait",
   "secondary_unavailable",
   "secondary_generations",
+  "secondary_pending",
+  "secondary_cancelled",
+  "secondary_cancel_ack",
+  "playback_estimate",
 ]);
 export type VoiceLabIncident =
   | "pause_user"

@@ -21,10 +21,13 @@ export type LocalTutor = TutorProvider & {
     input: Parameters<TutorProvider["turn"]>[0],
     generation?: LabGeneration,
   ) => Promise<Awaited<ReturnType<TutorProvider["turn"]>>>;
-  labDetails: (input: {
-    japanese: string;
-    history: Parameters<TutorProvider["turn"]>[0]["history"];
-  }) => Promise<LabDetails>;
+  labDetails: (
+    input: {
+      japanese: string;
+      history: Parameters<TutorProvider["turn"]>[0]["history"];
+    },
+    signal?: AbortSignal,
+  ) => Promise<LabDetails>;
 };
 const responseSchema = z.object({
   id: z.number(),
@@ -38,10 +41,14 @@ const responseSchema = z.object({
     .string()
     .regex(/^[A-Za-z0-9_.:-]{1,120}$/)
     .optional(),
+  cancelled: z.literal(true).optional(),
 });
-export function createLocalTutor(): LocalTutor | undefined {
-  const root = resolve(process.env.SENSEI_LOCAL_ROOT || ".local/conversation");
-  const python = resolve(process.env.VOICEVOX_PYTHON || ".venv/bin/python");
+export function createLocalTutor({
+  root = resolve(process.env.SENSEI_LOCAL_ROOT || ".local/conversation"),
+  python = resolve(process.env.VOICEVOX_PYTHON || ".venv/bin/python"),
+  script = resolve("server/conversation_worker.py"),
+}: { root?: string; python?: string; script?: string } = {}):
+  LocalTutor | undefined {
   if (!existsSync(python) || !existsSync(`${root}/setup-receipt.json`)) return;
   try {
     const receipt: unknown = JSON.parse(
@@ -68,12 +75,16 @@ export function createLocalTutor(): LocalTutor | undefined {
       timer: ReturnType<typeof setTimeout>;
       timings?: Timings;
       started: number;
+      cleanup: () => void;
+      cancel?: () => void;
+      abortedAt?: number;
     }
   >();
   const fail = () => {
     ready = false;
     for (const request of pending.values()) {
       clearTimeout(request.timer);
+      request.cleanup();
       request.reject(
         new Error(
           "Le moteur local est indisponible. Relance le serveur puis réessaie.",
@@ -83,7 +94,7 @@ export function createLocalTutor(): LocalTutor | undefined {
     pending.clear();
   };
   const start = () => {
-    const child = spawn(python, [resolve("server/conversation_worker.py")], {
+    const child = spawn(python, [script], {
       env: { ...process.env, SENSEI_LOCAL_ROOT: root },
       stdio: ["pipe", "pipe", "pipe"],
     });
@@ -107,6 +118,13 @@ export function createLocalTutor(): LocalTutor | undefined {
       if (!request) return;
       pending.delete(parsed.data.id);
       clearTimeout(request.timer);
+      request.cleanup();
+      if (request.abortedAt !== undefined)
+        addTiming(
+          "secondary_cancel_ack",
+          performance.now() - request.abortedAt,
+          request.timings,
+        );
       for (const [name, ms] of Object.entries(parsed.data.metrics || {}))
         addTiming(name, ms, request.timings);
       addTiming(
@@ -123,7 +141,11 @@ export function createLocalTutor(): LocalTutor | undefined {
           ),
           request.timings,
         );
-      if (parsed.data.error) {
+      if (parsed.data.cancelled || request.abortedAt !== undefined) {
+        request.reject(
+          new DOMException("Secondary inference cancelled", "AbortError"),
+        );
+      } else if (parsed.data.error) {
         const category = /^[A-Za-z]+Error$/.test(parsed.data.error)
           ? parsed.data.error
           : "InferenceError";
@@ -147,14 +169,25 @@ export function createLocalTutor(): LocalTutor | undefined {
     });
     return child;
   };
-  const call = (body: object): Promise<unknown> => {
+  const call = (
+    body: Record<string, unknown>,
+    signal?: AbortSignal,
+  ): Promise<unknown> => {
+    if (signal?.aborted)
+      return Promise.reject(
+        new DOMException("Secondary inference cancelled", "AbortError"),
+      );
     if (closed || !ready)
       return Promise.reject(
         new Error(
           "Le moteur local se prépare. Réessaie dans quelques secondes.",
         ),
       );
-    if (pending.size >= 2)
+    // Foreground work takes priority over optional translation. Cancelled slots
+    // remain occupied until the worker acknowledges them, bounding rapid retries.
+    if (body.kind !== "lab_details")
+      for (const request of pending.values()) request.cancel?.();
+    if (pending.size >= 2 || (body.kind === "lab_details" && pending.size > 0))
       return Promise.reject(
         new Error("Mochi traite déjà une conversation. Patiente un instant."),
       );
@@ -165,16 +198,40 @@ export function createLocalTutor(): LocalTutor | undefined {
         fail();
         child.kill();
       }, 80_000);
+      const cancel =
+        body.kind === "lab_details"
+          ? () => {
+              const request = pending.get(id);
+              if (!request || request.abortedAt !== undefined) return;
+              request.abortedAt = performance.now();
+              child.stdin.write(
+                JSON.stringify({ kind: "cancel_lab_details", target: id }) +
+                  "\n",
+                (error) => {
+                  if (error) fail();
+                },
+              );
+              // Settle only on the terminal worker acknowledgement. The audio
+              // response does not await this promise; observers can distinguish
+              // cancellation requested from the actual release of Qwen.
+            }
+          : undefined;
       pending.set(id, {
         resolve: resolveResult,
         reject,
         timer,
         timings: timingContext.getStore(),
         started: performance.now(),
+        cleanup: () => {
+          if (cancel) signal?.removeEventListener("abort", cancel);
+        },
+        cancel,
       });
+      if (cancel) signal?.addEventListener("abort", cancel, { once: true });
       child.stdin.write(JSON.stringify({ ...body, id }) + "\n", (error) => {
         if (error) fail();
       });
+      if (signal?.aborted) cancel?.();
     });
   };
   start();
@@ -207,7 +264,7 @@ export function createLocalTutor(): LocalTutor | undefined {
     turn: (input) => turn(input),
     labTurn: (input, generation = "structured") =>
       turn(input, true, generation),
-    async labDetails(input) {
+    async labDetails(input, signal) {
       return z
         .object({
           french: z.string().trim().min(1).max(500),
@@ -215,7 +272,10 @@ export function createLocalTutor(): LocalTutor | undefined {
         })
         .strict()
         .parse(
-          await call({ kind: "lab_details", labStreaming: true, ...input }),
+          await call(
+            { kind: "lab_details", labStreaming: true, ...input },
+            signal,
+          ),
         );
     },
     async transcribe(input) {

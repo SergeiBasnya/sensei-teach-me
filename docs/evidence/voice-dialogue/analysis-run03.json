@@ -1,0 +1,216 @@
+{
+  "analyzedAt": "2026-10-29T10:05:30.505216+00:00",
+  "qualificationReport": ".local/voice-lab/dialogue-final-03-ja.json",
+  "reportSha256": "7959766bdcc197454c27c3bc16acc5df99b282e88df407c7b4153e859acce9aa",
+  "snapshot": {
+    "status": "complete",
+    "rows": 36
+  },
+  "sourceFingerprint": "8d9edaab6a0f688c61fde0ae2bbd8ad961f56d6cd277be12f43cfa3fa36b8ea8",
+  "relationshipToRun02": "Separate JA-only post-fix qualification. Never pooled with the108-response counterbalanced reference run or relabeled as one experiment.",
+  "changedExecutedSourceFiles": [
+    "server/voice-lab-response.ts",
+    "server/voice-lab.ts"
+  ],
+  "comparisonWithPriorJaRows": {
+    "paired": {
+      "commonKeys": 20,
+      "sameInputHashes": 20,
+      "sameJapanese": 20,
+      "sameCorrection": 20,
+      "changedHistoryKeys": [],
+      "sameFrench": 20
+    },
+    "rollout": {
+      "commonKeys": 16,
+      "sameInputHashes": 13,
+      "sameJapanese": 14,
+      "sameCorrection": 16,
+      "changedHistoryKeys": [
+        [
+          "cafe-change",
+          "known-price"
+        ],
+        [
+          "cafe-change",
+          "replace-order"
+        ],
+        [
+          "cafe-change",
+          "temperature-fragment"
+        ]
+      ],
+      "sameFrench": 13
+    }
+  },
+  "qualificationSummary": {
+    "paired": {
+      "attempted": 20,
+      "complete": 20,
+      "failed": 0,
+      "paths": {
+        "correction": 1,
+        "generated": 17,
+        "practice": 2
+      },
+      "generatedOnly": {
+        "firstJapaneseAudioEmittedMs": {
+          "n": 17,
+          "medianMs": 3406.9,
+          "minMs": 2724.7,
+          "maxMs": 4132.1
+        },
+        "responseDoneMs": {
+          "n": 17,
+          "medianMs": 4055.1,
+          "minMs": 2725.1,
+          "maxMs": 5568.7
+        },
+        "allObservedWorkSettledMs": {
+          "n": 17,
+          "medianMs": 4700.7,
+          "minMs": 4058.2,
+          "maxMs": 5569.9
+        }
+      },
+      "missingFrench": [],
+      "secondaryCancelled": 0,
+      "positiveIdealHoldCases": [],
+      "workerCallbacksAfterIdealGate": []
+    },
+    "rollout": {
+      "attempted": 16,
+      "complete": 16,
+      "failed": 0,
+      "paths": {
+        "correction": 1,
+        "generated": 15
+      },
+      "generatedOnly": {
+        "firstJapaneseAudioEmittedMs": {
+          "n": 15,
+          "medianMs": 3653.8,
+          "minMs": 2967.3,
+          "maxMs": 4797.1
+        },
+        "responseDoneMs": {
+          "n": 15,
+          "medianMs": 4268,
+          "minMs": 2967.7,
+          "maxMs": 6630.6
+        },
+        "allObservedWorkSettledMs": {
+          "n": 15,
+          "medianMs": 4800.2,
+          "minMs": 3677.3,
+          "maxMs": 6630.6
+        }
+      },
+      "missingFrench": [],
+      "secondaryCancelled": 0,
+      "positiveIdealHoldCases": [],
+      "workerCallbacksAfterIdealGate": []
+    }
+  },
+  "primaryCoachingChangedAfterEmission": [],
+  "humanLinguisticReview": "pending",
+  "humanVoiceValidation": "postponed",
+  "limits": [
+    "Qualification has only JA and a different execution order; its latency descriptors do not form a fresh three-contract counterbalanced comparison.",
+    "Identical20 paired inputs permit per-case inspection, but chronological/thermal/warmup differences remain.",
+    "Preserving coaching can change later rollout histories: compare actual chains rather than pretending their inputs remain fixed.",
+    "Estimated WAV playback gates do not observe Android microphone or acoustic playback.",
+    "Mechanical preservation and corrector equality do not certify contextuality, natural Japanese or French translation."
+  ],
+  "primaryCoachingPreservationCounts": {
+    "paired": {
+      "complete": 20,
+      "primaryCoachingNonNull": 5,
+      "primaryCoachingPreserved": 5,
+      "byPath": {
+        "generated": {
+          "nonNull": 2,
+          "preserved": 2
+        },
+        "correction": {
+          "nonNull": 1,
+          "preserved": 1
+        },
+        "practice": {
+          "nonNull": 2,
+          "preserved": 2
+        },
+        "assisted": {
+          "nonNull": 0,
+          "preserved": 0
+        },
+        "shared-response": {
+          "nonNull": 0,
+          "preserved": 0
+        }
+      },
+      "cases": [
+        [
+          "cafe-change",
+          "first-order"
+        ],
+        [
+          "cafe-change",
+          "replace-order"
+        ],
+        [
+          "repair-and-repeat",
+          "particle-error"
+        ],
+        [
+          "help-and-preferences",
+          "ask-for-help"
+        ],
+        [
+          "help-and-preferences",
+          "negative-intention"
+        ]
+      ]
+    },
+    "rollout": {
+      "complete": 16,
+      "primaryCoachingNonNull": 2,
+      "primaryCoachingPreserved": 2,
+      "byPath": {
+        "generated": {
+          "nonNull": 1,
+          "preserved": 1
+        },
+        "correction": {
+          "nonNull": 1,
+          "preserved": 1
+        },
+        "practice": {
+          "nonNull": 0,
+          "preserved": 0
+        },
+        "assisted": {
+          "nonNull": 0,
+          "preserved": 0
+        },
+        "shared-response": {
+          "nonNull": 0,
+          "preserved": 0
+        }
+      },
+      "cases": [
+        [
+          "cafe-change",
+          "first-order"
+        ],
+        [
+          "repair-and-repeat",
+          "particle-error"
+        ]
+      ]
+    }
+  },
+  "totalPrimaryCoachingNonNull": 7,
+  "totalPrimaryCoachingPreserved": 7,
+  "sourceReport": "qualification-ja.json"
+}

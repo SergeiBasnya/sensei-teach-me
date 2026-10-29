@@ -15,7 +15,7 @@ export function applyVoiceLabDetails(
   return {
     ...tutor,
     reply: { ...tutor.reply, french: details.french },
-    coaching: details.coaching,
+    coaching: tutor.coaching,
   };
 }
 export function applyPhraseDetails(

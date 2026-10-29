@@ -29,10 +29,13 @@ type Details = { french: string; coaching?: string | null };
 // the adapter local avoids changing the public production TutorProvider type.
 type BenchmarkTutor = LocalTutor & {
   labTurn(input: TutorInput, generation?: Generation): Promise<TutorReply>;
-  labDetails?: (input: {
-    japanese: string;
-    history: History;
-  }) => Promise<Details>;
+  labDetails?: (
+    input: {
+      japanese: string;
+      history: History;
+    },
+    signal?: AbortSignal,
+  ) => Promise<Details>;
 };
 type ResponseFactory = (
   provider: TutorProvider,
@@ -429,6 +432,8 @@ async function main() {
           definitions: {
             firstJapaneseAudioEmittedMs:
               "From an already recognized authored text entering the response function until its first complete validated Japanese WAV is emitted; not transport, playback, VAD tail or human end of speech.",
+            responseCompleteMs:
+              "Audio scheduling response returned; optional translation may finish later, separately recorded in secondarySettledMs. Historical reports before this change used blocking completion.",
             generationOnlyMs:
               "Wall time of labTurn, including grammatical check and selected complete output contract; no TTS or secondary request.",
             overlapMs:
@@ -512,6 +517,7 @@ async function main() {
             };
             const events: Record<string, unknown>[] = [];
             const runAt = performance.now();
+            let secondaryPending: Promise<Details> | undefined;
             let firstAudio: number | undefined,
               tutorSeen = false,
               validatedJapanese = "";
@@ -532,10 +538,14 @@ async function main() {
                   }) => {
                     if (input.signal.aborted || firstAudio === undefined)
                       throw new Error("secondary_before_validated_audio");
-                    return provider.labDetails!({
-                      japanese: input.japanese,
-                      history: input.history,
-                    });
+                    secondaryPending = provider.labDetails!(
+                      {
+                        japanese: input.japanese,
+                        history: input.history,
+                      },
+                      input.signal,
+                    );
+                    return secondaryPending;
                   }
                 : undefined;
             const respond = responseFactory(adapter, speech, { details });
@@ -599,6 +609,11 @@ async function main() {
             } finally {
               row.firstJapaneseAudioEmittedMs = firstAudio ?? null;
               row.responseCompleteMs = rounded(performance.now() - runAt);
+              if (secondaryPending) {
+                await secondaryPending.catch(() => undefined);
+                await Promise.resolve();
+                row.secondarySettledMs = rounded(performance.now() - runAt);
+              }
               row.events = events;
               contractResults.push(row);
               save();

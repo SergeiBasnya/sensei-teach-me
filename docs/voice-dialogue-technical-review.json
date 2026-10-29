@@ -1,0 +1,68 @@
+{
+  "doctrineDigest": "sha256:6bce44c544352f9be96834eed71b8076c685b35085ef25317cba8ea847d1a1f5",
+  "review": {
+    "schemaVersion": "prisma-technical-review.v1",
+    "id": "sensei-voice-dialogue-metadata",
+    "missionId": "sensei-japanese-first-contextual-reliability",
+    "decisionId": "keep-experimental-rework-language",
+    "artifact": {
+      "root": "../build/web",
+      "digest": "sha256:702921c813f69d2244527e6b051511b51f84b704cbf4f7be64940d59a22b1222"
+    },
+    "observedAt": "2026-10-29T10:15:02.618539+00:00",
+    "gates": [
+      {
+        "id": "doctrine:no-colored-side-stripes",
+        "passed": true,
+        "evidence": "Laboratoire Café observé à390×844,320×568,844×390,1440×900 avec conseil et français tardif. Aucun liseré latéral ou décoratif supérieur. Le contour violet complet3px est le focus fonctionnel du bouton. Captures evidence/voice-dialogue/coaching-390.png, controls-320.png, landscape.png et focus.png. Guard clear, aucune allowance/baseline."
+      },
+      {
+        "id": "doctrine:no-bricolage-grotesque",
+        "passed": true,
+        "evidence": "Familles calculées relevées : titre et textes system-ui/-apple-system/Segoe UI/sans-serif, boutons Arial ; Times hérité dans des conteneurs sans texte stylé. Aucun Bricolage Grotesque dans les familles calculées. Aucun import ajouté. evidence/voice-dialogue/ui-observations.json et focus.png. Familles Android physiques non observées."
+      },
+      {
+        "id": "doctrine:no-card-title-hover-underlines",
+        "passed": true,
+        "evidence": "Titre Laboratoire vocal survolé à1440×900 : textDecorationLine none ; bouton Reprendre l’écoute au clavier : outline solid3px rgb115,80,198, visible dans focus.png. Aucun nouveau titre de carte. evidence/voice-dialogue/ui-observations.json."
+      },
+      {
+        "id": "doctrine:no-peripheral-filler-copy",
+        "passed": true,
+        "evidence": "Les textes existants sur le prototype et la conservation privée restent voisins du statut et des switches. Le conseil Hotto/aisu et la traduction Chaud ou glacé restent dans le groupe de phrase, avec commande fonctionnelle Écouter l’explication. Aucun slogan ajouté. evidence/voice-dialogue/coaching-390.png et controls-320.png. Aucun libellé d’interface remplacé."
+      },
+      {
+        "id": "doctrine:no-sage-or-olive",
+        "passed": true,
+        "evidence": "Rendu clair et préférence sombre observés : thème clair existant, blanc, gris, violet de marque et turquoise des switches. Aucune couleur sauge ou olive observée. evidence/voice-dialogue/lab-390.png, dark.png et focus.png. Aucun nouveau thème."
+      },
+      {
+        "id": "doctrine:one-clear-cta-per-section",
+        "passed": true,
+        "evidence": "Bouton principal fixe Reprendre/Mettre en pause selon état. Terminer ma phrase règle la capture ; Écouter l’explication lit le conseil ; Copier les mesures est un diagnostic. Choix de situation/langue et switches sont fonctionnels, sans sollicitation promotionnelle. Focus principal visible. evidence/voice-dialogue/controls-320.png et focus.png."
+      },
+      {
+        "id": "doctrine:responsive-text-clearance",
+        "passed": true,
+        "evidence": "Japonais, rōmaji, français et conseil conservé observés à390×844 ; conseil revient en deux lignes à320×568 avec22px de marge (controls-320.png). À844×390, les données sous le conseil se lisent par défilement ; portions hors ScrollView distinguées de troncatures. Aucun débordement horizontal aux quatre formats selon relevés. evidence/voice-dialogue/coaching-390.png, controls-320.png, landscape.png et desktop.png. Clavier/taille système Android physiques non observés."
+      },
+      {
+        "id": "doctrine:section-composition-and-rhythm",
+        "passed": true,
+        "evidence": "Composition existante conservée : en-tête/avatar/statut, préférences, phrase et traduction/conseil, transcription puis commandes. Le conseil protégé reprend sa place, sans nouveau panneau ni alternance de fonds. evidence/voice-dialogue/coaching-390.png, desktop.png et focus.png. La capture coaching-390 est volontairement défilée vers le conseil ; lab-390 montre le haut."
+      },
+      {
+        "id": "technical:primary-teaching-immutable",
+        "passed": true,
+        "evidence": "149testsTypeScript/117Python, types/format et exports web/Android/iOS passent. Les tests ont reproduit puis confirmé le correctif : français tardif ne peut ni effacer ni remplacer le conseil primaire ; transport vérifie même JP et coaching, client conserve le coaching. 7conseils primaires non nuls conservés sur36qualifications réelles de modèle. Aucun nouvel écran/style/voix/leçon."
+      },
+      {
+        "id": "technical:scope-and-provenance",
+        "passed": true,
+        "evidence": "Rendu contrôlé avec WebSocket simulé, fluxPCM artificiel et WAVVOICEVOX public, sans micro matériel ni conservation humaine. Comparaison02=108tentatives avec troiscontrats ; qualification03=36JA surcorrectiffinal distinct ; annulation6épreuves. Aucun son Android ou jugement humain inventé. Décision de langage ÀRETRAVAILLER, sans activation par défaut. VOICE-DIALOGUE-RESULTS.md et evidence/voice-dialogue/ui-observations.json."
+      }
+    ],
+    "findings": [],
+    "summary": "Revue technique limitée au rendu existant et au conseil primaire conservé pendant la traduction tardive. Aucune nouvelle direction artistique ou fonctionnalité visuelle. Les contrôles de doctrine et de typographie concernent les zones observées, pas Android physique. Contrôle technique ne certifie pas langue ou expérience vocale ; celle-ci reste à retravailler. Validation artistique pending-human. Aucun accès au navigateur personnel ni pilotage Mac."
+  }
+}

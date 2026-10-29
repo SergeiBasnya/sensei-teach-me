@@ -10,6 +10,9 @@ import sys
 import tempfile
 import time
 import traceback
+from threading import Lock
+from lab_worker_inbox import RequestInbox
+from lab_conversation import lab_dialogue_guidance, validate_lab_conversation
 from conversation_feedback import FEEDBACK_INSTRUCTIONS, parse_feedback
 from conversation_context import conversation_details
 from linguistic_support import answer_guidance, requested_explanation, correction_explanation, question_guidance, checked_help, safe_conversation_coaching, checked_translation
@@ -56,6 +59,10 @@ def recognized_utterance(segments):
     return {"text":text, "uncertain":uncertain}
 
 
+class LabDetailsCancelled(Exception):
+    pass
+
+
 def main():
     with redirect_stdout(sys.stderr):
         import imageio_ffmpeg
@@ -71,13 +78,37 @@ def main():
         ModelHolder.get_model(str(LOCAL / "models/whisper"), mx.float16)
         romanizer = PedagogicRomanizer()
     romanize = romanizer
-    print(json.dumps({"ready": True}), flush=True)
+    protocol_output = sys.stdout
+    protocol_lock = Lock()
+    def emit_protocol(payload):
+        with protocol_lock:
+            protocol_output.write(json.dumps(payload, ensure_ascii=False) + "\n")
+            protocol_output.flush()
+    emit_protocol({"ready": True})
     metrics = {}
     lab_streaming = False
     def infer(phase, *args, **kwargs):
         started = time.monotonic()
         output_prefix = kwargs.pop("output_prefix", "")
         try:
+            if phase == "secondary":
+                def check_cancel(*_):
+                    if cancel_event is not None and cancel_event.is_set():
+                        raise LabDetailsCancelled()
+                check_cancel()
+                options = {key: value for key, value in kwargs.items() if key != "verbose"}
+                pieces = iter(stream_generate(*args, **options, prefill_step_size=128,
+                                             prompt_progress_callback=check_cancel))
+                text = []
+                try:
+                    for piece in pieces:
+                        check_cancel()
+                        text.append(piece.text)
+                    check_cancel()
+                    return "".join(text)
+                finally:
+                    if hasattr(pieces, "close"):
+                        pieces.close()
             if lab_streaming and phase in ("dialogue_translation", "dialogue_japanese", "dialogue_compact"):
                 stream_options = {key: value for key, value in kwargs.items() if key != "verbose"}
                 return collect_stream(stream_generate(*args, **stream_options), metrics, initial_text=output_prefix)
@@ -85,10 +116,9 @@ def main():
         finally:
             metrics[phase] = round(metrics.get(phase, 0) + (time.monotonic() - started) * 1000, 1)
             metrics["generations"] = metrics.get("generations", 0) + 1
-    for line in sys.stdin:
-        request = {}
+    inbox = RequestInbox(sys.stdin, lambda identifier, code: emit_protocol({"id": identifier, "error": code}))
+    for request, cancel_event in inbox:
         try:
-            request = json.loads(line)
             started = time.monotonic()
             metrics = {}
             lab_streaming = request.get("labStreaming") is True
@@ -154,7 +184,9 @@ def main():
                             messages[0]["content"] += "\n" + request["conversationGuidance"]
                         if request.get("learnerGuidance"):
                             messages[0]["content"] += "\n" + request["learnerGuidance"]
-                        details = conversation_details(request["history"], request["text"], request["scenario"])
+                        if lab_profile:
+                            messages[0]["content"] += "\n" + lab_dialogue_guidance(request)
+                        details = {} if lab_profile else conversation_details(request["history"], request["text"], request["scenario"])
                         if details:
                             messages[0]["content"] += "\nCurrent conversation details (not mastery evidence): " + json.dumps(details, ensure_ascii=False) + ". Answer a learner's question about an existing detail directly. Do not ask for that detail again."
                         messages += request["history"][-12:]
@@ -164,13 +196,14 @@ def main():
                                          .get(lab_profile, ("dialogue_translation", 220)))
                         # Prefill only the field name; the entire generated value
                         # and closing object still have to pass the strict parser.
-                        prefix = '{"japanese":' if lab_profile == "ja-first" else ""
+                        prefix = '{"japanese":' if lab_profile else ""
                         generated = infer(phase, model, tokenizer, prompt=prompt + prefix, output_prefix=prefix,
                                           max_tokens=tokens, sampler=make_sampler(temp=0), verbose=False).strip()
                         if lab_profile:
                             validation_started = time.monotonic()
                             teaching = parse_lab_generation(generated, lab_profile)
                             japanese, french = teaching["japanese"], teaching["french"]
+                            validate_lab_conversation(japanese, request)
                             french = checked_translation(japanese) or french
                             coaching = controlled_coaching(japanese, request["history"])
                             metrics["lab_validation"] = round((time.monotonic() - validation_started) * 1000, 1)
@@ -193,15 +226,20 @@ def main():
                         phrase["romaji"] = romanize(japanese)
                         result = {"reply": {key: phrase[key] for key in ("japanese", "romaji", "french")}, "correction": None, "coaching": coaching, "vocabulary": []}
                 elif request["kind"] == "lab_details":
+                    if cancel_event is not None and cancel_event.is_set():
+                        raise LabDetailsCancelled()
                     japanese, history = details_input(request)
                     french = checked_translation(japanese)
                     if not french:
                         prompt = tokenizer.apply_chat_template([
                             {"role": "system", "content": LAB_DETAILS_INSTRUCTIONS},
-                            {"role": "user", "content": json.dumps({"japanese": japanese}, ensure_ascii=False)},
+                            {"role": "user", "content": json.dumps({
+                                "japanese": japanese,
+                                "recent_context": [{"role": item["role"], "content": item["content"][:500]} for item in history[-4:]],
+                            }, ensure_ascii=False)},
                         ], add_generation_prompt=True, tokenize=False, enable_thinking=False)
                         generated = infer("secondary", model, tokenizer, prompt=prompt, max_tokens=140, sampler=make_sampler(temp=0), verbose=False).strip()
-                        french = parse_lab_details(generated)
+                        french = parse_lab_details(generated, japanese)
                     result = {"french": french, "coaching": controlled_coaching(japanese, history)}
                 elif request["kind"] == "question":
                     # History combines French coaching and Japanese on separate lines.
@@ -272,12 +310,25 @@ def main():
                     result = {"explanation": explanation[:500], "answer": {"japanese": japanese, "romaji": romaji[:600], "french": french[:500]}}
                 else:
                     raise ValueError("invalid_operation")
-            print(json.dumps({"id": request["id"], "result": result, "seconds": round(time.monotonic() - started, 3), "metrics": metrics}, ensure_ascii=False), flush=True)
+            if cancel_event is not None and cancel_event.is_set():
+                raise LabDetailsCancelled()
+            inbox.done(request)
+            emit_protocol({"id": request["id"], "result": result, "seconds": round(time.monotonic() - started, 3), "metrics": metrics})
+        except LabDetailsCancelled:
+            # stream_generate may prefetch a token; close + synchronize precede
+            # the terminal acknowledgement, without blocking audio completion.
+            mx.synchronize()
+            inbox.done(request)
+            emit_protocol({"id": request["id"], "cancelled": True, "seconds": round(time.monotonic() - started, 3), "metrics": metrics})
         except Exception as error:
             # Seulement le type d'erreur ; ni audio, ni transcription, ni prompt dans les logs.
             print(type(error).__name__, file=sys.stderr, flush=True)
             frame = traceback.extract_tb(error.__traceback__)[-1]
-            print(json.dumps({"id": request.get("id"), "error": type(error).__name__, "diagnostic": f'{request.get("kind", "unknown")}:{Path(frame.filename).name}:{frame.lineno}'}), flush=True)
+            inbox.done(request)
+            emit_protocol({"id": request.get("id"), "error": type(error).__name__, "diagnostic": f'{request.get("kind", "unknown")}:{Path(frame.filename).name}:{frame.lineno}'})
+        finally:
+            inbox.done(request)
+    inbox.close()
 
 
 if __name__ == "__main__":

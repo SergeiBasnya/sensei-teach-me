@@ -35,7 +35,7 @@ const input = {
   signal: new AbortController().signal,
 };
 
-test("first validated audio is emitted while secondary text is still pending", async () => {
+test("audio completion releases listening while same-turn French is still pending", async () => {
   const events: VoiceLabReplyEvent[] = [];
   let finishDetails: (value: {
     french: string;
@@ -56,17 +56,21 @@ test("first validated audio is emitted while secondary text is still pending", a
   });
   const pending = response({ ...input, emit: (event) => events.push(event) });
   while (!detailsStarted) await wait(1);
+  await pending;
   assert.equal(
     events.some((event) => event.type === "response_done"),
-    false,
+    true,
   );
   finishDetails({ french: "De quelle ville viens-tu ?", coaching: null });
-  await pending;
+  await wait(1);
   assert.ok(
     events.findIndex((event) => event.type === "audio") <
       events.findIndex((event) => event.type === "details"),
   );
-  assert.equal(events.at(-1)?.type, "response_done");
+  assert.ok(
+    events.findIndex((event) => event.type === "response_done") <
+      events.findIndex((event) => event.type === "details"),
+  );
   const details = events.find((event) => event.type === "details");
   assert.equal(
     details?.type === "details" && details.japanese,
@@ -150,6 +154,10 @@ test("pause releases the lab queue without waiting for suspended secondary infer
     emit: (event) => events.push(event),
   });
   while (!started) await wait(1);
+  assert.equal(
+    events.some((event) => event.type === "response_done"),
+    true,
+  );
   controller.abort();
   assert.equal(
     await Promise.race([
@@ -163,8 +171,8 @@ test("pause releases the lab queue without waiting for suspended secondary infer
   await wait(5);
   assert.equal(events.length, before);
   assert.equal(
-    events.some((event) => event.type === "response_done"),
-    false,
+    events.filter((event) => event.type === "response_done").length,
+    1,
   );
 });
 
@@ -185,6 +193,79 @@ test("postprocess includes the reading conversion before the first sound", async
   assert.ok(event?.type === "metrics");
   assert.ok(event.metrics.postprocess! >= 25);
   assert.ok(event.metrics.first_audio_emit! >= event.metrics.postprocess!);
+});
+
+test("the optional French deadline cancels work after the estimated WAV budget without gating audio completion", async () => {
+  const events: VoiceLabReplyEvent[] = [];
+  let cancelled = false;
+  const response = createVoiceLabResponse(provider, speech, {
+    details: ({ signal }) =>
+      new Promise((_resolve, reject) => {
+        signal.addEventListener(
+          "abort",
+          () => {
+            cancelled = true;
+            reject(new DOMException("stopped", "AbortError"));
+          },
+          { once: true },
+        );
+      }),
+  });
+  await response({ ...input, emit: (event) => events.push(event) });
+  assert.equal(
+    events.some((event) => event.type === "response_done"),
+    true,
+  );
+  assert.equal(cancelled, false);
+  const deadline = Date.now() + 1000;
+  while (!cancelled) {
+    assert.ok(Date.now() < deadline);
+    await wait(5);
+  }
+  await wait(1);
+  assert.equal(
+    events.some((event) => event.type === "details"),
+    false,
+  );
+  assert.ok(
+    events.some(
+      (event) =>
+        event.type === "metrics" && event.metrics.secondary_cancelled === 1,
+    ),
+  );
+});
+
+test("failure of a later Japanese segment stops optional translation", async () => {
+  let speakCalls = 0,
+    stopped = false;
+  const response = createVoiceLabResponse(
+    provider,
+    {
+      close() {},
+      speak: async () => {
+        if (++speakCalls === 2) throw new Error("speech unavailable");
+        return pcmWav(Buffer.alloc(6400));
+      },
+    },
+    {
+      details: ({ signal }) =>
+        new Promise((_resolve, reject) => {
+          signal.addEventListener(
+            "abort",
+            () => {
+              stopped = true;
+              reject(new DOMException("stopped", "AbortError"));
+            },
+            { once: true },
+          );
+        }),
+    },
+  );
+  await assert.rejects(
+    response({ ...input, emit: () => {} }),
+    /speech unavailable/,
+  );
+  assert.equal(stopped, true);
 });
 
 test("accepted correction keeps its original teaching path and has no secondary rewrite", async () => {

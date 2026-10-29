@@ -10,6 +10,8 @@ Le [laboratoire vocal](docs/VOICE-LAB.md) ajoute un prototype PCM/WebSocket sép
 
 La [séance de validation humaine](docs/HUMAN-VOICE-SESSION.md) prépare vingt prises privées et une relecture verbatim avant l’examen des hypothèses Whisper. Les prises Android sont reportées par l’utilisateur : aucun résultat sur sa voix n’est encore disponible. Le [protocole de génération](docs/VOICE-GENERATION-METHOD.md) compare trois contrats isolés et une charge Whisper/Qwen contrôlée ; le [diagnostic associé](docs/VOICE-GENERATION-RESULTS.md) sépare ces mesures synthétiques de l’expérience humaine encore attendue.
 
+Le [lot de continuité du dialogue](docs/VOICE-DIALOGUE-RESULTS.md) compare les trois contrats sur vingt entrées à plusieurs tours et quatre chaînes générées. Il protège le conseil primaire et libère la reprise d’écoute de l’attente française. **Décision : à retravailler pour la qualité des formulations et traductions ; aucun changement du mode par défaut.**
+
 ## Essayer tout de suite
 
 ```sh

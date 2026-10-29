@@ -713,6 +713,83 @@ test("le mutex du laboratoire garde aussi les ASR suivants derrière la réponse
   );
 });
 
+test("les détails après fin audio restent liés au même tour sans réécrire son historique", async () => {
+  const tutor = {
+    reply: {
+      japanese: "どこから来ましたか？",
+      romaji: "Doko kara kimashita ka?",
+      french: "",
+    },
+    correction: null,
+    vocabulary: [],
+  };
+  const histories: { role: string; content: string }[][] = [];
+  let late!: () => void;
+  await fixture(
+    {
+      respond: async ({ emit, history, turn }) => {
+        histories.push(history);
+        emit({ type: "tutor", tutor });
+        emit({
+          type: "audio",
+          index: 0,
+          audio: "UklGRg".repeat(20),
+          format: "wav",
+        });
+        emit({ type: "response_done" });
+        if (turn === 1)
+          late = () => {
+            emit({
+              type: "details",
+              japanese: tutor.reply.japanese,
+              french: "D’où viens-tu ?",
+              coaching: null,
+            });
+            emit({ type: "metrics", metrics: { secondary_total: 50 } });
+            emit({
+              type: "audio",
+              index: 1,
+              audio: "UklGRg".repeat(20),
+              format: "wav",
+            });
+          };
+      },
+    },
+    async ({ connect }) => {
+      const { socket, events } = await connect();
+      command(socket, {
+        type: "start",
+        turn: 1,
+        language: "ja",
+        respond: true,
+      });
+      chunk(socket);
+      command(socket, { type: "finish", turn: 1 });
+      await until(() => events.some((e) => e.type === "response_done"));
+      late();
+      await until(() => events.some((e) => e.type === "details"));
+      assert.equal(events.filter((e) => e.type === "audio").length, 1);
+      command(socket, {
+        type: "start",
+        turn: 2,
+        language: "ja",
+        respond: true,
+      });
+      chunk(socket, 2);
+      command(socket, { type: "finish", turn: 2 });
+      await until(() =>
+        events.some((e) => e.type === "response_done" && e.turn === 2),
+      );
+      const count = events.length;
+      late();
+      await delay(15);
+      assert.equal(events.length, count);
+      assert.equal(histories[1]?.length, 2);
+      assert.equal(histories[1]?.at(-1)?.content, tutor.reply.japanese);
+    },
+  );
+});
+
 test("des détails précoces ou visant un autre japonais sont refusés par le transport", async () => {
   for (const mismatch of [false, true]) {
     const tutor = {
@@ -761,4 +838,58 @@ test("des détails précoces ou visant un autre japonais sont refusés par le tr
       },
     );
   }
+});
+
+test("le transport refuse un détail qui efface un conseil primaire", async () => {
+  const tutor = {
+    reply: {
+      japanese: "どこから来ましたか？",
+      romaji: "Doko kara kimashita ka?",
+      french: "",
+    },
+    correction: null,
+    vocabulary: [],
+    coaching: "Conseil primaire validé.",
+  };
+  await fixture(
+    {
+      respond: async ({ emit }) => {
+        emit({ type: "tutor", tutor });
+        emit({
+          type: "audio",
+          index: 0,
+          audio: "UklGRg".repeat(20),
+          format: "wav",
+        });
+        emit({ type: "response_done" });
+        emit({
+          type: "details",
+          japanese: tutor.reply.japanese,
+          french: "D’où viens-tu ?",
+          coaching: null,
+        });
+      },
+    },
+    async ({ connect }) => {
+      const { socket, events } = await connect();
+      command(socket, {
+        type: "start",
+        turn: 1,
+        language: "ja",
+        respond: true,
+      });
+      chunk(socket);
+      command(socket, { type: "finish", turn: 1 });
+      await until(() => events.some((e) => e.type === "error"));
+      assert.equal(
+        events.some((e) => e.type === "details"),
+        false,
+      );
+      const initial = events.find((e) => e.type === "tutor");
+      assert.equal(
+        initial?.type === "tutor" && initial.tutor.coaching,
+        tutor.coaching,
+      );
+    },
+  );
 });
