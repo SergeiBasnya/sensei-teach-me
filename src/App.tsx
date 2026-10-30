@@ -36,6 +36,7 @@ export default function App() {
 function Sensei() {
   const { progress, setProgress, loaded, storageError } = useProgress();
   const [session, setSession] = useState<Scene | null>(null);
+  const [pendingSession, setPendingSession] = useState<Scene | null>(null);
   const [settings, setSettings] = useState(false);
   const [voiceLab, setVoiceLab] = useState(false);
   const {
@@ -49,7 +50,7 @@ function Sensei() {
   } = useConnection();
   const readingRefresh = useRef("");
   useEffect(() => {
-    if (!loaded || !connection || session || voiceLab) return;
+    if (!loaded || !connection || session || pendingSession || voiceLab) return;
     const texts = storedReadingTexts(progress);
     const signature = JSON.stringify([connection.url, texts]);
     if (signature === readingRefresh.current || !texts.length) return;
@@ -75,6 +76,7 @@ function Sensei() {
     loaded,
     connection,
     session,
+    pendingSession,
     voiceLab,
     progress.words,
     progress.learning.items,
@@ -89,12 +91,30 @@ function Sensei() {
       (scene.id === "free" && !connection) ||
       (scene.review && !connection?.oral)
     ) {
+      setPendingSession(scene);
       setSettings(true);
       return;
     }
+    setPendingSession(null);
     setSummary(null);
     setSession(scene);
   };
+  const closeSettings = () => {
+    setPendingSession(null);
+    setSettings(false);
+  };
+  useEffect(() => {
+    if (
+      !pendingSession ||
+      !connection ||
+      (pendingSession.review && !connection.oral)
+    )
+      return;
+    setSummary(null);
+    setSession(pendingSession);
+    setPendingSession(null);
+    setSettings(false);
+  }, [pendingSession, connection]);
   useEffect(() => {
     if (Platform.OS !== "web") return;
     document.title = "Sensei — Ton japonais prend la parole";
@@ -210,7 +230,7 @@ function Sensei() {
           visible={settings}
           animationType="fade"
           transparent
-          onRequestClose={() => setSettings(false)}
+          onRequestClose={closeSettings}
         >
           <View
             style={{
@@ -234,8 +254,9 @@ function Sensei() {
                 suggestedUrl={suggestedUrl}
                 reconnect={reconnect}
                 setConnection={setConnection}
-                onClose={() => setSettings(false)}
+                onClose={closeSettings}
                 onOpenVoiceLab={() => {
+                  setPendingSession(null);
                   setSettings(false);
                   setSession(null);
                   setVoiceLab(true);

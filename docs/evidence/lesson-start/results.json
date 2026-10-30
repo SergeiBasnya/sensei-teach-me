@@ -1,0 +1,62 @@
+{
+  "mockOnly": true,
+  "humanMicrophone": false,
+  "authenticationChanged": false,
+  "results": [
+    {
+      "case": "pending-review-opens-after-verified-connection",
+      "pass": true
+    },
+    {
+      "case": "rejected-health-does-not-start-review",
+      "pass": true
+    },
+    {
+      "case": "closing-settings-cancels-pending-start",
+      "pass": true
+    },
+    {
+      "case": "already-connected-review-starts-directly",
+      "pass": true
+    }
+  ],
+  "observations": [
+    {
+      "width": 320,
+      "scrollWidth": 320,
+      "fonts": [
+        "Times",
+        "Arial",
+        "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif"
+      ]
+    },
+    {
+      "width": 844,
+      "scrollWidth": 844,
+      "fonts": [
+        "Times",
+        "Arial",
+        "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif"
+      ]
+    },
+    {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "fonts": [
+        "Times",
+        "Arial",
+        "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif"
+      ]
+    }
+  ],
+  "focus": {
+    "outline": "solid",
+    "width": "3px"
+  },
+  "title": {
+    "decoration": "none",
+    "font": "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif"
+  },
+  "observedAt": "2026-10-30T08:12:53.908204+00:00",
+  "artifactDigest": "sha256:231a45168a9aacf8b9cd31d2dc57d6cbff2ec306198658399872440783d46c8a"
+}

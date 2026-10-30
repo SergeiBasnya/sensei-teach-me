@@ -1,0 +1,63 @@
+{
+  "doctrineDigest": "sha256:6bce44c544352f9be96834eed71b8076c685b35085ef25317cba8ea847d1a1f5",
+  "review": {
+    "schemaVersion": "prisma-technical-review.v1",
+    "id": "sensei-lesson-start-after-connection",
+    "missionId": "fix-lesson-start-settings-loop",
+    "decisionId": "resume-after-verified-connection",
+    "artifact": {
+      "root": "../build/web",
+      "digest": "sha256:231a45168a9aacf8b9cd31d2dc57d6cbff2ec306198658399872440783d46c8a"
+    },
+    "observedAt": "2026-10-30T08:12:53.908204+00:00",
+    "gates": [
+      {
+        "id": "doctrine:no-colored-side-stripes",
+        "passed": true,
+        "evidence": "Formulaire de connexion et leçon observés à390×844,320×568,844×390,1440×900. Pas de liseré coloré latéral ou décoratif supérieur ; séparateur neutre sous en-tête et contour fonctionnel de focus3px. evidence/lesson-start/connection-390.png, lesson-390.png, focus.png."
+      },
+      {
+        "id": "doctrine:no-bricolage-grotesque",
+        "passed": true,
+        "evidence": "Familles calculées : textes/titre system-ui,-apple-system,SegoeUI,sans-serif ; boutons Arial. Times hérité dans des conteneurs. Aucun Bricolage observé ou nouvel import. evidence/lesson-start/results.json."
+      },
+      {
+        "id": "doctrine:no-card-title-hover-underlines",
+        "passed": true,
+        "evidence": "Titre Dire d’où tu viens survolé à1440×900 : textDecorationLine none ; focus clavier du bouton Terminer contour solid3px, visible focus.png. Aucun titre de carte ajouté."
+      },
+      {
+        "id": "doctrine:no-peripheral-filler-copy",
+        "passed": true,
+        "evidence": "Texte de connexion associé au formulaire ; consigne de révision et avertissement microphone dans la zone de leçon. Aucun nouveau texte utilisateur ou slogan ajouté. connection-390.png et lesson-390.png."
+      },
+      {
+        "id": "doctrine:no-sage-or-olive",
+        "passed": true,
+        "evidence": "Dans les zones observées : fond blanc, gris, violet de marque ; avertissement microphone rose pâle. Préférence sombre conserve thème clair, dark.png. Aucune zone sauge ou olive observée, aucun nouveau style."
+      },
+      {
+        "id": "doctrine:one-clear-cta-per-section",
+        "passed": true,
+        "evidence": "Formulaire : Connecter mon serveur. Leçon : microphone principal ; Historique, Je bloque et Terminer sont les contrôles fonctionnels existants. Aucun nouveau CTA. connection-390.png, lesson-390.png et focus.png."
+      },
+      {
+        "id": "doctrine:responsive-text-clearance",
+        "passed": true,
+        "evidence": "Leçon390×844 lisible. À320×568 le défilement révèle la consigne complète avec marges26px ; à844×390 la zone centrale défile entre en-tête et commandes, consigne visible entière dans lesson-landscape.png. Portion suivante hors fenêtre distinguée de troncature permanente. Aucun débordement horizontal relevé à320/844/1440. Android physique non observé."
+      },
+      {
+        "id": "doctrine:section-composition-and-rhythm",
+        "passed": true,
+        "evidence": "Composition existante conservée : titre, avatar, question et aides, commandes fixes. Formulaire inchangé ; transition de connexion vers leçon vérifiée, sans nouveau panneau ni alternance de fonds. connection-390.png, lesson-390.png et lesson-desktop.png."
+      },
+      {
+        "id": "technical:navigation",
+        "passed": true,
+        "evidence": "Quatre parcours réels de l’App dans Chromium isolé avec réseau simulé : reprise de la révision demandée après health valide, refus401 sans démarrage, fermeture annulant attente, démarrage direct déjà connecté. Résultats evidence/lesson-start/results.json. Aucun micro humain ou essai Android physique."
+      }
+    ],
+    "findings": [],
+    "summary": "Modification de navigation uniquement, sans nouveau libellé/style, sans modification authentification, adresse ou stockage des codes. Contrôle technique du rendu observé ; artistique non évalué et Android physique non observé."
+  }
+}
