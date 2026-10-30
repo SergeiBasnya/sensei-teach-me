@@ -147,6 +147,112 @@ class LabContractTests(unittest.TestCase):
 
 
 class LabDispatchTests(unittest.TestCase):
+    def test_generative_lab_follows_new_topic_and_returns_only_opted_in_observation(self):
+        data = turn('ja-first', scenario='meet', text='ベルギーから来ました。今日は映画の話をしたいです。',
+                    history=[{'role': 'assistant', 'content': 'どこから来ましたか？'}],
+                    labDialogue='generative', labDiagnostics=True)
+        messages, calls, prompts = run_worker([data], [
+            '{"correction":null}', '{"japanese":"映画ですね。どんな映画が好きですか？"}',
+        ])
+        result = messages[0]['result']
+        self.assertEqual(result['reply']['japanese'], '映画ですね。どんな映画が好きですか？')
+        self.assertEqual(result['observation'], {
+            'intent': 'topic_shift', 'path': 'generated',
+            'facts': [{'name': 'from_place', 'value': 'ベルギー'}],
+        })
+        self.assertNotIn('controlled_dialogue', messages[0]['metrics'])
+        self.assertIn('explicit change of topic', prompts[1][0]['content'])
+        self.assertEqual([call['max_tokens'] for call in calls], [240, 96])
+
+    def test_generative_lab_does_not_rewrite_an_open_preference_followup(self):
+        messages, calls, _ = run_worker([turn('ja-first', text='お茶が好きです。',
+                                              labDialogue='generative')],
+                                        ['{"japanese":"どんなお茶が好きですか？"}'])
+        self.assertEqual(messages[0]['result']['reply']['japanese'], 'どんなお茶が好きですか？')
+        self.assertNotIn('controlled_question', messages[0]['metrics'])
+        self.assertNotIn('observation', messages[0]['result'])
+        self.assertEqual(len(calls), 1)
+
+    def test_rejected_generated_candidate_uses_only_atomic_safe_fallback(self):
+        for invalid in ('{"japanese":"お茶三つですね。"}', '{"japanese":'):
+            data = turn('ja-first', scenario='cafe', text='お茶を二つください。', history=[],
+                        labDialogue='generative', labDiagnostics=True)
+            messages, calls, _ = run_worker([data], ['{"correction":null}', invalid])
+            result = messages[0]['result']
+            self.assertEqual(result['reply']['japanese'], 'お茶二つですね。ホットですか、アイスですか？')
+            self.assertEqual(result['observation']['path'], 'fallback')
+            self.assertEqual(messages[0]['metrics']['dialogue_fallback'], 1)
+            self.assertEqual(len(calls), 2)
+        messages, _, _ = run_worker([turn('ja-first', scenario='meet',
+            text='ベルギーから来ました。映画の話をしたいです。', labDialogue='generative')],
+            ['{"correction":null}', '{"japanese":"こんにちは。"}'])
+        self.assertIn('error', messages[0])
+        self.assertNotIn('result', messages[0])
+
+    def test_recovery_mixed_question_with_invented_location_fails_before_tutor_result(self):
+        for policy in ('hybrid', 'generative'):
+            data = turn('ja-first', scenario='cafe',
+                text='ホットでお願いします。トイレはどこですか？',
+                history=[{'role': 'user', 'content': 'お茶を二つください。'},
+                         {'role': 'assistant', 'content': 'ホットですか、アイスですか？'}],
+                labDialogue=policy, labDiagnostics=True)
+            messages, _, _ = run_worker([data], ['{"correction":null}',
+                '{"japanese":"トイレは右手のほうにあります。"}'])
+            self.assertIn('error', messages[0])
+            self.assertNotIn('result', messages[0])
+
+    def test_model_or_romanisation_failure_is_not_hidden_by_a_fallback(self):
+        data = turn('ja-first', scenario='cafe', text='お茶を二つください。', history=[], labDialogue='generative')
+        with patch('llm_stream_trace.collect_stream', side_effect=ValueError('model failure')), \
+                patch.object(conversation_worker, 'safe_controlled_fallback') as fallback:
+            messages, _, _ = run_worker([data], ['{"correction":null}'])
+            self.assertIn('error', messages[0])
+            fallback.assert_not_called()
+        with patch('pedagogic_romaji.PedagogicRomanizer.__call__', side_effect=ValueError('reading failure')), \
+                patch.object(conversation_worker, 'safe_controlled_fallback') as fallback:
+            messages, _, _ = run_worker([data], ['{"correction":null}', '{"japanese":"お茶二つですね。"}'])
+            self.assertIn('error', messages[0])
+            fallback.assert_not_called()
+
+    def test_classic_ignores_dialogue_and_diagnostics_flags_without_new_prompts(self):
+        history = [{'role': 'user', 'content': '紅茶を二つください。'},
+                   {'role': 'assistant', 'content': 'ホットですか、アイスですか？'}]
+        data = turn(scenario='cafe', text='アイスで。', history=history,
+                    labDialogue='generative', labDiagnostics=True)
+        messages, calls, _ = run_worker([data], [])
+        self.assertEqual(messages[0]['result']['reply']['japanese'], 'アイスの紅茶二つですね。')
+        self.assertNotIn('observation', messages[0]['result'])
+        self.assertEqual(calls, [])
+        baseline = '{"japanese":"どの町から来ましたか？","french":"De quelle ville viens-tu ?","coaching":null}'
+        messages, _, prompts = run_worker([turn(labDialogue='generative', labDiagnostics=True)], ['{"correction":null}', baseline])
+        self.assertNotIn('Experimental intent-guided', prompts[1][0]['content'])
+        self.assertNotIn('observation', messages[0]['result'])
+
+    def test_invalid_lab_policy_fails_before_any_model_call(self):
+        messages, calls, _ = run_worker([turn('ja-first', labDialogue='unknown')], [])
+        self.assertIn('error', messages[0])
+        self.assertEqual(calls, [])
+
+    def test_hybrid_lab_observation_reports_controlled_without_enabling_generation(self):
+        data = turn('ja-first', scenario='cafe', text='ホットで。',
+                    history=[{'role': 'user', 'content': 'お茶を一つください。'},
+                             {'role': 'assistant', 'content': 'ホットですか、アイスですか？'}],
+                    labDiagnostics=True)
+        messages, calls, _ = run_worker([data], [])
+        self.assertEqual(messages[0]['result']['observation']['path'], 'controlled')
+        self.assertEqual(calls, [])
+
+    def test_generative_lab_keeps_the_checked_correction_branch(self):
+        feedback = json.dumps({'correction': {
+            'corrected': '私はフランスから来ました。', 'french': 'Je viens de France.',
+            'explanation': 'Pour dire d’où tu viens, utilise kara après le pays.',
+        }}, ensure_ascii=False)
+        messages, calls, _ = run_worker([turn('ja-first', text='私はフランスを来ました。',
+            labDialogue='generative', labDiagnostics=True)], [feedback])
+        self.assertIsNotNone(messages[0]['result']['correction'])
+        self.assertEqual(messages[0]['result']['observation']['path'], 'correction')
+        self.assertEqual(len(calls), 1)
+
     def test_natural_temperature_fragment_uses_same_checked_reply_for_classic_and_lab(self):
         for profile in (None, 'structured', 'ja-first'):
             history = [{'role': 'user', 'content': '紅茶を二つください。'},

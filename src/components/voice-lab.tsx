@@ -38,6 +38,10 @@ import { VoiceLabCapture } from "./voice-lab-capture";
 import { useJapaneseSpeech } from "./japanese-speech";
 import { Mochi } from "./art";
 import { Button, colors, IconButton, Txt } from "./ui";
+import {
+  VoiceLabDiagnostic,
+  type VoiceLabDiagnosticTurn,
+} from "./voice-lab-diagnostic";
 
 type Phase =
   | "idle"
@@ -45,6 +49,7 @@ type Phase =
   | "preparing"
   | "listening"
   | "recognizing"
+  | "thinking"
   | "speaking"
   | "paused";
 type Capture = { key: number; tag: { epoch: number; turn: number } };
@@ -52,8 +57,9 @@ const labels: Record<Phase, string> = {
   idle: "Prêt pour un essai",
   connecting: "Connexion au laboratoire…",
   preparing: "Préparation du micro…",
-  listening: "À toi de parler",
-  recognizing: "Vérification de ta phrase…",
+  listening: "Écoute",
+  recognizing: "Reconnaissance…",
+  thinking: "Préparation de la réponse…",
   speaking: "Mochi parle…",
   paused: "En pause",
 };
@@ -75,6 +81,11 @@ export function VoiceLab({
   const [continuous, setContinuous] = useState(true);
   const [automatic, setAutomatic] = useState(true);
   const [keepSample, setKeepSample] = useState(false);
+  const [diagnostic, setDiagnostic] = useState(false);
+  const [dialogue, setDialogue] = useState<"hybrid" | "generative">("hybrid");
+  const [diagnosticTurn, setDiagnosticTurn] =
+    useState<VoiceLabDiagnosticTurn | null>(null);
+  const [, refreshTimeline] = useState(0);
   const [sampleId, setSampleId] = useState("");
   const [partial, setPartial] = useState("");
   const [final, setFinal] = useState("");
@@ -121,6 +132,8 @@ export function VoiceLab({
     continuous,
     automatic,
     keepSample,
+    diagnostic,
+    dialogue,
   });
   options.current = {
     scenario,
@@ -129,6 +142,8 @@ export function VoiceLab({
     continuous,
     automatic,
     keepSample,
+    diagnostic,
+    dialogue,
   };
   const actions = useRef({
     begin: (_automatic?: boolean) => {},
@@ -235,12 +250,22 @@ export function VoiceLab({
         scenario: options.current.scenario,
         respond: options.current.respond,
         keepSample: options.current.keepSample,
+        ...(options.current.diagnostic ? { diagnostic: true } : {}),
+        ...(options.current.dialogue === "generative"
+          ? { dialogue: "generative" as const }
+          : {}),
       });
       sourceStarted.current = true;
       captureStartedAt.current = performance.now();
       lastBuffer.current = captureStartedAt.current;
-      endpoint.current = new VoiceLabEndpoint(captureStartedAt.current);
-      metrics.begin(captureStartedAt.current, automaticResume.current);
+      endpoint.current = new VoiceLabEndpoint(captureStartedAt.current, {
+        question: question?.japanese,
+      });
+      metrics.begin(
+        captureStartedAt.current,
+        automaticResume.current,
+        tag.turn,
+      );
       setPhase("listening");
     } catch {
       fail(
@@ -276,6 +301,11 @@ export function VoiceLab({
         capturing.current = false;
         setCapture(null);
         metrics.finish(endpoint.current?.lastDetectedVoiceAt ?? null);
+        if (endpoint.current)
+          metrics.endpoint(
+            endpoint.current.requiredSilenceMs,
+            endpoint.current.voicedDurationMs,
+          );
         send({ type: "finish", turn: tag.turn });
         setPhase("recognizing");
       } catch {
@@ -477,14 +507,39 @@ export function VoiceLab({
           setUncertain(event.uncertain);
           metrics.final(event.uncertain);
           metrics.server(event.metrics);
+          if (options.current.diagnostic)
+            setDiagnosticTurn({
+              turn: event.turn,
+              spoken: "",
+              final: event.text,
+            });
+          if (!event.uncertain && options.current.respond) setPhase("thinking");
           unclear.current =
             event.uncertain || !event.text ? unclear.current + 1 : 0;
         }
+        if (event.type === "asr_diagnostic" && options.current.diagnostic)
+          setDiagnosticTurn((previous) =>
+            previous?.turn === event.turn
+              ? { ...previous, asr: event.diagnostic }
+              : previous,
+          );
+        if (event.type === "observation" && options.current.diagnostic)
+          setDiagnosticTurn((previous) =>
+            previous?.turn === event.turn
+              ? { ...previous, observation: event.observation }
+              : previous,
+          );
         if (event.type === "metrics") metrics.server(event.metrics);
         if (event.type === "sample_saved") setSampleId(event.id);
         if (event.type === "tutor") {
           setTutor(event.tutor);
           setQuestion(event.tutor.reply);
+          if (options.current.diagnostic)
+            setDiagnosticTurn((previous) =>
+              previous?.turn === event.turn
+                ? { ...previous, reply: event.tutor.reply.japanese }
+                : previous,
+            );
         }
         if (event.type === "details") {
           setTutor((previous) => applyVoiceLabDetails(previous, event));
@@ -504,6 +559,7 @@ export function VoiceLab({
           setPhase("paused");
         }
         if (event.type === "audio") {
+          metrics.audioReceived();
           if (event.index !== audioIndex.current++) {
             fail(
               "Un segment vocal est arrivé dans le désordre. Reprends l’essai.",
@@ -516,6 +572,7 @@ export function VoiceLab({
             .then(async () => {
               if (!gate.current(tag)) return;
               setPhase("speaking");
+              metrics.playbackRequested();
               const played = await speech.playJapaneseAudio(event.audio, () => {
                 if (gate.current(tag)) metrics.playing();
               });
@@ -578,6 +635,11 @@ export function VoiceLab({
     }
   };
   actions.current = { begin, pause, finish };
+  useEffect(() => {
+    if (!diagnostic) return;
+    const timer = setInterval(() => refreshTimeline((value) => value + 1), 500);
+    return () => clearInterval(timer);
+  }, [diagnostic]);
   useEffect(() => {
     const timer = setInterval(() => {
       if (!capturing.current) return;
@@ -733,8 +795,10 @@ export function VoiceLab({
                 key={id}
                 disabled={busy}
                 accessibilityRole="radio"
+                aria-checked={scenario === id}
+                aria-disabled={busy}
                 accessibilityState={{
-                  selected: scenario === id,
+                  checked: scenario === id,
                   disabled: busy,
                 }}
                 onPress={() => {
@@ -762,8 +826,10 @@ export function VoiceLab({
                 key={id}
                 disabled={busy}
                 accessibilityRole="radio"
+                aria-checked={language === id}
+                aria-disabled={busy}
                 accessibilityState={{
-                  selected: language === id,
+                  checked: language === id,
                   disabled: busy,
                 }}
                 onPress={() => {
@@ -780,6 +846,38 @@ export function VoiceLab({
               </Pressable>
             ))}
           </View>
+          <Txt style={{ fontWeight: "600" }}>Dialogue expérimental</Txt>
+          <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+            {(
+              [
+                ["hybrid", "Hybride actuel"],
+                ["generative", "Plus génératif · à comparer"],
+              ] as const
+            ).map(([id, label]) => (
+              <Pressable
+                key={id}
+                disabled={busy}
+                accessibilityRole="radio"
+                aria-checked={dialogue === id}
+                aria-disabled={busy}
+                accessibilityState={{
+                  checked: dialogue === id,
+                  disabled: busy,
+                }}
+                onPress={() => {
+                  change();
+                  setDialogue(id);
+                }}
+                style={{
+                  padding: 10,
+                  borderRadius: 12,
+                  backgroundColor: dialogue === id ? colors.light : colors.bg,
+                }}
+              >
+                <Txt style={{ fontSize: 13 }}>{label}</Txt>
+              </Pressable>
+            ))}
+          </View>
           {(
             [
               ["Réponse japonaise de Mochi", respond, setRespond],
@@ -790,6 +888,14 @@ export function VoiceLab({
                 setAutomatic,
               ],
               ["Garder mes extraits sur le Mac", keepSample, setKeepSample],
+              [
+                "Afficher le diagnostic temporaire",
+                diagnostic,
+                (value: boolean) => {
+                  setDiagnostic(value);
+                  setDiagnosticTurn(null);
+                },
+              ],
             ] as const
           ).map(([label, value, set]) => (
             <View
@@ -868,6 +974,18 @@ export function VoiceLab({
             Capture réelle : {signal.rate} Hz · {signal.channels} canal · crête{" "}
             {Math.round(signal.peak * 100)} %
           </Txt>
+        )}
+        {diagnostic && (
+          <VoiceLabDiagnostic
+            value={diagnosticTurn}
+            editable={!busy}
+            onSpoken={(text) =>
+              setDiagnosticTurn((previous) =>
+                previous ? { ...previous, spoken: text } : previous,
+              )
+            }
+            trace={diagnosticTurn ? metrics.latest(diagnosticTurn.turn) : null}
+          />
         )}
         {!!error && (
           <Txt

@@ -12,6 +12,36 @@ export const VOICE_LAB = {
   maxBufferedBytes: 2_000_000,
 } as const;
 export const voiceLabLanguageSchema = z.enum(["auto", "ja"]);
+export const voiceLabDialogueSchema = z.enum(["hybrid", "generative"]);
+export const voiceLabAsrDiagnosticSchema = z
+  .object({
+    rawText: z.string().max(1000),
+    detectedLanguage: z.enum(["ja", "fr", "other", "unknown"]),
+    acceptedSegments: z.number().int().nonnegative().max(10000),
+    rejectedSegments: z.number().int().nonnegative().max(10000),
+    signalGate: z.enum(["decoded", "quiet", "too_short"]),
+  })
+  .strict();
+export const voiceLabObservationSchema = z
+  .object({
+    intent: z.string().max(80),
+    path: z.enum([
+      "controlled",
+      "generated",
+      "fallback",
+      "correction",
+      "help",
+      "repeat",
+    ]),
+    facts: z
+      .array(
+        z
+          .object({ name: z.string().max(80), value: z.string().max(80) })
+          .strict(),
+      )
+      .max(8),
+  })
+  .strict();
 export const voiceLabScenarioSchema = z.enum([
   "meet",
   "cafe",
@@ -34,6 +64,8 @@ export const voiceLabClientSchema = z.discriminatedUnion("type", [
       scenario: voiceLabScenarioSchema.default("meet"),
       respond: z.boolean().default(false),
       keepSample: z.boolean().default(false),
+      diagnostic: z.boolean().default(false),
+      dialogue: voiceLabDialogueSchema.default("hybrid"),
     })
     .strict(),
   z.object({ type: z.literal("finish"), turn: turnSchema }).strict(),
@@ -41,6 +73,12 @@ export const voiceLabClientSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("close") }).strict(),
 ]);
 export const voiceLabReplySchema = z.discriminatedUnion("type", [
+  z
+    .object({
+      type: z.literal("observation"),
+      observation: voiceLabObservationSchema,
+    })
+    .strict(),
   z.object({ type: z.literal("tutor"), tutor: tutorReplySchema }).strict(),
   z
     .object({
@@ -83,6 +121,13 @@ export const voiceLabServerSchema = z.union([
     uncertain: z.boolean(),
     metrics: metricsSchema,
   }),
+  z
+    .object({
+      type: z.literal("asr_diagnostic"),
+      turn: turnSchema,
+      diagnostic: voiceLabAsrDiagnosticSchema,
+    })
+    .strict(),
   z.object({
     type: z.literal("sample_saved"),
     turn: turnSchema,
@@ -111,7 +156,10 @@ export const voiceLabTicketSchema = z.object({
   path: z.literal(VOICE_LAB.path),
 });
 export type VoiceLabLanguage = z.infer<typeof voiceLabLanguageSchema>;
+export type VoiceLabDialogue = z.infer<typeof voiceLabDialogueSchema>;
+export type VoiceLabObservation = z.infer<typeof voiceLabObservationSchema>;
+export type VoiceLabAsrDiagnostic = z.infer<typeof voiceLabAsrDiagnosticSchema>;
 export type VoiceLabScenario = z.infer<typeof voiceLabScenarioSchema>;
-export type VoiceLabClientEvent = z.infer<typeof voiceLabClientSchema>;
+export type VoiceLabClientEvent = z.input<typeof voiceLabClientSchema>;
 export type VoiceLabReplyEvent = z.infer<typeof voiceLabReplySchema>;
 export type VoiceLabServerEvent = z.infer<typeof voiceLabServerSchema>;

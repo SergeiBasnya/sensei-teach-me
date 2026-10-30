@@ -37,16 +37,16 @@ const voiceLab =
   labAsr && local && speech
     ? createVoiceLab({
         transcribe: labAsr.transcribe,
-        respond: createVoiceLabResponse(
-          { ...local, turn: (input) => local.labTurn(input, labGeneration) },
-          speech,
-          labGeneration === "ja-first"
+        respond: createVoiceLabResponse(local, speech, {
+          turn: (input, options) =>
+            local.labTurn(input, labGeneration, options),
+          ...(labGeneration === "ja-first"
             ? {
                 details: ({ japanese, history, signal }) =>
                   local.labDetails({ japanese, history }, signal),
               }
-            : {},
-        ),
+            : {}),
+        }),
         ready: () => local.ready(),
         retainSample: createVoiceLabSampleStore(),
       })

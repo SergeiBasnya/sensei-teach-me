@@ -7,7 +7,7 @@ No arithmetic, availability, fare or platform is inferred from a destination.
 import re
 
 from conversation_context import DRINK, NUMERAL, QUANTITY
-from lab_conversation import lab_dialogue_state
+from lab_conversation import lab_dialogue_state, validate_lab_conversation, validate_lab_translation
 from linguistic_support import question_guidance
 from pedagogic_romaji import number_value
 
@@ -48,6 +48,14 @@ def _drink_french(drink, quantity, temperature=None):
 
 def _service_value(request, subject, kind):
     """Only assistant declarations explicitly bound to this exact item/route."""
+    if request.get('labStreaming') is True:
+        values = [item for item in lab_dialogue_state(request)['bound_service_values']
+                  if item['role'] == 'assistant' and item['kind'] == kind and item['subject'] == subject]
+        if values:
+            item = values[-1]
+            suffix = '番線' if kind == 'platform' else '円'
+            return item['value'][:-len(suffix)], item['unit'] if kind == 'price' else None
+        return None
     values = []
     for message in request.get('history', []):
         if message['role'] != 'assistant':
@@ -168,6 +176,39 @@ def controlled_dialogue(request):
                       french + ', d’accord. Chaud ou glacé ?', history, 'drink_temperature')
     prefix = (temperature + 'の') if temperature and drink in ('コーヒー', 'お茶', '紅茶') else ''
     return _reply(f'{prefix}{drink}{quantity}ですね。', french + ', d’accord.', history, 'drink_confirmation')
+
+
+def safe_controlled_fallback(request):
+    """A failed generated candidate may fall back only on an atomic intent.
+
+    The caller owns the decision to invoke this after validation failure. Never
+    use it to replace a topic change, a mixed turn, uncertain ASR or a network
+    failure. Returning None means unsupported, not that the learner was wrong.
+    """
+    text = request['text'].strip().rstrip('。？?').strip()
+    state = lab_dialogue_state(request)
+    if state['intent'] in ('help_or_repeat', 'close', 'topic_shift') or state['unsupported_order'] or _EXAMPLE.search(text):
+        return None
+    if re.search(r'[。！？?!\n]|でも|けど|について|の話|じゃなく|ではなく', text):
+        return None
+    cafe = (r'(?:' + DRINK.pattern + r')(?:を)?(?:' + QUANTITY + r')?(?:ください|お願いします|にします)|'
+            r'(?:' + DRINK.pattern + r'|ホット|アイス|' + QUANTITY + r')(?:で|です|でお願いします)?|'
+            r'(?:この)?(?:' + DRINK.pattern + r')は?いくらですか|'
+            r'お?会計(?:を)?(?:お願いします|お願いできますか)')
+    station = (r'(?:' + '|'.join(PLACES) + r')まで(?:お願いします|です)|'
+               r'(?:片道|往復)(?:です|でお願いします)|' + NUMERAL + r'枚(?:です|でお願いします)|'
+               r'(?:どのホーム|何番線|何番のホーム)ですか')
+    if not ((request['scenario'] == 'cafe' and re.fullmatch(cafe, text)) or
+            (request['scenario'] == 'station' and re.fullmatch(station, text))):
+        return None
+    result = controlled_dialogue(request)
+    if result:
+        try:
+            validate_lab_conversation(result['japanese'], request)
+            validate_lab_translation(result['japanese'], result['french'])
+        except ValueError:
+            return None
+    return result
 
 
 def constrain_preference_question(japanese, request):

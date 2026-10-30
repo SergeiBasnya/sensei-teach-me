@@ -11,6 +11,16 @@ import { reviewPrompt } from "../shared/review-prompt";
 import { learnerGuidance } from "../shared/learner-guidance";
 import { conversationGuidance } from "../shared/conversation-curriculum";
 import { addTiming, timingContext, type Timings } from "./timing";
+import {
+  voiceLabObservationSchema,
+  type VoiceLabObservation,
+  type VoiceLabDialogue,
+} from "../shared/voice-lab";
+
+export type LabTurnOptions = {
+  dialogue?: VoiceLabDialogue;
+  onObservation?: (value: VoiceLabObservation) => void;
+};
 
 export type LabGeneration = "structured" | "compact" | "ja-first";
 export type LabDetails = { french: string; coaching: string | null };
@@ -20,6 +30,7 @@ export type LocalTutor = TutorProvider & {
   labTurn: (
     input: Parameters<TutorProvider["turn"]>[0],
     generation?: LabGeneration,
+    options?: LabTurnOptions,
   ) => Promise<Awaited<ReturnType<TutorProvider["turn"]>>>;
   labDetails: (
     input: {
@@ -239,20 +250,37 @@ export function createLocalTutor({
     input: Parameters<TutorProvider["turn"]>[0],
     labStreaming = false,
     labGeneration: LabGeneration = "structured",
-  ) =>
-    tutorReplySchema.parse(
-      await call({
-        kind: "turn",
-        ...input,
-        ...(labStreaming ? { labStreaming: true } : {}),
-        ...(labStreaming && labGeneration !== "structured"
-          ? { labGeneration }
-          : {}),
-        objective: getLesson(input.lessonId)?.focus,
-        learnerGuidance: learnerGuidance(input.learner),
-        conversationGuidance: conversationGuidance(input.scenario),
-      }),
-    );
+    options: LabTurnOptions = {},
+  ) => {
+    const raw = await call({
+      kind: "turn",
+      ...input,
+      ...(labStreaming ? { labStreaming: true } : {}),
+      ...(labStreaming && options.dialogue === "generative"
+        ? { labDialogue: "generative" }
+        : {}),
+      ...(labStreaming && options.onObservation
+        ? { labDiagnostics: true }
+        : {}),
+      ...(labStreaming && labGeneration !== "structured"
+        ? { labGeneration }
+        : {}),
+      objective: getLesson(input.lessonId)?.focus,
+      learnerGuidance: learnerGuidance(input.learner),
+      conversationGuidance: conversationGuidance(input.scenario),
+    });
+    if (
+      labStreaming &&
+      options.onObservation &&
+      raw &&
+      typeof raw === "object" &&
+      "observation" in raw
+    ) {
+      const observation = voiceLabObservationSchema.safeParse(raw.observation);
+      if (observation.success) options.onObservation(observation.data);
+    }
+    return tutorReplySchema.parse(raw);
+  };
   return {
     ready: () => ready,
     async romanize(texts) {
@@ -262,8 +290,8 @@ export function createLocalTutor({
         .parse(await call({ kind: "readings", texts }));
     },
     turn: (input) => turn(input),
-    labTurn: (input, generation = "structured") =>
-      turn(input, true, generation),
+    labTurn: (input, generation = "structured", options) =>
+      turn(input, true, generation, options),
     async labDetails(input, signal) {
       return z
         .object({

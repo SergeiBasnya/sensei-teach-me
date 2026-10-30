@@ -1,7 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { AppState, Platform } from "react-native";
 import { AudioModule, setAudioModeAsync, useAudioStream } from "expo-audio";
-import type { VoiceLabCaptureProps } from "../lib/voice-lab-capture";
+import {
+  VoiceLabNativeCapture,
+  type VoiceLabCaptureProps,
+} from "../lib/voice-lab-capture";
 
 /** Capability guard is outside the hook: old Expo Go must not crash on mounting. */
 export function VoiceLabCapture(props: VoiceLabCaptureProps) {
@@ -24,63 +27,41 @@ function Unsupported({ onError }: VoiceLabCaptureProps) {
 function NativeCapture(props: VoiceLabCaptureProps) {
   const callbacks = useRef(props);
   callbacks.current = props;
-  const alive = useRef(true);
+  const owner = useRef<VoiceLabNativeCapture | null>(null);
   const { stream } = useAudioStream({
     sampleRate: 16000,
     channels: 1,
     encoding: "int16",
     onBuffer(buffer) {
-      if (alive.current) callbacks.current.onBuffer(buffer);
+      owner.current?.buffer(buffer);
     },
   });
+  const lifecycle = useMemo(
+    () =>
+      new VoiceLabNativeCapture(
+        {
+          requestPermission: async () =>
+            (await AudioModule.requestRecordingPermissionsAsync()).granted,
+          isForeground: () => AppState.currentState === "active",
+          prepare: () =>
+            setAudioModeAsync({
+              allowsRecording: true,
+              playsInSilentMode: true,
+            }),
+          start: () => stream.start(),
+          stop: () => stream.stop(),
+        },
+        () => callbacks.current,
+      ),
+    [stream],
+  );
   useEffect(() => {
-    alive.current = true;
-    void (async () => {
-      try {
-        callbacks.current.onPermission(true);
-        let granted = false;
-        try {
-          granted = (await AudioModule.requestRecordingPermissionsAsync())
-            .granted;
-        } finally {
-          callbacks.current.onPermission(false);
-        }
-        if (!alive.current) return;
-        if (!granted)
-          throw new Error(
-            "Autorise le micro pour essayer la capture progressive.",
-          );
-        if (AppState.currentState !== "active")
-          throw new Error(
-            "Reviens dans l’application puis reprends le laboratoire.",
-          );
-        await setAudioModeAsync({
-          allowsRecording: true,
-          playsInSilentMode: true,
-        });
-        if (!alive.current) return;
-        await stream.start();
-        if (!alive.current) {
-          try {
-            stream.stop();
-          } catch {}
-          return;
-        }
-        callbacks.current.onReady();
-      } catch {
-        if (alive.current)
-          callbacks.current.onError(
-            "La capture PCM n’a pas démarré. Vérifie le micro et ta version d’Expo Go, ou reprends le vocal classique.",
-          );
-      }
-    })();
+    owner.current = lifecycle;
+    const stop = lifecycle.begin();
     return () => {
-      alive.current = false;
-      callbacks.current.onPermission(false);
-      try {
-        stream.stop();
-      } catch {}
+      stop();
+      if (owner.current === lifecycle) owner.current = null;
     };
-  }, [stream]);
+  }, [lifecycle]);
   return null;
 }

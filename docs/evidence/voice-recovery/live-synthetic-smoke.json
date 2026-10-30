@@ -1,0 +1,136 @@
+{
+  "syntheticOnly": true,
+  "physicalAndroid": false,
+  "retentionRequested": false,
+  "pcmMs": 1749.375,
+  "finishToFirstAudioReceivedMs": 3672.2901250000004,
+  "events": [
+    {
+      "type": "state",
+      "turn": 1,
+      "state": "listening",
+      "afterFinishMs": null
+    },
+    {
+      "type": "state",
+      "turn": 1,
+      "state": "recognizing",
+      "afterFinishMs": 0.6262920000001486
+    },
+    {
+      "type": "final",
+      "turn": 1,
+      "text": "コーヒーを一つください",
+      "uncertain": false,
+      "metrics": {
+        "samples": 27990,
+        "duration_ms": 1749.375,
+        "rms_db_below_full_scale": 23.951,
+        "window_rms_db_below_full_scale": 16.45,
+        "peak": 0.344,
+        "clipped_fraction": 0,
+        "leading_energy_ms": 180,
+        "trailing_energy_ms": 180,
+        "pcm_decode": 0.476,
+        "asr": 97.748,
+        "asr_queue": 382,
+        "asr_roundtrip": 99,
+        "audio_ms": 1749,
+        "sample_save": 0,
+        "chunks": 18,
+        "partials": 0,
+        "finish_to_final": 481
+      },
+      "afterFinishMs": 481.8266249999999
+    },
+    {
+      "type": "asr_diagnostic",
+      "turn": 1,
+      "diagnostic": {
+        "rawText": "コーヒーを一つください",
+        "detectedLanguage": "ja",
+        "acceptedSegments": 1,
+        "rejectedSegments": 0,
+        "signalGate": "decoded"
+      },
+      "afterFinishMs": 481.9604999999999
+    },
+    {
+      "type": "observation",
+      "observation": {
+        "intent": "continue_from_answer",
+        "path": "controlled",
+        "facts": [
+          {
+            "name": "drink",
+            "value": "コーヒー"
+          },
+          {
+            "name": "quantity",
+            "value": "一つ"
+          }
+        ]
+      },
+      "turn": 1,
+      "afterFinishMs": 2189.72275
+    },
+    {
+      "type": "tutor",
+      "tutor": {
+        "reply": {
+          "japanese": "コーヒー一つですね。ホットですか、アイスですか？",
+          "romaji": "Kōhī hitotsu desu ne. Hotto desu ka, aisu desu ka?",
+          "french": "Un café, d’accord. Chaud ou glacé ?"
+        },
+        "coaching": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».",
+        "correction": null,
+        "vocabulary": []
+      },
+      "turn": 1,
+      "afterFinishMs": 2191.321
+    },
+    {
+      "type": "metrics",
+      "turn": 1,
+      "metrics": {
+        "finish_to_first_audio": 3671
+      },
+      "afterFinishMs": 3671.7037500000006
+    },
+    {
+      "type": "audio",
+      "index": 0,
+      "base64Bytes": 101096
+    },
+    {
+      "type": "audio",
+      "index": 1,
+      "base64Bytes": 158440
+    },
+    {
+      "type": "metrics",
+      "metrics": {
+        "correction": 1679,
+        "generations": 1,
+        "controlled_dialogue": 1,
+        "worker_roundtrip": 1706.1,
+        "worker_queue": 1.1,
+        "teaching": 1708.460374999995,
+        "postprocess": 0.5420000000158325,
+        "tts_first": 1479.9510420000006,
+        "first_audio_emit": 3189.228541999997,
+        "tts_all": 2279.158542000019,
+        "playback_estimate": 4053.333333333334,
+        "secondary_pending": 0,
+        "secondary_tail_wait": 0
+      },
+      "turn": 1,
+      "afterFinishMs": 4470.842167000001
+    },
+    {
+      "type": "response_done",
+      "turn": 1,
+      "afterFinishMs": 4470.914667
+    }
+  ]
+}

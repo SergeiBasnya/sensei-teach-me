@@ -1,0 +1,4021 @@
+{
+  "schemaVersion": "sensei-voice-recovery.v1",
+  "status": "complete",
+  "date": "2026-10-30T09:08:37.253Z",
+  "plan": {
+    "pairedTurns": 16,
+    "rolloutTurns": 16,
+    "warmupTurns": 2,
+    "policies": [
+      "hybrid",
+      "generative"
+    ],
+    "conversations": [
+      {
+        "id": "meet-to-cinema",
+        "turns": [
+          "origin",
+          "topic-change",
+          "new-interest",
+          "new-preference-negation"
+        ]
+      },
+      {
+        "id": "cafe-mixed-request",
+        "turns": [
+          "two-teas",
+          "temperature-plus-question",
+          "reduce-quantity",
+          "known-linked-price"
+        ]
+      }
+    ],
+    "generation": "ja-first",
+    "audioCache": false,
+    "maxRunMs": 720000,
+    "maxTrialMs": 90000
+  },
+  "provenance": {
+    "sourceFiles": [
+      {
+        "path": "package-lock.json",
+        "sha256": "0cc80ed9fb46bc298d59faacbc5c0142170b90c8bb29fb27095f68275153e97e"
+      },
+      {
+        "path": "package.json",
+        "sha256": "0960d465472b387608b608c7280664a0bfc45bde560891feb58184cda280083f"
+      },
+      {
+        "path": "scripts/benchmark-voice-dialogue.ts",
+        "sha256": "4004ecd42652a7d8ca6dd592c24f6a0359c9ee2078b639baf8e825ae985a8f44"
+      },
+      {
+        "path": "scripts/benchmark-voice-recovery.ts",
+        "sha256": "cbe36c882075ba90bc2506ce9591bc29a1c37000df3b95ce107270d2d2b25a47"
+      },
+      {
+        "path": "server/app.ts",
+        "sha256": "159c6d07609305387f9269f4e72a6f8dd1283f5ec30d2135aa7a8a45a368df57"
+      },
+      {
+        "path": "server/beginner_dialogue.py",
+        "sha256": "0af563c323c031eef94f61792dd586388cbaee0240efbd3acb338f13ec037b77"
+      },
+      {
+        "path": "server/conversation_context.py",
+        "sha256": "61005ae94079d22d30646c221f916746b6f25d2770a5af88ffc8d4648999943c"
+      },
+      {
+        "path": "server/conversation_feedback.py",
+        "sha256": "7d87453ff4bca2d953418b3916a35e71d95ec9d42f937c20a6c8499818d93b64"
+      },
+      {
+        "path": "server/conversation_worker.py",
+        "sha256": "4145485c691329dee586d9ed651fd85511db36ee30e560effb06e75d033b9ba0"
+      },
+      {
+        "path": "server/french_speech.py",
+        "sha256": "4cda38117a5b4ebc1e458f17e5bce8640a96b626f43ee4c15d66ac079fddc774"
+      },
+      {
+        "path": "server/index.ts",
+        "sha256": "4c5d3bb00f7a3d5c529f71df6b2762862bcb239d137bfa254c616baab6e4e34b"
+      },
+      {
+        "path": "server/lab_conversation.py",
+        "sha256": "f72af4711b40fa164aa156607f0765c0ce0f57b44e2cea8228e408c91c10a11c"
+      },
+      {
+        "path": "server/lab_generation.py",
+        "sha256": "f38b25bd0f95bdb8e6642c4d4e85fb7209874c847b5a5809d34e8feeeed2350c"
+      },
+      {
+        "path": "server/lab_worker_inbox.py",
+        "sha256": "c3d02e76c650773072aee9cf5920db1e5efe706fbc8a1e0815670fab6a0b015c"
+      },
+      {
+        "path": "server/linguistic_support.py",
+        "sha256": "0336665b9e378e00912e9ddf847abd49465f827986448e2f07927c3cc3f7a9c4"
+      },
+      {
+        "path": "server/llm_stream_trace.py",
+        "sha256": "42642f88ce8a6341dc92352bfea46c2e922d04cf72a9c551df4dac45c493841d"
+      },
+      {
+        "path": "server/local-speech.ts",
+        "sha256": "fabba1b7b2ef83428de3c320108b535ce4aae94eee2a67a1feda74f21b8ec597"
+      },
+      {
+        "path": "server/local-tutor.ts",
+        "sha256": "8fa1b8f2e17b4d47219a199b3e8e3122ced5a55a98693fa030b308771ac31876"
+      },
+      {
+        "path": "server/pedagogic_romaji.py",
+        "sha256": "03da9ae0fa17dd1e60a5cf9863b1fce4cc1e36a98efaaccb43b3e04ae03df2dd"
+      },
+      {
+        "path": "server/timing.ts",
+        "sha256": "01e013bbca568c999b76cb624f0c87651221c2126e2a4e7ce8edfb6de431ca8d"
+      },
+      {
+        "path": "server/voice-lab-asr.ts",
+        "sha256": "d52c083fa63075adc1b69b39c1676e3cc76cc6ffd90f98c4eee24afdd2e9939e"
+      },
+      {
+        "path": "server/voice-lab-audio.ts",
+        "sha256": "3e7bd813b36bfdf41068aab8c501a791027506fd410e520f5147844841117d5f"
+      },
+      {
+        "path": "server/voice-lab-response.ts",
+        "sha256": "0778d6280d0c5a26dabf3ac091a3ae65100b32e2cd75577519c216305bcd87e9"
+      },
+      {
+        "path": "server/voice-lab-samples.ts",
+        "sha256": "7510063285565c55ae302bbbc4afc28227b87c1145496a9986cc772e7e80291c"
+      },
+      {
+        "path": "server/voice-lab.ts",
+        "sha256": "bd5e71777848c728953fc51bc8fcf6849085448bc0e94ea71d3371660210c0c5"
+      },
+      {
+        "path": "server/voice_lab_worker.py",
+        "sha256": "6e0be687c04945579d2ffb1c2af775705e4f3e259cf547ae0111f6b9670f4b47"
+      },
+      {
+        "path": "server/voice_worker.py",
+        "sha256": "34bad116a147ee0f4c108801cb073ca3018a7c6148b6a082b56d69c64e8e825c"
+      },
+      {
+        "path": "shared/contracts.ts",
+        "sha256": "b2e61f45b10f57232ab8c3d31d296d0385a37223ba2216935a5d8dd4d4cec9c6"
+      },
+      {
+        "path": "shared/conversation-curriculum.ts",
+        "sha256": "10ab533fa7a6be2a48a590b5650fe7e3aae8276f6199c0cfb6826a18965e8d90"
+      },
+      {
+        "path": "shared/language.ts",
+        "sha256": "809a29c008c818b1fb45147af084b39f4af9bcf85a0932da4d5a8b5083aa6b4d"
+      },
+      {
+        "path": "shared/learner-guidance.ts",
+        "sha256": "4dfc689eaf43679562fde0c23f5f5cdcc59d5ba7cbced27659298972e2051614"
+      },
+      {
+        "path": "shared/learning-memory.ts",
+        "sha256": "110ad5f384f1139ca642fe7828c77dd243bffd615cb8861b188ba96bcf74ecc8"
+      },
+      {
+        "path": "shared/learning-plan.ts",
+        "sha256": "44d188625b7b30875aebce8abe4f438447221f7165dcb71cbfaf70c57d9924f4"
+      },
+      {
+        "path": "shared/review-prompt.ts",
+        "sha256": "b556a592dffaf90ef251deaaf1f1eec8f64e77ee529300309903eaa7559b4332"
+      },
+      {
+        "path": "shared/teaching.ts",
+        "sha256": "9035f5526162e80f837cbb2c9c23f07d0e627a5fa002fbaa5ac243b4e9bcad4e"
+      },
+      {
+        "path": "shared/tutor-feedback.ts",
+        "sha256": "e9c7e12acbad797763a0833fefd3c3eb3464a897e1bedfbc5da747b18b0a2875"
+      },
+      {
+        "path": "shared/voice-lab.ts",
+        "sha256": "adc94a4633ee1f7d57e2afa50cb4c7d43edc31068b581ba2b9624d745a5d50f3"
+      }
+    ],
+    "sourceSha256": "06a89f265e2cb62d96dca2357720f26207125dac9651ef9c3a394127768c0066",
+    "runtime": {
+      "node": "v24.20.0",
+      "platform": "darwin",
+      "arch": "arm64",
+      "python": {
+        "python": "3.12.14",
+        "packages": {
+          "mlx": "0.32.4",
+          "mlx-lm": "0.32.2",
+          "mlx-whisper": "0.4.3",
+          "numpy": "2.5.4",
+          "pyopenjtalk": null,
+          "voicevox-core": "0.17.1"
+        }
+      },
+      "weightHash": "not-measured"
+    }
+  },
+  "data": "Authored public fictional text only; no human corpus, ASR, microphone or playback.",
+  "definitions": {
+    "firstJapaneseAudioEmittedMs": "Already recognized text entering response until first complete validated WAV emitted; excludes endpoint, ASR, transport and Android playback.",
+    "responseDoneMs": "Terminal audio response event; optional metadata can still be pending.",
+    "allObservedWorkSettledMs": "Response and actual secondary callbacks settled/acknowledged before next cell; not listening or audible time.",
+    "rollout": "Own prior responses reinserted; after divergence policies no longer share histories and are not causal latency pairs."
+  },
+  "warmups": [
+    {
+      "policy": "hybrid",
+      "elapsedMs": 2745.2
+    },
+    {
+      "policy": "generative",
+      "elapsedMs": 2225.8
+    }
+  ],
+  "rows": [
+    {
+      "mode": "paired",
+      "conversation": "meet-to-cinema",
+      "turn": "origin",
+      "policy": "hybrid",
+      "input": {
+        "scenario": "free",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          }
+        ],
+        "text": "ベルギーから来ました。"
+      },
+      "inputSha256": "b4c877d8310c824519a778a2057cdb55c4a13946a2d0e0ecca1f4f3eb22bc7a3",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 2591.1,
+      "responseDoneMs": 3416.6,
+      "respondReturnedMs": 3416.6,
+      "allObservedWorkSettledMs": 4037.3,
+      "secondaryCallbacks": [
+        {
+          "settledMs": 4035.8,
+          "status": "completed",
+          "metrics": {
+            "secondary": 1434.7,
+            "generations": 1,
+            "worker_roundtrip": 1444,
+            "worker_queue": 2
+          }
+        }
+      ],
+      "totalJapaneseWaveMs": 3829.3,
+      "tutor": {
+        "reply": {
+          "japanese": "ベルギーはいいところですね。どんなところが好きですか？",
+          "romaji": "Berugī wa ii tokoro desu ne. Donna tokoro ga suki desu ka?",
+          "french": "La Belgique, c'est un bon endroit. Qu'est-ce qui vous plaît ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "observation",
+          "observation": {
+            "intent": "continue_from_answer",
+            "path": "generated",
+            "facts": [
+              {
+                "name": "from_place",
+                "value": "ベルギー"
+              }
+            ]
+          },
+          "elapsedMs": 1905.3
+        },
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "ベルギーはいいところですね。どんなところが好きですか？",
+              "romaji": "Berugī wa ii tokoro desu ne. Donna tokoro ga suki desu ka?",
+              "french": ""
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1906
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 90156,
+          "durationMs": 1877.3,
+          "elapsedMs": 2591.1
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 93740,
+          "durationMs": 1952,
+          "elapsedMs": 3416
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "stream_complete": 1903.1,
+            "first_token": 1386.8,
+            "japanese_field_complete": 1863.8,
+            "json_gate_wait": 39.3,
+            "dialogue_japanese": 1903.1,
+            "generations": 1,
+            "lab_validation": 0.1,
+            "worker_roundtrip": 1904,
+            "worker_queue": 1,
+            "teaching": 1905.2120830000003,
+            "postprocess": 0.43608400000084657,
+            "tts_first": 684.7815419999988,
+            "first_audio_emit": 2590.623042000001,
+            "tts_all": 1510.0049589999999,
+            "playback_estimate": 3829.333333333333,
+            "secondary_pending": 1,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 3416.5
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 3416.6
+        },
+        {
+          "type": "details",
+          "japanese": "ベルギーはいいところですね。どんなところが好きですか？",
+          "french": "La Belgique, c'est un bon endroit. Qu'est-ce qui vous plaît ?",
+          "coaching": null,
+          "elapsedMs": 4036.3
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0,
+            "secondary_total": 1445.0695830000004,
+            "secondary": 1434.7,
+            "secondary_generations": 1
+          },
+          "elapsedMs": 4036.3
+        }
+      ],
+      "review": [
+        "Conserver l'origine sans inventer de résidence."
+      ]
+    },
+    {
+      "mode": "paired",
+      "conversation": "meet-to-cinema",
+      "turn": "origin",
+      "policy": "generative",
+      "input": {
+        "scenario": "free",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          }
+        ],
+        "text": "ベルギーから来ました。"
+      },
+      "inputSha256": "b4c877d8310c824519a778a2057cdb55c4a13946a2d0e0ecca1f4f3eb22bc7a3",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 2807,
+      "responseDoneMs": 3548.2,
+      "respondReturnedMs": 3548.2,
+      "allObservedWorkSettledMs": 4156.3,
+      "secondaryCallbacks": [
+        {
+          "settledMs": 4154.9,
+          "status": "completed",
+          "metrics": {
+            "secondary": 1346.8,
+            "generations": 1,
+            "worker_roundtrip": 1347.5,
+            "worker_queue": 0.5
+          }
+        }
+      ],
+      "totalJapaneseWaveMs": 3829.3,
+      "tutor": {
+        "reply": {
+          "japanese": "ベルギーはいいところですね。どんなところが好きですか？",
+          "romaji": "Berugī wa ii tokoro desu ne. Donna tokoro ga suki desu ka?",
+          "french": "La Belgique, c'est un bon endroit. Qu'est-ce qui vous plaît ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "observation",
+          "observation": {
+            "intent": "continue_from_answer",
+            "path": "generated",
+            "facts": [
+              {
+                "name": "from_place",
+                "value": "ベルギー"
+              }
+            ]
+          },
+          "elapsedMs": 2144.1
+        },
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "ベルギーはいいところですね。どんなところが好きですか？",
+              "romaji": "Berugī wa ii tokoro desu ne. Donna tokoro ga suki desu ka?",
+              "french": ""
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 2144.5
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 90156,
+          "durationMs": 1877.3,
+          "elapsedMs": 2807
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 93740,
+          "durationMs": 1952,
+          "elapsedMs": 3548
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "stream_complete": 2139.5,
+            "first_token": 1615.5,
+            "japanese_field_complete": 2098.8,
+            "json_gate_wait": 40.7,
+            "dialogue_japanese": 2139.5,
+            "generations": 1,
+            "lab_validation": 0.1,
+            "worker_roundtrip": 2143.7,
+            "worker_queue": 1.7,
+            "teaching": 2144.1506249999984,
+            "postprocess": 0.3140000000021246,
+            "tts_first": 662.4579589999994,
+            "first_audio_emit": 2806.952207999999,
+            "tts_all": 1403.6006669999988,
+            "playback_estimate": 3829.333333333333,
+            "secondary_pending": 1,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 3548.2
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 3548.2
+        },
+        {
+          "type": "details",
+          "japanese": "ベルギーはいいところですね。どんなところが好きですか？",
+          "french": "La Belgique, c'est un bon endroit. Qu'est-ce qui vous plaît ?",
+          "coaching": null,
+          "elapsedMs": 4155
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0,
+            "secondary_total": 1347.9604169999984,
+            "secondary": 1346.8,
+            "secondary_generations": 1
+          },
+          "elapsedMs": 4155
+        }
+      ],
+      "review": [
+        "Conserver l'origine sans inventer de résidence."
+      ]
+    },
+    {
+      "mode": "paired",
+      "conversation": "meet-to-cinema",
+      "turn": "topic-change",
+      "policy": "generative",
+      "input": {
+        "scenario": "free",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          },
+          {
+            "role": "user",
+            "content": "ベルギーから来ました。"
+          },
+          {
+            "role": "assistant",
+            "content": "ベルギーですね。どこに住んでいますか？"
+          }
+        ],
+        "text": "今日は映画の話をしたいです。"
+      },
+      "inputSha256": "980798acb46997f85d60732d9736e9c1585b7305f3a15e2bc9a2d1b5c76c9586",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 3758.3,
+      "responseDoneMs": 4816.4,
+      "respondReturnedMs": 4816.4,
+      "allObservedWorkSettledMs": 5186.1,
+      "secondaryCallbacks": [
+        {
+          "settledMs": 5184.7,
+          "status": "completed",
+          "metrics": {
+            "secondary": 1425.5,
+            "generations": 1,
+            "worker_roundtrip": 1426.2,
+            "worker_queue": 0.2
+          }
+        }
+      ],
+      "totalJapaneseWaveMs": 3946.6,
+      "tutor": {
+        "reply": {
+          "japanese": "映画ですね。最近、どんな映画を見ましたか？",
+          "romaji": "Eiga desu ne. Saikin, donna eiga o mimashita ka?",
+          "french": "Un film, hein. Récemment, quel film as-tu vu ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "observation",
+          "observation": {
+            "intent": "topic_shift",
+            "path": "generated",
+            "facts": [
+              {
+                "name": "from_place",
+                "value": "ベルギー"
+              }
+            ]
+          },
+          "elapsedMs": 3305
+        },
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "映画ですね。最近、どんな映画を見ましたか？",
+              "romaji": "Eiga desu ne. Saikin, donna eiga o mimashita ka?",
+              "french": ""
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 3305.3
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 51756,
+          "durationMs": 1077.3,
+          "elapsedMs": 3758.3
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 137772,
+          "durationMs": 2869.3,
+          "elapsedMs": 4816.2
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1174.4,
+            "generations": 2,
+            "stream_complete": 2128.1,
+            "first_token": 1603.1,
+            "japanese_field_complete": 2086.2,
+            "json_gate_wait": 41.9,
+            "dialogue_japanese": 2128.2,
+            "lab_validation": 0.1,
+            "worker_roundtrip": 3304.9,
+            "worker_queue": 0.9,
+            "teaching": 3305.0031249999993,
+            "postprocess": 0.3134590000008757,
+            "tts_first": 452.8677910000006,
+            "first_audio_emit": 3758.217417,
+            "tts_all": 1510.9284999999982,
+            "playback_estimate": 3946.666666666667,
+            "secondary_pending": 1,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 4816.4
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 4816.4
+        },
+        {
+          "type": "details",
+          "japanese": "映画ですね。最近、どんな映画を見ましたか？",
+          "french": "Un film, hein. Récemment, quel film as-tu vu ?",
+          "coaching": null,
+          "elapsedMs": 5184.8
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0,
+            "secondary_total": 1426.5112500000032,
+            "secondary": 1425.5,
+            "secondary_generations": 1
+          },
+          "elapsedMs": 5184.8
+        }
+      ],
+      "review": [
+        "Répondre au changement explicite de sujet, sans reprendre le questionnaire de résidence."
+      ]
+    },
+    {
+      "mode": "paired",
+      "conversation": "meet-to-cinema",
+      "turn": "topic-change",
+      "policy": "hybrid",
+      "input": {
+        "scenario": "free",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          },
+          {
+            "role": "user",
+            "content": "ベルギーから来ました。"
+          },
+          {
+            "role": "assistant",
+            "content": "ベルギーですね。どこに住んでいますか？"
+          }
+        ],
+        "text": "今日は映画の話をしたいです。"
+      },
+      "inputSha256": "980798acb46997f85d60732d9736e9c1585b7305f3a15e2bc9a2d1b5c76c9586",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 3379.9,
+      "responseDoneMs": 4336.9,
+      "respondReturnedMs": 4336.9,
+      "allObservedWorkSettledMs": 4838.1,
+      "secondaryCallbacks": [
+        {
+          "settledMs": 4836.9,
+          "status": "completed",
+          "metrics": {
+            "secondary": 1456.1,
+            "generations": 1,
+            "worker_roundtrip": 1456.7,
+            "worker_queue": 0.7
+          }
+        }
+      ],
+      "totalJapaneseWaveMs": 3520,
+      "tutor": {
+        "reply": {
+          "japanese": "映画ですね。最近、何を見ましたか？",
+          "romaji": "Eiga desu ne. Saikin, nani o mimashita ka?",
+          "french": "Un film, hein. Récemment, as-tu vu quelque chose ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "observation",
+          "observation": {
+            "intent": "topic_shift",
+            "path": "generated",
+            "facts": [
+              {
+                "name": "from_place",
+                "value": "ベルギー"
+              }
+            ]
+          },
+          "elapsedMs": 2939.9
+        },
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "映画ですね。最近、何を見ましたか？",
+              "romaji": "Eiga desu ne. Saikin, nani o mimashita ka?",
+              "french": ""
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 2940.3
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 51756,
+          "durationMs": 1077.3,
+          "elapsedMs": 3379.9
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 117292,
+          "durationMs": 2442.7,
+          "elapsedMs": 4336.8
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1187.8,
+            "generations": 2,
+            "stream_complete": 1750.5,
+            "first_token": 1309.4,
+            "japanese_field_complete": 1707.2,
+            "json_gate_wait": 43.4,
+            "dialogue_japanese": 1750.6,
+            "lab_validation": 0.1,
+            "worker_roundtrip": 2939.8,
+            "worker_queue": 0.8,
+            "teaching": 2939.957375000002,
+            "postprocess": 0.32049999999799184,
+            "tts_first": 439.5558340000025,
+            "first_audio_emit": 3379.8594580000026,
+            "tts_all": 1396.515792000002,
+            "playback_estimate": 3520,
+            "secondary_pending": 1,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 4336.9
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 4336.9
+        },
+        {
+          "type": "details",
+          "japanese": "映画ですね。最近、何を見ましたか？",
+          "french": "Un film, hein. Récemment, as-tu vu quelque chose ?",
+          "coaching": null,
+          "elapsedMs": 4836.9
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0,
+            "secondary_total": 1456.9811670000017,
+            "secondary": 1456.1,
+            "secondary_generations": 1
+          },
+          "elapsedMs": 4836.9
+        }
+      ],
+      "review": [
+        "Répondre au changement explicite de sujet, sans reprendre le questionnaire de résidence."
+      ]
+    },
+    {
+      "mode": "paired",
+      "conversation": "meet-to-cinema",
+      "turn": "new-interest",
+      "policy": "hybrid",
+      "input": {
+        "scenario": "free",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          },
+          {
+            "role": "user",
+            "content": "ベルギーから来ました。"
+          },
+          {
+            "role": "assistant",
+            "content": "ベルギーですね。どこに住んでいますか？"
+          },
+          {
+            "role": "user",
+            "content": "今日は映画の話をしたいです。"
+          },
+          {
+            "role": "assistant",
+            "content": "どんな映画が好きですか？"
+          }
+        ],
+        "text": "猫の映画が好きです。"
+      },
+      "inputSha256": "1f63b4d0e1cc5e7578bebce52e772ee6afc64f6f2643023e9b57684dc6f55f72",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 4263.4,
+      "responseDoneMs": 5174.6,
+      "respondReturnedMs": 5174.6,
+      "allObservedWorkSettledMs": 5869.2,
+      "secondaryCallbacks": [
+        {
+          "settledMs": 5867.9,
+          "status": "completed",
+          "metrics": {
+            "secondary": 1603.5,
+            "generations": 1,
+            "worker_roundtrip": 1604.2,
+            "worker_queue": 0.2
+          }
+        }
+      ],
+      "totalJapaneseWaveMs": 4426.7,
+      "tutor": {
+        "reply": {
+          "japanese": "猫の映画が好きなんですね。どんな猫の映画が好きですか？",
+          "romaji": "Neko no eiga ga suki na n desu ne. Donna neko no eiga ga suki desu ka?",
+          "french": "Tu aimes les films sur les chats, hein ? Quel genre de film sur les chats aimes-tu ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "observation",
+          "observation": {
+            "intent": "continue_from_answer",
+            "path": "generated",
+            "facts": [
+              {
+                "name": "from_place",
+                "value": "ベルギー"
+              },
+              {
+                "name": "preference:猫の映画",
+                "value": "like"
+              }
+            ]
+          },
+          "elapsedMs": 3398.4
+        },
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "猫の映画が好きなんですね。どんな猫の映画が好きですか？",
+              "romaji": "Neko no eiga ga suki na n desu ne. Donna neko no eiga ga suki desu ka?",
+              "french": ""
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 3398.9
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 100396,
+          "durationMs": 2090.7,
+          "elapsedMs": 4263.4
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 112172,
+          "durationMs": 2336,
+          "elapsedMs": 5174.5
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1296.4,
+            "generations": 2,
+            "stream_complete": 2099.2,
+            "first_token": 1413.5,
+            "japanese_field_complete": 2055.7,
+            "json_gate_wait": 43.4,
+            "dialogue_japanese": 2099.2,
+            "lab_validation": 0.1,
+            "worker_roundtrip": 3398.3,
+            "worker_queue": 0.3,
+            "teaching": 3398.453958000002,
+            "postprocess": 0.4023749999978463,
+            "tts_first": 864.465750000003,
+            "first_audio_emit": 4263.350166,
+            "tts_all": 1775.6223339999997,
+            "playback_estimate": 4426.666666666666,
+            "secondary_pending": 1,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 5174.6
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 5174.6
+        },
+        {
+          "type": "details",
+          "japanese": "猫の映画が好きなんですね。どんな猫の映画が好きですか？",
+          "french": "Tu aimes les films sur les chats, hein ? Quel genre de film sur les chats aimes-tu ?",
+          "coaching": null,
+          "elapsedMs": 5867.9
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0,
+            "secondary_total": 1604.4768330000006,
+            "secondary": 1603.5,
+            "secondary_generations": 1
+          },
+          "elapsedMs": 5868
+        }
+      ],
+      "review": [
+        "Réagir au détail nouveau des films de chats ; ne pas inventer de film connu ou de goût de Mochi."
+      ]
+    },
+    {
+      "mode": "paired",
+      "conversation": "meet-to-cinema",
+      "turn": "new-interest",
+      "policy": "generative",
+      "input": {
+        "scenario": "free",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          },
+          {
+            "role": "user",
+            "content": "ベルギーから来ました。"
+          },
+          {
+            "role": "assistant",
+            "content": "ベルギーですね。どこに住んでいますか？"
+          },
+          {
+            "role": "user",
+            "content": "今日は映画の話をしたいです。"
+          },
+          {
+            "role": "assistant",
+            "content": "どんな映画が好きですか？"
+          }
+        ],
+        "text": "猫の映画が好きです。"
+      },
+      "inputSha256": "1f63b4d0e1cc5e7578bebce52e772ee6afc64f6f2643023e9b57684dc6f55f72",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 4629.3,
+      "responseDoneMs": 5584.8,
+      "respondReturnedMs": 5584.8,
+      "allObservedWorkSettledMs": 6070.2,
+      "secondaryCallbacks": [
+        {
+          "settledMs": 6069,
+          "status": "completed",
+          "metrics": {
+            "secondary": 1438.4,
+            "generations": 1,
+            "worker_roundtrip": 1439.4,
+            "worker_queue": 0.4
+          }
+        }
+      ],
+      "totalJapaneseWaveMs": 4170.7,
+      "tutor": {
+        "reply": {
+          "japanese": "猫の映画が好きなんですね。おすすめの映画ありますか？",
+          "romaji": "Neko no eiga ga suki na n desu ne. Osusume no eiga arimasu ka?",
+          "french": "Tu aimes les films sur les chats. Tu as des films recommandés ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "observation",
+          "observation": {
+            "intent": "continue_from_answer",
+            "path": "generated",
+            "facts": [
+              {
+                "name": "from_place",
+                "value": "ベルギー"
+              },
+              {
+                "name": "preference:猫の映画",
+                "value": "like"
+              }
+            ]
+          },
+          "elapsedMs": 3739.7
+        },
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "猫の映画が好きなんですね。おすすめの映画ありますか？",
+              "romaji": "Neko no eiga ga suki na n desu ne. Osusume no eiga arimasu ka?",
+              "french": ""
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 3740
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 100396,
+          "durationMs": 2090.7,
+          "elapsedMs": 4629.3
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 99884,
+          "durationMs": 2080,
+          "elapsedMs": 5584.7
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1257.8,
+            "generations": 2,
+            "stream_complete": 2475.5,
+            "first_token": 1878.2,
+            "japanese_field_complete": 2433.9,
+            "json_gate_wait": 41.6,
+            "dialogue_japanese": 2475.5,
+            "lab_validation": 0.1,
+            "worker_roundtrip": 3739.5,
+            "worker_queue": 0.5,
+            "teaching": 3739.6673329999976,
+            "postprocess": 0.28791699999419507,
+            "tts_first": 889.2194999999992,
+            "first_audio_emit": 4629.198666999997,
+            "tts_all": 1844.7290409999987,
+            "playback_estimate": 4170.666666666666,
+            "secondary_pending": 1,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 5584.8
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 5584.8
+        },
+        {
+          "type": "details",
+          "japanese": "猫の映画が好きなんですね。おすすめの映画ありますか？",
+          "french": "Tu aimes les films sur les chats. Tu as des films recommandés ?",
+          "coaching": null,
+          "elapsedMs": 6069
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0,
+            "secondary_total": 1439.6877090000053,
+            "secondary": 1438.4,
+            "secondary_generations": 1
+          },
+          "elapsedMs": 6069
+        }
+      ],
+      "review": [
+        "Réagir au détail nouveau des films de chats ; ne pas inventer de film connu ou de goût de Mochi."
+      ]
+    },
+    {
+      "mode": "paired",
+      "conversation": "meet-to-cinema",
+      "turn": "new-preference-negation",
+      "policy": "generative",
+      "input": {
+        "scenario": "free",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          },
+          {
+            "role": "user",
+            "content": "ベルギーから来ました。"
+          },
+          {
+            "role": "assistant",
+            "content": "ベルギーですね。どこに住んでいますか？"
+          },
+          {
+            "role": "user",
+            "content": "今日は映画の話をしたいです。"
+          },
+          {
+            "role": "assistant",
+            "content": "どんな映画が好きですか？"
+          },
+          {
+            "role": "user",
+            "content": "猫の映画が好きです。"
+          },
+          {
+            "role": "assistant",
+            "content": "猫の映画が好きなんですね。ほかに何が好きですか？"
+          }
+        ],
+        "text": "音楽も好きです。でも、コーヒーは好きじゃないです。"
+      },
+      "inputSha256": "52137bd901945a334beea045008ad0a2a683a01da7cc0e03e09c5a857a9a5086",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 4703,
+      "responseDoneMs": 5718,
+      "respondReturnedMs": 5718,
+      "allObservedWorkSettledMs": 6460.6,
+      "secondaryCallbacks": [
+        {
+          "settledMs": 6459.3,
+          "status": "completed",
+          "metrics": {
+            "secondary": 1755.2,
+            "generations": 1,
+            "worker_roundtrip": 1756,
+            "worker_queue": 0.1
+          }
+        }
+      ],
+      "totalJapaneseWaveMs": 3840,
+      "tutor": {
+        "reply": {
+          "japanese": "音楽が好きなんですね。コーヒーは好きじゃないんですね。",
+          "romaji": "Ongaku ga suki na n desu ne. Kōhī wa suki ja nai n desu ne.",
+          "french": "Tu aimes la musique, hein. Tu n’aimes pas le café, hein."
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "observation",
+          "observation": {
+            "intent": "update_or_negation",
+            "path": "generated",
+            "facts": [
+              {
+                "name": "from_place",
+                "value": "ベルギー"
+              },
+              {
+                "name": "preference:猫の映画",
+                "value": "like"
+              }
+            ]
+          },
+          "elapsedMs": 3882.4
+        },
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "音楽が好きなんですね。コーヒーは好きじゃないんですね。",
+              "romaji": "Ongaku ga suki na n desu ne. Kōhī wa suki ja nai n desu ne.",
+              "french": ""
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 3882.7
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 84524,
+          "durationMs": 1760,
+          "elapsedMs": 4703
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 99884,
+          "durationMs": 2080,
+          "elapsedMs": 5717.9
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1310.1,
+            "generations": 2,
+            "stream_complete": 2432.1,
+            "first_token": 1946.4,
+            "japanese_field_complete": 2391.3,
+            "json_gate_wait": 40.8,
+            "dialogue_japanese": 2432.1,
+            "lab_validation": 0.1,
+            "worker_roundtrip": 3882.3,
+            "worker_queue": 0.3,
+            "teaching": 3882.4094169999953,
+            "postprocess": 0.2559580000015558,
+            "tts_first": 820.2097080000021,
+            "first_audio_emit": 4702.898957999998,
+            "tts_all": 1835.2560830000002,
+            "playback_estimate": 3840,
+            "secondary_pending": 1,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 5718
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 5718
+        },
+        {
+          "type": "details",
+          "japanese": "音楽が好きなんですね。コーヒーは好きじゃないんですね。",
+          "french": "Tu aimes la musique, hein. Tu n’aimes pas le café, hein.",
+          "coaching": null,
+          "elapsedMs": 6459.4
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0,
+            "secondary_total": 1756.4064170000056,
+            "secondary": 1755.2,
+            "secondary_generations": 1
+          },
+          "elapsedMs": 6459.4
+        }
+      ],
+      "review": [
+        "Conserver musique positive et café négatif ; relance pertinente, pas répétition du pays."
+      ]
+    },
+    {
+      "mode": "paired",
+      "conversation": "meet-to-cinema",
+      "turn": "new-preference-negation",
+      "policy": "hybrid",
+      "input": {
+        "scenario": "free",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          },
+          {
+            "role": "user",
+            "content": "ベルギーから来ました。"
+          },
+          {
+            "role": "assistant",
+            "content": "ベルギーですね。どこに住んでいますか？"
+          },
+          {
+            "role": "user",
+            "content": "今日は映画の話をしたいです。"
+          },
+          {
+            "role": "assistant",
+            "content": "どんな映画が好きですか？"
+          },
+          {
+            "role": "user",
+            "content": "猫の映画が好きです。"
+          },
+          {
+            "role": "assistant",
+            "content": "猫の映画が好きなんですね。ほかに何が好きですか？"
+          }
+        ],
+        "text": "音楽も好きです。でも、コーヒーは好きじゃないです。"
+      },
+      "inputSha256": "52137bd901945a334beea045008ad0a2a683a01da7cc0e03e09c5a857a9a5086",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 4851,
+      "responseDoneMs": 5721,
+      "respondReturnedMs": 5721,
+      "allObservedWorkSettledMs": 6441.3,
+      "secondaryCallbacks": [
+        {
+          "settledMs": 6440.1,
+          "status": "completed",
+          "metrics": {
+            "secondary": 1588.2,
+            "generations": 1,
+            "worker_roundtrip": 1588.9,
+            "worker_queue": 0.9
+          }
+        }
+      ],
+      "totalJapaneseWaveMs": 3840,
+      "tutor": {
+        "reply": {
+          "japanese": "音楽が好きなんですね。どんな音楽が好きですか？",
+          "romaji": "Ongaku ga suki na n desu ne. Donna ongaku ga suki desu ka?",
+          "french": "Tu aimes la musique, hein. Quelle musique aimes-tu ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "observation",
+          "observation": {
+            "intent": "update_or_negation",
+            "path": "generated",
+            "facts": [
+              {
+                "name": "from_place",
+                "value": "ベルギー"
+              },
+              {
+                "name": "preference:猫の映画",
+                "value": "like"
+              }
+            ]
+          },
+          "elapsedMs": 4080.4
+        },
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "音楽が好きなんですね。どんな音楽が好きですか？",
+              "romaji": "Ongaku ga suki na n desu ne. Donna ongaku ga suki desu ka?",
+              "french": ""
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 4080.6
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 84524,
+          "durationMs": 1760,
+          "elapsedMs": 4851
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 99884,
+          "durationMs": 2080,
+          "elapsedMs": 5721
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1570.1,
+            "generations": 2,
+            "stream_complete": 2508.4,
+            "first_token": 1855.9,
+            "japanese_field_complete": 2461.5,
+            "json_gate_wait": 46.9,
+            "dialogue_japanese": 2508.4,
+            "lab_validation": 0.1,
+            "worker_roundtrip": 4080.3,
+            "worker_queue": 0.3,
+            "teaching": 4080.3980410000004,
+            "postprocess": 0.20204199999716366,
+            "tts_first": 770.2832920000001,
+            "first_audio_emit": 4850.899416,
+            "tts_all": 1640.3531669999938,
+            "playback_estimate": 3840,
+            "secondary_pending": 1,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 5721
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 5721
+        },
+        {
+          "type": "details",
+          "japanese": "音楽が好きなんですね。どんな音楽が好きですか？",
+          "french": "Tu aimes la musique, hein. Quelle musique aimes-tu ?",
+          "coaching": null,
+          "elapsedMs": 6440.1
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0,
+            "secondary_total": 1589.1118750000023,
+            "secondary": 1588.2,
+            "secondary_generations": 1
+          },
+          "elapsedMs": 6440.1
+        }
+      ],
+      "review": [
+        "Conserver musique positive et café négatif ; relance pertinente, pas répétition du pays."
+      ]
+    },
+    {
+      "mode": "paired",
+      "conversation": "cafe-mixed-request",
+      "turn": "two-teas",
+      "policy": "generative",
+      "input": {
+        "scenario": "cafe",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習のカフェです。お茶は三百五十円、コーヒーは五百円です。何にしますか？"
+          }
+        ],
+        "text": "お茶を二つください。"
+      },
+      "inputSha256": "d1eb9cf4752728adeebf45a7112d6ae514a2846bde472fa9310ffe3b2998687f",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 4408.6,
+      "responseDoneMs": 5381.2,
+      "respondReturnedMs": 5381.2,
+      "allObservedWorkSettledMs": 5744.7,
+      "secondaryCallbacks": [
+        {
+          "settledMs": 5743.4,
+          "status": "completed",
+          "metrics": {
+            "secondary": 1333.8,
+            "generations": 1,
+            "worker_roundtrip": 1334.5,
+            "worker_queue": 0.5
+          }
+        }
+      ],
+      "totalJapaneseWaveMs": 3936,
+      "tutor": {
+        "reply": {
+          "japanese": "お茶を二つですね。ホットですか、アイスですか？",
+          "romaji": "Ocha o futatsu desu ne. Hotto desu ka, aisu desu ka?",
+          "french": "Deux thés, hein. Vous voulez du chaud ou du froid ?"
+        },
+        "coaching": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».",
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "observation",
+          "observation": {
+            "intent": "continue_from_answer",
+            "path": "generated",
+            "facts": [
+              {
+                "name": "drink",
+                "value": "お茶"
+              },
+              {
+                "name": "quantity",
+                "value": "二つ"
+              }
+            ]
+          },
+          "elapsedMs": 3768.7
+        },
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "お茶を二つですね。ホットですか、アイスですか？",
+              "romaji": "Ocha o futatsu desu ne. Hotto desu ka, aisu desu ka?",
+              "french": ""
+            },
+            "coaching": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 3769.2
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 70188,
+          "durationMs": 1461.3,
+          "elapsedMs": 4408.6
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 118828,
+          "durationMs": 2474.7,
+          "elapsedMs": 5381.1
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1210.4,
+            "generations": 2,
+            "stream_complete": 2554.1,
+            "first_token": 2000,
+            "japanese_field_complete": 2513.1,
+            "json_gate_wait": 40.9,
+            "dialogue_japanese": 2554.1,
+            "lab_validation": 0.1,
+            "worker_roundtrip": 3768.5,
+            "worker_queue": 0.5,
+            "teaching": 3768.83425,
+            "postprocess": 0.32699999999749707,
+            "tts_first": 639.3317909999969,
+            "first_audio_emit": 4408.527708000001,
+            "tts_all": 1611.9614999999976,
+            "playback_estimate": 3936.0000000000005,
+            "secondary_pending": 1,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 5381.2
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 5381.2
+        },
+        {
+          "type": "details",
+          "japanese": "お茶を二つですね。ホットですか、アイスですか？",
+          "french": "Deux thés, hein. Vous voulez du chaud ou du froid ?",
+          "coaching": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».",
+          "elapsedMs": 5743.4
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0,
+            "secondary_total": 1334.7883329999968,
+            "secondary": 1333.8,
+            "secondary_generations": 1
+          },
+          "elapsedMs": 5743.5
+        }
+      ],
+      "review": [
+        "Deux thés, aucune substitution de boisson ou quantité."
+      ]
+    },
+    {
+      "mode": "paired",
+      "conversation": "cafe-mixed-request",
+      "turn": "two-teas",
+      "policy": "hybrid",
+      "input": {
+        "scenario": "cafe",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習のカフェです。お茶は三百五十円、コーヒーは五百円です。何にしますか？"
+          }
+        ],
+        "text": "お茶を二つください。"
+      },
+      "inputSha256": "d1eb9cf4752728adeebf45a7112d6ae514a2846bde472fa9310ffe3b2998687f",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 1777.3,
+      "responseDoneMs": 2794.7,
+      "respondReturnedMs": 2794.7,
+      "allObservedWorkSettledMs": 2795.9,
+      "secondaryCallbacks": [],
+      "totalJapaneseWaveMs": 3829.4,
+      "tutor": {
+        "reply": {
+          "japanese": "お茶二つですね。ホットですか、アイスですか？",
+          "romaji": "Ocha futatsu desu ne. Hotto desu ka, aisu desu ka?",
+          "french": "2 thés, d’accord. Chaud ou glacé ?"
+        },
+        "coaching": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».",
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "observation",
+          "observation": {
+            "intent": "continue_from_answer",
+            "path": "controlled",
+            "facts": [
+              {
+                "name": "drink",
+                "value": "お茶"
+              },
+              {
+                "name": "quantity",
+                "value": "二つ"
+              }
+            ]
+          },
+          "elapsedMs": 1188.2
+        },
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "お茶二つですね。ホットですか、アイスですか？",
+              "romaji": "Ocha futatsu desu ne. Hotto desu ka, aisu desu ka?",
+              "french": "2 thés, d’accord. Chaud ou glacé ?"
+            },
+            "coaching": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1188.5
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 65068,
+          "durationMs": 1354.7,
+          "elapsedMs": 1777.3
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 118828,
+          "durationMs": 2474.7,
+          "elapsedMs": 2794.7
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1186.4,
+            "generations": 1,
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 1188.1,
+            "worker_queue": 0.1,
+            "teaching": 1188.2282080000004,
+            "postprocess": 0.24237499999435386,
+            "tts_first": 588.7000409999964,
+            "first_audio_emit": 1777.2168749999983,
+            "tts_all": 1606.1471249999959,
+            "playback_estimate": 3829.333333333334,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 2794.7
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 2794.7
+        }
+      ],
+      "review": [
+        "Deux thés, aucune substitution de boisson ou quantité."
+      ]
+    },
+    {
+      "mode": "paired",
+      "conversation": "cafe-mixed-request",
+      "turn": "temperature-plus-question",
+      "policy": "hybrid",
+      "input": {
+        "scenario": "cafe",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習のカフェです。お茶は三百五十円、コーヒーは五百円です。何にしますか？"
+          },
+          {
+            "role": "user",
+            "content": "お茶を二つください。"
+          },
+          {
+            "role": "assistant",
+            "content": "お茶を二つですね。ホットですか、アイスですか？"
+          }
+        ],
+        "text": "ホットでお願いします。トイレはどこですか？"
+      },
+      "inputSha256": "d40218d7838c56cabdfddf9fd327a94e8bb4272e2bafb8a9cbc7c7a692e4dda9",
+      "status": "failed",
+      "firstJapaneseAudioEmittedMs": null,
+      "responseDoneMs": null,
+      "respondReturnedMs": 7088,
+      "allObservedWorkSettledMs": 7089.1,
+      "secondaryCallbacks": [],
+      "totalJapaneseWaveMs": 0,
+      "tutor": null,
+      "events": [],
+      "review": [
+        "Conserver chaud et deux thés malgré la question ; ne pas inventer le lieu inconnu."
+      ],
+      "failure": "inference-or-contract-failed"
+    },
+    {
+      "mode": "paired",
+      "conversation": "cafe-mixed-request",
+      "turn": "temperature-plus-question",
+      "policy": "generative",
+      "input": {
+        "scenario": "cafe",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習のカフェです。お茶は三百五十円、コーヒーは五百円です。何にしますか？"
+          },
+          {
+            "role": "user",
+            "content": "お茶を二つください。"
+          },
+          {
+            "role": "assistant",
+            "content": "お茶を二つですね。ホットですか、アイスですか？"
+          }
+        ],
+        "text": "ホットでお願いします。トイレはどこですか？"
+      },
+      "inputSha256": "d40218d7838c56cabdfddf9fd327a94e8bb4272e2bafb8a9cbc7c7a692e4dda9",
+      "status": "failed",
+      "firstJapaneseAudioEmittedMs": null,
+      "responseDoneMs": null,
+      "respondReturnedMs": 7432.2,
+      "allObservedWorkSettledMs": 7433.4,
+      "secondaryCallbacks": [],
+      "totalJapaneseWaveMs": 0,
+      "tutor": null,
+      "events": [],
+      "review": [
+        "Conserver chaud et deux thés malgré la question ; ne pas inventer le lieu inconnu."
+      ],
+      "failure": "inference-or-contract-failed"
+    },
+    {
+      "mode": "paired",
+      "conversation": "cafe-mixed-request",
+      "turn": "reduce-quantity",
+      "policy": "generative",
+      "input": {
+        "scenario": "cafe",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習のカフェです。お茶は三百五十円、コーヒーは五百円です。何にしますか？"
+          },
+          {
+            "role": "user",
+            "content": "お茶を二つください。"
+          },
+          {
+            "role": "assistant",
+            "content": "お茶を二つですね。ホットですか、アイスですか？"
+          },
+          {
+            "role": "user",
+            "content": "ホットでお願いします。トイレはどこですか？"
+          },
+          {
+            "role": "assistant",
+            "content": "温かいお茶を二つですね。トイレの場所は分かりません。"
+          }
+        ],
+        "text": "やっぱり、お茶は一つでお願いします。"
+      },
+      "inputSha256": "fe304107defdcac30ff94280f35838cd5548baf00a67844d79c9cd5f893aa106",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 4634.7,
+      "responseDoneMs": 5396.1,
+      "respondReturnedMs": 5396.1,
+      "allObservedWorkSettledMs": 5899.4,
+      "secondaryCallbacks": [
+        {
+          "settledMs": 5898,
+          "status": "completed",
+          "metrics": {
+            "secondary": 1262.4,
+            "generations": 1,
+            "worker_roundtrip": 1263,
+            "worker_queue": 0.1
+          }
+        }
+      ],
+      "totalJapaneseWaveMs": 3328,
+      "tutor": {
+        "reply": {
+          "japanese": "一つのお茶ですね。ホットでよろしいですか？",
+          "romaji": "Hitotsu no ocha desu ne. Hotto de yoroshii desu ka?",
+          "french": "Un thé, c'est ça. Vous le voulez chaud ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "observation",
+          "observation": {
+            "intent": "update_or_negation",
+            "path": "generated",
+            "facts": [
+              {
+                "name": "drink",
+                "value": "お茶"
+              },
+              {
+                "name": "quantity",
+                "value": "一つ"
+              },
+              {
+                "name": "temperature",
+                "value": "ホット"
+              }
+            ]
+          },
+          "elapsedMs": 4028.2
+        },
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "一つのお茶ですね。ホットでよろしいですか？",
+              "romaji": "Hitotsu no ocha desu ne. Hotto de yoroshii desu ka?",
+              "french": ""
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 4028.4
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 70188,
+          "durationMs": 1461.3,
+          "elapsedMs": 4634.7
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 89644,
+          "durationMs": 1866.7,
+          "elapsedMs": 5396.1
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1384,
+            "generations": 2,
+            "stream_complete": 2640.7,
+            "first_token": 2162.3,
+            "japanese_field_complete": 2601.6,
+            "json_gate_wait": 39.1,
+            "dialogue_japanese": 2640.7,
+            "lab_validation": 0.1,
+            "worker_roundtrip": 4028.1,
+            "worker_queue": 0.1,
+            "teaching": 4028.1905419999966,
+            "postprocess": 0.22008300000743475,
+            "tts_first": 606.2207500000077,
+            "first_audio_emit": 4634.6469170000055,
+            "tts_all": 1367.6515000000072,
+            "playback_estimate": 3328,
+            "secondary_pending": 1,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 5396.1
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 5396.1
+        },
+        {
+          "type": "details",
+          "japanese": "一つのお茶ですね。ホットでよろしいですか？",
+          "french": "Un thé, c'est ça. Vous le voulez chaud ?",
+          "coaching": null,
+          "elapsedMs": 5898
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0,
+            "secondary_total": 1263.3070000000007,
+            "secondary": 1262.4,
+            "secondary_generations": 1
+          },
+          "elapsedMs": 5898.1
+        }
+      ],
+      "review": [
+        "Remplacer la quantité deux par un, conserver thé et température."
+      ]
+    },
+    {
+      "mode": "paired",
+      "conversation": "cafe-mixed-request",
+      "turn": "reduce-quantity",
+      "policy": "hybrid",
+      "input": {
+        "scenario": "cafe",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習のカフェです。お茶は三百五十円、コーヒーは五百円です。何にしますか？"
+          },
+          {
+            "role": "user",
+            "content": "お茶を二つください。"
+          },
+          {
+            "role": "assistant",
+            "content": "お茶を二つですね。ホットですか、アイスですか？"
+          },
+          {
+            "role": "user",
+            "content": "ホットでお願いします。トイレはどこですか？"
+          },
+          {
+            "role": "assistant",
+            "content": "温かいお茶を二つですね。トイレの場所は分かりません。"
+          }
+        ],
+        "text": "やっぱり、お茶は一つでお願いします。"
+      },
+      "inputSha256": "fe304107defdcac30ff94280f35838cd5548baf00a67844d79c9cd5f893aa106",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 2022.8,
+      "responseDoneMs": 2022.8,
+      "respondReturnedMs": 2022.8,
+      "allObservedWorkSettledMs": 2024.2,
+      "secondaryCallbacks": [],
+      "totalJapaneseWaveMs": 1802.7,
+      "tutor": {
+        "reply": {
+          "japanese": "ホットのお茶一つですね。",
+          "romaji": "Hotto no ocha hitotsu desu ne.",
+          "french": "Un thé chaud, d’accord."
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "observation",
+          "observation": {
+            "intent": "update_or_negation",
+            "path": "controlled",
+            "facts": [
+              {
+                "name": "drink",
+                "value": "お茶"
+              },
+              {
+                "name": "quantity",
+                "value": "一つ"
+              },
+              {
+                "name": "temperature",
+                "value": "ホット"
+              }
+            ]
+          },
+          "elapsedMs": 1283.5
+        },
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "ホットのお茶一つですね。",
+              "romaji": "Hotto no ocha hitotsu desu ne.",
+              "french": "Un thé chaud, d’accord."
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1283.7
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 86572,
+          "durationMs": 1802.7,
+          "elapsedMs": 2022.8
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1282.2,
+            "generations": 1,
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 1283.4,
+            "worker_queue": 0.4,
+            "teaching": 1283.481249999997,
+            "postprocess": 0.21408299999893643,
+            "tts_first": 739.020291000008,
+            "first_audio_emit": 2022.7317089999997,
+            "tts_all": 739.0741249999992,
+            "playback_estimate": 1802.6666666666667,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 2022.8
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 2022.8
+        }
+      ],
+      "review": [
+        "Remplacer la quantité deux par un, conserver thé et température."
+      ]
+    },
+    {
+      "mode": "paired",
+      "conversation": "cafe-mixed-request",
+      "turn": "known-linked-price",
+      "policy": "hybrid",
+      "input": {
+        "scenario": "cafe",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習のカフェです。お茶は三百五十円、コーヒーは五百円です。何にしますか？"
+          },
+          {
+            "role": "user",
+            "content": "お茶を二つください。"
+          },
+          {
+            "role": "assistant",
+            "content": "お茶を二つですね。ホットですか、アイスですか？"
+          },
+          {
+            "role": "user",
+            "content": "ホットでお願いします。トイレはどこですか？"
+          },
+          {
+            "role": "assistant",
+            "content": "温かいお茶を二つですね。トイレの場所は分かりません。"
+          },
+          {
+            "role": "user",
+            "content": "やっぱり、お茶は一つでお願いします。"
+          },
+          {
+            "role": "assistant",
+            "content": "温かいお茶を一つですね。"
+          }
+        ],
+        "text": "お茶はいくらですか？"
+      },
+      "inputSha256": "55c7e976ad328893da67f5477bf3157fd3c4646e915760f14090a5d25dd170d5",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 2079.5,
+      "responseDoneMs": 2079.5,
+      "respondReturnedMs": 2079.5,
+      "allObservedWorkSettledMs": 2080.9,
+      "secondaryCallbacks": [],
+      "totalJapaneseWaveMs": 1642.7,
+      "tutor": {
+        "reply": {
+          "japanese": "350円です。",
+          "romaji": "Sanbyaku gojū en desu.",
+          "french": "C’est 350 yens."
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "observation",
+          "observation": {
+            "intent": "answer_question",
+            "path": "controlled",
+            "facts": [
+              {
+                "name": "drink",
+                "value": "お茶"
+              },
+              {
+                "name": "quantity",
+                "value": "一つ"
+              },
+              {
+                "name": "temperature",
+                "value": "ホット"
+              }
+            ]
+          },
+          "elapsedMs": 1415.1
+        },
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "350円です。",
+              "romaji": "Sanbyaku gojū en desu.",
+              "french": "C’est 350 yens."
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1415.4
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 78892,
+          "durationMs": 1642.7,
+          "elapsedMs": 2079.5
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1413.3,
+            "generations": 1,
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 1415,
+            "worker_queue": 0,
+            "teaching": 1415.0867910000088,
+            "postprocess": 0.3193749999918509,
+            "tts_first": 663.9756670000061,
+            "first_audio_emit": 2079.397250000009,
+            "tts_all": 664.0470840000053,
+            "playback_estimate": 1642.6666666666667,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 2079.5
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 2079.5
+        }
+      ],
+      "review": [
+        "Prix fictif du thé 350 yens ; ne pas emprunter les 500 yens du café."
+      ]
+    },
+    {
+      "mode": "paired",
+      "conversation": "cafe-mixed-request",
+      "turn": "known-linked-price",
+      "policy": "generative",
+      "input": {
+        "scenario": "cafe",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習のカフェです。お茶は三百五十円、コーヒーは五百円です。何にしますか？"
+          },
+          {
+            "role": "user",
+            "content": "お茶を二つください。"
+          },
+          {
+            "role": "assistant",
+            "content": "お茶を二つですね。ホットですか、アイスですか？"
+          },
+          {
+            "role": "user",
+            "content": "ホットでお願いします。トイレはどこですか？"
+          },
+          {
+            "role": "assistant",
+            "content": "温かいお茶を二つですね。トイレの場所は分かりません。"
+          },
+          {
+            "role": "user",
+            "content": "やっぱり、お茶は一つでお願いします。"
+          },
+          {
+            "role": "assistant",
+            "content": "温かいお茶を一つですね。"
+          }
+        ],
+        "text": "お茶はいくらですか？"
+      },
+      "inputSha256": "55c7e976ad328893da67f5477bf3157fd3c4646e915760f14090a5d25dd170d5",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 4918.3,
+      "responseDoneMs": 4918.4,
+      "respondReturnedMs": 4918.4,
+      "allObservedWorkSettledMs": 4919.6,
+      "secondaryCallbacks": [],
+      "totalJapaneseWaveMs": 1984,
+      "tutor": {
+        "reply": {
+          "japanese": "お茶は三百五十円です。",
+          "romaji": "Ocha wa sanbyaku gojū en desu.",
+          "french": "Le thé coûte 350 yens."
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "observation",
+          "observation": {
+            "intent": "answer_question",
+            "path": "generated",
+            "facts": [
+              {
+                "name": "drink",
+                "value": "お茶"
+              },
+              {
+                "name": "quantity",
+                "value": "一つ"
+              },
+              {
+                "name": "temperature",
+                "value": "ホット"
+              }
+            ]
+          },
+          "elapsedMs": 4113.5
+        },
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "お茶は三百五十円です。",
+              "romaji": "Ocha wa sanbyaku gojū en desu.",
+              "french": "Le thé coûte 350 yens."
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 4113.7
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 95276,
+          "durationMs": 1984,
+          "elapsedMs": 4918.3
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1323.4,
+            "generations": 2,
+            "stream_complete": 2786,
+            "first_token": 2357.3,
+            "japanese_field_complete": 2733.1,
+            "json_gate_wait": 52.9,
+            "dialogue_japanese": 2786,
+            "lab_validation": 0.1,
+            "worker_roundtrip": 4113.4,
+            "worker_queue": 0.4,
+            "teaching": 4113.509665999998,
+            "postprocess": 0.2163330000039423,
+            "tts_first": 804.543834000011,
+            "first_audio_emit": 4918.282583000007,
+            "tts_all": 804.59375,
+            "playback_estimate": 1984,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 4918.4
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 4918.4
+        }
+      ],
+      "review": [
+        "Prix fictif du thé 350 yens ; ne pas emprunter les 500 yens du café."
+      ]
+    },
+    {
+      "mode": "rollout",
+      "conversation": "meet-to-cinema",
+      "turn": "origin",
+      "policy": "hybrid",
+      "input": {
+        "scenario": "free",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          }
+        ],
+        "text": "ベルギーから来ました。"
+      },
+      "inputSha256": "b4c877d8310c824519a778a2057cdb55c4a13946a2d0e0ecca1f4f3eb22bc7a3",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 2789.6,
+      "responseDoneMs": 3562.6,
+      "respondReturnedMs": 3562.6,
+      "allObservedWorkSettledMs": 4202.6,
+      "secondaryCallbacks": [
+        {
+          "settledMs": 4201.4,
+          "status": "completed",
+          "metrics": {
+            "secondary": 1410.9,
+            "generations": 1,
+            "worker_roundtrip": 1411.6,
+            "worker_queue": 0.6
+          }
+        }
+      ],
+      "totalJapaneseWaveMs": 3829.3,
+      "tutor": {
+        "reply": {
+          "japanese": "ベルギーはいいところですね。どんなところが好きですか？",
+          "romaji": "Berugī wa ii tokoro desu ne. Donna tokoro ga suki desu ka?",
+          "french": "La Belgique, c'est un bon endroit. Qu'est-ce qui vous plaît ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "observation",
+          "observation": {
+            "intent": "continue_from_answer",
+            "path": "generated",
+            "facts": [
+              {
+                "name": "from_place",
+                "value": "ベルギー"
+              }
+            ]
+          },
+          "elapsedMs": 2020.2
+        },
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "ベルギーはいいところですね。どんなところが好きですか？",
+              "romaji": "Berugī wa ii tokoro desu ne. Donna tokoro ga suki desu ka?",
+              "french": ""
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 2020.5
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 90156,
+          "durationMs": 1877.3,
+          "elapsedMs": 2789.6
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 93740,
+          "durationMs": 1952,
+          "elapsedMs": 3562.5
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "stream_complete": 2018.9,
+            "first_token": 1425.4,
+            "japanese_field_complete": 1977.8,
+            "json_gate_wait": 41.2,
+            "dialogue_japanese": 2018.9,
+            "generations": 1,
+            "lab_validation": 0.1,
+            "worker_roundtrip": 2020.1,
+            "worker_queue": 0.1,
+            "teaching": 2020.1620829999883,
+            "postprocess": 0.33145800000056624,
+            "tts_first": 769.0133750000095,
+            "first_audio_emit": 2789.5288329999894,
+            "tts_all": 1542.0098750000034,
+            "playback_estimate": 3829.333333333333,
+            "secondary_pending": 1,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 3562.6
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 3562.6
+        },
+        {
+          "type": "details",
+          "japanese": "ベルギーはいいところですね。どんなところが好きですか？",
+          "french": "La Belgique, c'est un bon endroit. Qu'est-ce qui vous plaît ?",
+          "coaching": null,
+          "elapsedMs": 4201.4
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0,
+            "secondary_total": 1411.7849579999893,
+            "secondary": 1410.9,
+            "secondary_generations": 1
+          },
+          "elapsedMs": 4201.4
+        }
+      ],
+      "review": [
+        "Conserver l'origine sans inventer de résidence."
+      ]
+    },
+    {
+      "mode": "rollout",
+      "conversation": "meet-to-cinema",
+      "turn": "topic-change",
+      "policy": "hybrid",
+      "input": {
+        "scenario": "free",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          },
+          {
+            "role": "user",
+            "content": "ベルギーから来ました。"
+          },
+          {
+            "role": "assistant",
+            "content": "ベルギーはいいところですね。どんなところが好きですか？"
+          }
+        ],
+        "text": "今日は映画の話をしたいです。"
+      },
+      "inputSha256": "933d76679f61c1c40b4296bf2208e3addf699bc742bccceac9b21a1a7ee23c5e",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 3998.7,
+      "responseDoneMs": 4842.6,
+      "respondReturnedMs": 4842.6,
+      "allObservedWorkSettledMs": 5997.1,
+      "secondaryCallbacks": [
+        {
+          "settledMs": 5995.9,
+          "status": "completed",
+          "metrics": {
+            "secondary": 1996.5,
+            "generations": 1,
+            "worker_roundtrip": 1997.1,
+            "worker_queue": 0.1
+          }
+        }
+      ],
+      "totalJapaneseWaveMs": 3562.6,
+      "tutor": {
+        "reply": {
+          "japanese": "映画が好きなんですね。どんな映画が好きですか？",
+          "romaji": "Eiga ga suki na n desu ne. Donna eiga ga suki desu ka?",
+          "french": "Tu aimes les films, hein ? Quel genre de films aimes-tu ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "observation",
+          "observation": {
+            "intent": "topic_shift",
+            "path": "generated",
+            "facts": [
+              {
+                "name": "from_place",
+                "value": "ベルギー"
+              }
+            ]
+          },
+          "elapsedMs": 3384.2
+        },
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "映画が好きなんですね。どんな映画が好きですか？",
+              "romaji": "Eiga ga suki na n desu ne. Donna eiga ga suki desu ka?",
+              "french": ""
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 3384.4
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 79404,
+          "durationMs": 1653.3,
+          "elapsedMs": 3998.7
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 91692,
+          "durationMs": 1909.3,
+          "elapsedMs": 4842.5
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1359.6,
+            "generations": 2,
+            "stream_complete": 2023.1,
+            "first_token": 1515.6,
+            "japanese_field_complete": 1981.9,
+            "json_gate_wait": 41.2,
+            "dialogue_japanese": 2023.1,
+            "lab_validation": 0.1,
+            "worker_roundtrip": 3384.1,
+            "worker_queue": 0.1,
+            "teaching": 3384.2105420000007,
+            "postprocess": 0.2096670000028098,
+            "tts_first": 614.1869580000057,
+            "first_audio_emit": 3998.630833000003,
+            "tts_all": 1458.0781669999997,
+            "playback_estimate": 3562.6666666666665,
+            "secondary_pending": 1,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 4842.6
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 4842.6
+        },
+        {
+          "type": "details",
+          "japanese": "映画が好きなんですね。どんな映画が好きですか？",
+          "french": "Tu aimes les films, hein ? Quel genre de films aimes-tu ?",
+          "coaching": null,
+          "elapsedMs": 5995.9
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0,
+            "secondary_total": 1997.2765420000069,
+            "secondary": 1996.5,
+            "secondary_generations": 1
+          },
+          "elapsedMs": 5996
+        }
+      ],
+      "review": [
+        "Répondre au changement explicite de sujet, sans reprendre le questionnaire de résidence."
+      ]
+    },
+    {
+      "mode": "rollout",
+      "conversation": "meet-to-cinema",
+      "turn": "new-interest",
+      "policy": "hybrid",
+      "input": {
+        "scenario": "free",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          },
+          {
+            "role": "user",
+            "content": "ベルギーから来ました。"
+          },
+          {
+            "role": "assistant",
+            "content": "ベルギーはいいところですね。どんなところが好きですか？"
+          },
+          {
+            "role": "user",
+            "content": "今日は映画の話をしたいです。"
+          },
+          {
+            "role": "assistant",
+            "content": "映画が好きなんですね。どんな映画が好きですか？"
+          }
+        ],
+        "text": "猫の映画が好きです。"
+      },
+      "inputSha256": "e8b294296a2ea6e084accde9933aaaf3473b69baa5e4f5d5bcdc1e9fffc63500",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 5197.1,
+      "responseDoneMs": 6078.9,
+      "respondReturnedMs": 6078.9,
+      "allObservedWorkSettledMs": 7003.9,
+      "secondaryCallbacks": [
+        {
+          "settledMs": 7002.7,
+          "status": "completed",
+          "metrics": {
+            "secondary": 1804.7,
+            "generations": 1,
+            "worker_roundtrip": 1805.4,
+            "worker_queue": 0.4
+          }
+        }
+      ],
+      "totalJapaneseWaveMs": 4170.7,
+      "tutor": {
+        "reply": {
+          "japanese": "猫の映画が好きなんですね。おすすめの映画ありますか？",
+          "romaji": "Neko no eiga ga suki na n desu ne. Osusume no eiga arimasu ka?",
+          "french": "Tu aimes les films sur les chats, hein. Tu as des films recommandés ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "observation",
+          "observation": {
+            "intent": "continue_from_answer",
+            "path": "generated",
+            "facts": [
+              {
+                "name": "from_place",
+                "value": "ベルギー"
+              },
+              {
+                "name": "preference:猫の映画",
+                "value": "like"
+              }
+            ]
+          },
+          "elapsedMs": 4271.8
+        },
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "猫の映画が好きなんですね。おすすめの映画ありますか？",
+              "romaji": "Neko no eiga ga suki na n desu ne. Osusume no eiga arimasu ka?",
+              "french": ""
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 4272.1
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 100396,
+          "durationMs": 2090.7,
+          "elapsedMs": 5197.1
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 99884,
+          "durationMs": 2080,
+          "elapsedMs": 6078.8
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1654.9,
+            "generations": 2,
+            "stream_complete": 2615.6,
+            "first_token": 1822.8,
+            "japanese_field_complete": 2559.2,
+            "json_gate_wait": 56.4,
+            "dialogue_japanese": 2615.6,
+            "lab_validation": 0.1,
+            "worker_roundtrip": 4271.7,
+            "worker_queue": 0.7,
+            "teaching": 4271.807916000005,
+            "postprocess": 0.32029200000397395,
+            "tts_first": 924.8564170000027,
+            "first_audio_emit": 5197.003708000004,
+            "tts_all": 1806.659541999994,
+            "playback_estimate": 4170.666666666666,
+            "secondary_pending": 1,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 6078.9
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 6078.9
+        },
+        {
+          "type": "details",
+          "japanese": "猫の映画が好きなんですね。おすすめの映画ありますか？",
+          "french": "Tu aimes les films sur les chats, hein. Tu as des films recommandés ?",
+          "coaching": null,
+          "elapsedMs": 7002.7
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0,
+            "secondary_total": 1805.6582500000077,
+            "secondary": 1804.7,
+            "secondary_generations": 1
+          },
+          "elapsedMs": 7002.8
+        }
+      ],
+      "review": [
+        "Réagir au détail nouveau des films de chats ; ne pas inventer de film connu ou de goût de Mochi."
+      ]
+    },
+    {
+      "mode": "rollout",
+      "conversation": "meet-to-cinema",
+      "turn": "new-preference-negation",
+      "policy": "hybrid",
+      "input": {
+        "scenario": "free",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          },
+          {
+            "role": "user",
+            "content": "ベルギーから来ました。"
+          },
+          {
+            "role": "assistant",
+            "content": "ベルギーはいいところですね。どんなところが好きですか？"
+          },
+          {
+            "role": "user",
+            "content": "今日は映画の話をしたいです。"
+          },
+          {
+            "role": "assistant",
+            "content": "映画が好きなんですね。どんな映画が好きですか？"
+          },
+          {
+            "role": "user",
+            "content": "猫の映画が好きです。"
+          },
+          {
+            "role": "assistant",
+            "content": "猫の映画が好きなんですね。おすすめの映画ありますか？"
+          }
+        ],
+        "text": "音楽も好きです。でも、コーヒーは好きじゃないです。"
+      },
+      "inputSha256": "efba231b92db9af74650be3d83574b19e0e5247a79be7f1b65e30b86ca307a66",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 4377.1,
+      "responseDoneMs": 5178.2,
+      "respondReturnedMs": 5178.2,
+      "allObservedWorkSettledMs": 5780.1,
+      "secondaryCallbacks": [
+        {
+          "settledMs": 5778.9,
+          "status": "completed",
+          "metrics": {
+            "secondary": 1400.9,
+            "generations": 1,
+            "worker_roundtrip": 1401.6,
+            "worker_queue": 0.6
+          }
+        }
+      ],
+      "totalJapaneseWaveMs": 3840,
+      "tutor": {
+        "reply": {
+          "japanese": "音楽が好きなんですね。どんな音楽が好きですか？",
+          "romaji": "Ongaku ga suki na n desu ne. Donna ongaku ga suki desu ka?",
+          "french": "Tu aimes la musique, hein. Quelle musique aimes-tu ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "observation",
+          "observation": {
+            "intent": "update_or_negation",
+            "path": "generated",
+            "facts": [
+              {
+                "name": "from_place",
+                "value": "ベルギー"
+              },
+              {
+                "name": "preference:猫の映画",
+                "value": "like"
+              }
+            ]
+          },
+          "elapsedMs": 3681.1
+        },
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "音楽が好きなんですね。どんな音楽が好きですか？",
+              "romaji": "Ongaku ga suki na n desu ne. Donna ongaku ga suki desu ka?",
+              "french": ""
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 3681.4
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 84524,
+          "durationMs": 1760,
+          "elapsedMs": 4377.1
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 99884,
+          "durationMs": 2080,
+          "elapsedMs": 5178.1
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1359.2,
+            "generations": 2,
+            "stream_complete": 2320.6,
+            "first_token": 1774.8,
+            "japanese_field_complete": 2274.5,
+            "json_gate_wait": 46.1,
+            "dialogue_japanese": 2320.6,
+            "lab_validation": 0.1,
+            "worker_roundtrip": 3681.1,
+            "worker_queue": 0.1,
+            "teaching": 3681.1559169999964,
+            "postprocess": 0.22262500000942964,
+            "tts_first": 695.6224159999983,
+            "first_audio_emit": 4377.014209000001,
+            "tts_all": 1496.7511249999952,
+            "playback_estimate": 3840,
+            "secondary_pending": 1,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 5178.2
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 5178.2
+        },
+        {
+          "type": "details",
+          "japanese": "音楽が好きなんですね。どんな音楽が好きですか？",
+          "french": "Tu aimes la musique, hein. Quelle musique aimes-tu ?",
+          "coaching": null,
+          "elapsedMs": 5778.9
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0,
+            "secondary_total": 1401.8707910000085,
+            "secondary": 1400.9,
+            "secondary_generations": 1
+          },
+          "elapsedMs": 5779
+        }
+      ],
+      "review": [
+        "Conserver musique positive et café négatif ; relance pertinente, pas répétition du pays."
+      ]
+    },
+    {
+      "mode": "rollout",
+      "conversation": "meet-to-cinema",
+      "turn": "origin",
+      "policy": "generative",
+      "input": {
+        "scenario": "free",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          }
+        ],
+        "text": "ベルギーから来ました。"
+      },
+      "inputSha256": "b4c877d8310c824519a778a2057cdb55c4a13946a2d0e0ecca1f4f3eb22bc7a3",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 3253.3,
+      "responseDoneMs": 4019.6,
+      "respondReturnedMs": 4019.6,
+      "allObservedWorkSettledMs": 4841.4,
+      "secondaryCallbacks": [
+        {
+          "settledMs": 4840.3,
+          "status": "completed",
+          "metrics": {
+            "secondary": 1586.1,
+            "generations": 1,
+            "worker_roundtrip": 1586.7,
+            "worker_queue": 0.7
+          }
+        }
+      ],
+      "totalJapaneseWaveMs": 3829.3,
+      "tutor": {
+        "reply": {
+          "japanese": "ベルギーはいいところですね。どんなところが好きですか？",
+          "romaji": "Berugī wa ii tokoro desu ne. Donna tokoro ga suki desu ka?",
+          "french": "La Belgique, c'est un bon endroit. Qu'est-ce qui vous plaît ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "observation",
+          "observation": {
+            "intent": "continue_from_answer",
+            "path": "generated",
+            "facts": [
+              {
+                "name": "from_place",
+                "value": "ベルギー"
+              }
+            ]
+          },
+          "elapsedMs": 2506.6
+        },
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "ベルギーはいいところですね。どんなところが好きですか？",
+              "romaji": "Berugī wa ii tokoro desu ne. Donna tokoro ga suki desu ka?",
+              "french": ""
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 2507
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 90156,
+          "durationMs": 1877.3,
+          "elapsedMs": 3253.3
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 93740,
+          "durationMs": 1952,
+          "elapsedMs": 4019.6
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "stream_complete": 2505.6,
+            "first_token": 1834.2,
+            "japanese_field_complete": 2452.7,
+            "json_gate_wait": 53,
+            "dialogue_japanese": 2505.7,
+            "generations": 1,
+            "lab_validation": 0.1,
+            "worker_roundtrip": 2506.5,
+            "worker_queue": 0.5,
+            "teaching": 2506.6465409999946,
+            "postprocess": 0.3049999999930151,
+            "tts_first": 746.3106659999903,
+            "first_audio_emit": 3253.2836659999884,
+            "tts_all": 1512.5947079999896,
+            "playback_estimate": 3829.333333333333,
+            "secondary_pending": 1,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 4019.6
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 4019.6
+        },
+        {
+          "type": "details",
+          "japanese": "ベルギーはいいところですね。どんなところが好きですか？",
+          "french": "La Belgique, c'est un bon endroit. Qu'est-ce qui vous plaît ?",
+          "coaching": null,
+          "elapsedMs": 4840.3
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0,
+            "secondary_total": 1586.9604170000093,
+            "secondary": 1586.1,
+            "secondary_generations": 1
+          },
+          "elapsedMs": 4840.3
+        }
+      ],
+      "review": [
+        "Conserver l'origine sans inventer de résidence."
+      ]
+    },
+    {
+      "mode": "rollout",
+      "conversation": "meet-to-cinema",
+      "turn": "topic-change",
+      "policy": "generative",
+      "input": {
+        "scenario": "free",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          },
+          {
+            "role": "user",
+            "content": "ベルギーから来ました。"
+          },
+          {
+            "role": "assistant",
+            "content": "ベルギーはいいところですね。どんなところが好きですか？"
+          }
+        ],
+        "text": "今日は映画の話をしたいです。"
+      },
+      "inputSha256": "933d76679f61c1c40b4296bf2208e3addf699bc742bccceac9b21a1a7ee23c5e",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 4542.5,
+      "responseDoneMs": 5283.1,
+      "respondReturnedMs": 5283.1,
+      "allObservedWorkSettledMs": 6221,
+      "secondaryCallbacks": [
+        {
+          "settledMs": 6219.9,
+          "status": "completed",
+          "metrics": {
+            "secondary": 1676.5,
+            "generations": 1,
+            "worker_roundtrip": 1677.2,
+            "worker_queue": 0.2
+          }
+        }
+      ],
+      "totalJapaneseWaveMs": 3562.6,
+      "tutor": {
+        "reply": {
+          "japanese": "映画が好きなんですね。どんな映画が好きですか？",
+          "romaji": "Eiga ga suki na n desu ne. Donna eiga ga suki desu ka?",
+          "french": "Tu aimes les films, hein ? Quel genre de films aimes-tu ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "observation",
+          "observation": {
+            "intent": "topic_shift",
+            "path": "generated",
+            "facts": [
+              {
+                "name": "from_place",
+                "value": "ベルギー"
+              }
+            ]
+          },
+          "elapsedMs": 3891.8
+        },
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "映画が好きなんですね。どんな映画が好きですか？",
+              "romaji": "Eiga ga suki na n desu ne. Donna eiga ga suki desu ka?",
+              "french": ""
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 3892
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 79404,
+          "durationMs": 1653.3,
+          "elapsedMs": 4542.5
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 91692,
+          "durationMs": 1909.3,
+          "elapsedMs": 5283
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1350.5,
+            "generations": 2,
+            "stream_complete": 2540.3,
+            "first_token": 1924.9,
+            "japanese_field_complete": 2501.3,
+            "json_gate_wait": 38.9,
+            "dialogue_japanese": 2540.3,
+            "lab_validation": 0.1,
+            "worker_roundtrip": 3891.7,
+            "worker_queue": 0.7,
+            "teaching": 3891.7923750000045,
+            "postprocess": 0.24116600000706967,
+            "tts_first": 650.3794580000103,
+            "first_audio_emit": 4542.426166000005,
+            "tts_all": 1390.9739580000023,
+            "playback_estimate": 3562.6666666666665,
+            "secondary_pending": 1,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 5283.1
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 5283.1
+        },
+        {
+          "type": "details",
+          "japanese": "映画が好きなんですね。どんな映画が好きですか？",
+          "french": "Tu aimes les films, hein ? Quel genre de films aimes-tu ?",
+          "coaching": null,
+          "elapsedMs": 6219.9
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0,
+            "secondary_total": 1677.4502080000093,
+            "secondary": 1676.5,
+            "secondary_generations": 1
+          },
+          "elapsedMs": 6219.9
+        }
+      ],
+      "review": [
+        "Répondre au changement explicite de sujet, sans reprendre le questionnaire de résidence."
+      ]
+    },
+    {
+      "mode": "rollout",
+      "conversation": "meet-to-cinema",
+      "turn": "new-interest",
+      "policy": "generative",
+      "input": {
+        "scenario": "free",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          },
+          {
+            "role": "user",
+            "content": "ベルギーから来ました。"
+          },
+          {
+            "role": "assistant",
+            "content": "ベルギーはいいところですね。どんなところが好きですか？"
+          },
+          {
+            "role": "user",
+            "content": "今日は映画の話をしたいです。"
+          },
+          {
+            "role": "assistant",
+            "content": "映画が好きなんですね。どんな映画が好きですか？"
+          }
+        ],
+        "text": "猫の映画が好きです。"
+      },
+      "inputSha256": "e8b294296a2ea6e084accde9933aaaf3473b69baa5e4f5d5bcdc1e9fffc63500",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 5146.3,
+      "responseDoneMs": 5924.9,
+      "respondReturnedMs": 5924.9,
+      "allObservedWorkSettledMs": 6762.7,
+      "secondaryCallbacks": [
+        {
+          "settledMs": 6761.5,
+          "status": "completed",
+          "metrics": {
+            "secondary": 1614.1,
+            "generations": 1,
+            "worker_roundtrip": 1614.8,
+            "worker_queue": 0.8
+          }
+        }
+      ],
+      "totalJapaneseWaveMs": 4170.7,
+      "tutor": {
+        "reply": {
+          "japanese": "猫の映画が好きなんですね。おすすめの映画ありますか？",
+          "romaji": "Neko no eiga ga suki na n desu ne. Osusume no eiga arimasu ka?",
+          "french": "Tu aimes les films sur les chats, hein. Tu as des films recommandés ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "observation",
+          "observation": {
+            "intent": "continue_from_answer",
+            "path": "generated",
+            "facts": [
+              {
+                "name": "from_place",
+                "value": "ベルギー"
+              },
+              {
+                "name": "preference:猫の映画",
+                "value": "like"
+              }
+            ]
+          },
+          "elapsedMs": 4360.5
+        },
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "猫の映画が好きなんですね。おすすめの映画ありますか？",
+              "romaji": "Neko no eiga ga suki na n desu ne. Osusume no eiga arimasu ka?",
+              "french": ""
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 4360.8
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 100396,
+          "durationMs": 2090.7,
+          "elapsedMs": 5146.3
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 99884,
+          "durationMs": 2080,
+          "elapsedMs": 5924.8
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1448.6,
+            "generations": 2,
+            "stream_complete": 2910.8,
+            "first_token": 2153.3,
+            "japanese_field_complete": 2857.3,
+            "json_gate_wait": 53.5,
+            "dialogue_japanese": 2910.8,
+            "lab_validation": 0.1,
+            "worker_roundtrip": 4360.5,
+            "worker_queue": 0.5,
+            "teaching": 4360.556832999995,
+            "postprocess": 0.2228330000070855,
+            "tts_first": 785.4559169999993,
+            "first_audio_emit": 5146.247999999992,
+            "tts_all": 1564.073917000016,
+            "playback_estimate": 4170.666666666666,
+            "secondary_pending": 1,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 5924.9
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 5924.9
+        },
+        {
+          "type": "details",
+          "japanese": "猫の映画が好きなんですね。おすすめの映画ありますか？",
+          "french": "Tu aimes les films sur les chats, hein. Tu as des films recommandés ?",
+          "coaching": null,
+          "elapsedMs": 6761.5
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0,
+            "secondary_total": 1615.1655000000028,
+            "secondary": 1614.1,
+            "secondary_generations": 1
+          },
+          "elapsedMs": 6761.5
+        }
+      ],
+      "review": [
+        "Réagir au détail nouveau des films de chats ; ne pas inventer de film connu ou de goût de Mochi."
+      ]
+    },
+    {
+      "mode": "rollout",
+      "conversation": "meet-to-cinema",
+      "turn": "new-preference-negation",
+      "policy": "generative",
+      "input": {
+        "scenario": "free",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "どこから来ましたか？"
+          },
+          {
+            "role": "user",
+            "content": "ベルギーから来ました。"
+          },
+          {
+            "role": "assistant",
+            "content": "ベルギーはいいところですね。どんなところが好きですか？"
+          },
+          {
+            "role": "user",
+            "content": "今日は映画の話をしたいです。"
+          },
+          {
+            "role": "assistant",
+            "content": "映画が好きなんですね。どんな映画が好きですか？"
+          },
+          {
+            "role": "user",
+            "content": "猫の映画が好きです。"
+          },
+          {
+            "role": "assistant",
+            "content": "猫の映画が好きなんですね。おすすめの映画ありますか？"
+          }
+        ],
+        "text": "音楽も好きです。でも、コーヒーは好きじゃないです。"
+      },
+      "inputSha256": "efba231b92db9af74650be3d83574b19e0e5247a79be7f1b65e30b86ca307a66",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 4945.2,
+      "responseDoneMs": 5864.7,
+      "respondReturnedMs": 5864.7,
+      "allObservedWorkSettledMs": 6834.3,
+      "secondaryCallbacks": [
+        {
+          "settledMs": 6833.1,
+          "status": "completed",
+          "metrics": {
+            "secondary": 1887,
+            "generations": 1,
+            "worker_roundtrip": 1887.7,
+            "worker_queue": 0.7
+          }
+        }
+      ],
+      "totalJapaneseWaveMs": 3840,
+      "tutor": {
+        "reply": {
+          "japanese": "音楽が好きなんですね。どんな音楽が好きですか？",
+          "romaji": "Ongaku ga suki na n desu ne. Donna ongaku ga suki desu ka?",
+          "french": "Tu aimes la musique, hein. Quelle musique aimes-tu ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "observation",
+          "observation": {
+            "intent": "update_or_negation",
+            "path": "generated",
+            "facts": [
+              {
+                "name": "from_place",
+                "value": "ベルギー"
+              },
+              {
+                "name": "preference:猫の映画",
+                "value": "like"
+              }
+            ]
+          },
+          "elapsedMs": 4153.2
+        },
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "音楽が好きなんですね。どんな音楽が好きですか？",
+              "romaji": "Ongaku ga suki na n desu ne. Donna ongaku ga suki desu ka?",
+              "french": ""
+            },
+            "coaching": null,
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 4153.6
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 84524,
+          "durationMs": 1760,
+          "elapsedMs": 4945.2
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 99884,
+          "durationMs": 2080,
+          "elapsedMs": 5864.6
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1343,
+            "generations": 2,
+            "stream_complete": 2808.8,
+            "first_token": 2128.7,
+            "japanese_field_complete": 2750.6,
+            "json_gate_wait": 58.2,
+            "dialogue_japanese": 2808.8,
+            "lab_validation": 0.1,
+            "worker_roundtrip": 4153,
+            "worker_queue": 0,
+            "teaching": 4153.162707999989,
+            "postprocess": 0.41575000001466833,
+            "tts_first": 791.4993329999852,
+            "first_audio_emit": 4945.114457999996,
+            "tts_all": 1711.0031249999884,
+            "playback_estimate": 3840,
+            "secondary_pending": 1,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 5864.7
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 5864.7
+        },
+        {
+          "type": "details",
+          "japanese": "音楽が好きなんですね。どんな音楽が好きですか？",
+          "french": "Tu aimes la musique, hein. Quelle musique aimes-tu ?",
+          "coaching": null,
+          "elapsedMs": 6833.1
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0,
+            "secondary_total": 1887.9792910000251,
+            "secondary": 1887,
+            "secondary_generations": 1
+          },
+          "elapsedMs": 6833.2
+        }
+      ],
+      "review": [
+        "Conserver musique positive et café négatif ; relance pertinente, pas répétition du pays."
+      ]
+    },
+    {
+      "mode": "rollout",
+      "conversation": "cafe-mixed-request",
+      "turn": "two-teas",
+      "policy": "generative",
+      "input": {
+        "scenario": "cafe",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習のカフェです。お茶は三百五十円、コーヒーは五百円です。何にしますか？"
+          }
+        ],
+        "text": "お茶を二つください。"
+      },
+      "inputSha256": "d1eb9cf4752728adeebf45a7112d6ae514a2846bde472fa9310ffe3b2998687f",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 4874,
+      "responseDoneMs": 5842.4,
+      "respondReturnedMs": 5842.4,
+      "allObservedWorkSettledMs": 6392.3,
+      "secondaryCallbacks": [
+        {
+          "settledMs": 6391,
+          "status": "completed",
+          "metrics": {
+            "secondary": 1516,
+            "generations": 1,
+            "worker_roundtrip": 1516.8,
+            "worker_queue": 0.8
+          }
+        }
+      ],
+      "totalJapaneseWaveMs": 3936,
+      "tutor": {
+        "reply": {
+          "japanese": "お茶を二つですね。ホットですか、アイスですか？",
+          "romaji": "Ocha o futatsu desu ne. Hotto desu ka, aisu desu ka?",
+          "french": "Deux thés, hein. Vous voulez du chaud ou du froid ?"
+        },
+        "coaching": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».",
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "observation",
+          "observation": {
+            "intent": "continue_from_answer",
+            "path": "generated",
+            "facts": [
+              {
+                "name": "drink",
+                "value": "お茶"
+              },
+              {
+                "name": "quantity",
+                "value": "二つ"
+              }
+            ]
+          },
+          "elapsedMs": 4269.8
+        },
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "お茶を二つですね。ホットですか、アイスですか？",
+              "romaji": "Ocha o futatsu desu ne. Hotto desu ka, aisu desu ka?",
+              "french": ""
+            },
+            "coaching": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 4270.3
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 70188,
+          "durationMs": 1461.3,
+          "elapsedMs": 4874
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 118828,
+          "durationMs": 2474.7,
+          "elapsedMs": 5842.3
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1518.6,
+            "generations": 2,
+            "stream_complete": 2750,
+            "first_token": 2167.1,
+            "japanese_field_complete": 2695.3,
+            "json_gate_wait": 54.7,
+            "dialogue_japanese": 2750,
+            "lab_validation": 0.1,
+            "worker_roundtrip": 4269.7,
+            "worker_queue": 0.7,
+            "teaching": 4269.822832999984,
+            "postprocess": 0.47491699998499826,
+            "tts_first": 603.6411250000237,
+            "first_audio_emit": 4873.958332999988,
+            "tts_all": 1572.0023330000113,
+            "playback_estimate": 3936.0000000000005,
+            "secondary_pending": 1,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 5842.4
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 5842.4
+        },
+        {
+          "type": "details",
+          "japanese": "お茶を二つですね。ホットですか、アイスですか？",
+          "french": "Deux thés, hein. Vous voulez du chaud ou du froid ?",
+          "coaching": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».",
+          "elapsedMs": 6391.1
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0,
+            "secondary_total": 1517.0642079999961,
+            "secondary": 1516,
+            "secondary_generations": 1
+          },
+          "elapsedMs": 6391.1
+        }
+      ],
+      "review": [
+        "Deux thés, aucune substitution de boisson ou quantité."
+      ]
+    },
+    {
+      "mode": "rollout",
+      "conversation": "cafe-mixed-request",
+      "turn": "temperature-plus-question",
+      "policy": "generative",
+      "input": {
+        "scenario": "cafe",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習のカフェです。お茶は三百五十円、コーヒーは五百円です。何にしますか？"
+          },
+          {
+            "role": "user",
+            "content": "お茶を二つください。"
+          },
+          {
+            "role": "assistant",
+            "content": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».\nお茶を二つですね。ホットですか、アイスですか？"
+          }
+        ],
+        "text": "ホットでお願いします。トイレはどこですか？"
+      },
+      "inputSha256": "7ee423b148f6a94814191c09b4a59a503d06d2c2600d8bc275518f0069834431",
+      "status": "failed",
+      "firstJapaneseAudioEmittedMs": null,
+      "responseDoneMs": null,
+      "respondReturnedMs": 6446.5,
+      "allObservedWorkSettledMs": 6447.7,
+      "secondaryCallbacks": [],
+      "totalJapaneseWaveMs": 0,
+      "tutor": null,
+      "events": [],
+      "review": [
+        "Conserver chaud et deux thés malgré la question ; ne pas inventer le lieu inconnu."
+      ],
+      "failure": "inference-or-contract-failed"
+    },
+    {
+      "mode": "rollout",
+      "conversation": "cafe-mixed-request",
+      "turn": "two-teas",
+      "policy": "hybrid",
+      "input": {
+        "scenario": "cafe",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習のカフェです。お茶は三百五十円、コーヒーは五百円です。何にしますか？"
+          }
+        ],
+        "text": "お茶を二つください。"
+      },
+      "inputSha256": "d1eb9cf4752728adeebf45a7112d6ae514a2846bde472fa9310ffe3b2998687f",
+      "status": "complete",
+      "firstJapaneseAudioEmittedMs": 2042.9,
+      "responseDoneMs": 2997.4,
+      "respondReturnedMs": 2997.4,
+      "allObservedWorkSettledMs": 2998.6,
+      "secondaryCallbacks": [],
+      "totalJapaneseWaveMs": 3829.4,
+      "tutor": {
+        "reply": {
+          "japanese": "お茶二つですね。ホットですか、アイスですか？",
+          "romaji": "Ocha futatsu desu ne. Hotto desu ka, aisu desu ka?",
+          "french": "2 thés, d’accord. Chaud ou glacé ?"
+        },
+        "coaching": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».",
+        "correction": null,
+        "vocabulary": []
+      },
+      "events": [
+        {
+          "type": "observation",
+          "observation": {
+            "intent": "continue_from_answer",
+            "path": "controlled",
+            "facts": [
+              {
+                "name": "drink",
+                "value": "お茶"
+              },
+              {
+                "name": "quantity",
+                "value": "二つ"
+              }
+            ]
+          },
+          "elapsedMs": 1461.6
+        },
+        {
+          "type": "tutor",
+          "tutor": {
+            "reply": {
+              "japanese": "お茶二つですね。ホットですか、アイスですか？",
+              "romaji": "Ocha futatsu desu ne. Hotto desu ka, aisu desu ka?",
+              "french": "2 thés, d’accord. Chaud ou glacé ?"
+            },
+            "coaching": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».",
+            "correction": null,
+            "vocabulary": []
+          },
+          "elapsedMs": 1461.8
+        },
+        {
+          "type": "audio",
+          "index": 0,
+          "bytes": 65068,
+          "durationMs": 1354.7,
+          "elapsedMs": 2042.9
+        },
+        {
+          "type": "audio",
+          "index": 1,
+          "bytes": 118828,
+          "durationMs": 2474.7,
+          "elapsedMs": 2997.3
+        },
+        {
+          "type": "metrics",
+          "metrics": {
+            "correction": 1460.6,
+            "generations": 1,
+            "controlled_dialogue": 1,
+            "worker_roundtrip": 1461.4,
+            "worker_queue": 0.4,
+            "teaching": 1461.5606250000128,
+            "postprocess": 0.24724999998579733,
+            "tts_first": 580.9812920000113,
+            "first_audio_emit": 2042.8173750000133,
+            "tts_all": 1535.5075840000063,
+            "playback_estimate": 3829.333333333334,
+            "secondary_pending": 0,
+            "secondary_tail_wait": 0
+          },
+          "elapsedMs": 2997.4
+        },
+        {
+          "type": "response_done",
+          "elapsedMs": 2997.4
+        }
+      ],
+      "review": [
+        "Deux thés, aucune substitution de boisson ou quantité."
+      ]
+    },
+    {
+      "mode": "rollout",
+      "conversation": "cafe-mixed-request",
+      "turn": "temperature-plus-question",
+      "policy": "hybrid",
+      "input": {
+        "scenario": "cafe",
+        "history": [
+          {
+            "role": "assistant",
+            "content": "練習のカフェです。お茶は三百五十円、コーヒーは五百円です。何にしますか？"
+          },
+          {
+            "role": "user",
+            "content": "お茶を二つください。"
+          },
+          {
+            "role": "assistant",
+            "content": "Hotto veut dire chaud ; aisu veut dire glacé. Tu peux dire « hotto de onegaishimasu » ou « aisu de onegaishimasu ».\nお茶二つですね。ホットですか、アイスですか？"
+          }
+        ],
+        "text": "ホットでお願いします。トイレはどこですか？"
+      },
+      "inputSha256": "e8e00a1d256538e66f83567e10c539293244365b6e1b1a56608a5c818053150a",
+      "status": "failed",
+      "firstJapaneseAudioEmittedMs": null,
+      "responseDoneMs": null,
+      "respondReturnedMs": 5566.6,
+      "allObservedWorkSettledMs": 5567.8,
+      "secondaryCallbacks": [],
+      "totalJapaneseWaveMs": 0,
+      "tutor": null,
+      "events": [],
+      "review": [
+        "Conserver chaud et deux thés malgré la question ; ne pas inventer le lieu inconnu."
+      ],
+      "failure": "inference-or-contract-failed"
+    }
+  ],
+  "summaries": [
+    {
+      "policy": "hybrid",
+      "attempted": 8,
+      "completed": 7,
+      "failed": 1,
+      "byPath": {
+        "generated": {
+          "attempted": 4,
+          "completed": 4,
+          "firstJapaneseAudioEmitted": {
+            "n": 4,
+            "medianMs": 3821.7,
+            "minMs": 2591.1,
+            "maxMs": 4851
+          },
+          "responseDone": {
+            "n": 4,
+            "medianMs": 4755.8,
+            "minMs": 3416.6,
+            "maxMs": 5721
+          },
+          "allObservedWorkSettled": {
+            "n": 4,
+            "medianMs": 5353.7,
+            "minMs": 4037.3,
+            "maxMs": 6441.3
+          }
+        },
+        "controlled": {
+          "attempted": 3,
+          "completed": 3,
+          "firstJapaneseAudioEmitted": {
+            "n": 3,
+            "medianMs": 2022.8,
+            "minMs": 1777.3,
+            "maxMs": 2079.5
+          },
+          "responseDone": {
+            "n": 3,
+            "medianMs": 2079.5,
+            "minMs": 2022.8,
+            "maxMs": 2794.7
+          },
+          "allObservedWorkSettled": {
+            "n": 3,
+            "medianMs": 2080.9,
+            "minMs": 2024.2,
+            "maxMs": 2795.9
+          }
+        },
+        "unobserved": {
+          "attempted": 1,
+          "completed": 0,
+          "firstJapaneseAudioEmitted": {
+            "n": 0,
+            "medianMs": null,
+            "minMs": null,
+            "maxMs": null
+          },
+          "responseDone": {
+            "n": 0,
+            "medianMs": null,
+            "minMs": null,
+            "maxMs": null
+          },
+          "allObservedWorkSettled": {
+            "n": 0,
+            "medianMs": null,
+            "minMs": null,
+            "maxMs": null
+          }
+        }
+      },
+      "firstJapaneseAudioEmitted": {
+        "n": 7,
+        "medianMs": 2591.1,
+        "minMs": 1777.3,
+        "maxMs": 4851
+      },
+      "responseDone": {
+        "n": 7,
+        "medianMs": 3416.6,
+        "minMs": 2022.8,
+        "maxMs": 5721
+      },
+      "allObservedWorkSettled": {
+        "n": 7,
+        "medianMs": 4037.3,
+        "minMs": 2024.2,
+        "maxMs": 6441.3
+      }
+    },
+    {
+      "policy": "generative",
+      "attempted": 8,
+      "completed": 7,
+      "failed": 1,
+      "byPath": {
+        "generated": {
+          "attempted": 7,
+          "completed": 7,
+          "firstJapaneseAudioEmitted": {
+            "n": 7,
+            "medianMs": 4629.3,
+            "minMs": 2807,
+            "maxMs": 4918.3
+          },
+          "responseDone": {
+            "n": 7,
+            "medianMs": 5381.2,
+            "minMs": 3548.2,
+            "maxMs": 5718
+          },
+          "allObservedWorkSettled": {
+            "n": 7,
+            "medianMs": 5744.7,
+            "minMs": 4156.3,
+            "maxMs": 6460.6
+          }
+        },
+        "unobserved": {
+          "attempted": 1,
+          "completed": 0,
+          "firstJapaneseAudioEmitted": {
+            "n": 0,
+            "medianMs": null,
+            "minMs": null,
+            "maxMs": null
+          },
+          "responseDone": {
+            "n": 0,
+            "medianMs": null,
+            "minMs": null,
+            "maxMs": null
+          },
+          "allObservedWorkSettled": {
+            "n": 0,
+            "medianMs": null,
+            "minMs": null,
+            "maxMs": null
+          }
+        }
+      },
+      "firstJapaneseAudioEmitted": {
+        "n": 7,
+        "medianMs": 4629.3,
+        "minMs": 2807,
+        "maxMs": 4918.3
+      },
+      "responseDone": {
+        "n": 7,
+        "medianMs": 5381.2,
+        "minMs": 3548.2,
+        "maxMs": 5718
+      },
+      "allObservedWorkSettled": {
+        "n": 7,
+        "medianMs": 5744.7,
+        "minMs": 4156.3,
+        "maxMs": 6460.6
+      }
+    }
+  ],
+  "humanAsrValidation": "pending",
+  "humanLinguisticReview": "pending",
+  "androidLatency": "not-measured",
+  "productionSelection": "unchanged"
+}
