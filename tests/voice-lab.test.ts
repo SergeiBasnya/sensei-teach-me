@@ -893,3 +893,144 @@ test("le transport refuse un détail qui efface un conseil primaire", async () =
     },
   );
 });
+
+test("diagnostic ASR final et observation du professeur exigent l’opt-in du tour", async () => {
+  const diagnostic = {
+    rawText: "SYNTHETIC_RAW_ASR_REFERENCE",
+    detectedLanguage: "ja" as const,
+    acceptedSegments: 1,
+    rejectedSegments: 0,
+    signalGate: "decoded" as const,
+  };
+  const calls: { partial: boolean; diagnostic: boolean }[] = [];
+  const responseOptions: boolean[] = [];
+  await fixture(
+    {
+      transcribe: async (_pcm, options) => {
+        calls.push({
+          partial: options.partial,
+          diagnostic: options.diagnostic === true,
+        });
+        // Deliberately return extra diagnostics even when not requested: the
+        // transport must enforce the current turn's opt-in independently.
+        return { text: "はい。", uncertain: false, metrics: {}, diagnostic };
+      },
+      respond: async ({ diagnostic: enabled, emit }) => {
+        responseOptions.push(enabled === true);
+        emit({
+          type: "observation",
+          observation: { intent: "acknowledge", path: "generated", facts: [] },
+        });
+        emit({ type: "response_done" });
+      },
+    },
+    async ({ connect }) => {
+      const { socket, events } = await connect();
+      for (const [index, enabled] of [undefined, true, false].entries()) {
+        const turn = index + 1;
+        command(socket, {
+          type: "start",
+          turn,
+          language: "ja",
+          respond: true,
+          ...(enabled === undefined ? {} : { diagnostic: enabled }),
+        });
+        for (let sequence = 0; sequence < 4; sequence++)
+          chunk(socket, turn, sequence);
+        await until(() =>
+          events.some((e) => e.type === "partial" && e.turn === turn),
+        );
+        assert.equal(
+          events.some((e) => e.type === "asr_diagnostic" && e.turn === turn),
+          false,
+        );
+        assert.equal(
+          events.some((e) => e.type === "observation" && e.turn === turn),
+          false,
+        );
+        command(socket, { type: "finish", turn });
+        await until(() =>
+          events.some((e) => e.type === "response_done" && e.turn === turn),
+        );
+      }
+      assert.deepEqual(calls, [
+        { partial: true, diagnostic: false },
+        { partial: false, diagnostic: false },
+        { partial: true, diagnostic: false },
+        { partial: false, diagnostic: true },
+        { partial: true, diagnostic: false },
+        { partial: false, diagnostic: false },
+      ]);
+      assert.deepEqual(responseOptions, [false, true, false]);
+      assert.deepEqual(
+        events.filter((e) => e.type === "asr_diagnostic"),
+        [{ type: "asr_diagnostic", turn: 2, diagnostic }],
+      );
+      assert.deepEqual(
+        events.filter((e) => e.type === "observation").map((e) => e.turn),
+        [2],
+      );
+      assert.ok(
+        events
+          .filter((e) => e.type === "final")
+          .every(
+            (e) => !JSON.stringify(e.metrics).includes(diagnostic.rawText),
+          ),
+      );
+    },
+  );
+});
+
+test("un partiel encore en file après finish ne lance pas d’ASR inutile", async () => {
+  let release: (() => void) | undefined;
+  const calls: { partial: boolean; bytes: number }[] = [];
+  await fixture(
+    {
+      transcribe: async (pcm, options) => {
+        calls.push({ partial: options.partial, bytes: pcm.length });
+        if (calls.length === 1)
+          await new Promise<void>((resolve) => {
+            release = resolve;
+          });
+        return { text: "はい。", uncertain: false, metrics: {} };
+      },
+    },
+    async ({ connect }) => {
+      const a = await connect();
+      const b = await connect();
+      try {
+        command(a.socket, { type: "start", turn: 1, language: "ja" });
+        chunk(a.socket);
+        command(a.socket, { type: "finish", turn: 1 });
+        await until(() => calls.length === 1); // A holds the shared inference mutex.
+        command(b.socket, { type: "start", turn: 1, language: "ja" });
+        for (let sequence = 0; sequence < 4; sequence++)
+          chunk(b.socket, 1, sequence);
+        await until(() =>
+          b.events.some((e) => e.type === "state" && e.state === "listening"),
+        );
+        await delay(30); // Several 5 ms ticks queue B's one eligible partial.
+        assert.equal(calls.length, 1);
+        command(b.socket, { type: "finish", turn: 1 });
+        await until(() =>
+          b.events.some((e) => e.type === "state" && e.state === "recognizing"),
+        );
+        release?.();
+        await until(() =>
+          b.events.some((e) => e.type === "state" && e.state === "complete"),
+        );
+        await delay(20); // Allow the obsolete queued job to drain, not just its final.
+        assert.deepEqual(calls, [
+          { partial: false, bytes: 6400 },
+          { partial: false, bytes: 25600 },
+        ]);
+        assert.equal(
+          b.events.some((e) => e.type === "partial"),
+          false,
+        );
+      } finally {
+        release?.();
+      }
+    },
+  );
+});

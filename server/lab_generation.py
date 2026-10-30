@@ -32,6 +32,14 @@ Do not answer a question, continue the conversation, repair/change the Japanese,
 Return ONLY one complete JSON object with exactly this field: {"french":"faithful French translation of the supplied Japanese"}. No Japanese field, coaching, vocabulary or markdown.
 """
 
+# Additional policy only for the explicitly selected lab comparator. The hybrid
+# prompts and their authored replies remain the default, byte for byte.
+LAB_GENERATIVE_INTENTIONS = """Experimental intent-guided conversation: the learner's latest communicative intention takes priority over completing a fixed sequence of slots. The snapshot constrains facts; it is not a questionnaire or a script of replies.
+Respond to a new detail or an unexpected question before choosing one relevant next step. In free conversation or introductions, accept an explicit change of topic and follow the new subject instead of returning to origin, residence or daily habits. In a guided lesson, answer a brief aside first, then offer a return to the objective without pretending the aside answered the lesson question. In service roleplay, retain the order or journey while answering an aside; never invent missing facilities, prices, availability or timetables.
+Reuse the learner's actual new information in a short, concrete reply. Ask a question only if it serves the present intention; do not mechanically ask whether they do something every day. A short relevant question can be open when the learner can answer with a familiar word; do not ask for an unexplained description. Keep simple desu/masu, one or two short sentences, and at most one question. Do not invent your own human experiences, preferences or biography.
+If an assertion is absent or ambiguous in the snapshot, inspect the actual latest text rather than completing the slot from a template. Preserve explicit negations, replacements and restrictions such as not today. Unknown values remain unknown. Do not produce or explain a correction: the separate checked correction path owns that decision.
+"""
+
 _JAPANESE = re.compile(r"[\u3041-\u3096\u30a1-\u30fa\u3400-\u9fff]")
 
 
@@ -47,12 +55,26 @@ def generation_profile(request):
     return profile
 
 
-def dialogue_instructions(profile):
+def dialogue_mode(request):
+    """Only the lab may select a different dialogue policy, never production."""
+    if request.get("labStreaming") is not True:
+        return "hybrid"
+    mode = request.get("labDialogue", "hybrid")
+    if mode not in ("hybrid", "generative"):
+        raise ValueError("invalid_lab_dialogue")
+    return mode
+
+
+def dialogue_instructions(profile, mode="hybrid"):
+    if mode not in ("hybrid", "generative"):
+        raise ValueError("invalid_lab_dialogue")
     if profile == "ja-first":
-        return LAB_JAPANESE_FIRST_INSTRUCTIONS
-    if profile == "compact":
-        return LAB_COMPACT_INSTRUCTIONS
-    raise ValueError("invalid_lab_generation")
+        instructions = LAB_JAPANESE_FIRST_INSTRUCTIONS
+    elif profile == "compact":
+        instructions = LAB_COMPACT_INSTRUCTIONS
+    else:
+        raise ValueError("invalid_lab_generation")
+    return instructions + ("\n" + LAB_GENERATIVE_INTENTIONS if mode == "generative" else "")
 
 
 def _unique_object(pairs):

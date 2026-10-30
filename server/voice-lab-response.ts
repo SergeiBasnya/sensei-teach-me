@@ -7,6 +7,7 @@ import { timingContext } from "./timing";
 import { voiceLabReplySchema } from "../shared/voice-lab";
 import { z } from "zod";
 import { wavDurationMs } from "./voice-lab-audio";
+import type { LabTurnOptions } from "./local-tutor";
 
 const detailsResultSchema = z
   .object({
@@ -44,9 +45,26 @@ export function japaneseSegments(text: string) {
 export function createVoiceLabResponse(
   provider: TutorProvider,
   speech: SpeechProvider,
-  { details }: { details?: VoiceLabDetailsProvider } = {},
+  {
+    details,
+    turn,
+  }: {
+    details?: VoiceLabDetailsProvider;
+    turn?: (
+      input: Parameters<TutorProvider["turn"]>[0],
+      options: LabTurnOptions,
+    ) => ReturnType<TutorProvider["turn"]>;
+  } = {},
 ): VoiceLabRespond {
-  return async ({ text, scenario, history, signal, emit }) => {
+  return async ({
+    text,
+    scenario,
+    history,
+    signal,
+    emit,
+    diagnostic = false,
+    dialogue = "hybrid",
+  }) => {
     if (signal.aborted) return;
     const started = performance.now();
     const metrics: Record<string, number> = {};
@@ -58,9 +76,28 @@ export function createVoiceLabResponse(
     const effectiveHistory = history.length
       ? history
       : [{ role: "assistant" as const, content: firstQuestion }];
+    let observed = false;
+    const scopedProvider = turn
+      ? {
+          ...provider,
+          turn: (input: Parameters<TutorProvider["turn"]>[0]) =>
+            turn(input, {
+              dialogue,
+              ...(diagnostic
+                ? {
+                    onObservation: (observation) => {
+                      observed = true;
+                      if (!signal.aborted)
+                        emit({ type: "observation", observation });
+                    },
+                  }
+                : {}),
+            }),
+        }
+      : provider;
     const tutor = await timingContext.run(metrics, async () =>
       tutorReplySchema.parse(
-        await teachTurn(provider, {
+        await teachTurn(scopedProvider, {
           scenario,
           history: effectiveHistory,
           text,
@@ -68,6 +105,26 @@ export function createVoiceLabResponse(
       ),
     );
     metrics.teaching = performance.now() - started;
+    if (diagnostic && !observed && !signal.aborted)
+      emit({
+        type: "observation",
+        observation: {
+          intent: tutor.practice
+            ? "practice"
+            : tutor.assisted
+              ? "assistance"
+              : tutor.correction
+                ? "correction"
+                : "shared_router",
+          path:
+            tutor.practice || tutor.assisted
+              ? "help"
+              : tutor.correction
+                ? "correction"
+                : "repeat",
+          facts: [],
+        },
+      });
     const postprocess = performance.now();
     if (signal.aborted) return;
     if (provider.romanize) {

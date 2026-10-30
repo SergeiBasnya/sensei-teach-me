@@ -3,11 +3,21 @@ import { createInterface } from "node:readline";
 import { resolve } from "node:path";
 import { z } from "zod";
 
+const diagnosticSchema = z
+  .object({
+    rawText: z.string().max(1000),
+    detectedLanguage: z.enum(["ja", "fr", "other", "unknown"]),
+    acceptedSegments: z.number().int().nonnegative(),
+    rejectedSegments: z.number().int().nonnegative(),
+    signalGate: z.enum(["decoded", "quiet", "too_short"]),
+  })
+  .strict();
 const resultSchema = z.object({
   id: z.number().int(),
   text: z.string().max(1500),
   uncertain: z.boolean(),
   metrics: z.record(z.string().regex(/^[a-z_]{1,40}$/), z.number().finite()),
+  diagnostic: diagnosticSchema.optional(),
 });
 export function createVoiceLabAsr({
   python = process.env.VOICEVOX_PYTHON || resolve(".venv/bin/python"),
@@ -99,6 +109,7 @@ export function createVoiceLabAsr({
       options: {
         language: "auto" | "ja";
         partial: boolean;
+        diagnostic?: boolean;
         signal: AbortSignal;
       },
     ) {
@@ -107,6 +118,7 @@ export function createVoiceLabAsr({
       if (busy)
         throw new Error("Le laboratoire traite déjà une reconnaissance.");
       busy = true;
+      const diagnostic = options.diagnostic === true && !options.partial;
       try {
         await start();
         if (closed || options.signal.aborted || !worker)
@@ -152,6 +164,8 @@ export function createVoiceLabAsr({
                 id,
                 pcm: pcm.toString("base64"),
                 language: options.language,
+                partial: options.partial,
+                diagnostic,
               }) + "\n",
               (error) => {
                 if (error) fail();
@@ -163,6 +177,9 @@ export function createVoiceLabAsr({
           text: result.text,
           uncertain: result.uncertain,
           metrics: result.metrics,
+          ...(diagnostic && result.diagnostic
+            ? { diagnostic: result.diagnostic }
+            : {}),
         };
       } finally {
         busy = false;
