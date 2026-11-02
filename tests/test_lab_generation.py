@@ -147,6 +147,36 @@ class LabContractTests(unittest.TestCase):
 
 
 class LabDispatchTests(unittest.TestCase):
+    def test_only_exact_checked_service_forms_avoid_qwen_grammar_in_the_hybrid_lab(self):
+        for scenario, text, history in [
+            ('cafe', 'コーヒーを一つください。', []),
+            ('cafe', 'お茶二つお願いします。', []),
+            ('cafe', 'コーヒーをください。', []),
+            ('cafe', 'お茶はいくらですか？', []),
+            ('station', '京都までお願いします。', []),
+            ('station', '片道でお願いします。', [{'role': 'user', 'content': '京都までお願いします。'}]),
+        ]:
+            for profile in ('ja-first', 'compact', 'structured'):
+                with self.subTest(text=text, profile=profile):
+                    messages, calls, _ = run_worker([turn(profile, scenario=scenario, text=text, history=history)], [])
+                    self.assertIn('result', messages[0])
+                    self.assertIsNone(messages[0]['result']['correction'])
+                    self.assertEqual(messages[0]['metrics']['authored_grammar'], 1)
+                    self.assertEqual(calls, [])
+        for text in ['コーヒーが一つください。', 'お茶を二枚ください。', 'お茶を十つください。',
+                     'お茶を二つください。でも、いりません。', 'お茶を二つくたさい。']:
+            with self.subTest(text=text):
+                messages, calls, _ = run_worker([turn('ja-first', scenario='cafe', text=text, history=[])],
+                    ['{"correction":null}', '{"japanese":"もう一度お願いします。"}'])
+                self.assertNotIn('authored_grammar', messages[0]['metrics'])
+                self.assertGreaterEqual(len(calls), 1)
+        for changes in [{'labStreaming': False}, {'labDialogue': 'generative'}]:
+            messages, calls, _ = run_worker([turn('ja-first', scenario='cafe',
+                text='コーヒーを一つください。', history=[], **changes)], ['{"correction":null}',
+                '{"japanese":"コーヒー一つですね。","french":"Un café, d’accord.","coaching":null}'])
+            self.assertNotIn('authored_grammar', messages[0]['metrics'])
+            self.assertGreaterEqual(len(calls), 1)
+
     def test_generative_lab_follows_new_topic_and_returns_only_opted_in_observation(self):
         data = turn('ja-first', scenario='meet', text='ベルギーから来ました。今日は映画の話をしたいです。',
                     history=[{'role': 'assistant', 'content': 'どこから来ましたか？'}],

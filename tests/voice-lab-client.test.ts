@@ -179,6 +179,39 @@ test("pause et reprise invalident les prises et les lectures précédentes", asy
   assert.equal(gate.current(next), true);
   assert.equal(next.turn, first.turn + 1);
 });
+test("la version partagée décrit seulement le lot client et la révision publique du serveur", () => {
+  const metrics = new VoiceLabMetrics(0);
+  assert.equal(metrics.report("android").version.releaseMatch, null);
+  metrics.version({
+    release: "old-release",
+    commit: "123456789abc",
+    sourceState: "clean",
+  });
+  assert.equal(metrics.report("android").version.releaseMatch, false);
+  const release = metrics.report("android").version.clientRelease;
+  metrics.version({ release, commit: "123456789abc", sourceState: "modified" });
+  const report = metrics.report("android");
+  assert.equal(report.version.releaseMatch, true);
+  assert.equal(report.version.server?.sourceState, "modified");
+  metrics.begin(1, false, 1);
+  metrics.version(undefined);
+  assert.equal(metrics.report("android").version.server, null);
+  assert.equal(
+    metrics.report("android").turns[0]?.serverVersion?.commit,
+    "123456789abc",
+  );
+  metrics.version({
+    release,
+    commit: "123456789abc",
+    sourceState: "clean",
+    token: "private",
+  });
+  assert.equal(metrics.report("android").version.server, null);
+  assert.equal(
+    JSON.stringify(metrics.report("android")).includes("private"),
+    false,
+  );
+});
 test("bilan du laboratoire exclut audio, textes, identifiants et métriques arbitraires", () => {
   const metrics = new VoiceLabMetrics(0);
   metrics.begin(100);

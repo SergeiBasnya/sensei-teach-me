@@ -43,7 +43,13 @@ def main():
         request = {}
         try:
             request = json.loads(line)
-            if request.get("kind") == "readings":
+            if request.get("kind") == "prepare":
+                if request.get("language") != "ja":
+                    raise ValueError("invalid_prepare_language")
+                if synth is None:
+                    synth = create_synthesizer()
+                response = {"id": request["id"], "prepared": True}
+            elif request.get("kind") == "readings":
                 texts = request.get("texts")
                 if (request.get("language", "ja") != "ja" or not isinstance(texts, list) or len(texts) > 50
                         or any(not isinstance(text, str) or not 1 <= len(text.strip()) <= 500 for text in texts)):

@@ -16,6 +16,38 @@ const tutor = {
   correction: null,
   vocabulary: [],
 };
+test("la préparation japonaise commence sans texte et son échec ne bloque pas une réponse validée", async () => {
+  let prepared = 0,
+    spoken = 0;
+  const events: VoiceLabReplyEvent[] = [];
+  const respond = createVoiceLabResponse(
+    { turn: async () => structuredClone(tutor), transcribe: async () => "" },
+    {
+      prepareJapanese: async () => {
+        prepared++;
+        throw Error("cold preparation unavailable");
+      },
+      speak: async () => {
+        spoken++;
+        return pcmWav(Buffer.alloc(3200));
+      },
+      close() {},
+    },
+  );
+  assert.equal(prepared, 1);
+  assert.equal(spoken, 0);
+  await respond({
+    text: "フランスです。",
+    scenario: "free",
+    history: [],
+    turn: 1,
+    language: "auto",
+    signal: new AbortController().signal,
+    emit: (event) => events.push(event),
+  });
+  assert.equal(spoken, 2);
+  assert.ok(events.some((event) => event.type === "response_done"));
+});
 test("lab waits for validated feedback, emits Japanese segments without calling French", async () => {
   const events: VoiceLabReplyEvent[] = [];
   const languages: string[] = [];

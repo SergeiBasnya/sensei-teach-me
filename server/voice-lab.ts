@@ -1,4 +1,6 @@
 import { randomBytes } from "node:crypto";
+import { execFileSync } from "node:child_process";
+import { resolve } from "node:path";
 import type { Server } from "node:http";
 import { WebSocket, WebSocketServer, type RawData } from "ws";
 import { assistanceIntent, isHelpReply } from "../shared/teaching";
@@ -68,6 +70,48 @@ type Job = {
 const MAX_TURN_BYTES = (VOICE_LAB.maxTurnMs / 1000) * 32_000;
 const TICKET_TTL = 30_000 as const;
 const MAX_CLIENTS = 2;
+// Snapshot once at module load, never from a live Git checkout on each request.
+// Only public revision metadata is returned over the authenticated socket.
+const runtimeVersion = (() => {
+  try {
+    const commit = execFileSync("git", ["rev-parse", "--short=12", "HEAD"], {
+      cwd: resolve(__dirname, ".."),
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+      timeout: 1500,
+    }).trim();
+    if (!/^[a-f0-9]{12}$/.test(commit)) throw Error("invalid_revision");
+    const modified = execFileSync(
+      "git",
+      [
+        "status",
+        "--porcelain",
+        "--untracked-files=normal",
+        "--",
+        "server",
+        "shared",
+        "scripts/start-local.ts",
+      ],
+      {
+        cwd: resolve(__dirname, ".."),
+        encoding: "utf8",
+        stdio: ["ignore", "pipe", "ignore"],
+        timeout: 1500,
+      },
+    ).trim();
+    return {
+      release: VOICE_LAB.release,
+      commit,
+      sourceState: modified ? ("modified" as const) : ("clean" as const),
+    };
+  } catch {
+    return {
+      release: VOICE_LAB.release,
+      commit: "unknown",
+      sourceState: "unknown" as const,
+    };
+  }
+})();
 const safeMetrics = (raw: Record<string, number>) =>
   Object.fromEntries(
     Object.entries(raw)
@@ -562,7 +606,7 @@ export function createVoiceLab({
       if (current) current.chunks = [];
       history = [];
     });
-    send({ type: "ready", sampleRate: 16_000 });
+    send({ type: "ready", sampleRate: 16_000, version: runtimeVersion });
   });
   return {
     issueTicket() {

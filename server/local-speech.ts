@@ -7,6 +7,7 @@ import { z } from "zod";
 export type SpeechProvider = {
   speak: (text: string, language?: "ja" | "fr") => Promise<Buffer>;
   romanize?: (texts: string[]) => Promise<string[]>;
+  prepareJapanese?: () => Promise<void>;
   close: () => void;
 };
 export class FrenchSpeechUnavailable extends Error {
@@ -22,12 +23,14 @@ const resultSchema = z.object({
   error: z.string().max(300).optional(),
   code: z.literal("french_speech_unavailable").optional(),
   readings: z.array(z.string().max(2000)).max(50).optional(),
+  prepared: z.literal(true).optional(),
 });
 const readingsRequestSchema = z
   .array(z.string().trim().min(1).max(500))
   .max(50);
 type SpeechLane = SpeechProvider & {
   romanize: (texts: string[]) => Promise<string[]>;
+  prepareJapanese: () => Promise<void>;
 };
 function createSpeechLane(): SpeechLane | undefined {
   const python =
@@ -132,6 +135,11 @@ function createSpeechLane(): SpeechLane | undefined {
     });
   };
   return {
+    prepareJapanese() {
+      return call({ kind: "prepare", language: "ja" }, (result) => {
+        z.literal(true).parse(result.prepared);
+      });
+    },
     speak(text, language = "ja") {
       return call({ kind: "speech", text, language, style: 10 }, (result) => {
         const audio = Buffer.from(result.audio || "", "base64");
@@ -181,7 +189,15 @@ export function createLocalSpeech({
   const inFlight = new Map<string, Promise<Buffer>>();
   let bytes = 0;
   let closed = false;
+  let preparing: Promise<void> | undefined;
   return {
+    prepareJapanese() {
+      if (closed) return Promise.reject(new Error("Speech provider closed"));
+      return (preparing ??= japanese.prepareJapanese().catch((error) => {
+        preparing = undefined;
+        throw error;
+      }));
+    },
     romanize(texts) {
       if (closed) return Promise.reject(new Error("Speech provider closed"));
       return japanese.romanize(texts);

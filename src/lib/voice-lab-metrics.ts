@@ -1,3 +1,5 @@
+import { VOICE_LAB, voiceLabVersionSchema } from "../../shared/voice-lab";
+
 const SERVER_KEYS = new Set([
   "asr",
   "pcm_decode",
@@ -16,6 +18,7 @@ const SERVER_KEYS = new Set([
   "audio_ms",
   "chunks",
   "partials",
+  "authored_grammar",
   "teaching",
   "correction",
   "dialogue_translation",
@@ -57,6 +60,7 @@ export type VoiceLabIncident =
   | "uncertain_final"
   | "capture_gap";
 type Trace = {
+  serverVersion?: typeof voiceLabVersionSchema._output;
   turn?: number;
   lastDetectedVoiceAfterCaptureMs?: number;
   finishAfterDetectedVoiceMs?: number;
@@ -84,6 +88,7 @@ type Trace = {
   server?: Record<string, number>;
 };
 export class VoiceLabMetrics {
+  private serverVersion: typeof voiceLabVersionSchema._output | null = null;
   private started = 0;
   private current: Trace = {};
   private captureAt = 0;
@@ -115,6 +120,10 @@ export class VoiceLabMetrics {
   constructor(now = performance.now()) {
     this.started = now;
   }
+  version(raw: unknown) {
+    const checked = voiceLabVersionSchema.safeParse(raw);
+    this.serverVersion = checked.success ? checked.data : null;
+  }
   begin(now = performance.now(), automaticResume = false, turn?: number) {
     if (automaticResume && this.lastJapaneseEndedAt !== null)
       this.current.nextCaptureAfterJapaneseEndedMs = Math.max(
@@ -122,7 +131,12 @@ export class VoiceLabMetrics {
         Math.round(now - this.lastJapaneseEndedAt),
       );
     this.archive();
-    this.current = turn === undefined ? {} : { turn };
+    this.current = {
+      ...(turn === undefined ? {} : { turn }),
+      ...(this.serverVersion
+        ? { serverVersion: { ...this.serverVersion } }
+        : {}),
+    };
     this.captureAt = now;
     this.finishAt = null;
     this.voiceAt = null;
@@ -214,7 +228,15 @@ export class VoiceLabMetrics {
         : [...this.turns, this.current]
             .reverse()
             .find((value) => value.turn === turn);
-    return value ? { ...value, server: { ...value.server } } : null;
+    return value
+      ? {
+          ...value,
+          server: { ...value.server },
+          ...(value.serverVersion
+            ? { serverVersion: { ...value.serverVersion } }
+            : {}),
+        }
+      : null;
   }
   playbackEnded(now = performance.now()) {
     if (!this.playingSeen || this.finishAt === null) return;
@@ -288,6 +310,9 @@ export class VoiceLabMetrics {
     if (Object.keys(this.current).length) {
       this.turns.push({
         ...this.current,
+        ...(this.current.serverVersion
+          ? { serverVersion: { ...this.current.serverVersion } }
+          : {}),
         ...(this.current.server ? { server: { ...this.current.server } } : {}),
       });
       if (this.turns.length > 120) this.turns.shift();
@@ -296,10 +321,20 @@ export class VoiceLabMetrics {
   report(platform: string, now = performance.now()) {
     const copy = (value: Trace) => ({
       ...value,
+      ...(value.serverVersion
+        ? { serverVersion: { ...value.serverVersion } }
+        : {}),
       ...(value.server ? { server: { ...value.server } } : {}),
     });
     return {
       schemaVersion: "sensei-voice-lab.v1",
+      version: {
+        clientRelease: VOICE_LAB.release,
+        server: this.serverVersion ? { ...this.serverVersion } : null,
+        releaseMatch: this.serverVersion
+          ? this.serverVersion.release === VOICE_LAB.release
+          : null,
+      },
       humanValidation: "pending",
       platform: ["web", "android", "ios"].includes(platform)
         ? platform

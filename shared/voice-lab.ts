@@ -3,6 +3,7 @@ import { tutorReplySchema } from "./contracts";
 
 // Experimental, opt-in protocol. It never records a pedagogical learning event.
 export const VOICE_LAB = {
+  release: "2026-11-02.waits-2",
   path: "/api/voice-lab/socket",
   sampleRate: 16_000,
   channels: 1,
@@ -11,6 +12,13 @@ export const VOICE_LAB = {
   maxTurnMs: 45_000,
   maxBufferedBytes: 2_000_000,
 } as const;
+export const voiceLabVersionSchema = z
+  .object({
+    release: z.string().regex(/^[-.a-z0-9]{1,40}$/),
+    commit: z.string().regex(/^(?:[a-f0-9]{12}|unknown)$/),
+    sourceState: z.enum(["clean", "modified", "unknown"]),
+  })
+  .strict();
 export const voiceLabLanguageSchema = z.enum(["auto", "ja"]);
 export const voiceLabDialogueSchema = z.enum(["hybrid", "generative"]);
 export const voiceLabAsrDiagnosticSchema = z
@@ -100,7 +108,11 @@ export const voiceLabReplySchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("response_done") }).strict(),
 ]);
 export const voiceLabServerSchema = z.union([
-  z.object({ type: z.literal("ready"), sampleRate: z.literal(16_000) }),
+  z.object({
+    type: z.literal("ready"),
+    sampleRate: z.literal(16_000),
+    version: voiceLabVersionSchema.optional(),
+  }),
   z.object({
     type: z.literal("state"),
     turn: turnSchema,

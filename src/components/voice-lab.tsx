@@ -196,6 +196,7 @@ export function VoiceLab({
     [metrics, pause],
   );
   const closeWire = useCallback(() => {
+    metrics.version(undefined);
     wire.current++;
     clearTimeout(readyTimer.current);
     ready.current = false;
@@ -211,7 +212,7 @@ export function VoiceLab({
       } catch {}
       old.close();
     }
-  }, []);
+  }, [metrics]);
   const begin = (automatic = false) => {
     if (
       !alive.current ||
@@ -481,6 +482,7 @@ export function VoiceLab({
         }
         const event = parsed.data;
         if (event.type === "ready") {
+          metrics.version(event.version);
           clearTimeout(readyTimer.current);
           ready.current = true;
           if (!active.current) return;
@@ -630,6 +632,7 @@ export function VoiceLab({
         if (wire.current !== owner || !alive.current) return;
         clearTimeout(readyTimer.current);
         ready.current = false;
+        metrics.version(undefined);
         if (active.current)
           fail(
             "La connexion au laboratoire a été fermée. Reprends l’essai.",

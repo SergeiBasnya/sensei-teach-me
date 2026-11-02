@@ -56,6 +56,9 @@ export function createVoiceLabResponse(
     ) => ReturnType<TutorProvider["turn"]>;
   } = {},
 ): VoiceLabRespond {
+  // Prepare existing Japanese weights while the tutor is loading. No speech,
+  // text, network request or French engine is involved. Speech can retry later.
+  void speech.prepareJapanese?.().catch(() => {});
   return async ({
     text,
     scenario,

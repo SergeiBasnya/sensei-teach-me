@@ -75,6 +75,29 @@ def _service_value(request, subject, kind):
     return values[-1] if values else None
 
 
+def grammar_checked_controlled_dialogue(request):
+    """Lab-only grammar proof for a few exact, already authored service forms.
+
+    A controller result alone is not a grammar check. Wrong particles/counters,
+    repairs, additional clauses and unknown forms still require Qwen feedback.
+    """
+    if request.get('labStreaming') is not True:
+        return None
+    drink_count = r'(?:[1-9一二三四五六七八九](?:つ|杯|個)|(?:10|十)(?:杯|個)|ひとつ|ふたつ|みっつ)'
+    cafe = (r'(?:' + DRINK.pattern + r')(?:を)?(?:' + drink_count + r')?(?:ください|お願いします)|'
+            r'(?:ホット|アイス)でお願いします|(?:この)?(?:' + DRINK.pattern + r')はいくらですか')
+    station = (r'(?:' + '|'.join(PLACES) + r')までお願いします|(?:片道|往復)でお願いします|'
+               r'切符を(?:[1-9一二三四五六七八九十]|10)枚ください')
+    pattern = {'cafe': cafe, 'station': station}.get(request['scenario'])
+    if not pattern or not re.fullmatch('(?:' + pattern + r')(?:。|(?<=か)[？?])?', request['text'].strip()):
+        return None
+    result = controlled_dialogue(request)
+    if result:
+        validate_lab_conversation(result['japanese'], request)
+        validate_lab_translation(result['japanese'], result['french'])
+    return result
+
+
 def controlled_dialogue(request):
     text = request['text'].strip()
     history = request.get('history', [])

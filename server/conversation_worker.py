@@ -13,7 +13,7 @@ import traceback
 from threading import Lock
 from lab_worker_inbox import RequestInbox
 from lab_conversation import lab_dialogue_guidance, validate_lab_conversation, lab_turn_observation, validate_lab_translation, UnknownFacilityLocation
-from beginner_dialogue import controlled_dialogue, constrain_preference_question, safe_controlled_fallback, unknown_facility_fallback
+from beginner_dialogue import controlled_dialogue, grammar_checked_controlled_dialogue, constrain_preference_question, safe_controlled_fallback, unknown_facility_fallback
 from conversation_feedback import FEEDBACK_INSTRUCTIONS, parse_feedback
 from conversation_context import conversation_details
 from linguistic_support import answer_guidance, requested_explanation, correction_explanation, question_guidance, checked_help, safe_conversation_coaching, checked_translation, accepted_contextual_response, checked_requested_help
@@ -157,7 +157,11 @@ def main():
                     mode = dialogue_mode(request)
                     dialogue_path = 'generated'
                     correction = None
+                    checked_controlled = grammar_checked_controlled_dialogue(request) if mode == 'hybrid' else None
+                    if checked_controlled:
+                        metrics['authored_grammar'] = 1
                     if (re.search(r"[\u3040-\u30ff\u3400-\u9fff]", request["text"])
+                            and not checked_controlled
                             and not accepted_contextual_response(request["text"], request["history"])):
                         feedback_prompt = tokenizer.apply_chat_template([
                             {"role": "system", "content": FEEDBACK_INSTRUCTIONS},
@@ -177,7 +181,7 @@ def main():
                                   "correction": correction, "vocabulary": []}
                         dialogue_path = 'correction'
                     else:
-                        controlled = controlled_dialogue(request) if mode == 'hybrid' else None
+                        controlled = (checked_controlled or controlled_dialogue(request)) if mode == 'hybrid' else None
                         if controlled:
                             validate_lab_conversation(controlled["japanese"], request)
                             metrics["controlled_dialogue"] = 1

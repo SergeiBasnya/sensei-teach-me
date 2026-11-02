@@ -92,6 +92,90 @@ async function rejected(url: string, origin?: string) {
   });
 }
 
+test("un signal nouveau très faible reste analysé après deux partiels stables, et le final garde tout le PCM", async () => {
+  let calls = 0;
+  let final: Buffer | undefined;
+  const sent: Buffer[] = [];
+  await fixture(
+    {
+      transcribe: async (pcm, { partial }) => {
+        if (partial) calls++;
+        else final = pcm;
+        return { text: "ホットで。", uncertain: false, metrics: {} };
+      },
+    },
+    async ({ connect }) => {
+      const { socket, events } = await connect();
+      command(socket, { type: "start", turn: 1, language: "auto" });
+      let sequence = 0;
+      const audio = (value: number) => {
+        const frame = Buffer.alloc(6408);
+        frame.writeUInt32LE(1, 0);
+        frame.writeUInt32LE(sequence++, 4);
+        for (let i = 8; i < frame.length; i += 2) frame.writeInt16LE(value, i);
+        sent.push(Buffer.from(frame.subarray(8)));
+        socket.send(frame);
+      };
+      for (let i = 0; i < 4; i++) audio(70);
+      await until(() => calls === 1);
+      audio(0);
+      await until(() => calls === 2);
+      // Below -60 dBFS does not mean silence: Whisper still sees the whole
+      // snapshot containing the earlier louder speech. Never discard this tail.
+      audio(1);
+      await until(() => calls === 3);
+      command(socket, { type: "finish", turn: 1 });
+      await until(() => events.some((event) => event.type === "final"));
+      assert.deepEqual(final, Buffer.concat(sent));
+    },
+  );
+});
+
+test("le serveur annonce seulement sa révision publique et son lot sur la connexion authentifiée", async () => {
+  await fixture({}, async ({ connect }) => {
+    const { events } = await connect();
+    const ready = events.find((event) => event.type === "ready");
+    assert.ok(ready?.type === "ready" && ready.version);
+    assert.equal(ready.version.release, VOICE_LAB.release);
+    assert.notEqual(ready.version.commit, "unknown");
+    assert.match(ready.version.commit, /^(?:[a-f0-9]{12}|unknown)$/);
+    assert.deepEqual(Object.keys(ready.version).sort(), [
+      "commit",
+      "release",
+      "sourceState",
+    ]);
+  });
+});
+
+test("des partiels incertains ou changeants ne sont pas supprimés pendant le silence", async () => {
+  for (const uncertain of [true, false]) {
+    let calls = 0;
+    await fixture(
+      {
+        transcribe: async () => {
+          calls++;
+          return {
+            text: calls === 1 && !uncertain ? "アイスで。" : "ホットで。",
+            uncertain: calls === 1 && uncertain,
+            metrics: {},
+          };
+        },
+      },
+      async ({ connect }) => {
+        const { socket } = await connect();
+        command(socket, { type: "start", turn: 1, language: "auto" });
+        for (let sequence = 0; sequence < 4; sequence++)
+          chunk(socket, 1, sequence);
+        await until(() => calls === 1);
+        chunk(socket, 1, 4);
+        await until(() => calls === 2);
+        chunk(socket, 1, 5);
+        await until(() => calls === 3);
+      },
+    );
+  }
+});
+
 test("le laboratoire exige l’auth HTTP et refuse les tickets expirés, réutilisés et origines étrangères", async () => {
   let clock = 100;
   await fixture({ now: () => clock }, async ({ base, ticket, connect }) => {
@@ -268,15 +352,18 @@ test("pause et reprise invalident un ASR ancien sans lancer deux inférences sim
 
 test("le résultat final a priorité sur un autre partiel en attente dans le mutex global", async () => {
   let release: (() => void) | undefined;
+  let runningSignal: AbortSignal | undefined;
   const calls: boolean[] = [];
   await fixture(
     {
       transcribe: async (_pcm, options) => {
         calls.push(options.partial);
-        if (calls.length === 1)
+        if (calls.length === 1) {
+          runningSignal = options.signal;
           await new Promise<void>((resolve) => {
             release = resolve;
           });
+        }
         return { text: "はい。", uncertain: false, metrics: {} };
       },
     },
@@ -296,6 +383,7 @@ test("le résultat final a priorité sur un autre partiel en attente dans le mut
           (event) => event.type === "state" && event.state === "recognizing",
         ),
       );
+      assert.equal(runningSignal?.aborted, false);
       release?.();
       await until(() => calls.length === 3);
       assert.deepEqual(calls, [true, false, true]);
