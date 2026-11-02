@@ -60,3 +60,11 @@ Vérification :174tests Node et180tests Python réussis, TypeScript, format, exp
 | État entre finalASR et lecture | Aucun libellé distinct ; l’état précédent restait affiché. | Préparation de la réponse… | Ajout d’un état, pas d’un écran. |
 
 Le choix de politique, l’activation et le panneau de diagnostic sont des ajouts au laboratoire ; ils ne remplacent aucun texte existant. Les consignes expérimentales et l’objectif guidé sont présentés intégralement avant/après dans [la note de naturalité](VOICE-RECOVERY-NATURALITY.md#8-prototype-autorisé-après-le-diagnostic--état-du-30-octobre). Aucun déplacement de texte dans le classique, aucune nouvelle leçon ou animation.
+
+## Correction de connexion Android — 2 novembre 2026
+
+Le serveur répondait aux requêtes HTTP mais refusait l’ouverture WebSocket Android : React Native ajoute par défaut `Origin: http://<adresse-du-Mac>:8787`, alors que `scripts/start-local.ts` n’autorisait que localhost/127.0.0.1. Reproduction sur le serveur réel : ticket valide + origine localhost → `ready` ; même parcours + origine Wi-Fi du Mac → HTTP403. L’option de diagnostic n’est envoyée qu’après l’ouverture et ne causait donc pas ce refus.
+
+Le lanceur calcule désormais les origines exactes des interfaces IPv4 du Mac en mode `--lan`, sur les seuls ports locaux8787/8081/8082/8083. En mode local, seules les origines de boucle locale restent autorisées. Aucun joker, aucune confiance dans le Host reçu ; code personnel, tickets expirables à usage unique et refus des origines étrangères restent inchangés. Fichiers : `scripts/start-local.ts`, `scripts/local-origins.ts`, `tests/local-origins.test.ts`.
+
+Après redémarrage, le parcours réel par l’adresse Wi-Fi avec l’en-tête Android et `diagnostic:true` atteint `listening`. Contrôle logiciel depuis le Mac, pas observation directe du téléphone. TypeScript, format et176tests Node réussissent. Lors du premier passage ciblé, un ancien test de priorité de file a expiré sur une attente temporelle ; la suite complète suivante passe sans modification de ce test. La robustesse de cette attente reste une réserve de test, distincte du refus403 reproduit.
