@@ -3,7 +3,7 @@ import { tutorReplySchema } from "./contracts";
 
 // Experimental, opt-in protocol. It never records a pedagogical learning event.
 export const VOICE_LAB = {
-  release: "2026-11-02.waits-2",
+  release: "2026-11-02.dialogue-3",
   path: "/api/voice-lab/socket",
   sampleRate: 16_000,
   channels: 1,

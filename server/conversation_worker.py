@@ -13,7 +13,7 @@ import traceback
 from threading import Lock
 from lab_worker_inbox import RequestInbox
 from lab_conversation import lab_dialogue_guidance, validate_lab_conversation, lab_turn_observation, validate_lab_translation, UnknownFacilityLocation
-from beginner_dialogue import controlled_dialogue, grammar_checked_controlled_dialogue, constrain_preference_question, safe_controlled_fallback, unknown_facility_fallback
+from beginner_dialogue import controlled_dialogue, grammar_checked_controlled_dialogue, constrain_beginner_question, safe_controlled_fallback, unknown_facility_fallback
 from conversation_feedback import FEEDBACK_INSTRUCTIONS, parse_feedback
 from conversation_context import conversation_details
 from linguistic_support import answer_guidance, requested_explanation, correction_explanation, question_guidance, checked_help, safe_conversation_coaching, checked_translation, accepted_contextual_response, checked_requested_help
@@ -195,10 +195,7 @@ def main():
                                 instructions += '\n' + LAB_GENERATIVE_INTENTIONS
                             messages = [{"role": "system", "content": instructions + "\nSituation : " + scenario}]
                             if request.get("objective"):
-                                if mode == 'generative':
-                                    messages[0]["content"] += "\nGuided practice objective: " + request["objective"] + " Answer an unexpected question or explicit aside first; then offer a return to this objective when useful. Do not treat an aside as a completed exercise answer."
-                                else:
-                                    messages[0]["content"] += "\nCurrent beginner practice objective: " + request["objective"] + " Keep your follow-up questions focused on this objective."
+                                messages[0]["content"] += "\nGuided practice objective: " + request["objective"] + " Answer an unexpected question or explicit aside first; then offer a return to this objective when useful. Do not treat an aside as a completed exercise answer."
                             if request.get("conversationGuidance"):
                                 messages[0]["content"] += "\n" + request["conversationGuidance"]
                             if request.get("learnerGuidance"):
@@ -240,7 +237,7 @@ def main():
                                         metrics["translation_unavailable"] = 1
                                     french = checked_translation(japanese) or french
                                     coaching = controlled_coaching(japanese, request["history"]) or safe_conversation_coaching(japanese, coaching, french, request["history"])
-                                constrained = constrain_preference_question(japanese, request) if mode == 'hybrid' else None
+                                constrained = constrain_beginner_question(japanese, request) if mode == 'hybrid' else None
                                 if constrained:
                                     japanese, french, coaching = (constrained[key] for key in ('japanese', 'french', 'coaching'))
                                     metrics['controlled_question'] = 1

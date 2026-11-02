@@ -1,6 +1,11 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { assistanceIntent, teaching, tutorFromHelp } from "../shared/teaching";
+import {
+  assistanceIntent,
+  teaching,
+  tutorFromHelp,
+  conversationHistory,
+} from "../shared/teaching";
 import { lessons } from "../shared/learning-plan";
 import { tutorReplySchema } from "../shared/contracts";
 import { readTutor } from "../src/lib/tutor-playback";
@@ -13,6 +18,46 @@ const help = {
     french: "Je m’appelle Alex.",
   },
 };
+test("une demande de sens est une aide ; le modèle affiché ne devient pas un fait", () => {
+  assert.deepEqual(assistanceIntent("Que veut dire omoshirokatta ?"), {
+    kind: "question",
+    action: "explain",
+  });
+  assert.deepEqual(assistanceIntent("Qu’est-ce que machi veut dire ?"), {
+    kind: "question",
+    action: "explain",
+  });
+  assert.equal(assistanceIntent("Hier, j’ai vu un film."), null);
+  const opening = {
+    role: "assistant" as const,
+    phrase: { japanese: "いつ行きますか？" },
+  };
+  const displayed = [
+    opening,
+    {
+      role: "user" as const,
+      phrase: { japanese: "Comment dire que je pars demain ?" },
+      contextExcluded: true,
+    },
+    {
+      role: "assistant" as const,
+      phrase: { japanese: "明日行きます。" },
+      coaching: "Un modèle à adapter.",
+      contextExcluded: true,
+    },
+  ];
+  assert.deepEqual(conversationHistory(displayed), [
+    { role: "assistant", content: opening.phrase.japanese },
+  ]);
+  assert.deepEqual(
+    conversationHistory([
+      ...displayed,
+      { role: "user", phrase: { japanese: "明日行きます。" } },
+    ]).at(-1),
+    { role: "user", content: "明日行きます。" },
+  );
+  assert.equal(displayed.length, 3);
+});
 test("les neuf leçons ont une introduction et les demandes d’aide ne sont pas de fausses erreurs", () => {
   for (const lesson of lessons) assert.ok(teaching[lesson.id].length > 30);
   for (const text of [

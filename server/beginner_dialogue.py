@@ -104,8 +104,12 @@ def controlled_dialogue(request):
     state = lab_dialogue_state(request)
     facts = state['learner_asserted']
     scenario = request['scenario']
-    if state['intent'] in ('help_or_repeat', 'close') or _EXAMPLE.search(text):
+    if state['intent'] in ('help_or_repeat', 'close', 'topic_shift') or _EXAMPLE.search(text):
         return None
+    if request.get('labStreaming') is True and _QUESTION.search(text):
+        known_limit = unknown_facility_fallback(request)
+        if known_limit:
+            return {**known_limit, 'intent': 'unknown_facility'}
     if (re.search(r'モチ|もち|Mochi|あなた|\btu\b', text, re.I)
             and re.search(r'から来|出身|住ん|origine|viens|habite', text, re.I)
             and _QUESTION.search(text)):
@@ -165,8 +169,13 @@ def controlled_dialogue(request):
     if state['unsupported_order']:
         return None
     drink = facts.get('drink')
-    if re.fullmatch(r'(?:この)?(?:' + DRINK.pattern + r')は?いくらですか[？?。]?', text):
-        subject = DRINK.search(text)[0]
+    named_price = re.fullmatch(r'(?:この)?(?:' + DRINK.pattern + r')は?いくらですか[？?。]?', text)
+    # A bare price question has an unambiguous referent only for one known
+    # item. Never turn an authored unit price into a computed order total.
+    single_price = (re.fullmatch(r'いくらですか[？?。]?', text) and drink
+                    and facts.get('quantity') and _quantity(facts['quantity']) == 1)
+    if named_price or single_price:
+        subject = DRINK.search(text)[0] if named_price else drink
         value = _service_value(request, subject, 'price')
         if value:
             n = number_value(value[0])
@@ -237,8 +246,9 @@ def safe_controlled_fallback(request):
 def unknown_facility_fallback(request):
     """Realise one understood location question, optionally with one safe slot.
 
-    Called only for UnknownFacilityLocation, after parsing, translation and all
-    other conversation guards. It is not a generic rescue for failed output.
+    May select an authored action before generation. As a rescue after generation,
+    called only for UnknownFacilityLocation, after all other guards passed.
+    It is not a generic rescue for failed output.
     Unsupported/conditional questions remain errors rather than guessed intent.
     """
     if request.get('labStreaming') is not True:
@@ -297,4 +307,32 @@ def constrain_preference_question(japanese, request):
     if any(item['role'] == 'assistant' and result['coaching'] in item['content']
            for item in request.get('history', [])):
         result['coaching'] = None
+    if any(item['role'] == 'assistant' and result['japanese'] in item['content']
+           for item in request.get('history', [])):
+        # Do not repair an over-open question by re-asking the daily habit that
+        # has already been explored. A relevant acknowledgement is sufficient.
+        french = {'日本語': 'le japonais', 'コーヒー': 'le café', 'お茶': 'le thé', '紅茶': 'le thé noir'}[noun]
+        return {'japanese': noun + 'が好きなんですね。',
+                'french': 'Tu aimes ' + french + ', d’accord.', 'coaching': None}
     return result
+
+
+def constrain_beginner_question(japanese, request):
+    """Retain N5 protections for the observed over-open follow-ups only."""
+    preference = constrain_preference_question(japanese, request)
+    if preference:
+        return preference
+    # The latency fixtures reproduce this despite explicit N5 prompt rules.
+    # Reuse the existing introduction action only after a bare origin answer,
+    # with an unknown home, and a generated place-description question. Topic
+    # changes, questions, other facts and existing home answers stay generative.
+    state = lab_dialogue_state(request)
+    facts = state['learner_asserted']
+    origin = facts.get('from_place')
+    if (request['scenario'] in ('meet', 'free') and state['intent'] == 'continue_from_answer'
+            and origin and not facts.get('home_city') and not facts.get('from_city')
+            and re.fullmatch(re.escape(origin) + r'から来ました[。]?', request['text'].strip())
+            and re.fullmatch(r'(?:' + re.escape(origin) + r'(?:から来ましたね|はとても素敵な国ですね)。)?どんなところ(?:ですか|が好きですか)[？?。]?', japanese)):
+        validate_lab_conversation(japanese, request)
+        return controlled_dialogue({**request, 'scenario': 'meet'})
+    return None

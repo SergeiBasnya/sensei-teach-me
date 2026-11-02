@@ -55,6 +55,12 @@ export function assistanceIntent(
   if (meaning && !refersToQuestion) return { kind: "answer", meaning };
   if (refersToQuestion) return { kind: "question", action: "translate" };
   if (
+    /\b(?:que veut dire|(?:qu[’']|qu )est.ce que .{1,60} veut dire)\b/i.test(
+      text,
+    )
+  )
+    return { kind: "question", action: "explain" };
+  if (
     /répète|répéter|repete|repeter|encore une fois|plus lentement|もう一度|もういちど|ゆっくり/.test(
       normalized,
     )
@@ -84,6 +90,25 @@ export function assistanceIntent(
 /** A model supplied to the learner is not their own conversational answer. */
 export function isHelpReply(tutor: TutorReply) {
   return !!tutor.assisted || (!!tutor.practice && !tutor.correction);
+}
+
+/** Displayed help remains visible but is not an asserted conversation fact. */
+export function conversationHistory(
+  messages: readonly {
+    role: "assistant" | "user";
+    phrase: Pick<Phrase, "japanese">;
+    coaching?: string | null;
+    contextExcluded?: boolean;
+  }[],
+) {
+  return messages
+    .filter((message) => !message.contextExcluded)
+    .map((message) => ({
+      role: message.role,
+      content: [message.coaching, message.phrase.japanese]
+        .filter(Boolean)
+        .join("\n"),
+    }));
 }
 
 export function tutorFromHelp(help: ConversationHelp): TutorReply {

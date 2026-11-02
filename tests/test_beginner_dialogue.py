@@ -3,7 +3,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'server'))
-from beginner_dialogue import controlled_dialogue, constrain_preference_question
+from beginner_dialogue import controlled_dialogue, constrain_preference_question, constrain_beginner_question
 from lab_conversation import lab_dialogue_state, validate_lab_conversation
 
 
@@ -20,6 +20,61 @@ def request(text, scenario='station', history=None):
 
 
 class BeginnerDialogueTests(unittest.TestCase):
+    def test_observed_country_description_stays_n5_without_overriding_topic_changes(self):
+        candidate = 'フランスから来ましたね。どんなところですか？'
+        data = {**request('フランスから来ました。', 'free'), 'labStreaming': True}
+        result = constrain_beginner_question(candidate, data)
+        self.assertEqual(result['japanese'], 'どこに住んでいますか？')
+        self.assertEqual(result['french'], 'Où habites-tu ?')
+        for text, history in [
+            ('フランスから来ました。映画の話をしたいです。', []),
+            ('フランスから来ました。', [u('パリに住んでいます。')]),
+            ('フランスから来ましたか？', []),
+        ]:
+            self.assertIsNone(constrain_beginner_question(candidate, {**data, 'text': text, 'history': history}))
+        self.assertIsNone(constrain_beginner_question('最近、映画を見ましたか？', data))
+        # A repair must not discard a second assertion, role error or elaborate
+        # register; the original candidate remains subject to the full guards.
+        self.assertIsNone(constrain_beginner_question(candidate + 'お持ちになりますか？', data))
+
+    def test_topic_change_leaves_intro_scaffold_without_inventing_preference(self):
+        for lab in (True, False):
+            data = {**request('ベルギーから来ました。今日は映画の話をしたいです。', 'meet'), 'labStreaming': lab}
+            self.assertEqual(lab_dialogue_state(data)['intent'], 'topic_shift')
+            self.assertIsNone(controlled_dialogue(data))
+            self.assertNotIn('映画', lab_dialogue_state(data).get('learner_preferences', {}))
+
+    def test_open_question_repair_does_not_repeat_explored_habit(self):
+        data = request('日本語が好きです。', 'free', [u('日本語が好きです。'), a('日本語を毎日勉強しますか？'), u('はい。')])
+        result = constrain_preference_question('日本語の何が好きですか？', data)
+        self.assertEqual(result['japanese'], '日本語が好きなんですね。')
+        self.assertNotIn('？', result['japanese'])
+        self.assertIsNone(result['coaching'])
+
+    def test_known_limit_is_selected_before_generation_and_keeps_service_choice(self):
+        history = [a('お茶は一つ三百五十円です。何にしますか？'), u('お茶を二つください。'), a('ホットですか、アイスですか？')]
+        data = {**request('ホットでお願いします。トイレはどこですか？', 'cafe', history), 'labStreaming': True}
+        result = self.reply(data)
+        self.assertEqual(result['intent'], 'unknown_facility')
+        self.assertEqual(result['japanese'], 'ホットのお茶二つですね。トイレの場所はわかりません。')
+        history += [u(data['text']), a(result['japanese'])]
+        repair = self.reply({**request('やっぱり、一つでお願いします。', 'cafe', history), 'labStreaming': True})
+        self.assertEqual(repair['japanese'], 'ホットのお茶一つですね。')
+        history += [u('やっぱり、一つでお願いします。'), a(repair['japanese'])]
+        price = self.reply({**request('いくらですか？', 'cafe', history), 'labStreaming': True})
+        self.assertEqual(price['japanese'], '一つ350円です。')
+        self.assertIn('350', price['french'])
+
+    def test_unknown_limit_does_not_guess_complex_intent_or_override_known_location(self):
+        for text in ('トイレに行くなら、お茶をキャンセルします。トイレはどこですか？',
+                     'お茶を二つください。トイレはどこですか？いくらですか？',
+                     'お茶を二枚ください。トイレはどこですか？'):
+            self.assertIsNone(controlled_dialogue({**request(text, 'cafe'), 'labStreaming': True}))
+        self.assertIsNone(controlled_dialogue({**request('トイレはどこですか？', 'cafe', [a('トイレは右にあります。')]), 'labStreaming': True}))
+        # No computed two-item total, and no ellipsis resolution without an order.
+        for history in ([], [u('お茶を二つください。'), a('お茶は一つ三百五十円です。')]):
+            self.assertIsNone(controlled_dialogue({**request('いくらですか？', 'cafe', history), 'labStreaming': True}))
+
     def reply(self, data):
         result = controlled_dialogue(data)
         self.assertIsNotNone(result)

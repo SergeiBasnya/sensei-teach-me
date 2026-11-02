@@ -227,12 +227,13 @@ class LabDispatchTests(unittest.TestCase):
                 history=[{'role': 'user', 'content': 'お茶を二つください。'},
                          {'role': 'assistant', 'content': 'ホットですか、アイスですか？'}],
                 labDialogue=policy, labDiagnostics=True)
-            messages, _, _ = run_worker([data], ['{"correction":null}',
+            messages, calls, _ = run_worker([data], ['{"correction":null}',
                 '{"japanese":"トイレは右手のほうにあります。"}'])
             result = messages[0]['result']
             self.assertEqual(result['reply']['japanese'], 'ホットのお茶二つですね。トイレの場所はわかりません。')
             self.assertEqual(result['reply']['french'], '2 thés chauds, d’accord. Je ne sais pas où sont les toilettes.')
-            self.assertEqual(result['observation']['path'], 'fallback')
+            self.assertEqual(result['observation']['path'], 'controlled' if policy == 'hybrid' else 'fallback')
+            self.assertEqual(len(calls), 1 if policy == 'hybrid' else 2)
             self.assertIsNone(result['correction'])
             history = [*data['history'], {'role': 'user', 'content': data['text']},
                        {'role': 'assistant', 'content': result['reply']['japanese']}]
@@ -270,7 +271,9 @@ class LabDispatchTests(unittest.TestCase):
     def test_unknown_location_does_not_hide_other_errors_or_complex_requests(self):
         history = [{'role': 'user', 'content': 'お茶を二つください。'},
                    {'role': 'assistant', 'content': 'ホットですか、アイスですか？'}]
-        data = turn('ja-first', scenario='cafe', text='ホットでお願いします。トイレはどこですか？', history=history)
+        # Exercise the post-generation rescue, even though hybrid now chooses
+        # this understood narrow intent before asking Qwen to realise it.
+        data = turn('ja-first', scenario='cafe', text='ホットでお願いします。トイレはどこですか？', history=history, labDialogue='generative')
         for candidate in [
             '{"japanese":',
             '{"japanese":"トイレは右にあります。お茶三つですね。"}',
@@ -298,7 +301,7 @@ class LabDispatchTests(unittest.TestCase):
             self.assertIn('error', messages[0])
 
     def test_unknown_location_keeps_known_information_and_runtime_failures(self):
-        data = turn('ja-first', scenario='cafe', text='トイレはどこですか？', history=[])
+        data = turn('ja-first', scenario='cafe', text='トイレはどこですか？', history=[], labDialogue='generative')
         with patch('llm_stream_trace.collect_stream', side_effect=ValueError('model failure')), \
                 patch.object(conversation_worker, 'unknown_facility_fallback') as fallback:
             messages, _, _ = run_worker([data], ['{"correction":null}'])

@@ -537,7 +537,7 @@ export function VoiceLab({
         if (event.type === "sample_saved") setSampleId(event.id);
         if (event.type === "tutor") {
           setTutor(event.tutor);
-          setQuestion(event.tutor.reply);
+          if (!isHelpReply(event.tutor)) setQuestion(event.tutor.reply);
           if (isHelpReply(event.tutor) && event.tutor.coaching) {
             const tag = gate.tag();
             queue.current = queue.current.then(async () => {

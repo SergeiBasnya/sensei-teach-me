@@ -413,7 +413,7 @@ function runtime() {
   };
 }
 
-async function runTrial(
+export async function runTrial(
   provider: CancellableTutor,
   speech: NonNullable<ReturnType<typeof createLocalSpeech>>,
   dialogue: DialogueCase,

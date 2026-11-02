@@ -1,5 +1,9 @@
 # Reprise vocale — essai Android ciblé
 
+Document historique de diagnostic. Pour le prochain essai après l’étape 3,
+suivre [l’essai libre de cinq minutes](VOICE-NATURALITY-ANDROID.md) : les huit
+interventions ci-dessous ne sont plus demandées.
+
 Le premier retour Android au commit `50dff54` est un échec humain reconnu. Ce lot ne transforme pas des contrôles techniques en validation de la voix. Le classique reste disponible ; le laboratoire reste expérimental, sans progression ni mémorisation de nouvelles erreurs.
 
 ## Préparer le téléphone
