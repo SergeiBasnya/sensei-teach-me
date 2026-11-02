@@ -337,3 +337,176 @@ test("la question d’origine et les vraies hésitations gardent leur marge de 5
     assert.equal(endpoint.requiredSilenceMs, 5000);
   }
 });
+
+const weak = encode(
+  Array.from({ length: 1600 }, (_, i) =>
+    Math.round(80 * Math.sin((2 * Math.PI * 440 * i) / 16000)),
+  ),
+);
+let noiseSeed = 7;
+const weakNoise = encode(
+  Array.from({ length: 1600 }, () => {
+    noiseSeed = (Math.imul(noiseSeed, 1664525) + 1013904223) >>> 0;
+    return ((noiseSeed >>> 16) % 161) - 80;
+  }),
+);
+function weakTurn(
+  texts: { text: string; uncertain?: boolean; at: number }[],
+  input = weak,
+  duration = 1600,
+  options: { question?: string } = {},
+) {
+  const endpoint = new VoiceLabEndpoint(0, options);
+  let decision = "listen";
+  let firstFinish: number | null = null;
+  for (let now = 100; now <= 20_000; now += 100) {
+    decision = endpoint.observe(now <= duration ? input : quiet, now);
+    for (const partial of texts.filter((item) => item.at === now))
+      endpoint.notePartial(partial.text, partial.uncertain ?? false);
+    if (decision === "finish" && firstFinish === null) firstFinish = now;
+  }
+  return { endpoint, decision, firstFinish };
+}
+test("signal faible : deux partiels prudents permettent le final après 3,2 s de silence", () => {
+  const result = weakTurn([
+    { at: 1700, text: "フランスから来ました。" },
+    { at: 2700, text: "フランスから来ました。" },
+  ]);
+  assert.equal(result.firstFinish, 4800);
+  assert.equal(result.endpoint.voicedDurationMs, 0);
+  assert.equal(result.endpoint.lastDetectedVoiceAt, 1600);
+  assert.equal(result.endpoint.requiredSilenceMs, 3200);
+});
+test("signal faible : bruit, partiel isolé/incertain, kanji répété ou signal sous le gate ne suffisent pas", () => {
+  for (const texts of [
+    [],
+    [{ at: 1700, text: "フランスから来ました。" }],
+    [
+      { at: 1700, text: "フランスから来ました。", uncertain: true },
+      { at: 2700, text: "フランスから来ました。" },
+    ],
+    [
+      { at: 1700, text: "生" },
+      { at: 2700, text: "生" },
+    ],
+    [
+      { at: 1700, text: "生生生生生生" },
+      { at: 2700, text: "生生生生生生" },
+    ],
+    [
+      { at: 1700, text: "フランスから来ました。" },
+      { at: 1700, text: "フランスから来ました。" },
+    ],
+  ]) {
+    const result = weakTurn(texts);
+    assert.equal(result.firstFinish, null);
+    assert.equal(result.decision, "quiet");
+  }
+  const veryWeak = encode(
+    Array.from({ length: 1600 }, (_, i) => Math.round(15 * Math.sin(i))),
+  );
+  assert.equal(
+    weakTurn(
+      [
+        { at: 1700, text: "フランスから来ました。" },
+        { at: 2700, text: "フランスから来ました。" },
+      ],
+      veryWeak,
+    ).firstFinish,
+    null,
+  );
+  assert.equal(weakTurn([], weakNoise).firstFinish, null);
+  assert.equal(
+    weakTurn(
+      [
+        { at: 1700, text: "生" },
+        { at: 2700, text: "生" },
+      ],
+      weakNoise,
+    ).firstFinish,
+    null,
+  );
+  assert.equal(
+    weakTurn([
+      { at: 1700, text: "フランスから来ました。" },
+      { at: 2700, text: "フランスから来ました。", uncertain: true },
+    ]).firstFinish,
+    null,
+  );
+});
+test("signal faible : réponse très courte confirmée, mais pas un bruit bref avec une phrase hallucinée", () => {
+  for (const text of ["はい。", "いいえ。"]) {
+    assert.equal(
+      weakTurn(
+        [
+          { at: 1000, text },
+          { at: 2000, text },
+        ],
+        weak,
+        100,
+      ).firstFinish,
+      3300,
+    );
+  }
+  assert.equal(
+    weakTurn(
+      [
+        { at: 1000, text: "フランスから来ました。" },
+        { at: 2000, text: "フランスから来ました。" },
+      ],
+      weak,
+      100,
+    ).firstFinish,
+    null,
+  );
+  for (const question of [
+    "ホットですか、アイスですか？",
+    "どこから来ましたか？",
+  ]) {
+    const result = weakTurn(
+      [
+        { at: 1000, text: "ホットで。" },
+        { at: 2000, text: "ホットで。" },
+      ],
+      weak,
+      300,
+      { question },
+    );
+    assert.equal(
+      result.firstFinish,
+      question.startsWith("ホット") ? 3500 : null,
+    );
+  }
+});
+test("signal faible : une hésitation et un bruit continu ne déclenchent pas une fin prématurée", () => {
+  assert.equal(
+    weakTurn([
+      { at: 1700, text: "えっと。" },
+      { at: 2700, text: "えっと。" },
+    ]).firstFinish,
+    null,
+  );
+  assert.equal(
+    weakTurn(
+      [
+        { at: 1700, text: "フランスから来ました。" },
+        { at: 2700, text: "フランスから来ました。" },
+      ],
+      weakNoise,
+      20_000,
+    ).firstFinish,
+    null,
+  );
+  const endpoint = new VoiceLabEndpoint(0);
+  for (let now = 100; now <= 1000; now += 100) endpoint.observe(weak, now);
+  endpoint.notePartial("えっと。", false);
+  observeUntil(endpoint, 1100, 2000);
+  endpoint.notePartial("えっと。", false);
+  assert.equal(observeUntil(endpoint, 2100, 3000), "listen");
+  for (let now = 3100; now <= 4000; now += 100) endpoint.observe(weak, now);
+  endpoint.notePartial("フランスから来ました。", false);
+  observeUntil(endpoint, 4100, 5000);
+  endpoint.notePartial("フランスから来ました。", false);
+  assert.equal(observeUntil(endpoint, 5100, 7100), "listen");
+  assert.equal(endpoint.observe(quiet, 7200), "finish");
+});

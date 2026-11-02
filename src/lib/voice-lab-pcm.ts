@@ -153,6 +153,7 @@ export type VoiceLabEndpointReason =
   | "short_answer"
   | "contextual_choice"
   | "unfinished"
+  | "weak_stable_partial"
   | "stable_partial"
   | "unstable_partial";
 export class VoiceLabEndpoint {
@@ -164,6 +165,9 @@ export class VoiceLabEndpoint {
   private uncertain = true;
   private stable = 0;
   private partialAudioMs = 0;
+  private stableFromAudioMs = 0;
+  private weakVoicedMs = 0;
+  private lastWeakVoice = 0;
   private readonly hotIcedQuestion: boolean;
   constructor(
     private started: number,
@@ -180,6 +184,8 @@ export class VoiceLabEndpoint {
   }
   notePartial(text: string, uncertain: boolean) {
     const normalized = text.trim().replace(/\s+/g, " ");
+    if (uncertain || normalized !== this.partial || this.uncertain)
+      this.stableFromAudioMs = this.audioMs;
     this.stable =
       !uncertain && normalized
         ? normalized === this.partial && !this.uncertain
@@ -198,6 +204,10 @@ export class VoiceLabEndpoint {
     this.audioMs += duration;
     const db = 20 * Math.log10(Math.max(1e-7, pcm16Level(pcm)));
     const threshold = Math.max(-48, Math.min(-28, this.floor + 12));
+    // Match the server's -60 dBFS admission floor, with an additional SNR
+    // requirement. Energy alone never enables this weak-signal exception.
+    if (db >= -60) this.lastWeakVoice = now;
+    if (db >= Math.max(-60, this.floor + 8)) this.weakVoicedMs += duration;
     if (db > threshold) {
       this.lastVoice = now;
       this.voicedMs += duration;
@@ -210,7 +220,7 @@ export class VoiceLabEndpoint {
   }
   canFinish(now: number) {
     if (this.decisionReason === "insufficient_voice") return false;
-    return now - this.lastVoice >= this.requiredSilenceMs;
+    return now - this.lastEnergyAt >= this.requiredSilenceMs;
   }
   private get ending() {
     return this.partial.replace(/[。！？.!?…⋯\s]+$/gu, "");
@@ -223,6 +233,39 @@ export class VoiceLabEndpoint {
       this.audioMs - this.partialAudioMs >= 100
     );
   }
+  private get unfinished() {
+    return /(?:ええ?と|えっと|あの|いや|うーん|je|euh|attends|non je|は|が|を|に|で|と|へ|から|まで|の)[、,\s]*$/i.test(
+      this.ending,
+    );
+  }
+  private get contextualChoice() {
+    return this.hotIcedQuestion && /^(?:ホット|アイス)で$/u.test(this.ending);
+  }
+  private get hasWeakSupport() {
+    if (
+      !this.hasStablePartial ||
+      this.partialAudioMs - this.stableFromAudioMs < 500
+    )
+      return false;
+    const short = /^(?:はい|いいえ)$/u.test(this.ending);
+    if (this.weakVoicedMs < (short ? 100 : 300)) return false;
+    if (short || this.contextualChoice) return true;
+    if (this.unfinished || /[、,]$|(.{1,4})\1{2,}/u.test(this.ending))
+      return false;
+    // A lone/repeated kanji or a filler is not sufficient evidence. These are
+    // eligibility checks for a *final ASR attempt*, never text validation.
+    return (
+      (this.ending.length >= 6 &&
+        /[ぁ-ん].*[ぁ-ん].*[ぁ-ん]/u.test(this.ending)) ||
+      (/^[\p{L}’' -]{12,}[.!?]?$/u.test(this.ending) &&
+        this.ending.trim().split(/\s+/u).length >= 3)
+    );
+  }
+  private get lastEnergyAt() {
+    return this.voicedMs < 180 && this.hasWeakSupport
+      ? Math.max(this.lastVoice, this.lastWeakVoice)
+      : this.lastVoice;
+  }
   get decisionReason(): VoiceLabEndpointReason {
     // Short confirmed acknowledgements are not a general reduction of the
     // energy floor. Noise, fillers and arbitrary short text remain ineligible.
@@ -230,13 +273,15 @@ export class VoiceLabEndpoint {
       this.voicedMs >= 100 &&
       this.hasStablePartial &&
       /^(?:はい|いいえ)$/u.test(this.ending);
-    if (this.voicedMs < 180)
-      return shortAnswer ? "short_answer" : "insufficient_voice";
-    const unfinished =
-      /(?:ええ?と|えっと|あの|いや|うーん|je|euh|attends|non je|は|が|を|に|で|と|へ|から|まで|の)[、,\s]*$/i.test(
-        this.ending,
-      );
-    if (unfinished) {
+    if (this.voicedMs < 180) {
+      if (shortAnswer) return "short_answer";
+      if (!this.hasWeakSupport) return "insufficient_voice";
+      if (/^(?:はい|いいえ)$/u.test(this.ending)) return "short_answer";
+      return this.contextualChoice
+        ? "contextual_choice"
+        : "weak_stable_partial";
+    }
+    if (this.unfinished) {
       if (
         this.hotIcedQuestion &&
         this.hasStablePartial &&
@@ -261,7 +306,9 @@ export class VoiceLabEndpoint {
     return Math.round(this.voicedMs);
   }
   get lastDetectedVoiceAt() {
-    return this.decisionReason !== "insufficient_voice" ? this.lastVoice : null;
+    return this.decisionReason !== "insufficient_voice"
+      ? this.lastEnergyAt
+      : null;
   }
 }
 

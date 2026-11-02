@@ -12,8 +12,8 @@ import time
 import traceback
 from threading import Lock
 from lab_worker_inbox import RequestInbox
-from lab_conversation import lab_dialogue_guidance, validate_lab_conversation, lab_turn_observation
-from beginner_dialogue import controlled_dialogue, constrain_preference_question, safe_controlled_fallback
+from lab_conversation import lab_dialogue_guidance, validate_lab_conversation, lab_turn_observation, validate_lab_translation, UnknownFacilityLocation
+from beginner_dialogue import controlled_dialogue, constrain_preference_question, safe_controlled_fallback, unknown_facility_fallback
 from conversation_feedback import FEEDBACK_INSTRUCTIONS, parse_feedback
 from conversation_context import conversation_details
 from linguistic_support import answer_guidance, requested_explanation, correction_explanation, question_guidance, checked_help, safe_conversation_coaching, checked_translation, accepted_contextual_response, checked_requested_help
@@ -241,6 +241,20 @@ def main():
                                     japanese, french, coaching = (constrained[key] for key in ('japanese', 'french', 'coaching'))
                                     metrics['controlled_question'] = 1
                                 validate_lab_conversation(japanese, request)
+                            except UnknownFacilityLocation:
+                                # Structured output has no strict translation
+                                # parser. Its known contradictions must also
+                                # remain failures, not disappear in this rescue.
+                                if french:
+                                    validate_lab_translation(japanese, french)
+                                fallback = unknown_facility_fallback(request)
+                                if not fallback and mode == 'generative':
+                                    fallback = safe_controlled_fallback(request)
+                                if not fallback:
+                                    raise
+                                japanese, french, coaching = (fallback[key] for key in ('japanese', 'french', 'coaching'))
+                                dialogue_path = 'fallback'
+                                metrics['dialogue_fallback'] = 1
                             except ValueError:
                                 # Only a failed parsed/validated candidate can
                                 # use an atomic safe realisation. Model/network

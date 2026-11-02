@@ -35,6 +35,10 @@ _PREFERENCE = re.compile(r'([^、。！？?]{1,30}?)[はが]好き(じゃない�
 _FACILITY_LOCATION = re.compile(r'(トイレ)(?:の場所)?は[、,]?[^。！？?]{1,60}?(?:にあります|にある|へどうぞ|です)')
 
 
+class UnknownFacilityLocation(ValueError):
+    """Only raised after all other conversation checks have succeeded."""
+
+
 def _ledger_messages(request):
     """A question does not erase a neighbouring explicit learner assertion."""
     for message in [*request.get('history', [])[-16:], {'role': 'user', 'content': request['text']}]:
@@ -293,10 +297,6 @@ def _validate_service_assertions(japanese, request, state):
     for sentence in _assertion_sentences(japanese):
         if _NEGATIVE.search(sentence):
             continue  # This helper only compares positive confirmations.
-        facility = _FACILITY_LOCATION.search(sentence)
-        if facility and not re.search(r'わかりません|分かりません|知りません|不明|情報がありません', sentence):
-            if ('facility', facility[1]) not in bindings:
-                raise ValueError('lab_invents_facility_location')
         if request['scenario'] == 'cafe':
             confirmation = re.search(r'(' + DRINK.pattern + r')(?:を|は|が)?(' + QUANTITY +
                                      r')?(?:ですね|です|になります|でよろしいですか|でいいですか)', sentence)
@@ -419,6 +419,15 @@ def validate_lab_conversation(japanese, request):
         known_values = {value for values in state["quoted_service_values"].values() for value in values}
         if any(_service_key(value) not in known_values for value in asserted):
             raise ValueError("lab_invents_service_value")
+    # Keep this recoverable defect last. A wrong count, price, role or other
+    # invalid assertion must not be hidden by an earlier invented location.
+    if not quoted_help and request.get('labStreaming') is True:
+        bindings = {(item['kind'], item['subject']) for item in state['bound_service_values']}
+        for sentence in _assertion_sentences(japanese):
+            facility = _FACILITY_LOCATION.search(sentence)
+            if facility and not re.search(r'わかりません|分かりません|知りません|不明|情報がありません', sentence):
+                if ('facility', facility[1]) not in bindings:
+                    raise UnknownFacilityLocation('lab_invents_facility_location')
     return japanese
 
 

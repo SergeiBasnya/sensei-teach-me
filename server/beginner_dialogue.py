@@ -211,6 +211,43 @@ def safe_controlled_fallback(request):
     return result
 
 
+def unknown_facility_fallback(request):
+    """Realise one understood location question, optionally with one safe slot.
+
+    Called only for UnknownFacilityLocation, after parsing, translation and all
+    other conversation guards. It is not a generic rescue for failed output.
+    Unsupported/conditional questions remain errors rather than guessed intent.
+    """
+    if request.get('labStreaming') is not True:
+        return None
+    state = lab_dialogue_state(request)
+    if state['unsupported_order'] or any(item['kind'] == 'facility' and item['subject'] == 'トイレ'
+                                         for item in state['bound_service_values']):
+        return None
+    parts = [part.strip() for part in re.split(r'(?<=[。！？?!])', request['text']) if part.strip()]
+    questions = [part for part in parts if re.fullmatch(
+        r'(?:すみません[、,]\s*)?トイレ(?:の場所)?はどこ(?:ですか)?[。？?]?', part)]
+    if len(questions) != 1 or len(parts) > 2:
+        return None
+    other = [part for part in parts if part != questions[0]]
+    japanese, french = 'すみません、トイレの場所はわかりません。', 'Désolée, je ne sais pas où sont les toilettes.'
+    if other:
+        # Canonicalise only this polite atomic choice; its meaning is unchanged.
+        service_text = re.sub(r'^(ホット|アイス)でお願いします[。]?$', r'\1で。', other[0])
+        service = safe_controlled_fallback({**request, 'text': service_text})
+        if not service or service['intent'] not in (
+                'drink_quantity', 'drink_temperature', 'drink_confirmation',
+                'ticket_choice', 'ticket_quantity', 'ticket_confirmation'):
+            return None
+        # Acknowledge the known service choice, not a new guessed requirement.
+        # The complete original learner turn remains in the dialogue history.
+        japanese = service['japanese'].split('。', 1)[0] + '。トイレの場所はわかりません。'
+        french = re.split(r'(?<=[.?!])\s+', service['french'])[0] + ' Je ne sais pas où sont les toilettes.'
+    validate_lab_conversation(japanese, request)
+    validate_lab_translation(japanese, french)
+    return {'japanese': japanese, 'french': french, 'coaching': None}
+
+
 def constrain_preference_question(japanese, request):
     """Repair the two observed open follow-ups before speech, never afterwards.
 
