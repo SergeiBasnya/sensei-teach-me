@@ -283,11 +283,12 @@ test("le résultat final a priorité sur un autre partiel en attente dans le mut
     async ({ connect }) => {
       const a = await connect(),
         b = await connect();
-      for (const client of [a, b]) {
-        command(client.socket, { type: "start", turn: 1, language: "ja" });
-        for (let index = 0; index < 4; index++) chunk(client.socket, 1, index);
-      }
+      command(a.socket, { type: "start", turn: 1, language: "ja" });
+      for (let index = 0; index < 4; index++) chunk(a.socket, 1, index);
       await until(() => calls.length === 1);
+      // Establish which socket owns the blocked ASR before queuing the other.
+      command(b.socket, { type: "start", turn: 1, language: "ja" });
+      for (let index = 0; index < 4; index++) chunk(b.socket, 1, index);
       await delay(20); // Other socket has queued its single partial.
       command(a.socket, { type: "finish", turn: 1 });
       await until(() =>
@@ -1031,6 +1032,83 @@ test("un partiel encore en file après finish ne lance pas d’ASR inutile", asy
       } finally {
         release?.();
       }
+    },
+  );
+});
+
+test("l’aide française et son modèle restent hors du dialogue jusqu’à l’essai japonais", async () => {
+  const transcripts = [
+    "お茶を二つください。",
+    "Comment je peux dire que je voudrais du thé chaud ?",
+    "ホットでお願いします。",
+    "ありがとうございます。",
+  ];
+  const questions = [
+    "ホットですか、アイスですか？",
+    "ホットでお願いします。",
+    "ホットのお茶二つですね。",
+    "どういたしまして。",
+  ];
+  const histories: { role: "user" | "assistant"; content: string }[][] = [];
+  await fixture(
+    {
+      transcribe: async () => ({
+        text: transcripts.shift()!,
+        uncertain: false,
+        metrics: {},
+      }),
+      respond: async ({ history, emit }) => {
+        const index = histories.length;
+        histories.push(structuredClone(history));
+        emit({
+          type: "tutor",
+          tutor: {
+            reply: {
+              japanese: questions[index]!,
+              romaji: "test",
+              french: "test",
+            },
+            correction: null,
+            vocabulary: [],
+            ...(index === 1
+              ? {
+                  practice: true,
+                  coaching: "Voici un exemple à dire toi-même.",
+                }
+              : {}),
+          },
+        });
+        emit({ type: "response_done" });
+      },
+    },
+    async ({ connect }) => {
+      const { socket, events } = await connect();
+      for (let turn = 1; turn <= 4; turn++) {
+        command(socket, {
+          type: "start",
+          turn,
+          language: "auto",
+          scenario: "cafe",
+          respond: true,
+        });
+        chunk(socket, turn, 0);
+        command(socket, { type: "finish", turn });
+        await until(() =>
+          events.some(
+            (event) =>
+              event.type === "state" &&
+              event.turn === turn &&
+              event.state === "complete",
+          ),
+        );
+      }
+      assert.deepEqual(histories[2], histories[1]);
+      assert.deepEqual(histories[2], [
+        { role: "user", content: "お茶を二つください。" },
+        { role: "assistant", content: questions[0] },
+      ]);
+      assert.equal(histories[3]!.at(-2)!.content, "ホットでお願いします。");
+      assert.equal(histories[3]!.length, 4);
     },
   );
 });

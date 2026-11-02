@@ -30,6 +30,8 @@ import {
   type VoiceLabIncident,
 } from "../lib/voice-lab-metrics";
 import { scenes, freeScene } from "../data/lessons";
+import { isHelpReply } from "../../shared/teaching";
+import { readHelpCoaching } from "../lib/tutor-playback";
 import {
   applyVoiceLabDetails,
   applyPhraseDetails,
@@ -534,6 +536,16 @@ export function VoiceLab({
         if (event.type === "tutor") {
           setTutor(event.tutor);
           setQuestion(event.tutor.reply);
+          if (isHelpReply(event.tutor) && event.tutor.coaching) {
+            const tag = gate.tag();
+            queue.current = queue.current.then(async () => {
+              if (!gate.current(tag)) return;
+              setPhase("speaking");
+              await readHelpCoaching(event.tutor, speech.speakFrench, () =>
+                gate.current(tag),
+              );
+            });
+          }
           if (options.current.diagnostic)
             setDiagnosticTurn((previous) =>
               previous?.turn === event.turn

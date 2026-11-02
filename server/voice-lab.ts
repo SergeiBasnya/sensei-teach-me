@@ -1,6 +1,7 @@
 import { randomBytes } from "node:crypto";
 import type { Server } from "node:http";
 import { WebSocket, WebSocketServer, type RawData } from "ws";
+import { assistanceIntent, isHelpReply } from "../shared/teaching";
 import {
   VOICE_LAB,
   voiceLabClientSchema,
@@ -288,7 +289,11 @@ export function createVoiceLab({
                 const finishResponse = () => {
                   if (!active(turn) || responseDone) return;
                   responseDone = true;
-                  if (tutor)
+                  if (
+                    tutor &&
+                    !assistanceIntent(text) &&
+                    !isHelpReply(tutor.tutor)
+                  )
                     history = [
                       ...history,
                       { role: "user", content: text },

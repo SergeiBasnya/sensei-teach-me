@@ -106,3 +106,43 @@ test("l’explication française se termine avant le japonais ; une pause interr
   );
   assert.deepEqual(operations, ["ja:アレックスです。"]);
 });
+
+test("les formulations orales d’aide transmettent le sens voulu au lieu de poursuivre le dialogue", () => {
+  for (const [text, meaning] of [
+    ["Comment je peux dire que je viens de France ?", "je viens de France"],
+    [
+      "Comment est-ce qu’on dit en japonais : j’habite à Lyon ?",
+      "j’habite à Lyon",
+    ],
+    ["Aide-moi à dire que je n’aime pas le café.", "je n’aime pas le café."],
+    ["Tu peux m’aider à répondre : je voudrais un thé ?", "je voudrais un thé"],
+    ["Je voudrais répondre que j’ai deux billets.", "j’ai deux billets."],
+    ["Comment je dis cette phrase ?", null],
+  ] as const) {
+    const actual = assistanceIntent(text);
+    assert.deepEqual(
+      actual,
+      meaning === null
+        ? { kind: "question", action: "translate" }
+        : { kind: "answer", meaning },
+      text,
+    );
+  }
+  for (const text of [
+    "Tu peux m’aider à faire ma phrase ?",
+    "Comment je peux répondre ?",
+  ])
+    assert.deepEqual(
+      assistanceIntent(text),
+      { kind: "answer", meaning: "" },
+      text,
+    );
+  assert.equal(assistanceIntent("Tu aimes les films ?"), null);
+});
+
+test("une demande longue garde le métier demandé comme contenu à traduire", () => {
+  assert.deepEqual(
+    assistanceIntent("je ne sais pas comment dire être professeur"),
+    { kind: "answer", meaning: "être professeur" },
+  );
+});
