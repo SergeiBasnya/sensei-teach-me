@@ -8,6 +8,21 @@ from pedagogic_romaji import PedagogicRomanizer
 from conversation_feedback import parse_feedback
 
 class LinguisticSupportTests(unittest.TestCase):
+    def test_location_fragment_requires_the_actual_location_question(self):
+        from linguistic_support import contextual_location_fragment, accepted_contextual_response
+        history = [{'role': 'assistant', 'content': 'はじめまして！どこから来ましたか？'}]
+        for text in ('フランス', 'フランス。', 'フランスです。', 'ベルギー！'):
+            self.assertIsNotNone(contextual_location_fragment(text, history))
+            self.assertTrue(accepted_contextual_response(text, history, scenario='meet'))
+            self.assertFalse(accepted_contextual_response(text, history, scenario='free'))
+        for text in ('フランスから', 'フランスを', 'フランス？', 'フランスじゃないです。',
+                     'フランス。別の話をしたいです。', '未確認の国'):
+            self.assertIsNone(contextual_location_fragment(text, history))
+        for question in ('いつフランスから来ましたか？', 'お名前は？', '日本語は好きですか？', 'どの町から来ましたか？'):
+            self.assertIsNone(contextual_location_fragment('フランス', [{'role': 'assistant', 'content': question}]))
+        self.assertEqual(contextual_location_fragment('パリ', [{'role': 'assistant', 'content': 'フランスのどの町から来ましたか？'}]), 'パリ')
+        self.assertIsNone(contextual_location_fragment('パリ', [{'role': 'assistant', 'content': 'どの国から来ましたか？'}]))
+
     def test_movie_word_help_and_translation_do_not_invent_a_correction(self):
         from linguistic_support import checked_translation, checked_requested_help
         self.assertEqual(checked_requested_help('je pars demain'), ('明日出発します。', 'Je pars demain.'))

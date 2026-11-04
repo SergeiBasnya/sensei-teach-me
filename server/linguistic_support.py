@@ -42,13 +42,41 @@ def checked_requested_help(meaning):
     return None
 
 
-def accepted_contextual_response(text, history):
+def contextual_location_fragment(text, history):
+    """A known place answering an exact location question, never a guessed fact.
+
+    Unknown words, questions, negatives and unfinished particles still need the
+    ordinary checks. This does not assess ASR confidence or create a memory item.
+    """
+    if re.search(r'[?？]', text):
+        return None
+    value = _compact(text).removesuffix('です')
+    if value not in PLACES:
+        return None
+    previous = next((item['content'] for item in reversed(history or [])
+                     if item.get('role') == 'assistant'), '')
+    question = question_key(previous)
+    if question in ('どこから来ましたか', 'どちらから来ましたか',
+                    'どこに住んでいますか', 'どちらに住んでいますか'):
+        return value
+    if question == 'どの国から来ましたか' and value in _PLACE_FROM:
+        return value
+    places = '|'.join(map(re.escape, PLACES))
+    if (re.fullmatch(r'(?:(?:' + places + r')の)?どの(?:町|街|市)から来ましたか', question)
+            and value not in _PLACE_FROM):
+        return value
+    return None
+
+
+def accepted_contextual_response(text, history, *, scenario=None):
     """Known acceptable replies only; do not label a partial/unknown repair correct.
 
     This bypasses a needless correction attempt, not recognition uncertainty or
     comprehension checks. An accepted fragment is not evidence of mastery.
     """
     value = _compact(text)
+    if scenario == 'meet' and contextual_location_fragment(text, history):
+        return True
     if value in ('はい', 'うん', 'いいえ', 'いえ', 'そうです', 'わかりました',
                  'ありがとうございます', 'ありがとう', 'どのホームですか',
                  'どちらのホームですか', '何番線ですか'):
@@ -68,7 +96,7 @@ def accepted_contextual_response(text, history):
     if re.search(r'いや[、,]|じゃなくて[、,]?|ではなく[、,]?', text):
         repaired = re.split(r'いや[、,]|じゃなくて[、,]?|ではなく[、,]?', text)[-1].strip()
         if repaired != text:
-            return accepted_contextual_response(repaired, history)
+            return accepted_contextual_response(repaired, history, scenario=scenario)
     return False
 
 

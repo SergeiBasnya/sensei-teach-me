@@ -8,7 +8,7 @@ import re
 
 from conversation_context import DRINK, NUMERAL, QUANTITY
 from lab_conversation import lab_dialogue_state, validate_lab_conversation, validate_lab_translation
-from linguistic_support import question_guidance
+from linguistic_support import question_guidance, contextual_location_fragment
 from pedagogic_romaji import number_value
 
 PLACES = {'京都': 'Kyoto', '大阪': 'Osaka', '東京': 'Tokyo', '奈良': 'Nara', '横浜': 'Yokohama'}
@@ -119,19 +119,20 @@ def controlled_dialogue(request):
         # Only the opening fact slots are authored. Likes, hobbies and other
         # replies leave this small scaffold and continue through generation.
         short = re.sub(r'^(?:えっと|あの)[、,…\s]*', '', text)
+        location = contextual_location_fragment(text, history)
         if (facts.get('name') and re.fullmatch(re.escape(facts['name']) + r'です[。]?', short)
                 and facts.get('name') and not facts.get('from_place')):
             return _reply('はじめまして。どこから来ましたか？',
                           'Enchantée. D’où viens-tu ?', history, 'meet_origin')
         if re.search(r'から来ました|に住んでいます', text) or (
-                any(re.fullmatch(re.escape(value) + r'です[。]?', short)
+                any(location == value or re.fullmatch(re.escape(value) + r'です[。]?', short)
                     for value in (facts.get('from_city'), facts.get('home_city')) if value)):
             if facts.get('from_city') or facts.get('home_city'):
                 return _reply('日本語は好きですか？', 'Tu aimes le japonais ?', history, 'meet_likes')
             if facts.get('from_place'):
                 return _reply('どこに住んでいますか？', 'Où habites-tu ?', history, 'meet_home')
         if (facts.get('from_place') and not facts.get('from_city') and not facts.get('home_city')
-                and re.fullmatch(re.escape(facts['from_place']) + r'です[。]?', short)):
+                and (location == facts['from_place'] or re.fullmatch(re.escape(facts['from_place']) + r'です[。]?', short))):
             return _reply('どこに住んでいますか？', 'Où habites-tu ?', history, 'meet_home')
     if scenario == 'station':
         destination = facts.get('destination')

@@ -20,6 +20,18 @@ def request(text, scenario='station', history=None):
 
 
 class BeginnerDialogueTests(unittest.TestCase):
+    def test_country_then_city_fragments_continue_without_reasking_known_facts(self):
+        history = [a('はじめまして！どこから来ましたか？')]
+        result = self.reply(request('フランス', 'meet', history))
+        self.assertEqual(result['japanese'], 'どこに住んでいますか？')
+        self.assertEqual(result['french'], 'Où habites-tu ?')
+        history += [u('フランス'), a(result['japanese'])]
+        result = self.reply(request('パリ', 'meet', history))
+        self.assertEqual(result['japanese'], '日本語は好きですか？')
+        self.assertNotIn('住', result['japanese'])
+        for text in ('フランスから', 'フランスを', 'フランス？'):
+            self.assertIsNone(controlled_dialogue(request(text, 'meet', [a('どこから来ましたか？')])))
+
     def test_observed_country_description_stays_n5_without_overriding_topic_changes(self):
         candidate = 'フランスから来ましたね。どんなところですか？'
         data = {**request('フランスから来ました。', 'free'), 'labStreaming': True}

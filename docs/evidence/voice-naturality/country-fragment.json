@@ -1,0 +1,53 @@
+{
+  "schema": "sensei-country-fragment-fix.v1",
+  "publicSyntheticOnly": true,
+  "physicalAndroid": false,
+  "personalAudioCollected": false,
+  "before": {
+    "source": "VOICEVOX public fictional fixture, not a person",
+    "baselineCommit": "c0ae893",
+    "route": "/api/oral-turn",
+    "status": 502,
+    "elapsedMs": 7118,
+    "transcript": "フランス",
+    "error": "Mochi n’a pas pu répondre. Vérifie que les moteurs du serveur sont prêts, puis réessaie."
+  },
+  "after": {
+    "source": "Same VOICEVOX fictional fixture as before",
+    "route": "/api/oral-turn",
+    "status": 200,
+    "elapsedMs": 6289,
+    "transcript": "フランス",
+    "tutor": {
+      "reply": {
+        "japanese": "どこに住んでいますか？",
+        "romaji": "Doko ni sunde imasu ka?",
+        "french": "Où habites-tu ?"
+      },
+      "coaching": "Je te demande où tu habites. Tu peux dire « [ville] ni sunde imasu ».",
+      "correction": null,
+      "vocabulary": []
+    },
+    "validJapaneseWav": true,
+    "physicalAndroid": false,
+    "continuation": {
+      "status": 200,
+      "tutor": {
+        "reply": {
+          "japanese": "日本語は好きですか？",
+          "romaji": "Nihongo wa suki desu ka?",
+          "french": "Tu aimes le japonais ?"
+        },
+        "coaching": "Nihongo veut dire japonais ; suki veut dire aimer. Tu peux répondre « hai » ou « iie ».",
+        "correction": null,
+        "vocabulary": []
+      }
+    }
+  },
+  "latencyLimitation": "One functional run per version; isolated after workers, cold state and French synthesis differ. Not a latency benchmark or Android playback measurement.",
+  "sourceHashes": {
+    "server/beginner_dialogue.py": "5aa1986890d4793e2f1b03b278b3b9eb0a67973fbe18eae45ab3d1b72a0677ea",
+    "server/conversation_worker.py": "d694c914ecb3d93c47f43660724c89e8dbc7b66436818c65e2646e711568a28d",
+    "server/linguistic_support.py": "fb9ce02c5c460de77db36a287bb2a72d3e06dcca0de1871282dd6e12b4d8f3d9"
+  }
+}

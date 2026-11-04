@@ -147,6 +147,25 @@ class LabContractTests(unittest.TestCase):
 
 
 class LabDispatchTests(unittest.TestCase):
+    def test_country_fragment_continues_classic_and_hybrid_lab_without_generated_reasking(self):
+        rejected = {'japanese': 'どこに住んでいらっしゃいますか？', 'french': 'Où habites-tu ?', 'coaching': None}
+        for profile in (None, 'structured', 'ja-first'):
+            data = turn(profile, scenario='meet', text='フランス',
+                history=[{'role': 'assistant', 'content': 'はじめまして！どこから来ましたか？'}],
+                objective='Say where you come from.')
+            messages, calls, _ = run_worker([data], ['{"correction":null}', json.dumps(rejected)])
+            self.assertEqual(messages[0]['result']['reply']['japanese'], 'どこに住んでいますか？')
+            self.assertIsNone(messages[0]['result']['correction'])
+            self.assertEqual(calls, [])
+
+    def test_country_fragment_does_not_exempt_unfinished_or_other_answers(self):
+        for text in ('フランスから', 'フランスを', 'フランス。別の話をしたいです。'):
+            data = turn(scenario='meet', text=text,
+                history=[{'role': 'assistant', 'content': 'どこから来ましたか？'}])
+            messages, calls, _ = run_worker([data], ['{"correction":null}',
+                '{"japanese":"もう一度お願いします。","french":"Encore une fois, s’il te plaît.","coaching":null}'])
+            self.assertGreaterEqual(len(calls), 1)
+
     def test_only_exact_checked_service_forms_avoid_qwen_grammar_in_the_hybrid_lab(self):
         for scenario, text, history in [
             ('cafe', 'コーヒーを一つください。', []),

@@ -162,7 +162,7 @@ def main():
                         metrics['authored_grammar'] = 1
                     if (re.search(r"[\u3040-\u30ff\u3400-\u9fff]", request["text"])
                             and not checked_controlled
-                            and not accepted_contextual_response(request["text"], request["history"])):
+                            and not accepted_contextual_response(request["text"], request["history"], scenario=request['scenario'])):
                         feedback_prompt = tokenizer.apply_chat_template([
                             {"role": "system", "content": FEEDBACK_INSTRUCTIONS},
                             {"role": "user", "content": json.dumps({
