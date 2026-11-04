@@ -23,7 +23,12 @@ import type {
 } from "../../shared/contracts";
 import { CoachHelp } from "./coach-help";
 import { conversationMood } from "../lib/avatar-state";
-import { teaching } from "../../shared/teaching";
+import {
+  teaching,
+  assistanceIntent,
+  isHelpReply,
+  conversationHistory,
+} from "../../shared/teaching";
 import {
   learnerContext,
   lessonSkills,
@@ -44,6 +49,7 @@ type Message = {
   correction?: TutorReply["correction"];
   coaching?: string | null;
   practice?: boolean;
+  contextExcluded?: boolean;
 };
 const balancedJapanese: TextStyle & { textWrap?: "balance" } =
   Platform.OS === "web" ? { textWrap: "balance" } : {};
@@ -178,16 +184,14 @@ export function Conversation({
           coaching: tutor.coaching,
           correction: null,
           practice: tutor.practice,
+          contextExcluded: true,
         },
       ]);
     },
-    history: messages.map((message) => ({
-      role: message.role,
-      content: [message.coaching, message.phrase.japanese]
-        .filter(Boolean)
-        .join("\n"),
-    })),
+    history: conversationHistory(messages),
     onReply(result) {
+      const contextExcluded =
+        !!assistanceIntent(result.transcript) || isHelpReply(result.tutor);
       remember(result.tutor, "voice");
       if (result.tutor.practice || result.tutor.assisted) exposeCurrentPoint();
       if (scene.review) {
@@ -209,6 +213,7 @@ export function Conversation({
           role: "user",
           phrase: { japanese: result.transcript, romaji: "", french: "" },
           correction: result.tutor.correction,
+          contextExcluded,
         },
         {
           id: Date.now() + 1,
@@ -217,6 +222,7 @@ export function Conversation({
           correction: result.tutor.correction,
           coaching: result.tutor.coaching,
           practice: result.tutor.practice,
+          contextExcluded,
         },
       ]);
       words.current.push(...result.tutor.vocabulary);
@@ -276,14 +282,12 @@ export function Conversation({
       let newWords: Phrase[] = [];
       let coaching: string | null | undefined;
       let practice: boolean | undefined;
+      let contextExcluded = false;
       if (connection) {
         const result = await requestTurn(
           connection,
           scene.id,
-          messages.map((m) => ({
-            role: m.role,
-            content: [m.coaching, m.phrase.japanese].filter(Boolean).join("\n"),
-          })),
+          conversationHistory(messages),
           text,
           abort.current.signal,
           scene.lessonId,
@@ -309,6 +313,7 @@ export function Conversation({
         newWords = result.vocabulary;
         coaching = result.coaching;
         practice = result.practice;
+        contextExcluded = !!assistanceIntent(text) || isHelpReply(result);
       } else {
         const next = scene.turns[turn + 1];
         reply = next ? next.tutor : scene.ending;
@@ -323,6 +328,7 @@ export function Conversation({
           role: "user",
           phrase: guided || { japanese: text, romaji: "", french: "" },
           correction,
+          contextExcluded,
         },
         {
           id: Date.now() + 1,
@@ -331,6 +337,7 @@ export function Conversation({
           correction,
           coaching,
           practice,
+          contextExcluded,
         },
       ]);
       words.current.push(...newWords);
@@ -649,10 +656,7 @@ export function Conversation({
                 <CoachHelp
                   connection={connection}
                   question={question}
-                  history={messages.map((message) => ({
-                    role: message.role,
-                    content: message.phrase.japanese,
-                  }))}
+                  history={conversationHistory(messages)}
                   scenario={scene.id}
                   fallback={suggestion}
                   romaji={progress.romaji}

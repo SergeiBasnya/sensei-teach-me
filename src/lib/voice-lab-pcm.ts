@@ -148,6 +148,14 @@ export function pcm16Level(pcm: Uint8Array) {
 }
 
 /** Experimental endpoint policy. A partial is never a correction or mastery event. */
+export type VoiceLabEndpointReason =
+  | "insufficient_voice"
+  | "short_answer"
+  | "contextual_choice"
+  | "unfinished"
+  | "weak_stable_partial"
+  | "stable_partial"
+  | "unstable_partial";
 export class VoiceLabEndpoint {
   private lastVoice = 0;
   private voicedMs = 0;
@@ -157,13 +165,33 @@ export class VoiceLabEndpoint {
   private uncertain = true;
   private stable = 0;
   private partialAudioMs = 0;
-  constructor(private started: number) {
+  private stableFromAudioMs = 0;
+  private weakVoicedMs = 0;
+  private lastWeakVoice = 0;
+  private readonly hotIcedQuestion: boolean;
+  constructor(
+    private started: number,
+    options: { question?: string } = {},
+  ) {
     this.lastVoice = started;
+    // Match the actual cafe question and simple explicit choice variants only.
+    // Retain a context flag, not the question, in this signal policy.
+    const question = (options.question ?? "").replace(/[。！？?!、,\s]/gu, "");
+    this.hotIcedQuestion =
+      /(?:ホットですかアイスですか|アイスですかホットですか|ホット[かと]アイス(?:どちら|どっち)(?:がいいですか|にしますか|ですか)|アイス[かと]ホット(?:どちら|どっち)(?:がいいですか|にしますか|ですか))$/u.test(
+        question,
+      );
   }
   notePartial(text: string, uncertain: boolean) {
     const normalized = text.trim().replace(/\s+/g, " ");
+    if (uncertain || normalized !== this.partial || this.uncertain)
+      this.stableFromAudioMs = this.audioMs;
     this.stable =
-      normalized && normalized === this.partial ? this.stable + 1 : 1;
+      !uncertain && normalized
+        ? normalized === this.partial && !this.uncertain
+          ? this.stable + 1
+          : 1
+        : 0;
     this.partial = normalized;
     this.uncertain = uncertain;
     this.partialAudioMs = this.audioMs;
@@ -176,33 +204,111 @@ export class VoiceLabEndpoint {
     this.audioMs += duration;
     const db = 20 * Math.log10(Math.max(1e-7, pcm16Level(pcm)));
     const threshold = Math.max(-48, Math.min(-28, this.floor + 12));
+    // Match the server's -60 dBFS admission floor, with an additional SNR
+    // requirement. Energy alone never enables this weak-signal exception.
+    if (db >= -60) this.lastWeakVoice = now;
+    if (db >= Math.max(-60, this.floor + 8)) this.weakVoicedMs += duration;
     if (db > threshold) {
       this.lastVoice = now;
       this.voicedMs += duration;
     } else
       this.floor = Math.max(-85, Math.min(-40, this.floor * 0.98 + db * 0.02));
     if (now - this.started >= VOICE_LAB.maxTurnMs - 250) return "limit";
-    if (this.voicedMs < 180)
+    if (this.decisionReason === "insufficient_voice")
       return now - this.started >= 20_000 ? "quiet" : "listen";
     return this.canFinish(now) ? "finish" : "listen";
   }
   canFinish(now: number) {
-    if (this.voicedMs < 180) return false;
-    const ending = this.partial.replace(/[。！？.!?…⋯\s]+$/gu, "");
-    const unfinished =
-      /(?:ええ?と|えっと|あの|いや|うーん|je|euh|attends|non je|は|が|を|に|で|と|へ|から|まで|の)[、,\s]*$/i.test(
-        ending,
-      );
-    const stable =
+    if (this.decisionReason === "insufficient_voice") return false;
+    return now - this.lastEnergyAt >= this.requiredSilenceMs;
+  }
+  private get ending() {
+    return this.partial.replace(/[。！？.!?…⋯\s]+$/gu, "");
+  }
+  private get hasStablePartial() {
+    return (
       this.stable >= 2 &&
       !this.uncertain &&
       !!this.partial &&
-      this.audioMs - this.partialAudioMs >= 100;
-    const wait = unfinished ? 5000 : stable ? 1800 : 3200;
-    return now - this.lastVoice >= wait;
+      this.audioMs - this.partialAudioMs >= 100
+    );
+  }
+  private get unfinished() {
+    return /(?:ええ?と|えっと|あの|いや|うーん|je|euh|attends|non je|は|が|を|に|で|と|へ|から|まで|の)[、,\s]*$/i.test(
+      this.ending,
+    );
+  }
+  private get contextualChoice() {
+    return this.hotIcedQuestion && /^(?:ホット|アイス)で$/u.test(this.ending);
+  }
+  private get hasWeakSupport() {
+    if (
+      !this.hasStablePartial ||
+      this.partialAudioMs - this.stableFromAudioMs < 500
+    )
+      return false;
+    const short = /^(?:はい|いいえ)$/u.test(this.ending);
+    if (this.weakVoicedMs < (short ? 100 : 300)) return false;
+    if (short || this.contextualChoice) return true;
+    if (this.unfinished || /[、,]$|(.{1,4})\1{2,}/u.test(this.ending))
+      return false;
+    // A lone/repeated kanji or a filler is not sufficient evidence. These are
+    // eligibility checks for a *final ASR attempt*, never text validation.
+    return (
+      (this.ending.length >= 6 &&
+        /[ぁ-ん].*[ぁ-ん].*[ぁ-ん]/u.test(this.ending)) ||
+      (/^[\p{L}’' -]{12,}[.!?]?$/u.test(this.ending) &&
+        this.ending.trim().split(/\s+/u).length >= 3)
+    );
+  }
+  private get lastEnergyAt() {
+    return this.voicedMs < 180 && this.hasWeakSupport
+      ? Math.max(this.lastVoice, this.lastWeakVoice)
+      : this.lastVoice;
+  }
+  get decisionReason(): VoiceLabEndpointReason {
+    // Short confirmed acknowledgements are not a general reduction of the
+    // energy floor. Noise, fillers and arbitrary short text remain ineligible.
+    const shortAnswer =
+      this.voicedMs >= 100 &&
+      this.hasStablePartial &&
+      /^(?:はい|いいえ)$/u.test(this.ending);
+    if (this.voicedMs < 180) {
+      if (shortAnswer) return "short_answer";
+      if (!this.hasWeakSupport) return "insufficient_voice";
+      if (/^(?:はい|いいえ)$/u.test(this.ending)) return "short_answer";
+      return this.contextualChoice
+        ? "contextual_choice"
+        : "weak_stable_partial";
+    }
+    if (this.unfinished) {
+      if (
+        this.hotIcedQuestion &&
+        this.hasStablePartial &&
+        /^(?:ホット|アイス)で$/u.test(this.ending)
+      )
+        return "contextual_choice";
+      return "unfinished";
+    }
+    return this.hasStablePartial ? "stable_partial" : "unstable_partial";
+  }
+  get requiredSilenceMs() {
+    switch (this.decisionReason) {
+      case "unfinished":
+        return 5000;
+      case "stable_partial":
+        return 1800;
+      default:
+        return 3200;
+    }
+  }
+  get voicedDurationMs() {
+    return Math.round(this.voicedMs);
   }
   get lastDetectedVoiceAt() {
-    return this.voicedMs >= 180 ? this.lastVoice : null;
+    return this.decisionReason !== "insufficient_voice"
+      ? this.lastEnergyAt
+      : null;
   }
 }
 

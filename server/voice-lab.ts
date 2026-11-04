@@ -1,10 +1,16 @@
 import { randomBytes } from "node:crypto";
+import { execFileSync } from "node:child_process";
+import { resolve } from "node:path";
 import type { Server } from "node:http";
 import { WebSocket, WebSocketServer, type RawData } from "ws";
+import { assistanceIntent, isHelpReply } from "../shared/teaching";
 import {
   VOICE_LAB,
   voiceLabClientSchema,
   voiceLabReplySchema,
+  voiceLabAsrDiagnosticSchema,
+  type VoiceLabAsrDiagnostic,
+  type VoiceLabDialogue,
   type VoiceLabLanguage,
   type VoiceLabReplyEvent,
   type VoiceLabScenario,
@@ -15,6 +21,7 @@ type Transcript = {
   text: string;
   uncertain: boolean;
   metrics: Record<string, number>;
+  diagnostic?: VoiceLabAsrDiagnostic;
 };
 export type VoiceLabAsr = (
   pcm: Buffer,
@@ -22,6 +29,7 @@ export type VoiceLabAsr = (
     language: VoiceLabLanguage;
     partial: boolean;
     signal: AbortSignal;
+    diagnostic?: boolean;
   },
 ) => Promise<Transcript>;
 export type VoiceLabRespond = (input: {
@@ -31,6 +39,8 @@ export type VoiceLabRespond = (input: {
   scenario: VoiceLabScenario;
   history: { role: "user" | "assistant"; content: string }[];
   signal: AbortSignal;
+  diagnostic?: boolean;
+  dialogue?: VoiceLabDialogue;
   emit: (event: VoiceLabReplyEvent) => void;
 }) => Promise<void>;
 type Turn = {
@@ -39,6 +49,9 @@ type Turn = {
   scenario: VoiceLabScenario;
   respond: boolean;
   keepSample: boolean;
+  diagnostic: boolean;
+  dialogue: VoiceLabDialogue;
+  finishedAt?: number;
   stage: "listening" | "recognizing" | "complete" | "paused";
   chunks: Buffer[];
   bytes: number;
@@ -57,6 +70,48 @@ type Job = {
 const MAX_TURN_BYTES = (VOICE_LAB.maxTurnMs / 1000) * 32_000;
 const TICKET_TTL = 30_000 as const;
 const MAX_CLIENTS = 2;
+// Snapshot once at module load, never from a live Git checkout on each request.
+// Only public revision metadata is returned over the authenticated socket.
+const runtimeVersion = (() => {
+  try {
+    const commit = execFileSync("git", ["rev-parse", "--short=12", "HEAD"], {
+      cwd: resolve(__dirname, ".."),
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+      timeout: 1500,
+    }).trim();
+    if (!/^[a-f0-9]{12}$/.test(commit)) throw Error("invalid_revision");
+    const modified = execFileSync(
+      "git",
+      [
+        "status",
+        "--porcelain",
+        "--untracked-files=normal",
+        "--",
+        "server",
+        "shared",
+        "scripts/start-local.ts",
+      ],
+      {
+        cwd: resolve(__dirname, ".."),
+        encoding: "utf8",
+        stdio: ["ignore", "pipe", "ignore"],
+        timeout: 1500,
+      },
+    ).trim();
+    return {
+      release: VOICE_LAB.release,
+      commit,
+      sourceState: modified ? ("modified" as const) : ("clean" as const),
+    };
+  } catch {
+    return {
+      release: VOICE_LAB.release,
+      commit: "unknown",
+      sourceState: "unknown" as const,
+    };
+  }
+})();
 const safeMetrics = (raw: Record<string, number>) =>
   Object.fromEntries(
     Object.entries(raw)
@@ -185,7 +240,10 @@ export function createVoiceLab({
         {
           signal: turn.controller.signal,
           async run() {
-            if (!active(turn)) return;
+            if (!active(turn) || (partial && turn.stage !== "listening")) {
+              if (partial) turn.partialPending = false;
+              return;
+            }
             const begin = now();
             try {
               let sampleSaveMs = 0;
@@ -207,6 +265,7 @@ export function createVoiceLab({
                 language: turn.language,
                 partial,
                 signal: turn.controller.signal,
+                ...(!partial && turn.diagnostic ? { diagnostic: true } : {}),
               });
               if (!active(turn) || (partial && turn.stage !== "listening"))
                 return;
@@ -247,8 +306,23 @@ export function createVoiceLab({
                   ...metrics,
                   chunks: turn.sequence,
                   partials: turn.partialCount,
+                  finish_to_final: Math.max(
+                    0,
+                    now() - (turn.finishedAt ?? begin),
+                  ),
                 },
               });
+              if (turn.diagnostic && result.diagnostic) {
+                const checked = voiceLabAsrDiagnosticSchema.safeParse(
+                  result.diagnostic,
+                );
+                if (checked.success)
+                  send({
+                    type: "asr_diagnostic",
+                    turn: turn.id,
+                    diagnostic: checked.data,
+                  });
+              }
               turn.chunks = [];
               if (!uncertain && turn.respond && respond) {
                 const inputHistory = history.map((item) => ({ ...item }));
@@ -259,7 +333,11 @@ export function createVoiceLab({
                 const finishResponse = () => {
                   if (!active(turn) || responseDone) return;
                   responseDone = true;
-                  if (tutor)
+                  if (
+                    tutor &&
+                    !assistanceIntent(text) &&
+                    !isHelpReply(tutor.tutor)
+                  )
                     history = [
                       ...history,
                       { role: "user", content: text },
@@ -283,9 +361,13 @@ export function createVoiceLab({
                   scenario: turn.scenario,
                   history: inputHistory,
                   signal: turn.controller.signal,
+                  diagnostic: turn.diagnostic,
+                  dialogue: turn.dialogue,
                   emit(event) {
                     if (!active(turn)) return;
                     const checked = voiceLabReplySchema.parse(event);
+                    if (checked.type === "observation" && !turn.diagnostic)
+                      return;
                     // Metadata can finish while this turn's validated audio plays.
                     // A new capture aborts the old turn; audio/tutor cannot reopen it.
                     if (
@@ -296,6 +378,17 @@ export function createVoiceLab({
                       return;
                     if (checked.type === "audio" && !tutor)
                       throw new Error("audio_before_validated_tutor");
+                    if (checked.type === "audio" && checked.index === 0)
+                      send({
+                        type: "metrics",
+                        turn: turn.id,
+                        metrics: {
+                          finish_to_first_audio: Math.max(
+                            0,
+                            now() - (turn.finishedAt ?? begin),
+                          ),
+                        },
+                      });
                     if (
                       checked.type === "audio" &&
                       checked.index !== nextAudio++
@@ -460,6 +553,8 @@ export function createVoiceLab({
           scenario: command.scenario,
           respond: command.respond,
           keepSample: command.keepSample,
+          diagnostic: command.diagnostic,
+          dialogue: command.dialogue,
           stage: "listening",
           chunks: [],
           bytes: 0,
@@ -485,6 +580,7 @@ export function createVoiceLab({
       }
       if (turn.stage !== "listening") return;
       turn.stage = "recognizing";
+      turn.finishedAt = now();
       send({ type: "state", turn: turn.id, state: "recognizing" });
       if (turn.bytes < 2560) {
         turn.chunks = [];
@@ -510,7 +606,7 @@ export function createVoiceLab({
       if (current) current.chunks = [];
       history = [];
     });
-    send({ type: "ready", sampleRate: 16_000 });
+    send({ type: "ready", sampleRate: 16_000, version: runtimeVersion });
   });
   return {
     issueTicket() {

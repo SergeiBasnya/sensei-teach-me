@@ -41,9 +41,10 @@ export function assistanceIntent(
   // Translate an intended answer before matching requests about the question.
   const meaning = text
     .match(
-      /(?:je (?:veux|voudrais) dire|traduis(?:[ -]moi)?|comment (?:on dit|dire))\s*[:：]?\s+(.+)/i,
+      /(?:je (?:veux|voudrais|souhaite|aimerais) (?:dire|répondre)|traduis(?:[ -]moi)?|comment (?:est[- ]ce qu[’']?\s*)?(?:(?:je|on)\s+)?(?:(?:peux|peut|pourrais|pourrait|dois|doit)\s+)?(?:dire|dis|dit|répondre|réponds|répond)|(?:aide[- ]moi|m[’']aider)\s+à\s+(?:dire|répondre))(?:\s+en japonais)?\s*[:：]?\s+(.+)/i,
     )?.[1]
     ?.trim()
+    .replace(/^que\s+(?=je\b|j[’']|nous\b|on\b)/i, "")
     .replace(/[?？]\s*$/, "")
     .trim();
   const refersToQuestion =
@@ -53,6 +54,12 @@ export function assistanceIntent(
     );
   if (meaning && !refersToQuestion) return { kind: "answer", meaning };
   if (refersToQuestion) return { kind: "question", action: "translate" };
+  if (
+    /\b(?:que veut dire|(?:qu[’']|qu )est.ce que .{1,60} veut dire)\b/i.test(
+      text,
+    )
+  )
+    return { kind: "question", action: "explain" };
   if (
     /répète|répéter|repete|repeter|encore une fois|plus lentement|もう一度|もういちど|ゆっくり/.test(
       normalized,
@@ -72,12 +79,36 @@ export function assistanceIntent(
   )
     return { kind: "question", action: "explain" };
   if (
-    /je (?:ne )?sais (?:vraiment )?pas|j (?:ai|a) (?:pas |rien )?compris|je (?:ne )?comprends? pas|aide[ -]moi|わかりません|分かりません|わからない/.test(
+    /je (?:ne )?sais (?:vraiment )?pas|j (?:ai|a) (?:pas |rien )?compris|je (?:ne )?comprends? pas|aide[ -]moi|m aider|comment (?:je|on) (?:peux |peut |dois |doit )?r[ée]pond(?:re|s)?|わかりません|分かりません|わからない/.test(
       normalized,
     )
   )
     return { kind: "answer", meaning: "" };
   return null;
+}
+
+/** A model supplied to the learner is not their own conversational answer. */
+export function isHelpReply(tutor: TutorReply) {
+  return !!tutor.assisted || (!!tutor.practice && !tutor.correction);
+}
+
+/** Displayed help remains visible but is not an asserted conversation fact. */
+export function conversationHistory(
+  messages: readonly {
+    role: "assistant" | "user";
+    phrase: Pick<Phrase, "japanese">;
+    coaching?: string | null;
+    contextExcluded?: boolean;
+  }[],
+) {
+  return messages
+    .filter((message) => !message.contextExcluded)
+    .map((message) => ({
+      role: message.role,
+      content: [message.coaching, message.phrase.japanese]
+        .filter(Boolean)
+        .join("\n"),
+    }));
 }
 
 export function tutorFromHelp(help: ConversationHelp): TutorReply {

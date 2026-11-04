@@ -8,6 +8,35 @@ from pedagogic_romaji import PedagogicRomanizer
 from conversation_feedback import parse_feedback
 
 class LinguisticSupportTests(unittest.TestCase):
+    def test_location_fragment_requires_the_actual_location_question(self):
+        from linguistic_support import contextual_location_fragment, accepted_contextual_response
+        history = [{'role': 'assistant', 'content': 'はじめまして！どこから来ましたか？'}]
+        for text in ('フランス', 'フランス。', 'フランスです。', 'ベルギー！'):
+            self.assertIsNotNone(contextual_location_fragment(text, history))
+            self.assertTrue(accepted_contextual_response(text, history, scenario='meet'))
+            self.assertFalse(accepted_contextual_response(text, history, scenario='free'))
+        for text in ('フランスから', 'フランスを', 'フランス？', 'フランスじゃないです。',
+                     'フランス。別の話をしたいです。', '未確認の国'):
+            self.assertIsNone(contextual_location_fragment(text, history))
+        for question in ('いつフランスから来ましたか？', 'お名前は？', '日本語は好きですか？', 'どの町から来ましたか？'):
+            self.assertIsNone(contextual_location_fragment('フランス', [{'role': 'assistant', 'content': question}]))
+        self.assertEqual(contextual_location_fragment('パリ', [{'role': 'assistant', 'content': 'フランスのどの町から来ましたか？'}]), 'パリ')
+        self.assertIsNone(contextual_location_fragment('パリ', [{'role': 'assistant', 'content': 'どの国から来ましたか？'}]))
+
+    def test_movie_word_help_and_translation_do_not_invent_a_correction(self):
+        from linguistic_support import checked_translation, checked_requested_help
+        self.assertEqual(checked_requested_help('je pars demain'), ('明日出発します。', 'Je pars demain.'))
+        self.assertIsNone(checked_requested_help('je ne pars pas demain'))
+        for japanese in ('猫の映画ですか。面白かったですか？', '猫の映画ですね。おもしろかったですか？'):
+            translated = checked_translation(japanese)
+            self.assertIn('C’était intéressant ?', translated)
+            self.assertNotIn('drôle', translated)
+            explanation = requested_explanation(japanese, 'Que veut dire omoshirokatta ?')
+            self.assertIn('intéressant', explanation)
+            self.assertNotIn('erreur', explanation)
+        self.assertIsNone(requested_explanation('コーヒーは好きですか？', 'Que veut dire omoshirokatta ?'))
+        self.assertIsNone(checked_translation('猫の映画ですね。今日は晴れです。'))
+
     def test_answer_guidance_follows_actual_intention(self):
         self.assertIn('suki ja nai',answer_guidance('コーヒーが好きじゃないです。'))
         self.assertIn('ni sunde imasu',answer_guidance('リヨンに住んでいます。'))

@@ -31,6 +31,8 @@ def checked_requested_help(meaning):
     text = re.sub(r'[\s.!?]+$', '', meaning.strip().lower().replace('’', "'"))
     if text in ("l'addition, s'il te plaît", "l'addition, s'il vous plaît"):
         return 'お会計をお願いします。', 'L’addition, s’il te plaît.'
+    if text == 'je pars demain':
+        return '明日出発します。', 'Je pars demain.'
     for japanese, french in PREFERENCE_NOUNS.items():
         noun = french.lower().replace('’', "'")
         if text == "je n'aime pas " + noun:
@@ -40,13 +42,41 @@ def checked_requested_help(meaning):
     return None
 
 
-def accepted_contextual_response(text, history):
+def contextual_location_fragment(text, history):
+    """A known place answering an exact location question, never a guessed fact.
+
+    Unknown words, questions, negatives and unfinished particles still need the
+    ordinary checks. This does not assess ASR confidence or create a memory item.
+    """
+    if re.search(r'[?？]', text):
+        return None
+    value = _compact(text).removesuffix('です')
+    if value not in PLACES:
+        return None
+    previous = next((item['content'] for item in reversed(history or [])
+                     if item.get('role') == 'assistant'), '')
+    question = question_key(previous)
+    if question in ('どこから来ましたか', 'どちらから来ましたか',
+                    'どこに住んでいますか', 'どちらに住んでいますか'):
+        return value
+    if question == 'どの国から来ましたか' and value in _PLACE_FROM:
+        return value
+    places = '|'.join(map(re.escape, PLACES))
+    if (re.fullmatch(r'(?:(?:' + places + r')の)?どの(?:町|街|市)から来ましたか', question)
+            and value not in _PLACE_FROM):
+        return value
+    return None
+
+
+def accepted_contextual_response(text, history, *, scenario=None):
     """Known acceptable replies only; do not label a partial/unknown repair correct.
 
     This bypasses a needless correction attempt, not recognition uncertainty or
     comprehension checks. An accepted fragment is not evidence of mastery.
     """
     value = _compact(text)
+    if scenario == 'meet' and contextual_location_fragment(text, history):
+        return True
     if value in ('はい', 'うん', 'いいえ', 'いえ', 'そうです', 'わかりました',
                  'ありがとうございます', 'ありがとう', 'どのホームですか',
                  'どちらのホームですか', '何番線ですか'):
@@ -66,7 +96,7 @@ def accepted_contextual_response(text, history):
     if re.search(r'いや[、,]|じゃなくて[、,]?|ではなく[、,]?', text):
         repaired = re.split(r'いや[、,]|じゃなくて[、,]?|ではなく[、,]?', text)[-1].strip()
         if repaired != text:
-            return accepted_contextual_response(repaired, history)
+            return accepted_contextual_response(repaired, history, scenario=scenario)
     return False
 
 
@@ -91,6 +121,8 @@ def answer_guidance(japanese):
 
 def requested_explanation(question, request):
     value = request.lower()
+    if re.search(r'\bomoshirokatta\b|おもしろかった|面白かった', value) and re.search(r'おもしろかった|面白かった', question):
+        return 'Omoshirokatta veut dire « c’était intéressant » ou « c’était amusant ». Dans cette question, on te demande si tu as trouvé le film intéressant.'
     if 'kara' in value and re.search(r'から来|どこから|どの町から', question):
         return 'Dans cette phrase, kara indique l’origine. Place-le après le pays ou la ville.'
     if 'suki' in value and ('好き' in question or 'すき' in question):
@@ -219,9 +251,27 @@ def checked_translation(japanese):
         'どちらのホームですか': 'Quel quai ?',
         '何番線ですか': 'Quelle voie ?',
         'ほかに何かありますか': 'Autre chose ?',
+        '最近映画を見ましたか': 'As-tu regardé un film récemment ?',
+        '昨日映画を見ましたか': 'As-tu regardé un film hier ?',
+        '何を見ましたか': 'Qu’as-tu regardé ?',
+        'どんな映画を見ましたか': 'Quel genre de film as-tu regardé ?',
+        '最近どんな映画を見ましたか': 'Quel genre de film as-tu regardé récemment ?',
+        'おもしろかったですか': 'C’était intéressant ?',
+        '面白かったですか': 'C’était intéressant ?',
+        '猫の映画ですか': 'Un film sur les chats ?',
     }
     if value in questions:
         return questions[value]
+    confirmations = {'映画の話ですね': 'Du cinéma, d’accord.', '猫の映画ですね': 'Un film sur les chats, d’accord.'}
+    if value in confirmations:
+        return confirmations[value]
+    # Cover a whole multi-sentence reply or defer entirely. Never translate a
+    # recognized substring while silently discarding the rest of the message.
+    sentences = [part.strip() for part in re.split(r'(?<=[。！？?!])', japanese) if part.strip()]
+    if len(sentences) > 1:
+        translations = [checked_translation(part) for part in sentences]
+        if all(translations):
+            return ' '.join(translations)
     if value == '昨日映画を見ました':
         return 'Hier, j’ai regardé un film.'
     if value == 'お会計をお願いします':

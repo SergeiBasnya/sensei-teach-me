@@ -1,9 +1,14 @@
+import { VOICE_LAB, voiceLabVersionSchema } from "../../shared/voice-lab";
+
 const SERVER_KEYS = new Set([
   "asr",
   "pcm_decode",
   "duration_ms",
   "samples",
   "rms_db_below_full_scale",
+  "window_rms_db_below_full_scale",
+  "finish_to_final",
+  "finish_to_first_audio",
   "peak",
   "clipped_fraction",
   "leading_energy_ms",
@@ -13,6 +18,7 @@ const SERVER_KEYS = new Set([
   "audio_ms",
   "chunks",
   "partials",
+  "authored_grammar",
   "teaching",
   "correction",
   "dialogue_translation",
@@ -54,6 +60,17 @@ export type VoiceLabIncident =
   | "uncertain_final"
   | "capture_gap";
 type Trace = {
+  serverVersion?: typeof voiceLabVersionSchema._output;
+  turn?: number;
+  lastDetectedVoiceAfterCaptureMs?: number;
+  finishAfterDetectedVoiceMs?: number;
+  firstAudioReceivedAfterFinishMs?: number;
+  playbackRequestAfterFinishMs?: number;
+  audioReceiveToRequestMs?: number;
+  playbackRequestToPlayingMs?: number;
+  transportResidualMs?: number;
+  endpointRequiredSilenceMs?: number;
+  endpointVoicedMs?: number;
   captureMs?: number;
   captureWallMs?: number;
   sourceRateHz?: number;
@@ -71,6 +88,7 @@ type Trace = {
   server?: Record<string, number>;
 };
 export class VoiceLabMetrics {
+  private serverVersion: typeof voiceLabVersionSchema._output | null = null;
   private started = 0;
   private current: Trace = {};
   private captureAt = 0;
@@ -78,6 +96,8 @@ export class VoiceLabMetrics {
   private voiceAt: number | null = null;
   private partialSeen = false;
   private playingSeen = false;
+  private audioAt: number | null = null;
+  private playbackAt: number | null = null;
   private lastJapaneseEndedAt: number | null = null;
   private turns: Trace[] = [];
   private counts = {
@@ -100,19 +120,29 @@ export class VoiceLabMetrics {
   constructor(now = performance.now()) {
     this.started = now;
   }
-  begin(now = performance.now(), automaticResume = false) {
+  version(raw: unknown) {
+    const checked = voiceLabVersionSchema.safeParse(raw);
+    this.serverVersion = checked.success ? checked.data : null;
+  }
+  begin(now = performance.now(), automaticResume = false, turn?: number) {
     if (automaticResume && this.lastJapaneseEndedAt !== null)
       this.current.nextCaptureAfterJapaneseEndedMs = Math.max(
         0,
         Math.round(now - this.lastJapaneseEndedAt),
       );
     this.archive();
-    this.current = {};
+    this.current = {
+      ...(turn === undefined ? {} : { turn }),
+      ...(this.serverVersion
+        ? { serverVersion: { ...this.serverVersion } }
+        : {}),
+    };
     this.captureAt = now;
     this.finishAt = null;
     this.voiceAt = null;
     this.partialSeen = false;
     this.playingSeen = false;
+    this.audioAt = this.playbackAt = null;
     this.lastJapaneseEndedAt = null;
     this.counts.turns++;
   }
@@ -144,6 +174,69 @@ export class VoiceLabMetrics {
     this.finishAt = now;
     this.current.captureWallMs = Math.max(0, Math.round(now - this.captureAt));
     this.voiceAt = lastVoice;
+    if (lastVoice !== null) {
+      this.current.lastDetectedVoiceAfterCaptureMs = Math.max(
+        0,
+        Math.round(lastVoice - this.captureAt),
+      );
+      this.current.finishAfterDetectedVoiceMs = Math.max(
+        0,
+        Math.round(now - lastVoice),
+      );
+    }
+  }
+  endpoint(requiredSilenceMs: number, voicedMs: number) {
+    this.current.endpointRequiredSilenceMs = Math.max(
+      0,
+      Math.round(requiredSilenceMs),
+    );
+    this.current.endpointVoicedMs = Math.max(0, Math.round(voicedMs));
+  }
+  audioReceived(now = performance.now()) {
+    if (this.audioAt !== null || this.finishAt === null) return;
+    this.audioAt = now;
+    this.current.firstAudioReceivedAfterFinishMs = Math.max(
+      0,
+      Math.round(now - this.finishAt),
+    );
+    const server = this.current.server?.finish_to_first_audio;
+    if (server !== undefined)
+      this.current.transportResidualMs = Math.max(
+        0,
+        this.current.firstAudioReceivedAfterFinishMs - server,
+      );
+  }
+  playbackRequested(now = performance.now()) {
+    if (this.playbackAt !== null || this.finishAt === null) return;
+    this.playbackAt = now;
+    this.current.playbackRequestAfterFinishMs = Math.max(
+      0,
+      Math.round(now - this.finishAt),
+    );
+    if (this.audioAt !== null)
+      this.current.audioReceiveToRequestMs = Math.max(
+        0,
+        Math.round(now - this.audioAt),
+      );
+  }
+  latest(turn?: number) {
+    const value =
+      turn === undefined
+        ? this.finishAt === null
+          ? this.turns.at(-1)
+          : this.current
+        : [...this.turns, this.current]
+            .reverse()
+            .find((value) => value.turn === turn);
+    return value
+      ? {
+          ...value,
+          server: { ...value.server },
+          ...(value.serverVersion
+            ? { serverVersion: { ...value.serverVersion } }
+            : {}),
+        }
+      : null;
   }
   playbackEnded(now = performance.now()) {
     if (!this.playingSeen || this.finishAt === null) return;
@@ -182,6 +275,11 @@ export class VoiceLabMetrics {
   playing(now = performance.now()) {
     if (this.playingSeen || this.finishAt === null) return;
     this.playingSeen = true;
+    if (this.playbackAt !== null)
+      this.current.playbackRequestToPlayingMs = Math.max(
+        0,
+        Math.round(now - this.playbackAt),
+      );
     this.current.firstJapaneseAfterFinishMs = Math.max(
       0,
       Math.round(now - this.finishAt),
@@ -212,6 +310,9 @@ export class VoiceLabMetrics {
     if (Object.keys(this.current).length) {
       this.turns.push({
         ...this.current,
+        ...(this.current.serverVersion
+          ? { serverVersion: { ...this.current.serverVersion } }
+          : {}),
         ...(this.current.server ? { server: { ...this.current.server } } : {}),
       });
       if (this.turns.length > 120) this.turns.shift();
@@ -220,10 +321,20 @@ export class VoiceLabMetrics {
   report(platform: string, now = performance.now()) {
     const copy = (value: Trace) => ({
       ...value,
+      ...(value.serverVersion
+        ? { serverVersion: { ...value.serverVersion } }
+        : {}),
       ...(value.server ? { server: { ...value.server } } : {}),
     });
     return {
       schemaVersion: "sensei-voice-lab.v1",
+      version: {
+        clientRelease: VOICE_LAB.release,
+        server: this.serverVersion ? { ...this.serverVersion } : null,
+        releaseMatch: this.serverVersion
+          ? this.serverVersion.release === VOICE_LAB.release
+          : null,
+      },
       humanValidation: "pending",
       platform: ["web", "android", "ios"].includes(platform)
         ? platform

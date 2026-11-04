@@ -24,6 +24,27 @@ class Stream:
 
 
 class FrenchSpeechTests(unittest.TestCase):
+    def test_japanese_preparation_loads_once_without_speech_or_french(self):
+        source = '\n'.join(json.dumps(item) for item in [
+            {'id': 1, 'kind': 'prepare', 'language': 'ja'},
+            {'id': 2, 'kind': 'prepare', 'language': 'ja'},
+            {'id': 3, 'kind': 'prepare', 'language': 'fr'},
+            {'id': 4, 'kind': 'speech', 'language': 'ja', 'text': 'はい。'},
+        ])
+        output = io.StringIO()
+        with patch.object(voice_worker, 'create_synthesizer') as create, \
+                patch.object(voice_worker, 'synthesize', return_value=b'wave') as speak, \
+                patch.object(french_speech, 'synthesize_french') as french, \
+                patch.object(sys, 'stdin', io.StringIO(source)), contextlib.redirect_stdout(output):
+            voice_worker.main()
+        results = [json.loads(line) for line in output.getvalue().splitlines()]
+        self.assertTrue(results[0]['prepared'])
+        self.assertTrue(results[1]['prepared'])
+        self.assertIn('error', results[2])
+        create.assert_called_once()
+        speak.assert_called_once_with(create.return_value, 'はい。', 10)
+        french.assert_not_called()
+
     def test_invalid_input_never_reaches_service(self):
         with patch.object(french_speech.edge_tts, "Communicate") as service:
             for text in (None, 12, " ", "x" * 501):

@@ -24,6 +24,16 @@ def user(text):
 
 
 class LabConversationStateTests(unittest.TestCase):
+    def test_explicit_preferences_and_yes_no_are_not_topic_guesses(self):
+        data = {**request('お茶も好きです。'), 'labStreaming': True}
+        self.assertEqual(lab_dialogue_state(data)['learner_preferences'], {'お茶': 'like'})
+        for text, expected in [('はい。', 'like'), ('いいえ。', 'dislike')]:
+            data = {**request(text, history=[assistant('コーヒーは好きですか？')]), 'labStreaming': True}
+            self.assertEqual(lab_dialogue_state(data)['learner_preferences'], {'コーヒー': expected})
+        for text in ('映画の話をしたいです。', 'はい。', 'もし映画が好きですか？', '例えば、映画が好きです。'):
+            data = {**request(text), 'labStreaming': True}
+            self.assertEqual(lab_dialogue_state(data)['learner_preferences'], {})
+
     def test_name_origin_city_are_learner_assertions_not_assistant_examples(self):
         data = request('パリに住んでいます。', history=[
             assistant('例 : アレックスです。\nお名前は？'), user('マリーです。'),

@@ -12,12 +12,12 @@ import time
 import traceback
 from threading import Lock
 from lab_worker_inbox import RequestInbox
-from lab_conversation import lab_dialogue_guidance, validate_lab_conversation
-from beginner_dialogue import controlled_dialogue, constrain_preference_question
+from lab_conversation import lab_dialogue_guidance, validate_lab_conversation, lab_turn_observation, validate_lab_translation, UnknownFacilityLocation
+from beginner_dialogue import controlled_dialogue, grammar_checked_controlled_dialogue, constrain_beginner_question, safe_controlled_fallback, unknown_facility_fallback
 from conversation_feedback import FEEDBACK_INSTRUCTIONS, parse_feedback
 from conversation_context import conversation_details
 from linguistic_support import answer_guidance, requested_explanation, correction_explanation, question_guidance, checked_help, safe_conversation_coaching, checked_translation, accepted_contextual_response, checked_requested_help
-from lab_generation import generation_profile, dialogue_instructions, parse_lab_generation, parse_lab_details, details_input, controlled_coaching, LAB_DETAILS_INSTRUCTIONS, LAB_DIALOGUE_RULES
+from lab_generation import generation_profile, dialogue_mode, dialogue_instructions, parse_lab_generation, parse_lab_details, details_input, controlled_coaching, LAB_DETAILS_INSTRUCTIONS, LAB_DIALOGUE_RULES, LAB_GENERATIVE_INTENTIONS
 
 ROOT = Path(__file__).resolve().parents[1]
 LOCAL = Path(os.environ.get("SENSEI_LOCAL_ROOT", ROOT / ".local/conversation"))
@@ -154,9 +154,15 @@ def main():
                         result = {"text": result, "uncertain": uncertain if result else False}
                 elif request["kind"] == "turn":
                     lab_profile = generation_profile(request)
+                    mode = dialogue_mode(request)
+                    dialogue_path = 'generated'
                     correction = None
+                    checked_controlled = grammar_checked_controlled_dialogue(request) if mode == 'hybrid' else None
+                    if checked_controlled:
+                        metrics['authored_grammar'] = 1
                     if (re.search(r"[\u3040-\u30ff\u3400-\u9fff]", request["text"])
-                            and not accepted_contextual_response(request["text"], request["history"])):
+                            and not checked_controlled
+                            and not accepted_contextual_response(request["text"], request["history"], scenario=request['scenario'])):
                         feedback_prompt = tokenizer.apply_chat_template([
                             {"role": "system", "content": FEEDBACK_INSTRUCTIONS},
                             {"role": "user", "content": json.dumps({
@@ -173,19 +179,23 @@ def main():
                         # The API adds the same brief repetition cue for all providers.
                         result = {"reply": {"japanese": correction["corrected"], "romaji": correction["romaji"], "french": correction["french"]},
                                   "correction": correction, "vocabulary": []}
+                        dialogue_path = 'correction'
                     else:
-                        controlled = controlled_dialogue(request)
+                        controlled = (checked_controlled or controlled_dialogue(request)) if mode == 'hybrid' else None
                         if controlled:
                             validate_lab_conversation(controlled["japanese"], request)
                             metrics["controlled_dialogue"] = 1
                             result = {"reply": {"japanese": controlled["japanese"], "romaji": romanize(controlled["japanese"]), "french": controlled["french"]},
                                       "correction": None, "coaching": controlled["coaching"], "vocabulary": []}
+                            dialogue_path = 'controlled'
                         else:
                             scenario = SCENARIOS[request["scenario"]]
-                            instructions = dialogue_instructions(lab_profile) if lab_profile else INSTRUCTIONS
+                            instructions = dialogue_instructions(lab_profile, mode) if lab_profile else INSTRUCTIONS
+                            if not lab_profile and mode == 'generative':
+                                instructions += '\n' + LAB_GENERATIVE_INTENTIONS
                             messages = [{"role": "system", "content": instructions + "\nSituation : " + scenario}]
                             if request.get("objective"):
-                                messages[0]["content"] += "\nCurrent beginner practice objective: " + request["objective"] + " Keep your follow-up questions focused on this objective."
+                                messages[0]["content"] += "\nGuided practice objective: " + request["objective"] + " Answer an unexpected question or explicit aside first; then offer a return to this objective when useful. Do not treat an aside as a completed exercise answer."
                             if request.get("conversationGuidance"):
                                 messages[0]["content"] += "\n" + request["conversationGuidance"]
                             if request.get("learnerGuidance"):
@@ -204,36 +214,63 @@ def main():
                             prefix = '{"japanese":'
                             generated = infer(phase, model, tokenizer, prompt=prompt + prefix, output_prefix=prefix,
                                               max_tokens=tokens, sampler=make_sampler(temp=0), verbose=False).strip()
-                            if lab_profile:
-                                validation_started = time.monotonic()
-                                teaching = parse_lab_generation(generated, lab_profile)
-                                japanese, french = teaching["japanese"], teaching["french"]
-                                french = checked_translation(japanese) or french
-                                coaching = controlled_coaching(japanese, request["history"])
-                                metrics["lab_validation"] = round((time.monotonic() - validation_started) * 1000, 1)
-                            else:
-                                teaching = json.loads(generated)
-                                if not isinstance(teaching, dict) or not {"japanese", "coaching"}.issubset(teaching):
-                                    raise ValueError("invalid_teaching")
-                                japanese, coaching = teaching["japanese"], teaching["coaching"]
-                                if not isinstance(japanese, str) or (coaching is not None and (not isinstance(coaching, str) or not 1 <= len(coaching.strip()) <= 350)):
-                                    raise ValueError("invalid_teaching")
-                                if not japanese or "\ufffd" in japanese or len(japanese) > 300 or not any("\u3040" <= char <= "\u9fff" for char in japanese):
-                                    raise ValueError("invalid_japanese")
-                                french = teaching.get("french", "")
-                                if not isinstance(french, str) or "\ufffd" in french or not french.strip() or len(french) > 500:
-                                    french = ""
-                                    metrics["translation_unavailable"] = 1
-                                french = checked_translation(japanese) or french
-                                coaching = controlled_coaching(japanese, request["history"]) or safe_conversation_coaching(japanese, coaching, french, request["history"])
-                            constrained = constrain_preference_question(japanese, request)
-                            if constrained:
-                                japanese, french, coaching = (constrained[key] for key in ('japanese', 'french', 'coaching'))
-                                metrics['controlled_question'] = 1
-                            validate_lab_conversation(japanese, request)
+                            try:
+                                if lab_profile:
+                                    validation_started = time.monotonic()
+                                    teaching = parse_lab_generation(generated, lab_profile)
+                                    japanese, french = teaching["japanese"], teaching["french"]
+                                    french = checked_translation(japanese) or french
+                                    coaching = controlled_coaching(japanese, request["history"])
+                                    metrics["lab_validation"] = round((time.monotonic() - validation_started) * 1000, 1)
+                                else:
+                                    teaching = json.loads(generated)
+                                    if not isinstance(teaching, dict) or not {"japanese", "coaching"}.issubset(teaching):
+                                        raise ValueError("invalid_teaching")
+                                    japanese, coaching = teaching["japanese"], teaching["coaching"]
+                                    if not isinstance(japanese, str) or (coaching is not None and (not isinstance(coaching, str) or not 1 <= len(coaching.strip()) <= 350)):
+                                        raise ValueError("invalid_teaching")
+                                    if not japanese or "\ufffd" in japanese or len(japanese) > 300 or not any("\u3040" <= char <= "\u9fff" for char in japanese):
+                                        raise ValueError("invalid_japanese")
+                                    french = teaching.get("french", "")
+                                    if not isinstance(french, str) or "\ufffd" in french or not french.strip() or len(french) > 500:
+                                        french = ""
+                                        metrics["translation_unavailable"] = 1
+                                    french = checked_translation(japanese) or french
+                                    coaching = controlled_coaching(japanese, request["history"]) or safe_conversation_coaching(japanese, coaching, french, request["history"])
+                                constrained = constrain_beginner_question(japanese, request) if mode == 'hybrid' else None
+                                if constrained:
+                                    japanese, french, coaching = (constrained[key] for key in ('japanese', 'french', 'coaching'))
+                                    metrics['controlled_question'] = 1
+                                validate_lab_conversation(japanese, request)
+                            except UnknownFacilityLocation:
+                                # Structured output has no strict translation
+                                # parser. Its known contradictions must also
+                                # remain failures, not disappear in this rescue.
+                                if french:
+                                    validate_lab_translation(japanese, french)
+                                fallback = unknown_facility_fallback(request)
+                                if not fallback and mode == 'generative':
+                                    fallback = safe_controlled_fallback(request)
+                                if not fallback:
+                                    raise
+                                japanese, french, coaching = (fallback[key] for key in ('japanese', 'french', 'coaching'))
+                                dialogue_path = 'fallback'
+                                metrics['dialogue_fallback'] = 1
+                            except ValueError:
+                                # Only a failed parsed/validated candidate can
+                                # use an atomic safe realisation. Model/network
+                                # failures and romanisation errors stay errors.
+                                fallback = safe_controlled_fallback(request) if mode == 'generative' else None
+                                if not fallback:
+                                    raise
+                                japanese, french, coaching = (fallback[key] for key in ('japanese', 'french', 'coaching'))
+                                dialogue_path = 'fallback'
+                                metrics['dialogue_fallback'] = 1
                             phrase = {"japanese": japanese, "french": french[:500]}
                             phrase["romaji"] = romanize(japanese)
                             result = {"reply": {key: phrase[key] for key in ("japanese", "romaji", "french")}, "correction": None, "coaching": coaching, "vocabulary": []}
+                    if request.get('labStreaming') is True and request.get('labDiagnostics') is True:
+                        result['observation'] = lab_turn_observation(request, dialogue_path)
                 elif request["kind"] == "lab_details":
                     if cancel_event is not None and cancel_event.is_set():
                         raise LabDetailsCancelled()

@@ -1,0 +1,63 @@
+{
+  "doctrineDigest": "sha256:6bce44c544352f9be96834eed71b8076c685b35085ef25317cba8ea847d1a1f5",
+  "review": {
+    "schemaVersion": "prisma-technical-review.v1",
+    "id": "sensei-voice-recovery-diagnostic",
+    "missionId": "voice-recovery-after-human-failure",
+    "decisionId": "diagnostic-opt-in-classic-preserved",
+    "artifact": {
+      "root": "../build/web",
+      "digest": "sha256:5fbe83a0b91d4fa7f1bf86b946862f975e0d1999f6a8aa30680cc96320e22141"
+    },
+    "observedAt": "2026-10-30T09:10:40.092443+00:00",
+    "gates": [
+      {
+        "id": "doctrine:no-colored-side-stripes",
+        "passed": true,
+        "evidence": "Laboratoire réglages et diagnostic observés en390×844,320×568,844×390,1440×900 : fonds blanc/gris et boutons violets, aucun liseré coloré latéral ou décoratif supérieur. Le contour de focus entoure la commande entière et indique le focus fonctionnel. evidence/voice-recovery/settings-390.png, diagnostic-390.png, focus.png."
+      },
+      {
+        "id": "doctrine:no-card-title-hover-underlines",
+        "passed": true,
+        "evidence": "Titre Laboratoire vocal survolé en1440×900 : textDecorationLine none. Focus du bouton de reprise solid3px visible, focus.png ; pas de nouveau titre de carte cliquable."
+      },
+      {
+        "id": "doctrine:no-bricolage-grotesque",
+        "passed": true,
+        "evidence": "Familles calculées dans les éléments visibles : system-ui/-apple-system/Segoe UI pour les textes, Arial boutons, pile système Roboto pour le champ ; Times hérité dans certains conteneurs. Aucun chargement ou famille appliquée Bricolage observé. evidence/voice-recovery/ui-results.json."
+      },
+      {
+        "id": "doctrine:no-peripheral-filler-copy",
+        "passed": true,
+        "evidence": "Les nouveaux libellés appartiennent au choix de politique, à l’activation du diagnostic et aux quatre étapes comparées. Les précisions accompagnent référence déclarée, données extraites et limites des horloges ; pas de slogan/signature ajouté. diagnostic-390.png, timeline-320.png."
+      },
+      {
+        "id": "doctrine:section-composition-and-rhythm",
+        "passed": true,
+        "evidence": "Composition mobile existante conservée : avatar/état, paramètres groupés, dernière réponse, diagnostic facultatif et commande fixe. Diagnostic hiérarchisé par titres puis données et chronologie en texte ; pas de nouvelle grille de cartes ni alternance de fonds. settings-390.png, diagnostic-390.png, timeline-320.png."
+      },
+      {
+        "id": "doctrine:responsive-text-clearance",
+        "passed": true,
+        "evidence": "Vues390×844,320×568,844×390,1440×900 : aucun débordement horizontal (scrollWidth=viewport), libellés et champ se replient ; marges22px. La liste de diagnostic défile entre titre et commandes fixes ; les portions hors fenêtre restent accessibles par défilement, sans troncature permanente observée. diagnostic-390.png,context-320.png,landscape.png,desktop.png. Android physique non observé."
+      },
+      {
+        "id": "doctrine:one-clear-cta-per-section",
+        "passed": true,
+        "evidence": "Commande principale fixe Démarrer/Reprendre/Mettre en pause ; Terminer ma phrase sert à finir la capture. Choix de situation/politique, switches, champ, fermeture et partage numérique sont des contrôles fonctionnels du laboratoire. Aucun CTA promotionnel ajouté. settings-390.png et focus.png."
+      },
+      {
+        "id": "doctrine:no-sage-or-olive",
+        "passed": true,
+        "evidence": "Réglages, diagnostic, contrôles et préférence sombre observés : blanc, gris, violet, focus bleu ; interrupteurs système turquoise. Aucune teinte sauge ou olive observée ; la préférence sombre garde le thème clair existant. settings-390.png, dark.png."
+      },
+      {
+        "id": "technical:lab-flow",
+        "passed": true,
+        "evidence": "Chromium isolé, réseau et capture synthétiques : les4états se succèdent, réponse lue puis reprise mains libres sans validation de texte ; diagnostic et conservation audio désactivés par défaut, diagnostic effacé après désactivation. Radio hybride checked=true observé. ui-results.json. Le test ne simule pas une validation vocale humaine."
+      }
+    ],
+    "findings": [],
+    "summary": "Revue technique du laboratoire uniquement ; pas de refonte. Données synthétiques, aucun navigateur personnel ni voix humaine. Artistique non évalué, Android matériel et sensation humaine en attente."
+  }
+}

@@ -179,6 +179,39 @@ test("pause et reprise invalident les prises et les lectures précédentes", asy
   assert.equal(gate.current(next), true);
   assert.equal(next.turn, first.turn + 1);
 });
+test("la version partagée décrit seulement le lot client et la révision publique du serveur", () => {
+  const metrics = new VoiceLabMetrics(0);
+  assert.equal(metrics.report("android").version.releaseMatch, null);
+  metrics.version({
+    release: "old-release",
+    commit: "123456789abc",
+    sourceState: "clean",
+  });
+  assert.equal(metrics.report("android").version.releaseMatch, false);
+  const release = metrics.report("android").version.clientRelease;
+  metrics.version({ release, commit: "123456789abc", sourceState: "modified" });
+  const report = metrics.report("android");
+  assert.equal(report.version.releaseMatch, true);
+  assert.equal(report.version.server?.sourceState, "modified");
+  metrics.begin(1, false, 1);
+  metrics.version(undefined);
+  assert.equal(metrics.report("android").version.server, null);
+  assert.equal(
+    metrics.report("android").turns[0]?.serverVersion?.commit,
+    "123456789abc",
+  );
+  metrics.version({
+    release,
+    commit: "123456789abc",
+    sourceState: "clean",
+    token: "private",
+  });
+  assert.equal(metrics.report("android").version.server, null);
+  assert.equal(
+    JSON.stringify(metrics.report("android")).includes("private"),
+    false,
+  );
+});
 test("bilan du laboratoire exclut audio, textes, identifiants et métriques arbitraires", () => {
   const metrics = new VoiceLabMetrics(0);
   metrics.begin(100);
@@ -372,4 +405,101 @@ test("les acquittements permettent une capture web continue sans conserver les b
   assert.equal(last.timestamp, 2.4);
   assert.equal(last.data.byteLength, 256);
   assert.equal(new DataView(last.data).getInt16(0, true), 0);
+});
+
+test("la chronologie distingue réception audio, demande de lecture, playing et réouverture du micro", () => {
+  const metrics = new VoiceLabMetrics(0);
+  metrics.begin(100);
+  metrics.endpoint(1800, 300);
+  metrics.finish(400, 2500);
+  metrics.final(false, 3000);
+  metrics.server({ finish_to_first_audio: 650, asr: 20 });
+  metrics.audioReceived(3400);
+  metrics.audioReceived(3500); // Later segments cannot replace the first one.
+  metrics.playbackRequested(3700);
+  metrics.playbackRequested(3800);
+  metrics.playing(4100);
+  metrics.playing(4500);
+  metrics.responseDone(4600);
+  metrics.playbackEnded(5000);
+  metrics.begin(5200, true);
+  const first = metrics.report("android", 5300).turns[0]!;
+  assert.equal(first.lastDetectedVoiceAfterCaptureMs, 300);
+  assert.equal(first.finishAfterDetectedVoiceMs, 2100);
+  assert.equal(first.finalAfterFinishMs, 500);
+  assert.equal(first.firstAudioReceivedAfterFinishMs, 900);
+  assert.equal(first.playbackRequestAfterFinishMs, 1200);
+  assert.equal(first.audioReceiveToRequestMs, 300);
+  assert.equal(first.playbackRequestToPlayingMs, 400);
+  assert.equal(first.firstJapaneseAfterFinishMs, 1600);
+  assert.equal(first.firstJapaneseAfterDetectedVoiceMs, 3700);
+  assert.equal(first.transportResidualMs, 250); // Residual, not a network-only measurement.
+  assert.equal(first.nextCaptureAfterJapaneseEndedMs, 200);
+  assert.equal(first.endpointRequiredSilenceMs, 1800);
+  assert.equal(first.endpointVoicedMs, 300);
+  const latest = metrics.latest()!;
+  assert.equal(latest.firstAudioReceivedAfterFinishMs, 900);
+  latest.server.asr = 999;
+  assert.equal(metrics.report("android").turns[0]!.server!.asr, 20);
+
+  metrics.finish(null, 6000);
+  metrics.audioReceived(6300);
+  metrics.playbackRequested(6400);
+  metrics.playing(6500);
+  metrics.playbackEnded(7000);
+  metrics.begin(10000); // A manual pause must not be exported as automatic reopening latency.
+  const second = metrics.report("android").turns[1]!;
+  assert.equal(second.firstAudioReceivedAfterFinishMs, 300);
+  assert.equal(second.audioReceiveToRequestMs, 100);
+  assert.equal(second.playbackRequestToPlayingMs, 100);
+  assert.equal(second.nextCaptureAfterJapaneseEndedMs, undefined);
+  assert.equal(second.transportResidualMs, undefined);
+  assert.equal(second.lastDetectedVoiceAfterCaptureMs, undefined);
+});
+
+test("le bilan numérique refuse le texte brut et les observations même injectés dans les métriques", () => {
+  const metrics = new VoiceLabMetrics(0);
+  const marker = "SYNTHETIC_DIAGNOSTIC_NOT_FOR_EXPORT";
+  metrics.begin(100);
+  metrics.finish(null, 500);
+  // Exercise the runtime allowlist at the untrusted data boundary, including
+  // numeric properties whose names belong to the diagnostic rather than timing.
+  metrics.server({
+    asr: 12,
+    finish_to_final: 200,
+    rawText: marker,
+    intent: marker,
+    facts: marker,
+    acceptedSegments: 2,
+    rejectedSegments: 1,
+  } as unknown as Record<string, number>);
+  const report = metrics.report("android", 1000);
+  assert.deepEqual(report.turns[0]!.server, { asr: 12, finish_to_final: 200 });
+  assert.equal(report.humanValidation, "pending");
+  const serialized = JSON.stringify(report);
+  for (const forbidden of [
+    marker,
+    "rawText",
+    "intent",
+    "facts",
+    "acceptedSegments",
+    "rejectedSegments",
+  ])
+    assert.equal(serialized.includes(forbidden), false, forbidden);
+});
+
+test("le diagnostic retrouve la chronologie de son tour pendant la reconnaissance suivante", () => {
+  const metrics = new VoiceLabMetrics(0);
+  metrics.begin(0, false, 1);
+  metrics.finish(500, 1000);
+  metrics.final(false, 1200);
+  metrics.playing(1500);
+  metrics.playbackEnded(2000);
+  metrics.begin(2100, true, 2);
+  metrics.finish(4000, 6000);
+  assert.equal(metrics.latest(1)?.finalAfterFinishMs, 200);
+  assert.equal(metrics.latest(1)?.nextCaptureAfterJapaneseEndedMs, 100);
+  assert.equal(metrics.latest(2)?.captureWallMs, 3900);
+  assert.equal(metrics.latest(2)?.finalAfterFinishMs, undefined);
+  assert.equal(metrics.latest(99), null);
 });

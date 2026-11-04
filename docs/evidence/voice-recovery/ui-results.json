@@ -1,0 +1,144 @@
+{
+  "mockOnly": true,
+  "humanAudio": false,
+  "hybridDefault": "true",
+  "retentionDefault": false,
+  "handsfreeResumed": true,
+  "startFlags": [
+    {
+      "type": "start",
+      "turn": 1,
+      "language": "auto",
+      "scenario": "cafe",
+      "respond": true,
+      "keepSample": false,
+      "diagnostic": true
+    },
+    {
+      "type": "start",
+      "turn": 2,
+      "language": "auto",
+      "scenario": "cafe",
+      "respond": true,
+      "keepSample": false,
+      "diagnostic": true
+    }
+  ],
+  "finishCount": 1,
+  "diagnosticCleared": true,
+  "turnText": 3,
+  "observations": [
+    {
+      "name": "settings-390",
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 390,
+      "fonts": [
+        "Times",
+        "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+        "Arial"
+      ]
+    },
+    {
+      "name": "diagnostic-390",
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 390,
+      "fonts": [
+        "Times",
+        "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+        "Arial",
+        "-apple-system, \"system-ui\", \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif"
+      ]
+    },
+    {
+      "name": "context-390",
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 390,
+      "fonts": [
+        "Times",
+        "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+        "Arial",
+        "-apple-system, \"system-ui\", \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif"
+      ]
+    },
+    {
+      "name": "context-320",
+      "width": 320,
+      "height": 568,
+      "scrollWidth": 320,
+      "fonts": [
+        "Times",
+        "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+        "Arial",
+        "-apple-system, \"system-ui\", \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif"
+      ]
+    },
+    {
+      "name": "timeline-320",
+      "width": 320,
+      "height": 568,
+      "scrollWidth": 320,
+      "fonts": [
+        "Times",
+        "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+        "Arial",
+        "-apple-system, \"system-ui\", \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif"
+      ]
+    },
+    {
+      "name": "landscape",
+      "width": 844,
+      "height": 390,
+      "scrollWidth": 844,
+      "fonts": [
+        "Times",
+        "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+        "Arial",
+        "-apple-system, \"system-ui\", \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif"
+      ]
+    },
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1440,
+      "fonts": [
+        "Times",
+        "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+        "Arial",
+        "-apple-system, \"system-ui\", \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif"
+      ]
+    },
+    {
+      "name": "focus",
+      "width": 1440,
+      "height": 900,
+      "scrollWidth": 1440,
+      "fonts": [
+        "Times",
+        "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+        "Arial",
+        "-apple-system, \"system-ui\", \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif"
+      ]
+    },
+    {
+      "name": "dark",
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 390,
+      "fonts": [
+        "Times",
+        "system-ui, -apple-system, \"system-ui\", \"Segoe UI\", sans-serif",
+        "Arial",
+        "-apple-system, \"system-ui\", \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif"
+      ]
+    }
+  ],
+  "focus": {
+    "style": "solid",
+    "width": "3px"
+  },
+  "titleDecoration": "none"
+}

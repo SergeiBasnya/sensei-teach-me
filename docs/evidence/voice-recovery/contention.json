@@ -1,0 +1,1242 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-30T09:03:48.283Z",
+  "status": "complete",
+  "scope": "contention",
+  "rounds": 1,
+  "contentionProfiles": [
+    "structured"
+  ],
+  "sourceSnapshot": {
+    "files": [
+      {
+        "path": "scripts/benchmark-voice-generation.ts",
+        "sha256": "8c8d204184f0ec748267629c77f15106a59853229a34cb26b7206513d85fb166"
+      },
+      {
+        "path": "package.json",
+        "sha256": "0960d465472b387608b608c7280664a0bfc45bde560891feb58184cda280083f"
+      },
+      {
+        "path": "package-lock.json",
+        "sha256": "0cc80ed9fb46bc298d59faacbc5c0142170b90c8bb29fb27095f68275153e97e"
+      },
+      {
+        "path": "server/app.ts",
+        "sha256": "159c6d07609305387f9269f4e72a6f8dd1283f5ec30d2135aa7a8a45a368df57"
+      },
+      {
+        "path": "server/local-tutor.ts",
+        "sha256": "8fa1b8f2e17b4d47219a199b3e8e3122ced5a55a98693fa030b308771ac31876"
+      },
+      {
+        "path": "server/conversation_worker.py",
+        "sha256": "4145485c691329dee586d9ed651fd85511db36ee30e560effb06e75d033b9ba0"
+      },
+      {
+        "path": "server/conversation_feedback.py",
+        "sha256": "7d87453ff4bca2d953418b3916a35e71d95ec9d42f937c20a6c8499818d93b64"
+      },
+      {
+        "path": "server/pedagogic_romaji.py",
+        "sha256": "03da9ae0fa17dd1e60a5cf9863b1fce4cc1e36a98efaaccb43b3e04ae03df2dd"
+      },
+      {
+        "path": "server/linguistic_support.py",
+        "sha256": "0336665b9e378e00912e9ddf847abd49465f827986448e2f07927c3cc3f7a9c4"
+      },
+      {
+        "path": "server/conversation_context.py",
+        "sha256": "61005ae94079d22d30646c221f916746b6f25d2770a5af88ffc8d4648999943c"
+      },
+      {
+        "path": "server/lab_generation.py",
+        "sha256": "f38b25bd0f95bdb8e6642c4d4e85fb7209874c847b5a5809d34e8feeeed2350c"
+      },
+      {
+        "path": "server/llm_stream_trace.py",
+        "sha256": "42642f88ce8a6341dc92352bfea46c2e922d04cf72a9c551df4dac45c493841d"
+      },
+      {
+        "path": "server/local-speech.ts",
+        "sha256": "fabba1b7b2ef83428de3c320108b535ce4aae94eee2a67a1feda74f21b8ec597"
+      },
+      {
+        "path": "server/voice_worker.py",
+        "sha256": "34bad116a147ee0f4c108801cb073ca3018a7c6148b6a082b56d69c64e8e825c"
+      },
+      {
+        "path": "server/voice-lab-asr.ts",
+        "sha256": "d52c083fa63075adc1b69b39c1676e3cc76cc6ffd90f98c4eee24afdd2e9939e"
+      },
+      {
+        "path": "server/voice_lab_worker.py",
+        "sha256": "6e0be687c04945579d2ffb1c2af775705e4f3e259cf547ae0111f6b9670f4b47"
+      },
+      {
+        "path": "server/voice-lab-response.ts",
+        "sha256": "0778d6280d0c5a26dabf3ac091a3ae65100b32e2cd75577519c216305bcd87e9"
+      },
+      {
+        "path": "server/voice-lab.ts",
+        "sha256": "bd5e71777848c728953fc51bc8fcf6849085448bc0e94ea71d3371660210c0c5"
+      },
+      {
+        "path": "shared/voice-lab.ts",
+        "sha256": "adc94a4633ee1f7d57e2afa50cb4c7d43edc31068b581ba2b9624d745a5d50f3"
+      }
+    ],
+    "missing": [],
+    "sha256": "573e1522e565dc4bad82cf93f7fba27ab523f1a6bacc0863cc533db429b4ef5e"
+  },
+  "data": "Six public synthetic VOICEVOX fixtures and their authored Japanese; no human voice or reference.",
+  "definitions": {
+    "firstJapaneseAudioEmittedMs": "From an already recognized authored text entering the response function until its first complete validated Japanese WAV is emitted; not transport, playback, VAD tail or human end of speech.",
+    "responseCompleteMs": "Audio scheduling response returned; optional translation may finish later, separately recorded in secondarySettledMs. Historical reports before this change used blocking completion.",
+    "generationOnlyMs": "Wall time of labTurn, including grammatical check and selected complete output contract; no TTS or secondary request.",
+    "overlapMs": "Intersection of ASR and Qwen request wall-time windows; not a measurement of simultaneous GPU kernels.",
+    "contention": "Controlled two-process workload; normal single-client lab currently serializes ASR and respond. This does not establish that the stress occurs in production."
+  },
+  "fixtures": [
+    {
+      "id": "identity",
+      "scenario": "meet",
+      "lessonId": "meet-name",
+      "question": "お名前は？",
+      "text": "私はオーギュストです。",
+      "file": "cb0412a327921b1a150b.wav",
+      "audioMs": 1664,
+      "pcmSha256": "a67cd4c206e0ea55d1f789834cd4a2b06fa803a629d8808b89e4aba52ab1ccf6"
+    },
+    {
+      "id": "origin",
+      "scenario": "meet",
+      "lessonId": "meet-origin",
+      "question": "どこから来ましたか？",
+      "text": "フランスから来ました。",
+      "file": "109e155eca21856c868a.wav",
+      "audioMs": 1557.375,
+      "pcmSha256": "d4730ef839d6a28ee1baecb403cc35073f71d0b94f7c30e5f79ced1ee13e84cf"
+    },
+    {
+      "id": "likes",
+      "scenario": "meet",
+      "lessonId": "meet-likes",
+      "question": "日本語は好きですか？",
+      "text": "はい、日本語が好きです。",
+      "file": "cdbbfef81b23fcb88885.wav",
+      "audioMs": 2122.6875,
+      "pcmSha256": "57e3da6cc718234202c7b0aa8079c5dd727eb9c5e6c047802b76f11c9229fb75"
+    },
+    {
+      "id": "order",
+      "scenario": "cafe",
+      "lessonId": "cafe-order",
+      "question": "何にしますか？",
+      "text": "コーヒーを一つください。",
+      "file": "fc48f4733aae10f420d6.wav",
+      "audioMs": 1749.375,
+      "pcmSha256": "4992a4d72cf7699a11dd4200b9b67c8f2a6f2dc26b1ac42e834ea72cb6a762ba"
+    },
+    {
+      "id": "temperature",
+      "scenario": "cafe",
+      "lessonId": "cafe-choice",
+      "question": "ホットですか、アイスですか？",
+      "text": "ホットでお願いします。",
+      "file": "a39332e0aafc35578065.wav",
+      "audioMs": 1632,
+      "pcmSha256": "fb11fbd29fdf8dd5aea8a34f5d57a117ec38788234b4ad2962207f48ea09f2b8"
+    },
+    {
+      "id": "destination",
+      "scenario": "station",
+      "lessonId": "station-destination",
+      "question": "どちらまでですか？",
+      "text": "京都までお願いします。",
+      "file": "2d738f422a192c578a24.wav",
+      "audioMs": 1770.6875,
+      "pcmSha256": "16c5da83ef927763875e57bf91aa45b7c62015970370682d1e06cf44b43938dd"
+    }
+  ],
+  "warmups": [
+    {
+      "kind": "qwen-and-japanese-tts",
+      "ms": 1417.3
+    },
+    {
+      "kind": "separate-asr",
+      "ms": 1269.8
+    }
+  ],
+  "contentionResults": [
+    {
+      "id": "origin",
+      "round": 0,
+      "profile": "structured",
+      "cadenceMs": null,
+      "condition": "qwen-only",
+      "status": "complete",
+      "generationOnlyMs": 0.7,
+      "qwenWindow": {
+        "startMs": 0,
+        "endMs": 0.7
+      },
+      "metrics": {
+        "controlled_dialogue": 1,
+        "worker_roundtrip": 0.6,
+        "worker_queue": 0.6
+      },
+      "tutor": {
+        "reply": {
+          "japanese": "どこに住んでいますか？",
+          "romaji": "Doko ni sunde imasu ka?",
+          "french": "Où habites-tu ?"
+        },
+        "coaching": "Je te demande où tu habites. Tu peux dire « [ville] ni sunde imasu ».",
+        "correction": null,
+        "vocabulary": []
+      },
+      "asrRequestWindows": [],
+      "asrOnlyMatchedWindows": [],
+      "asrRequestCount": 0,
+      "asrOverlappingRequests": 0,
+      "requestOverlapMs": 0,
+      "requestOverlapFraction": 0,
+      "asrWithQwen": {
+        "samples": 0,
+        "meanMs": null,
+        "medianMs": null,
+        "minMs": null,
+        "maxMs": null
+      },
+      "asrWithoutQwen": {
+        "samples": 0,
+        "meanMs": null,
+        "medianMs": null,
+        "minMs": null,
+        "maxMs": null
+      },
+      "loadMaxReached": false,
+      "loadLimits": {
+        "calls": 40,
+        "ms": 20000
+      },
+      "pendingAsrAtCellEnd": 0
+    },
+    {
+      "id": "origin",
+      "round": 0,
+      "profile": "structured",
+      "cadenceMs": 1000,
+      "condition": "asr-cadenced-during-qwen",
+      "status": "complete",
+      "generationOnlyMs": 0.5,
+      "qwenWindow": {
+        "startMs": 0,
+        "endMs": 0.5
+      },
+      "metrics": {
+        "controlled_dialogue": 1,
+        "worker_roundtrip": 0.4,
+        "worker_queue": 0.4
+      },
+      "tutor": {
+        "reply": {
+          "japanese": "どこに住んでいますか？",
+          "romaji": "Doko ni sunde imasu ka?",
+          "french": "Où habites-tu ?"
+        },
+        "coaching": "Je te demande où tu habites. Tu peux dire « [ville] ni sunde imasu ».",
+        "correction": null,
+        "vocabulary": []
+      },
+      "asrRequestWindows": [
+        {
+          "startMs": 0,
+          "endMs": 91.7,
+          "roundtripMs": 91.7,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "window_rms_db_below_full_scale": 19.744,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.672,
+            "asr": 90.406
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        }
+      ],
+      "asrOnlyMatchedWindows": [
+        {
+          "startMs": 91.8,
+          "endMs": 182.5,
+          "roundtripMs": 90.8,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "window_rms_db_below_full_scale": 19.744,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.366,
+            "asr": 89.891
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        }
+      ],
+      "asrRequestCount": 1,
+      "asrOverlappingRequests": 1,
+      "requestOverlapMs": 0.5,
+      "requestOverlapFraction": 1,
+      "asrWithQwen": {
+        "samples": 1,
+        "meanMs": 91.7,
+        "medianMs": 91.7,
+        "minMs": 91.7,
+        "maxMs": 91.7
+      },
+      "asrWithoutQwen": {
+        "samples": 1,
+        "meanMs": 90.8,
+        "medianMs": 90.8,
+        "minMs": 90.8,
+        "maxMs": 90.8
+      },
+      "loadMaxReached": false,
+      "loadLimits": {
+        "calls": 40,
+        "ms": 20000
+      },
+      "pendingAsrAtCellEnd": 0
+    },
+    {
+      "id": "origin",
+      "round": 0,
+      "profile": "structured",
+      "cadenceMs": 0,
+      "condition": "asr-continuous-stress-during-qwen",
+      "status": "complete",
+      "generationOnlyMs": 0.6,
+      "qwenWindow": {
+        "startMs": 0,
+        "endMs": 0.6
+      },
+      "metrics": {
+        "controlled_dialogue": 1,
+        "worker_roundtrip": 0.5,
+        "worker_queue": 0.5
+      },
+      "tutor": {
+        "reply": {
+          "japanese": "どこに住んでいますか？",
+          "romaji": "Doko ni sunde imasu ka?",
+          "french": "Où habites-tu ?"
+        },
+        "coaching": "Je te demande où tu habites. Tu peux dire « [ville] ni sunde imasu ».",
+        "correction": null,
+        "vocabulary": []
+      },
+      "asrRequestWindows": [
+        {
+          "startMs": 0,
+          "endMs": 91.5,
+          "roundtripMs": 91.5,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "window_rms_db_below_full_scale": 19.744,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.514,
+            "asr": 90.448
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        }
+      ],
+      "asrOnlyMatchedWindows": [
+        {
+          "startMs": 91.5,
+          "endMs": 182.4,
+          "roundtripMs": 90.9,
+          "metrics": {
+            "samples": 24918,
+            "duration_ms": 1557.375,
+            "rms_db_below_full_scale": 25.521,
+            "window_rms_db_below_full_scale": 19.744,
+            "peak": 0.334,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 160,
+            "pcm_decode": 0.363,
+            "asr": 90.119
+          },
+          "transcript": "フランスから来ました",
+          "uncertain": false
+        }
+      ],
+      "asrRequestCount": 1,
+      "asrOverlappingRequests": 1,
+      "requestOverlapMs": 0.6,
+      "requestOverlapFraction": 1,
+      "asrWithQwen": {
+        "samples": 1,
+        "meanMs": 91.5,
+        "medianMs": 91.5,
+        "minMs": 91.5,
+        "maxMs": 91.5
+      },
+      "asrWithoutQwen": {
+        "samples": 1,
+        "meanMs": 90.9,
+        "medianMs": 90.9,
+        "minMs": 90.9,
+        "maxMs": 90.9
+      },
+      "loadMaxReached": false,
+      "loadLimits": {
+        "calls": 40,
+        "ms": 20000
+      },
+      "pendingAsrAtCellEnd": 0
+    },
+    {
+      "id": "order",
+      "round": 0,
+      "profile": "structured",
+      "cadenceMs": 1000,
+      "condition": "asr-cadenced-during-qwen",
+      "status": "complete",
+      "generationOnlyMs": 2432.4,
+      "qwenWindow": {
+        "startMs": 0,
+        "endMs": 2432.4
+      },
+      "metrics": {
+        "correction": 2414.2,
+        "generations": 1,
+        "controlled_dialogue": 1,
+        "worker_roundtrip": 2432.3,
+        "worker_queue": 0.3
+      },
+      "tutor": {
+        "reply": {
+          "japanese": "コーヒー一つですね。ホットですか、アイスですか？",
+          "romaji": "Kōhī hitotsu desu ne. Hotto desu ka, aisu desu ka?",
+          "french": "Un café, d’accord. Chaud ou glacé ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "asrRequestWindows": [
+        {
+          "startMs": 0,
+          "endMs": 97.6,
+          "roundtripMs": 97.6,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "window_rms_db_below_full_scale": 16.45,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.617,
+            "asr": 96.436
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 1000.6,
+          "endMs": 1114.6,
+          "roundtripMs": 114,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "window_rms_db_below_full_scale": 16.45,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.456,
+            "asr": 112.917
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 2000.9,
+          "endMs": 2138.7,
+          "roundtripMs": 137.7,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "window_rms_db_below_full_scale": 16.45,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.5,
+            "asr": 136.599
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        }
+      ],
+      "asrOnlyMatchedWindows": [
+        {
+          "startMs": 2432.5,
+          "endMs": 2527.6,
+          "roundtripMs": 95.1,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "window_rms_db_below_full_scale": 16.45,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.446,
+            "asr": 94.106
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 2527.6,
+          "endMs": 2622.5,
+          "roundtripMs": 94.8,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "window_rms_db_below_full_scale": 16.45,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.43,
+            "asr": 93.879
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 2622.5,
+          "endMs": 2717.5,
+          "roundtripMs": 95,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "window_rms_db_below_full_scale": 16.45,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.409,
+            "asr": 94.093
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        }
+      ],
+      "asrRequestCount": 3,
+      "asrOverlappingRequests": 3,
+      "requestOverlapMs": 349.4,
+      "requestOverlapFraction": 0.144,
+      "asrWithQwen": {
+        "samples": 3,
+        "meanMs": 116.4,
+        "medianMs": 114,
+        "minMs": 97.6,
+        "maxMs": 137.7
+      },
+      "asrWithoutQwen": {
+        "samples": 3,
+        "meanMs": 95,
+        "medianMs": 95,
+        "minMs": 94.8,
+        "maxMs": 95.1
+      },
+      "loadMaxReached": false,
+      "loadLimits": {
+        "calls": 40,
+        "ms": 20000
+      },
+      "pendingAsrAtCellEnd": 0
+    },
+    {
+      "id": "order",
+      "round": 0,
+      "profile": "structured",
+      "cadenceMs": 0,
+      "condition": "asr-continuous-stress-during-qwen",
+      "status": "complete",
+      "generationOnlyMs": 1328.8,
+      "qwenWindow": {
+        "startMs": 0,
+        "endMs": 1328.8
+      },
+      "metrics": {
+        "correction": 1327.8,
+        "generations": 1,
+        "controlled_dialogue": 1,
+        "worker_roundtrip": 1328.7,
+        "worker_queue": 0.7
+      },
+      "tutor": {
+        "reply": {
+          "japanese": "コーヒー一つですね。ホットですか、アイスですか？",
+          "romaji": "Kōhī hitotsu desu ne. Hotto desu ka, aisu desu ka?",
+          "french": "Un café, d’accord. Chaud ou glacé ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "asrRequestWindows": [
+        {
+          "startMs": 0,
+          "endMs": 630.1,
+          "roundtripMs": 630.1,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "window_rms_db_below_full_scale": 16.45,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.409,
+            "asr": 629.128
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 630.1,
+          "endMs": 1099.5,
+          "roundtripMs": 469.4,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "window_rms_db_below_full_scale": 16.45,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.413,
+            "asr": 468.263
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 1099.5,
+          "endMs": 1340.3,
+          "roundtripMs": 240.7,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "window_rms_db_below_full_scale": 16.45,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.506,
+            "asr": 239.664
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        }
+      ],
+      "asrOnlyMatchedWindows": [
+        {
+          "startMs": 1340.3,
+          "endMs": 1435.4,
+          "roundtripMs": 95.1,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "window_rms_db_below_full_scale": 16.45,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.433,
+            "asr": 94.175
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 1435.4,
+          "endMs": 1529.2,
+          "roundtripMs": 93.8,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "window_rms_db_below_full_scale": 16.45,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.416,
+            "asr": 92.909
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        },
+        {
+          "startMs": 1529.2,
+          "endMs": 1623.9,
+          "roundtripMs": 94.7,
+          "metrics": {
+            "samples": 27990,
+            "duration_ms": 1749.375,
+            "rms_db_below_full_scale": 23.951,
+            "window_rms_db_below_full_scale": 16.45,
+            "peak": 0.344,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 180,
+            "trailing_energy_ms": 180,
+            "pcm_decode": 0.417,
+            "asr": 93.752
+          },
+          "transcript": "コーヒーを一つください",
+          "uncertain": false
+        }
+      ],
+      "asrRequestCount": 3,
+      "asrOverlappingRequests": 3,
+      "requestOverlapMs": 1328.8,
+      "requestOverlapFraction": 1,
+      "asrWithQwen": {
+        "samples": 3,
+        "meanMs": 446.7,
+        "medianMs": 469.4,
+        "minMs": 240.7,
+        "maxMs": 630.1
+      },
+      "asrWithoutQwen": {
+        "samples": 3,
+        "meanMs": 94.5,
+        "medianMs": 94.7,
+        "minMs": 93.8,
+        "maxMs": 95.1
+      },
+      "loadMaxReached": false,
+      "loadLimits": {
+        "calls": 40,
+        "ms": 20000
+      },
+      "pendingAsrAtCellEnd": 0
+    },
+    {
+      "id": "order",
+      "round": 0,
+      "profile": "structured",
+      "cadenceMs": null,
+      "condition": "qwen-only",
+      "status": "complete",
+      "generationOnlyMs": 1097.6,
+      "qwenWindow": {
+        "startMs": 0,
+        "endMs": 1097.6
+      },
+      "metrics": {
+        "correction": 1096.8,
+        "generations": 1,
+        "controlled_dialogue": 1,
+        "worker_roundtrip": 1097.5,
+        "worker_queue": 0.5
+      },
+      "tutor": {
+        "reply": {
+          "japanese": "コーヒー一つですね。ホットですか、アイスですか？",
+          "romaji": "Kōhī hitotsu desu ne. Hotto desu ka, aisu desu ka?",
+          "french": "Un café, d’accord. Chaud ou glacé ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "asrRequestWindows": [],
+      "asrOnlyMatchedWindows": [],
+      "asrRequestCount": 0,
+      "asrOverlappingRequests": 0,
+      "requestOverlapMs": 0,
+      "requestOverlapFraction": 0,
+      "asrWithQwen": {
+        "samples": 0,
+        "meanMs": null,
+        "medianMs": null,
+        "minMs": null,
+        "maxMs": null
+      },
+      "asrWithoutQwen": {
+        "samples": 0,
+        "meanMs": null,
+        "medianMs": null,
+        "minMs": null,
+        "maxMs": null
+      },
+      "loadMaxReached": false,
+      "loadLimits": {
+        "calls": 40,
+        "ms": 20000
+      },
+      "pendingAsrAtCellEnd": 0
+    },
+    {
+      "id": "destination",
+      "round": 0,
+      "profile": "structured",
+      "cadenceMs": 0,
+      "condition": "asr-continuous-stress-during-qwen",
+      "status": "complete",
+      "generationOnlyMs": 1351.3,
+      "qwenWindow": {
+        "startMs": 0,
+        "endMs": 1351.4
+      },
+      "metrics": {
+        "correction": 1346.4,
+        "generations": 1,
+        "controlled_dialogue": 1,
+        "worker_roundtrip": 1351.3,
+        "worker_queue": 0.3
+      },
+      "tutor": {
+        "reply": {
+          "japanese": "京都までですね。片道ですか、往復ですか？",
+          "romaji": "Kyōto made desu ne. Katamichi desu ka, ōfuku desu ka?",
+          "french": "Pour Kyoto, d’accord. Aller simple ou aller-retour ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "asrRequestWindows": [
+        {
+          "startMs": 0,
+          "endMs": 526.9,
+          "roundtripMs": 526.9,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "window_rms_db_below_full_scale": 17.08,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.555,
+            "asr": 525.849
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 526.9,
+          "endMs": 1012.4,
+          "roundtripMs": 485.5,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "window_rms_db_below_full_scale": 17.08,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.435,
+            "asr": 484.421
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 1012.4,
+          "endMs": 1235.2,
+          "roundtripMs": 222.7,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "window_rms_db_below_full_scale": 17.08,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.481,
+            "asr": 221.589
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 1235.2,
+          "endMs": 1379.4,
+          "roundtripMs": 144.2,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "window_rms_db_below_full_scale": 17.08,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.476,
+            "asr": 143.236
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        }
+      ],
+      "asrOnlyMatchedWindows": [
+        {
+          "startMs": 1379.4,
+          "endMs": 1462.7,
+          "roundtripMs": 83.3,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "window_rms_db_below_full_scale": 17.08,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.394,
+            "asr": 82.478
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 1462.7,
+          "endMs": 1546.8,
+          "roundtripMs": 84,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "window_rms_db_below_full_scale": 17.08,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.391,
+            "asr": 83.171
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 1546.8,
+          "endMs": 1630.2,
+          "roundtripMs": 83.5,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "window_rms_db_below_full_scale": 17.08,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.396,
+            "asr": 82.61
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 1630.2,
+          "endMs": 1713.9,
+          "roundtripMs": 83.7,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "window_rms_db_below_full_scale": 17.08,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.409,
+            "asr": 82.816
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        }
+      ],
+      "asrRequestCount": 4,
+      "asrOverlappingRequests": 4,
+      "requestOverlapMs": 1351.3,
+      "requestOverlapFraction": 1,
+      "asrWithQwen": {
+        "samples": 4,
+        "meanMs": 344.8,
+        "medianMs": 354.1,
+        "minMs": 144.2,
+        "maxMs": 526.9
+      },
+      "asrWithoutQwen": {
+        "samples": 4,
+        "meanMs": 83.6,
+        "medianMs": 83.6,
+        "minMs": 83.3,
+        "maxMs": 84
+      },
+      "loadMaxReached": false,
+      "loadLimits": {
+        "calls": 40,
+        "ms": 20000
+      },
+      "pendingAsrAtCellEnd": 0
+    },
+    {
+      "id": "destination",
+      "round": 0,
+      "profile": "structured",
+      "cadenceMs": null,
+      "condition": "qwen-only",
+      "status": "complete",
+      "generationOnlyMs": 1092.5,
+      "qwenWindow": {
+        "startMs": 0,
+        "endMs": 1092.5
+      },
+      "metrics": {
+        "correction": 1091.8,
+        "generations": 1,
+        "controlled_dialogue": 1,
+        "worker_roundtrip": 1092.5,
+        "worker_queue": 0.5
+      },
+      "tutor": {
+        "reply": {
+          "japanese": "京都までですね。片道ですか、往復ですか？",
+          "romaji": "Kyōto made desu ne. Katamichi desu ka, ōfuku desu ka?",
+          "french": "Pour Kyoto, d’accord. Aller simple ou aller-retour ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "asrRequestWindows": [],
+      "asrOnlyMatchedWindows": [],
+      "asrRequestCount": 0,
+      "asrOverlappingRequests": 0,
+      "requestOverlapMs": 0,
+      "requestOverlapFraction": 0,
+      "asrWithQwen": {
+        "samples": 0,
+        "meanMs": null,
+        "medianMs": null,
+        "minMs": null,
+        "maxMs": null
+      },
+      "asrWithoutQwen": {
+        "samples": 0,
+        "meanMs": null,
+        "medianMs": null,
+        "minMs": null,
+        "maxMs": null
+      },
+      "loadMaxReached": false,
+      "loadLimits": {
+        "calls": 40,
+        "ms": 20000
+      },
+      "pendingAsrAtCellEnd": 0
+    },
+    {
+      "id": "destination",
+      "round": 0,
+      "profile": "structured",
+      "cadenceMs": 1000,
+      "condition": "asr-cadenced-during-qwen",
+      "status": "complete",
+      "generationOnlyMs": 1225.1,
+      "qwenWindow": {
+        "startMs": 0,
+        "endMs": 1225.2
+      },
+      "metrics": {
+        "correction": 1224.2,
+        "generations": 1,
+        "controlled_dialogue": 1,
+        "worker_roundtrip": 1225,
+        "worker_queue": 0
+      },
+      "tutor": {
+        "reply": {
+          "japanese": "京都までですね。片道ですか、往復ですか？",
+          "romaji": "Kyōto made desu ne. Katamichi desu ka, ōfuku desu ka?",
+          "french": "Pour Kyoto, d’accord. Aller simple ou aller-retour ?"
+        },
+        "coaching": null,
+        "correction": null,
+        "vocabulary": []
+      },
+      "asrRequestWindows": [
+        {
+          "startMs": 0,
+          "endMs": 513.2,
+          "roundtripMs": 513.2,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "window_rms_db_below_full_scale": 17.08,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.932,
+            "asr": 511.714
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 999.8,
+          "endMs": 1234,
+          "roundtripMs": 234.3,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "window_rms_db_below_full_scale": 17.08,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.525,
+            "asr": 233.165
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        }
+      ],
+      "asrOnlyMatchedWindows": [
+        {
+          "startMs": 1234.1,
+          "endMs": 1317,
+          "roundtripMs": 82.9,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "window_rms_db_below_full_scale": 17.08,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.424,
+            "asr": 82.053
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        },
+        {
+          "startMs": 1317,
+          "endMs": 1400,
+          "roundtripMs": 83,
+          "metrics": {
+            "samples": 28331,
+            "duration_ms": 1770.688,
+            "rms_db_below_full_scale": 24.322,
+            "window_rms_db_below_full_scale": 17.08,
+            "peak": 0.318,
+            "clipped_fraction": 0,
+            "leading_energy_ms": 160,
+            "trailing_energy_ms": 260,
+            "pcm_decode": 0.413,
+            "asr": 82.182
+          },
+          "transcript": "京都までお願いします",
+          "uncertain": false
+        }
+      ],
+      "asrRequestCount": 2,
+      "asrOverlappingRequests": 2,
+      "requestOverlapMs": 738.5,
+      "requestOverlapFraction": 0.603,
+      "asrWithQwen": {
+        "samples": 2,
+        "meanMs": 373.8,
+        "medianMs": 373.8,
+        "minMs": 234.3,
+        "maxMs": 513.2
+      },
+      "asrWithoutQwen": {
+        "samples": 2,
+        "meanMs": 83,
+        "medianMs": 83,
+        "minMs": 82.9,
+        "maxMs": 83
+      },
+      "loadMaxReached": false,
+      "loadLimits": {
+        "calls": 40,
+        "ms": 20000
+      },
+      "pendingAsrAtCellEnd": 0
+    }
+  ],
+  "summary": {
+    "structured": {
+      "samples": 0,
+      "meanMs": null,
+      "medianMs": null,
+      "minMs": null,
+      "maxMs": null
+    },
+    "compact": {
+      "samples": 0,
+      "meanMs": null,
+      "medianMs": null,
+      "minMs": null,
+      "maxMs": null
+    },
+    "ja-first": {
+      "samples": 0,
+      "meanMs": null,
+      "medianMs": null,
+      "minMs": null,
+      "maxMs": null
+    }
+  },
+  "humanRecognition": "pending-corpus",
+  "humanPlayback": "pending",
+  "productionSelection": "unchanged"
+}
